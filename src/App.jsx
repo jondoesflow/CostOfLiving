@@ -67,7 +67,7 @@ function getPressureBullets(p) {
   if (p.tenure === "Renting privately")
     b.push("Private renters have seen average rents rise 9.2% in the past year — the fastest increase since records began.");
   if (p.tenure === "Own with a mortgage")
-    b.push("Mortgage holders refinancing today face rates around 4.5% — up from under 2% in 2021.");
+    b.push("Mortgage holders refinancing today face rates around 3.75% — still well above the under 2% available in 2021.");
   if (p.children > 0)
     b.push(`Households with children spend an estimated £${(p.children*47)} more per week on food than those without.`);
   if (p.worries.includes("Energy bills (gas/electric)"))
@@ -676,7 +676,7 @@ export default function App() {
                 <DataNote live={false} source="Bank of England official bank rate" />
               </div>
               <div className="bg-cream border border-gray-200 rounded-xl p-4 mt-3">
-                <p className="text-sm text-gray-700">If you remortgaged at today's rates, a £200,000 mortgage over 25 years would cost roughly £400 more per month than it did in 2021.</p>
+                <p className="text-sm text-gray-700">If you remortgaged at today's rates, a £200,000 mortgage over 25 years would cost roughly £300 more per month than it did in 2021. Rates have come down from their 5.25% peak but remain well above the near-zero era.</p>
               </div>
             </div>
           )}

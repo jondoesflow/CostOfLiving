@@ -1,8 +1,21 @@
 // ============================================================
 // STATIC REFERENCE DATA
 // All data here comes from published government sources where
-// no public JSON API exists. Update manually when new data is
-// published. Each constant is annotated with its source.
+// no public JSON API exists. Each constant is annotated with
+// its source URL, data vintage, and next expected update.
+//
+// LAST REVIEWED: April 2026
+//
+// UPDATE SCHEDULE:
+// ┌─────────────────────────┬────────────┬─────────────────────┐
+// │ Dataset                 │ Frequency  │ Next expected update │
+// ├─────────────────────────┼────────────┼─────────────────────┤
+// │ ONS Family Spending     │ Annual     │ Sep 2026 (FYE 2025) │
+// │ Ofgem Energy Price Cap  │ Quarterly  │ May 2026 (Q3 2026)  │
+// │ Bank of England Rate    │ ~8x/year   │ Apr 30, 2026 (MPC)  │
+// │ DESNZ Fuel Poverty      │ Annual     │ Mar 2027 (2025 data)│
+// │ DWP UC Caseload         │ Quarterly  │ Aug 2026             │
+// └─────────────────────────┴────────────┴─────────────────────┘
 // ============================================================
 
 // Source: ONS Family Spending UK FYE 2024
@@ -34,8 +47,10 @@ export const AVG_WEEKLY_HOUSING = {
   "Other": 80.00,
 };
 
-// Source: Ofgem price cap announcements, DESNZ annual fuel poverty statistics
-// Annual average dual fuel bill for a typical household
+// Source: Ofgem price cap announcements (quarterly, annualised typical bill)
+// https://www.ofgem.gov.uk/energy-regulation/domestic-and-non-domestic/energy-pricing-rules/energy-price-cap
+// Data vintage: Q2 2026 cap (announced Feb 2026)
+// Next update: May 2026 (Q3 2026 cap announcement)
 export const ENERGY_BILLS_ANNUAL = [
   { year: "2019", bill: 1254 },
   { year: "2020", bill: 1200 },
@@ -43,10 +58,14 @@ export const ENERGY_BILLS_ANNUAL = [
   { year: "2022", bill: 2500 },
   { year: "2023", bill: 2500 },
   { year: "2024", bill: 1928 },
+  { year: "2025", bill: 1738 },
+  { year: "2026", bill: 1641 },
 ];
 
 // Source: Bank of England official bank rate history
 // https://www.bankofengland.co.uk/boeapps/database/Bank-Rate.asp
+// Data vintage: MPC decision 19 Mar 2026 (held at 3.75%)
+// Next update: 30 Apr 2026 (next MPC decision)
 export const BOE_BASE_RATE = [
   { date: "Jan 2019", rate: 0.75 },
   { date: "Mar 2020", rate: 0.10 },
@@ -60,6 +79,10 @@ export const BOE_BASE_RATE = [
   { date: "Aug 2024", rate: 5.00 },
   { date: "Nov 2024", rate: 4.75 },
   { date: "Feb 2025", rate: 4.50 },
+  { date: "May 2025", rate: 4.25 },
+  { date: "Aug 2025", rate: 4.00 },
+  { date: "Nov 2025", rate: 3.75 },
+  { date: "Mar 2026", rate: 3.75 },
 ];
 
 // Source: ONS Effects of Taxes and Benefits on UK Household Income, FYE 2024
