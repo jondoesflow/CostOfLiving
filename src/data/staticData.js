@@ -223,70 +223,161 @@ export const ACTIONS = [
     icon: "ShoppingCart",
     title: "Switch to a cheaper supermarket",
     worry: "Food and grocery costs",
+    savingsPerMonth: 40,
     detail: "Research consistently shows switching from Sainsbury's or Tesco to Aldi or Lidl saves the average household £30-£50 per month on identical baskets. The Which? Cheapest Supermarket tracker is updated monthly.",
     link: "https://www.which.co.uk/news/article/cheapest-supermarkets-compared-aViAn5T0N5DE",
+    timeToAct: "30 minutes",
   },
   {
     icon: "Zap",
     title: "Check if you're on the cheapest energy tariff",
     worry: "Energy bills (gas/electric)",
+    savingsPerMonth: 25,
     detail: "Ofgem's price cap changes quarterly. Some households on prepayment meters or older standard tariffs are paying more than necessary. Use Uswitch or the Citizens Advice energy comparison tool.",
     link: "https://www.citizensadvice.org.uk/consumer/energy/energy-supply/get-a-better-energy-deal/",
+    timeToAct: "15 minutes",
   },
   {
     icon: "Home",
     title: "Apply for a free home energy check",
     worry: "Energy bills (gas/electric)",
-    detail: "Many energy suppliers offer free insulation, boiler upgrades or draught-proofing to eligible households under the Energy Company Obligation (ECO4) scheme.",
+    savingsPerMonth: 30,
+    detail: "Many energy suppliers offer free insulation, boiler upgrades or draught-proofing to eligible households under the Energy Company Obligation (ECO4) scheme. A draughty home wastes up to £360/year.",
     link: "https://www.gov.uk/energy-company-obligation",
+    timeToAct: "10 minutes to apply",
   },
   {
     icon: "CreditCard",
     title: "Check if you're eligible for a Budgeting Loan",
     worry: "Debt and credit repayments",
-    detail: "If you've been on certain benefits for 6+ months, you can apply for an interest-free Budgeting Loan from the government for essential items.",
+    savingsPerMonth: null,
+    savingsNote: "Interest-free loan up to £812",
+    detail: "If you've been on certain benefits for 6+ months, you can apply for an interest-free Budgeting Loan from the government for essential items like furniture, clothing, or rent in advance.",
     link: "https://www.gov.uk/budgeting-loan",
+    timeToAct: "20 minutes to apply",
   },
   {
     icon: "Baby",
     title: "Check your childcare entitlements",
     worry: null,
+    savingsPerMonth: 500,
+    savingsNote: "Up to £500/month for 15 hrs/week free",
     detail: "Working parents of 2-year-olds can access 15 hours free childcare per week. For 3 and 4-year-olds, this rises to 30 hours. Many families miss out simply by not knowing.",
     link: "https://www.gov.uk/free-childcare-2-year-olds",
     requiresChildren: true,
+    timeToAct: "15 minutes to check",
   },
   {
     icon: "Phone",
     title: "Ask about a social broadband tariff",
     worry: null,
+    savingsPerMonth: 20,
     detail: "If you receive Universal Credit, PIP, or other qualifying benefits, you're likely eligible for broadband at £10-£15/month instead of £30-£50. BT, Sky, Virgin Media and others all offer these.",
     link: "https://www.ofcom.org.uk/phones-and-broadband/saving-money/social-tariffs",
     requiresBenefits: true,
+    timeToAct: "10 minutes",
   },
   {
     icon: "Home",
     title: "Negotiate your rent or know your rights",
     worry: "Rent or mortgage payments",
+    savingsPerMonth: null,
+    savingsNote: "Could prevent a rent increase",
     detail: "If your landlord proposes a rent increase, you can challenge it via a tribunal. Shelter's website has template letters and guidance on your rights as a tenant.",
     link: "https://www.shelter.org.uk/housing_advice/private_renting/rent_increases",
+    timeToAct: "20 minutes to read",
   },
   {
     icon: "Bus",
     title: "Check for cheaper travel options",
     worry: "Transport / getting to work",
+    savingsPerMonth: 35,
     detail: "Railcards save 1/3 on most fares (£30/year). Many areas have discounted bus passes. Cycle-to-work schemes can save 25-39% on a new bike through salary sacrifice.",
     link: "https://www.nationalrail.co.uk/railcards/",
+    timeToAct: "15 minutes",
+  },
+  {
+    icon: "ShoppingCart",
+    title: "Use a meal planning app to cut food waste",
+    worry: "Food and grocery costs",
+    savingsPerMonth: 25,
+    detail: "The average UK household throws away £60 of food per month. Apps like Too Good To Go, Kitche, or simply planning meals around what's reduced can cut your bill significantly.",
+    link: "https://www.lovefoodhatewaste.com/",
+    timeToAct: "10 minutes",
+  },
+  {
+    icon: "Zap",
+    title: "Claim your £150 Warm Home Discount",
+    worry: "Energy bills (gas/electric)",
+    savingsPerMonth: null,
+    savingsNote: "£150 off your electricity bill",
+    detail: "If you're on a low income or receive Pension Credit, you may get £150 off your electricity bill automatically. Check with your supplier — some eligible households miss out.",
+    link: "https://www.gov.uk/the-warm-home-discount-scheme",
+    requiresLowIncome: true,
+    timeToAct: "5 minutes to check",
   },
 ];
 
 export function getRelevantActions(profile) {
   return ACTIONS.filter((action) => {
     if (action.requiresChildren && profile.children === 0) return false;
-    if (action.requiresBenefits && profile.benefits.length === 0) return false;
-    if (action.worry && profile.worries.length > 0 && !profile.worries.includes(action.worry)) {
-      // If user specified worries, only show matching ones (plus non-worry ones)
+    if (action.requiresBenefits && (profile.benefits.length === 0 || profile.benefits.includes("No, I don't receive benefits"))) return false;
+    if (action.requiresLowIncome && !["Under £1,000", "£1,000–£1,750"].includes(profile.incomeBand)) return false;
+    if (action.worry && profile.worries.length > 0 && !profile.worries.includes(action.worry) && !profile.worries.includes("I'm managing fine, just curious")) {
       return false;
     }
     return true;
   }).slice(0, 8);
+}
+
+// ============================================================
+// QUICK WINS — personalised savings summary
+// ============================================================
+
+export function getQuickWins(profile) {
+  const wins = [];
+  let totalMonthlySavings = 0;
+
+  // Food savings — always relevant
+  if (profile.worries.includes("Food and grocery costs") || profile.worries.length === 0 || profile.worries.includes("I'm managing fine, just curious")) {
+    wins.push({ category: "Food", action: "Switch supermarket + reduce waste", monthlySaving: 65, icon: "ShoppingCart" });
+    totalMonthlySavings += 65;
+  }
+
+  // Energy
+  if (profile.worries.includes("Energy bills (gas/electric)") || profile.worries.length === 0 || profile.worries.includes("I'm managing fine, just curious")) {
+    wins.push({ category: "Energy", action: "Switch tariff + claim Warm Home Discount", monthlySaving: 38, icon: "Zap" });
+    totalMonthlySavings += 38;
+  }
+
+  // Broadband — if on benefits
+  if (profile.benefits.length > 0 && !profile.benefits.includes("No, I don't receive benefits")) {
+    wins.push({ category: "Broadband", action: "Switch to a social tariff", monthlySaving: 20, icon: "Phone" });
+    totalMonthlySavings += 20;
+  }
+
+  // Transport
+  if (profile.worries.includes("Transport / getting to work")) {
+    wins.push({ category: "Transport", action: "Get a railcard or bus pass", monthlySaving: 35, icon: "Bus" });
+    totalMonthlySavings += 35;
+  }
+
+  // Childcare
+  if (profile.children > 0) {
+    wins.push({ category: "Childcare", action: "Check free hours entitlement", monthlySaving: 500, icon: "Baby" });
+    totalMonthlySavings += 500;
+  }
+
+  // Benefits check
+  if (!profile.benefits.includes("Universal Credit") && ["Under £1,000", "£1,000–£1,750", "£1,750–£2,500"].includes(profile.incomeBand)) {
+    wins.push({ category: "Benefits", action: "Run a free benefits check (Turn2Us)", monthlySaving: null, savingsNote: "Average unclaimed: £280/month", icon: "Users" });
+  }
+
+  // Council tax
+  if (profile.adults === 1) {
+    wins.push({ category: "Council Tax", action: "Claim 25% single person discount", monthlySaving: 35, icon: "Home" });
+    totalMonthlySavings += 35;
+  }
+
+  return { wins, totalMonthlySavings };
 }

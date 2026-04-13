@@ -13,7 +13,7 @@ import {
   AVG_WEEKLY_SPEND, AVG_WEEKLY_HOUSING, ENERGY_BILLS_ANNUAL,
   BOE_BASE_RATE, INCOME_PRESSURE_PERCENTILE,
   FALLBACK_FOOD_INFLATION, FALLBACK_RENTAL,
-  getRelevantSupport, getRelevantActions
+  getRelevantSupport, getRelevantActions, getQuickWins
 } from "./data/staticData";
 import {
   fetchFoodInflation, fetchRentalIndex, fetchEarningsGrowth, lookupPostcode
@@ -315,16 +315,24 @@ function ActionAccordion({ action, expanded, onToggle }) {
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       <button onClick={onToggle} className="w-full flex items-center gap-3 p-4 text-left min-h-[44px]" aria-expanded={expanded}>
         <div className="w-10 h-10 rounded-lg bg-cream flex items-center justify-center flex-shrink-0"><Icon size={20} className="text-navy" /></div>
-        <span className="flex-1 font-semibold text-gray-800 text-sm">{action.title}</span>
+        <div className="flex-1">
+          <span className="font-semibold text-gray-800 text-sm block">{action.title}</span>
+          {action.savingsPerMonth ? (
+            <span className="text-xs font-semibold text-relief">Save ~£{action.savingsPerMonth}/month</span>
+          ) : action.savingsNote ? (
+            <span className="text-xs font-semibold text-relief">{action.savingsNote}</span>
+          ) : null}
+        </div>
+        {action.timeToAct && <span className="text-xs text-gray-400 mr-2">{action.timeToAct}</span>}
         {expanded ? <ChevronDown size={18} className="text-gray-400" /> : <ChevronRight size={18} className="text-gray-400" />}
       </button>
       {expanded && (
         <div className="px-4 pb-4 animate-fade-in-up">
-          <p className="text-sm text-gray-600 mb-3 ml-13">{action.detail}</p>
+          <p className="text-sm text-gray-600 mb-3 pl-[52px]">{action.detail}</p>
           {action.link && (
             <a href={action.link} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-sm text-navy font-semibold hover:underline ml-13">
-              Learn more <ExternalLink size={12} />
+              className="inline-flex items-center gap-1.5 bg-navy text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-opacity-90 transition-all ml-[52px]">
+              Do this now <ExternalLink size={12} />
             </a>
           )}
         </div>
@@ -448,6 +456,7 @@ export default function App() {
   const bullets = getPressureBullets(profile);
   const support = getRelevantSupport(profile);
   const actions = getRelevantActions(profile);
+  const quickWins = getQuickWins(profile);
   const spendKey = getSpendKey(profile);
   const spendData = AVG_WEEKLY_SPEND[spendKey] || AVG_WEEKLY_SPEND["2_0"];
   const housingCost = AVG_WEEKLY_HOUSING[profile.tenure] || 0;
@@ -557,6 +566,52 @@ export default function App() {
           </div>
         </section>
 
+        {/* Section: Quick Wins — Your Personalised Savings */}
+        {quickWins.wins.length > 0 && (
+          <section className="animate-fade-in-up">
+            <h2 className="font-heading text-2xl font-bold text-navy mb-1">Your Quick Wins</h2>
+            <p className="text-gray-500 text-sm mb-4">Actions you can take this week, personalised to your situation</p>
+
+            {quickWins.totalMonthlySavings > 0 && (
+              <div className="bg-relief rounded-xl p-5 mb-4 text-center">
+                <p className="text-green-100 text-sm">Estimated potential monthly savings</p>
+                <p className="font-heading text-4xl font-bold text-white tabular-nums mt-1">
+                  £{quickWins.totalMonthlySavings.toLocaleString("en-GB")}
+                </p>
+                <p className="text-green-100 text-sm mt-1">
+                  That's up to £{(quickWins.totalMonthlySavings * 12).toLocaleString("en-GB")} per year
+                </p>
+              </div>
+            )}
+
+            <div className="space-y-2">
+              {quickWins.wins.map((win, i) => {
+                const Icon = ICON_MAP[win.icon] || Info;
+                return (
+                  <div key={i} className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center flex-shrink-0">
+                      <Icon size={18} className="text-relief" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-gray-800 text-sm">{win.action}</p>
+                      <p className="text-xs text-gray-500">{win.category}</p>
+                    </div>
+                    <div className="text-right flex-shrink-0">
+                      {win.monthlySaving ? (
+                        <span className="font-heading text-lg font-bold text-relief tabular-nums">
+                          £{win.monthlySaving}<span className="text-xs font-body text-gray-500">/mo</span>
+                        </span>
+                      ) : (
+                        <span className="text-xs font-semibold text-relief">{win.savingsNote}</span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
         {/* Section 2: How Your Bills Compare */}
         <section className="animate-fade-in-up delay-100">
           <h2 className="font-heading text-2xl font-bold text-navy mb-1">How Your Bills Compare</h2>
@@ -575,10 +630,36 @@ export default function App() {
             <BillCompareRow icon={Phone} label="Phone & broadband" avgAmount={spendData.comms}
               comparison={billComparisons.comms} onCompare={(v) => setBillComparisons((p) => ({ ...p, comms: v }))} />
           </div>
-          <div className="bg-navy rounded-xl p-4 mt-4 text-center">
-            <p className="text-cream text-sm">Estimated total weekly household spend</p>
-            <p className="font-heading text-3xl font-bold text-white tabular-nums mt-1">{fmt(totalWeekly)}</p>
-            <p className="text-cream text-xs mt-1 opacity-70">Based on UK averages for your household type</p>
+          <div className="bg-navy rounded-xl p-5 mt-4">
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div>
+                <p className="text-blue-200 text-xs">Per week</p>
+                <p className="font-heading text-xl font-bold text-white tabular-nums mt-1">{fmt(totalWeekly)}</p>
+              </div>
+              <div>
+                <p className="text-blue-200 text-xs">Per month</p>
+                <p className="font-heading text-xl font-bold text-white tabular-nums mt-1">{fmt(totalWeekly * 4.33)}</p>
+              </div>
+              <div>
+                <p className="text-blue-200 text-xs">Per year</p>
+                <p className="font-heading text-xl font-bold text-white tabular-nums mt-1">{fmt(totalWeekly * 52)}</p>
+              </div>
+            </div>
+            <p className="text-blue-200 text-xs mt-3 text-center">Estimated total household spend based on UK averages for your household type</p>
+            {profile.incomeBand && profile.incomeBand !== "Prefer not to say" && (
+              <div className="mt-3 pt-3 border-t border-blue-800 text-center">
+                <p className="text-blue-200 text-xs">Estimated % of income spent on essentials</p>
+                <p className="font-heading text-lg font-bold tabular-nums mt-1" style={{ color: totalWeekly * 4.33 / ({
+                  "Under £1,000": 850, "£1,000–£1,750": 1375, "£1,750–£2,500": 2125,
+                  "£2,500–£3,500": 3000, "Over £3,500": 4000
+                }[profile.incomeBand] || 2125) > 0.7 ? "#ff9999" : "#99ffcc" }}>
+                  {Math.round(totalWeekly * 4.33 / ({
+                    "Under £1,000": 850, "£1,000–£1,750": 1375, "£1,750–£2,500": 2125,
+                    "£2,500–£3,500": 3000, "Over £3,500": 4000
+                  }[profile.incomeBand] || 2125) * 100)}%
+                </p>
+              </div>
+            )}
           </div>
           <DataNote live={false} source="ONS Family Spending in the UK, FYE 2024" />
         </section>
@@ -685,7 +766,14 @@ export default function App() {
         {/* Section 4: Support You Might Be Missing */}
         <section className="animate-fade-in-up delay-300">
           <h2 className="font-heading text-2xl font-bold text-navy mb-1">Support You Might Be Missing</h2>
-          <p className="text-gray-500 text-sm mb-6">Schemes and help you may be entitled to, based on what you've told us</p>
+          <p className="text-gray-500 text-sm mb-2">Schemes and help you may be entitled to, based on what you've told us</p>
+          <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+            <CheckCircle size={20} className="text-relief flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm font-semibold text-gray-800">We found {support.length} schemes that may be relevant to you</p>
+              <p className="text-xs text-gray-600 mt-1">The average UK household misses out on £3,500 per year in unclaimed benefits and support. Check each one below — it takes 10–15 minutes.</p>
+            </div>
+          </div>
           <div className="space-y-4">
             {support.map((item, i) => <SupportCard key={i} item={item} />)}
           </div>
@@ -704,10 +792,18 @@ export default function App() {
           </div>
         </section>
 
-        {/* Section 6: Small Steps That Add Up */}
+        {/* Section 6: Do This Week */}
         <section className="animate-fade-in-up delay-500">
-          <h2 className="font-heading text-2xl font-bold text-navy mb-1">Small Steps That Add Up</h2>
-          <p className="text-gray-500 text-sm mb-6">Practical actions you can take this week</p>
+          <h2 className="font-heading text-2xl font-bold text-navy mb-1">Do This Week</h2>
+          <p className="text-gray-500 text-sm mb-4">Concrete actions with real savings — tap each one for details and a direct link</p>
+          {actions.some(a => a.savingsPerMonth) && (
+            <div className="bg-cream border border-gray-200 rounded-xl p-3 mb-4 text-center">
+              <p className="text-xs text-gray-500">Combined potential savings from these actions</p>
+              <p className="font-heading text-xl font-bold text-relief tabular-nums">
+                £{actions.reduce((sum, a) => sum + (a.savingsPerMonth || 0), 0)}/month
+              </p>
+            </div>
+          )}
           <div className="space-y-3">
             {actions.map((action, i) => (
               <ActionAccordion key={i} action={action} expanded={expandedAction === i}

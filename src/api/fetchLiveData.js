@@ -71,8 +71,9 @@ async function fetchCPIHSeries(aggregate) {
   }
 
   // Compute YoY % change: (thisMonth / sameMonthLastYear - 1) * 100
+  // Filter to 2021–2030 to exclude spurious 2080s data (ONS encodes "89" as 2089)
   return parsed
-    .filter((t) => t.year >= 2021)
+    .filter((t) => t.year >= 2021 && t.year <= 2030)
     .sort((a, b) => a.sortKey - b.sortKey)
     .map((t) => {
       const lastYearKey = (t.year - 1) * 100 + t.month;
