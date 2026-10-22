@@ -21,12 +21,22 @@ draft: true           # hidden from the live site until approved; remove or set 
 - Written in Jon Russell's voice with the `writing-as-jon-russell` skill, and
   passed through its `voice_check.py`. UK English; no em or en dashes. ("meter",
   as in electricity meter, is correct British spelling: ignore that checker flag.)
+- Grants, benefits, regulations and consumer rights (ECO4, Great British
+  Insulation Scheme, Boiler Upgrade Scheme, Priority Services Register, Cold
+  Weather Payment, Winter Fuel Payment, minimum energy efficiency standards,
+  switching and billing rules): check the current rules on GOV.UK, Ofgem,
+  Citizens Advice or the Energy Saving Trust on the day of writing, link the
+  page used, and state amounts and eligibility only as those pages give them.
+  Schemes open, close and change, so never rely on memory.
+- Savings claims ("turning the thermostat down 1°C saves £X") need a named,
+  linked source, or a worked example from the site's own figures with the
+  assumptions stated.
 - Only verified facts. Prices come from the live supplier APIs (the same ones the
   site uses) and are dated, e.g. "on 22 October 2026". Anything unverified is left
   out, not guessed. Safety advice links to its source.
 - One clear search question per post, answered in the first few lines.
 - 800 to 1,500 words, `##` headings, a table where it helps, short paragraphs.
-- Link to the most relevant tool (by its path, e.g. `/gas-or-electric/`) and,
+- Link to the tool named for the topic in TOPICS.md (by its path, e.g. `/gas-or-electric/`) and,
   where natural, to one earlier post.
 - Never repeat a topic or slug that already exists here.
 
