@@ -3,8 +3,10 @@
 Pick an appliance and find the cheapest time to run it on your electricity
 tariff, with what it will cost.
 
-- Tariffs: Agile Octopus, Octopus Go, Cosy Octopus, Economy 7 and standard/fixed
-- Live half-hourly prices from Octopus Energy's public API (no key needed)
+- Live prices for Octopus (Agile, Go, Cosy), EDF (FreePhase Dynamic, GoElectric)
+  and E.ON Next (Next Drive), from their public Kraken price APIs (no key needed)
+- Any supplier: Economy 7 or other off-peak tariffs with your own hours and
+  rates, and standard/fixed tariffs
 - Shows the cheapest start time, the cost versus starting now, delay-timer
   settings and a price chart
 

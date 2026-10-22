@@ -1,4 +1,4 @@
-import { SLOT_MS } from "./octopus";
+import { SLOT_MS } from "./prices";
 
 // Share of the run's energy used in each half-hour slot, assuming it draws
 // evenly across the run. A 45-minute run is [2/3, 1/3].

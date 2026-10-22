@@ -4,10 +4,10 @@ import {
 } from "recharts";
 import {
   WashingMachine, Wind, Fan, Utensils, Flame, Soup, CookingPot, Droplets, Heater, AirVent, Bike, Car,
-  SlidersHorizontal, Clock, Timer, PiggyBank, MapPin, AlertCircle, Info, ExternalLink, Zap,
+  SlidersHorizontal, Clock, Timer, PiggyBank, MapPin, AlertCircle, Info, Zap,
 } from "lucide-react";
 import { APPLIANCES, REGIONS } from "./appliances";
-import { TARIFFS, loadSlots, standardRate, regionFromPostcode, economy7Slots, currentSlotStart, ukMinutes, SLOT_MS } from "./octopus";
+import { SUPPLIERS, TARIFFS, tariffsFor, loadSlots, standardRate, regionFromPostcode, economy7Slots, currentSlotStart, ukMinutes, SLOT_MS } from "./prices";
 import { bestWindows } from "./optimise";
 
 const ICONS = { WashingMachine, Wind, Fan, Utensils, Flame, Soup, CookingPot, Droplets, Heater, AirVent, Bike, Car, SlidersHorizontal };
@@ -61,6 +61,7 @@ function whenLabel(t) {
   const time = timeLabel(t);
   const hour = Number(new Date(t).toLocaleTimeString("en-GB", { timeZone: "Europe/London", hour: "2-digit", hourCycle: "h23" }));
   if (day === "today" && hour >= 18) return `${time} tonight`;
+  if (day === "tomorrow" && ukMinutes(t) === 0) return "midnight tonight";
   return `${time} ${day}`;
 }
 
@@ -113,7 +114,7 @@ function NumberField({ label, value, onChange, step = "0.1", min = "0", suffix }
 }
 
 // ---------- step 1: tariff and region ----------
-function TariffStep({ tariff, setTariff, region, setRegion, e7, setE7, flatOverride, setFlatOverride, apiFlatRate }) {
+function TariffStep({ supplier, setSupplier, tariff, setTariff, region, setRegion, e7, setE7, flatOverride, setFlatOverride, apiFlatRate }) {
   const [postcode, setPostcode] = useState("");
   const [lookup, setLookup] = useState({ state: "idle" });
 
@@ -131,14 +132,40 @@ function TariffStep({ tariff, setTariff, region, setRegion, e7, setE7, flatOverr
     }
   }
 
-  const needsRegion = tariff !== "e7";
+  const needsRegion = supplier && tariff !== "e7";
+  const supplierInfo = SUPPLIERS.find((s) => s.id === supplier);
+  const tariffs = supplier ? tariffsFor(supplier) : [];
+
+  function chooseSupplier(id) {
+    setSupplier(id);
+    // Keep the tariff if the new supplier offers it, otherwise pick a sensible default.
+    const options = tariffsFor(id);
+    if (!options.some((t) => t.id === tariff)) setTariff(options[0].id);
+  }
 
   return (
     <Card>
       <StepTitle n={1}>Your electricity</StepTitle>
-      <p className="text-sm text-gray-600 mb-3">Which tariff are you on? It's on your bill or in your supplier's app.</p>
+      <label className="block mb-4">
+        <span className="text-sm text-gray-600">Who supplies your electricity?</span>
+        <select
+          value={supplier || ""} onChange={(e) => chooseSupplier(e.target.value)} aria-label="Supplier"
+          className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 bg-white"
+        >
+          <option value="" disabled>Choose your supplier…</option>
+          {SUPPLIERS.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+        </select>
+      </label>
+
+      {supplier && (
+        <p className="text-sm text-gray-600 mb-3">
+          {supplierInfo?.api
+            ? "Which tariff are you on? It's on your bill or in your supplier's app."
+            : `We can't get live prices from ${supplier === "other" ? "your supplier" : supplierInfo.name} yet. If you have cheaper hours (Economy 7, an EV tariff or similar), choose the off-peak option and copy the times and rates from your bill.`}
+        </p>
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2" role="radiogroup" aria-label="Tariff">
-        {TARIFFS.map((t) => {
+        {tariffs.map((t) => {
           const on = t.id === tariff;
           return (
             <button
@@ -183,20 +210,20 @@ function TariffStep({ tariff, setTariff, region, setRegion, e7, setE7, flatOverr
 
       {tariff === "e7" && (
         <div className="mt-5">
-          <p className="text-sm text-gray-600 mb-3">Economy 7 night hours vary by meter. Check your bill and adjust these if yours are different.</p>
+          <p className="text-sm text-gray-600 mb-3">Cheap hours vary by tariff and by meter. Check your bill or app and change these to match yours.</p>
           <div className="grid grid-cols-2 gap-3">
             <label className="block">
-              <span className="text-sm text-gray-600">Night rate starts</span>
+              <span className="text-sm text-gray-600">Cheap rate starts</span>
               <input type="time" value={e7.nightStart} onChange={(e) => setE7({ ...e7, nightStart: e.target.value })}
                 className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2" />
             </label>
             <label className="block">
-              <span className="text-sm text-gray-600">Night rate ends</span>
+              <span className="text-sm text-gray-600">Cheap rate ends</span>
               <input type="time" value={e7.nightEnd} onChange={(e) => setE7({ ...e7, nightEnd: e.target.value })}
                 className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2" />
             </label>
-            <NumberField label="Day rate" value={e7.dayRate} onChange={(v) => setE7({ ...e7, dayRate: v })} suffix="p/kWh" />
-            <NumberField label="Night rate" value={e7.nightRate} onChange={(v) => setE7({ ...e7, nightRate: v })} suffix="p/kWh" />
+            <NumberField label="Normal rate" value={e7.dayRate} onChange={(v) => setE7({ ...e7, dayRate: v })} suffix="p/kWh" />
+            <NumberField label="Cheap rate" value={e7.nightRate} onChange={(v) => setE7({ ...e7, nightRate: v })} suffix="p/kWh" />
           </div>
         </div>
       )}
@@ -300,7 +327,7 @@ function Result({ result, slots, kWh, perWeek, tariff, refRate, finishBy, now: n
             {tariff === "flat" && (
               <p className="text-sm text-gray-600 mt-4 flex gap-2">
                 <Info size={16} className="shrink-0 mt-0.5" />
-                On a time-of-use tariff such as Economy 7, Octopus Go or Agile, running this overnight could cost less. Those tariffs need a smart meter, and your daytime rate is usually higher, so they suit households that can move a lot of their use to the cheap hours.
+                On a time-of-use tariff, such as Economy 7 or an EV tariff, running this overnight could cost less. Those tariffs need a smart meter, and your daytime rate is usually higher, so they suit households that can move a lot of their use to the cheap hours.
               </p>
             )}
           </>
@@ -381,10 +408,10 @@ function Result({ result, slots, kWh, perWeek, tariff, refRate, finishBy, now: n
       </div>
 
       {!allSame && <PriceChart slots={slots} best={best} refRate={tariff === "flat" ? null : refRate} />}
-      {tariff === "agile" && slots.length > 0 && ukDate(slots[slots.length - 1].start) === ukDate(nowMs) && (
+      {TARIFFS.find((t) => t.id === tariff)?.dynamic && slots.length > 0 && ukDate(slots[slots.length - 1].start) === ukDate(nowMs) && (
         <p className="text-sm text-gray-600 mt-3 flex gap-2">
           <Info size={16} className="shrink-0 mt-0.5" />
-          Tomorrow's Agile prices come out at about 4pm. Check back then — overnight is often cheaper.
+          Tomorrow's prices come out in the afternoon. Check back then — overnight is often cheaper.
         </p>
       )}
     </Card>
@@ -461,6 +488,7 @@ function PriceChart({ slots, best, refRate }) {
 
 // ---------- app ----------
 export default function App() {
+  const [supplier, setSupplier] = useSaved("supplier", "");
   const [tariff, setTariff] = useSaved("tariff", "agile");
   const [region, setRegion] = useSaved("region", "");
   const [e7, setE7] = useSaved("e7", DEFAULT_E7);
@@ -483,7 +511,7 @@ export default function App() {
   const slotKey = currentSlotStart(now);
 
   // Load prices whenever the tariff or region changes.
-  const fetchKey = tariff !== "e7" && region ? `${tariff}|${region}` : null;
+  const fetchKey = supplier && tariff !== "e7" && region ? `${tariff}|${region}` : null;
   useEffect(() => {
     if (!fetchKey) return;
     const ctrl = new AbortController();
@@ -512,7 +540,7 @@ export default function App() {
     return slots.data;
   }, [tariff, e7, flatOverride, slots.data, slotKey]);
 
-  const ready = tariff === "e7" ? effectiveSlots.length > 0 : !loading && slots.state === "ready";
+  const ready = !supplier ? false : tariff === "e7" ? effectiveSlots.length > 0 : !loading && slots.state === "ready";
 
   const finishOptions = useMemo(() => {
     if (!effectiveSlots.length || !mins) return [];
@@ -555,7 +583,7 @@ export default function App() {
 
       <main className="max-w-[680px] mx-auto px-4 py-6 space-y-4">
         <TariffStep
-          tariff={tariff} setTariff={setTariff} region={region} setRegion={setRegion}
+          supplier={supplier} setSupplier={setSupplier} tariff={tariff} setTariff={setTariff} region={region} setRegion={setRegion}
           e7={e7} setE7={setE7} flatOverride={flatOverride} setFlatOverride={setFlatOverride}
           apiFlatRate={tariff === "flat" && !loading ? slots.data[0]?.price : null}
         />
@@ -565,7 +593,10 @@ export default function App() {
           finishBy={activeFinishBy} setFinishBy={setFinishBy} finishOptions={finishOptions}
         />
 
-        {tariff !== "e7" && !region && applianceId && (
+        {!supplier && applianceId && (
+          <Card><p className="text-gray-700">Choose your supplier in step 1 to see prices.</p></Card>
+        )}
+        {supplier && tariff !== "e7" && !region && applianceId && (
           <Card><p className="text-gray-700">Choose your region in step 1 to see prices.</p></Card>
         )}
         {loading && (
@@ -575,7 +606,7 @@ export default function App() {
           <Card>
             <div className="flex gap-3 text-warning">
               <AlertCircle className="shrink-0 mt-0.5" size={20} />
-              <p>We couldn't get prices from Octopus Energy just now. Check your connection and try again in a minute.</p>
+              <p>We couldn't get your supplier's prices just now. Check your connection and try again in a minute.</p>
             </div>
           </Card>
         )}
@@ -588,10 +619,10 @@ export default function App() {
 
         <footer className="text-sm text-gray-500 pt-4 pb-10 space-y-2">
           <p>
-            Prices come from Octopus Energy's public data and include VAT. Costs are estimates: real appliances use power unevenly, and your own model may use more or less. Standing charges are the same whenever you run things, so they're left out.
+            Live prices come from the public price data published by Octopus Energy, EDF and E.ON Next, and include VAT. The standard rate shown for comparison is Octopus's standard variable tariff. Costs are estimates: real appliances use power unevenly, and your own model may use more or less. Standing charges are the same whenever you run things, so they're left out.
           </p>
           <p>
-            <a href="https://developer.octopus.energy/rest/" className="underline inline-flex items-center gap-1" target="_blank" rel="noopener noreferrer">About the Octopus Energy price data <ExternalLink size={13} /></a>
+            Not affiliated with any energy supplier.
           </p>
         </footer>
       </main>
