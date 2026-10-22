@@ -1,0 +1,13 @@
+{
+  "_note": "Voiceover, one line per scene. Written for the ear: say numbers and the web address the way they should sound. Scene ids must match src/scenes.ts.",
+  "lines": [
+    { "id": "hook", "text": "Same washing machine. Same wash. Thirty-one p, or thirteen p." },
+    { "id": "when", "text": "The only difference is when you press start." },
+    { "id": "pick", "text": "Cheap Watts uses live prices for your tariff. Pick an appliance, and it finds the cheapest time to run it." },
+    { "id": "result", "text": "You get the cost, the greenest time, and exactly what to set your delay timer to." },
+    { "id": "plan", "text": "Got the washing, the dishwasher and the car to do? It plans the whole evening for you." },
+    { "id": "gas", "text": "Kettle or hob? Heater or central heating? It does the maths at today's prices." },
+    { "id": "switch", "text": "Upload your smart meter data, and see whether switching tariff would save you money." },
+    { "id": "finale", "text": "It's free, and there's no sign up. Cheap watts, dot co dot u k." }
+  ]
+}

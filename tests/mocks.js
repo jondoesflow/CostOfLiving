@@ -9,7 +9,7 @@ const REGIONS = "ABCDEFGHJKLMNP".split("");
 const ukHour = (t) => Number(new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/London", hour: "2-digit", hourCycle: "h23" }).format(new Date(t)))
   + Number(new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/London", minute: "2-digit" }).format(new Date(t))) / 60;
 
-// p/kWh by UK hour of day.
+// p/kWh by UK hour of day. Tests can override one via mockApis(page, { patterns }).
 const PATTERNS = {
   agile: (h) => (h < 5 ? 12 : h < 16 ? 25 : h < 19 ? 40 : 20),
   "agile-outgoing": (h) => (h < 5 ? 8 : h < 16 ? 15 : h < 19 ? 30 : 12),
@@ -20,6 +20,8 @@ const PATTERNS = {
   "eon-drive": (h) => (h < 6 ? 8.5 : 34),
   "eon-drive-smart": (h) => (h < 6 ? 6.5 : 33),
 };
+
+const ACTIVE = { ...PATTERNS };
 
 const PRODUCTS = {
   "api.octopus.energy": [
@@ -57,12 +59,13 @@ function krakenRates(product, from, to) {
   const limit = product.dynamic ? Date.parse("2026-10-23T22:00:00Z") : to;
   const out = [];
   for (let t = Math.floor(from / SLOT) * SLOT; t < Math.min(to, limit); t += SLOT) {
-    out.push({ value_inc_vat: PATTERNS[product.kind](ukHour(t)), valid_from: new Date(t).toISOString(), valid_to: new Date(t + SLOT).toISOString(), payment_method: null });
+    out.push({ value_inc_vat: ACTIVE[product.kind](ukHour(t)), valid_from: new Date(t).toISOString(), valid_to: new Date(t + SLOT).toISOString(), payment_method: null });
   }
   return out.reverse(); // the real API returns newest first
 }
 
-export async function mockApis(page, { failKraken = false } = {}) {
+export async function mockApis(page, { failKraken = false, patterns = {} } = {}) {
+  Object.assign(ACTIVE, PATTERNS, patterns);
   await page.clock.setFixedTime(NOW);
 
   await page.route(/https:\/\/(api\.octopus\.energy|api\.edfgb-kraken\.energy|api\.eonnext-kraken\.energy)\/v1\/.*/, (route) => {
