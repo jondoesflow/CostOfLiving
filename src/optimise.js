@@ -1,4 +1,4 @@
-import { SLOT_MS } from "./prices";
+import { SLOT_MS } from "./prices.js";
 
 // Share of the run's energy used in each half-hour slot, assuming it draws
 // evenly across the run. A 45-minute run is [2/3, 1/3].
@@ -68,4 +68,30 @@ export function bestWindows(slots, kWh, mins, finishBy) {
 
 export function lastPossibleFinish(slots) {
   return slots.length ? slots[slots.length - 1].start + SLOT_MS : null;
+}
+
+// Fit several jobs ({ id, kWh, mins }) into the cheapest times, never running
+// more than `maxAtOnce` together. Biggest users of electricity go first, since
+// they gain most from the cheapest slots.
+export function scheduleJobs(slots, jobs, { maxAtOnce = Infinity, finishBy = null } = {}) {
+  const busy = new Array(slots.length).fill(0);
+  const placed = [];
+  for (const job of [...jobs].sort((a, b) => b.kWh - a.kWh)) {
+    const fits = (w) => {
+      for (let i = w.index; i < w.index + w.slotCount; i++) if (busy[i] >= maxAtOnce) return false;
+      return true;
+    };
+    const options = windowCosts(slots, job.kWh, job.mins, finishBy).filter(fits);
+    const nowCost = windowCosts(slots, job.kWh, job.mins)[0]?.cost ?? null;
+    if (!options.length) {
+      placed.push({ job, window: null, nowCost });
+      continue;
+    }
+    // As with single runs, take the soonest start that's practically as cheap.
+    const cheapest = Math.min(...options.map((w) => w.cost));
+    const window = options.find((w) => w.cost <= cheapest + Math.max(0.5, Math.abs(cheapest) * 0.03));
+    for (let i = window.index; i < window.index + window.slotCount; i++) busy[i]++;
+    placed.push({ job, window, nowCost });
+  }
+  return placed.sort((a, b) => (a.window?.start ?? Infinity) - (b.window?.start ?? Infinity));
 }

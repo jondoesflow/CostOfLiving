@@ -29,8 +29,17 @@ export const TARIFFS = [
   { id: "flat", label: "Standard or fixed", blurb: "Same price all day" },
 ];
 
+// What you're paid for electricity you send back to the grid.
+export const EXPORT_TARIFFS = [
+  { id: "agile-outgoing", supplier: "octopus", label: "Agile Outgoing", match: /^Agile Outgoing Octopus$/, dynamic: true, blurb: "Octopus, price changes every half hour" },
+  { id: "outgoing", supplier: "octopus", label: "Outgoing Octopus", match: /^Outgoing Octopus$/, blurb: "Octopus, fixed rate" },
+  { id: "own", label: "My own export rate", blurb: "Any supplier: enter the rate from your export agreement" },
+];
+
 // Used as the "standard tariff" comparison and to pre-fill the flat rate.
-const REFERENCE = { supplier: "octopus", match: /^Flexible Octopus$/ };
+export const REFERENCE = { id: "standard", supplier: "octopus", label: "Standard variable (price cap)", match: /^Flexible Octopus$/ };
+
+const findTariff = (id) => (id === "flat" || id === "standard" ? REFERENCE : [...TARIFFS, ...EXPORT_TARIFFS].find((t) => t.id === id));
 
 export function tariffsFor(supplierId) {
   return TARIFFS.filter((t) => !t.supplier || t.supplier === supplierId);
@@ -74,7 +83,25 @@ async function tariffCode(tariff, region, signal) {
   const byRegion = detail.single_register_electricity_tariffs?.[`_${region}`];
   const tariffForRegion = byRegion?.direct_debit_monthly ?? Object.values(byRegion ?? {})[0];
   if (!tariffForRegion) throw new Error(`${product.code} isn't available in region ${region}`);
-  return { api: supplier.api, product: product.code, code: tariffForRegion.code };
+  return {
+    api: supplier.api,
+    product: product.code,
+    code: tariffForRegion.code,
+    standingCharge: tariffForRegion.standing_charge_inc_vat ?? 0,
+    description: detail.description ?? "",
+  };
+}
+
+// Typical gas unit rate and standing charge for the region (standard variable).
+export async function gasRate(region, signal) {
+  const supplier = SUPPLIERS.find((s) => s.id === REFERENCE.supplier);
+  const product = (await products(supplier)).find((p) => REFERENCE.match.test(p.display_name) && !p.available_to);
+  if (!product) throw new Error("No standard gas tariff found");
+  const detail = await getJSON(`${supplier.api}/products/${product.code}/`, signal);
+  const byRegion = detail.single_register_gas_tariffs?.[`_${region}`];
+  const t = byRegion?.direct_debit_monthly ?? Object.values(byRegion ?? {})[0];
+  if (!t) throw new Error("No gas rate for region");
+  return { unitRate: t.standard_unit_rate_inc_vat, standingCharge: t.standing_charge_inc_vat };
 }
 
 export async function regionFromPostcode(postcode, signal) {
@@ -87,9 +114,15 @@ export async function regionFromPostcode(postcode, signal) {
 async function unitRates({ api, product, code }, from, to, signal) {
   const url = `${api}/products/${product}/electricity-tariffs/${code}/standard-unit-rates/` +
     `?period_from=${new Date(from).toISOString()}&period_to=${new Date(to).toISOString()}&page_size=1500`;
-  const data = await getJSON(url, signal);
+  const results = [];
+  let next = url;
+  while (next) {
+    const page = await getJSON(next, signal);
+    results.push(...page.results);
+    next = page.next;
+  }
   // Some tariffs list a direct debit and a non-direct debit price; use direct debit.
-  return data.results
+  return results
     .filter((r) => r.payment_method !== "NON_DIRECT_DEBIT")
     .map((r) => ({
       from: Date.parse(r.valid_from),
@@ -125,8 +158,7 @@ async function slotsFor(tariff, region, signal) {
 }
 
 export function loadSlots(tariffId, region, signal) {
-  const tariff = tariffId === "flat" ? REFERENCE : TARIFFS.find((t) => t.id === tariffId);
-  return slotsFor(tariff, region, signal);
+  return slotsFor(findTariff(tariffId), region, signal);
 }
 
 // The typical standard rate in this region, used to show what a run would
@@ -134,6 +166,29 @@ export function loadSlots(tariffId, region, signal) {
 export async function standardRate(region, signal) {
   const slots = await slotsFor(REFERENCE, region, signal);
   return slots[0]?.price ?? null;
+}
+
+// Everything needed to cost past usage on a tariff: a price for any moment
+// in [from, to), plus the daily standing charge. Dynamic tariffs use their
+// real historical prices; others repeat today's pattern by time of day.
+export async function pricingFor(tariffId, region, from, to, signal) {
+  const tariff = findTariff(tariffId);
+  const code = await tariffCode(tariff, region, signal);
+  const today = toSlots(await unitRates(code, currentSlotStart(), currentSlotStart() + 24 * 3600 * 1000, signal),
+    currentSlotStart(), currentSlotStart() + 24 * 3600 * 1000);
+  const byTimeOfDay = new Map(today.map((s) => [ukMinutes(s.start), s.price]));
+  let history = null;
+  if (tariff.dynamic) {
+    history = new Map();
+    for (const r of await unitRates(code, from, to, signal)) {
+      for (let t = Math.max(r.from, from); t < Math.min(r.to, to); t += SLOT_MS) history.set(t, r.price);
+    }
+  }
+  return {
+    standingCharge: code.standingCharge,
+    description: code.description,
+    priceAt: (t) => history?.get(currentSlotStart(t)) ?? byTimeOfDay.get(ukMinutes(currentSlotStart(t))) ?? today[0]?.price ?? 0,
+  };
 }
 
 // Hour and minute of a timestamp in UK time, as minutes past midnight.
