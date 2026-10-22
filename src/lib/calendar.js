@@ -1,9 +1,14 @@
 // Calendar events for "start it now" reminders: a downloadable .ics file, a
 // Google Calendar link, and the address of the self-updating calendar feed.
 
-// "Charge the electric car", "Start the washing machine".
+// "Charge the electric car", "Switch on the heated airer", "Start the washing machine".
 export function reminderTitle(name) {
-  return `${/car|bike|scooter/i.test(name) ? "Charge" : "Start"} the ${name.toLowerCase()}`;
+  const thing = name.toLowerCase();
+  if (/car|bike|scooter/.test(thing)) return `Charge the ${thing}`;
+  if (/shower/.test(thing)) return "Time for your shower";
+  if (/^iron$/.test(thing)) return "Do the ironing";
+  if (/blanket|heater|airer|dehumidifier/.test(thing)) return `Switch on the ${thing}`;
+  return `Start the ${thing}`;
 }
 
 const stamp = (t) => new Date(t).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");

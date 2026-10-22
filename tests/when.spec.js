@@ -92,3 +92,26 @@ test("settings are remembered after a reload", async ({ page }) => {
   await expect(page.getByRole("radio", { name: /^GoElectric/ })).toBeChecked();
   await expect(page.getByLabel("Region")).toHaveValue("M");
 });
+
+test("new appliances: heated airer, electric blanket and electric shower", async ({ page }) => {
+  await setUp(page);
+  const result = page.getByRole("region", { name: "Result" });
+  await page.getByRole("radio", { name: /Heated airer/ }).check();
+  await expect(result.getByRole("heading", { name: "Start at midnight tonight" })).toBeVisible();
+  await expect(result).toContainText(/Cost then\s*14p/); // 1.2kWh at 12p
+  await page.getByRole("radio", { name: /Electric blanket/ }).check();
+  await expect(result).toContainText(/Cost then\s*1\.2p/); // 0.1kWh at 12p
+  await page.getByRole("radio", { name: /Electric shower/ }).check();
+  await expect(result).toContainText(/Cost then\s*15p/); // 1.27kWh at 12p
+  await expect(result).not.toContainText("Using a delay timer?");
+  const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "Add to calendar" }).click()]);
+  const ics = (await (await download.createReadStream()).toArray()).join("");
+  expect(ics).toContain("SUMMARY:Time for your shower");
+});
+
+test("appliances are grouped under headings", async ({ page }) => {
+  for (const group of ["Laundry", "Kitchen", "Heating and hot water", "Charging"]) {
+    await expect(page.getByRole("group", { name: group })).toBeVisible();
+  }
+  await expect(page.getByRole("group", { name: "Charging" }).getByRole("radio")).toHaveCount(4);
+});

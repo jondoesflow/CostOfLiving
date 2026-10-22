@@ -29,14 +29,19 @@ export function windowCosts(slots, kWh, mins, finishBy = null) {
   return out;
 }
 
+// How much dearer than the cheapest a sooner start can be and still win.
+// Relative, so small loads like an electric blanket aren't moved to a time
+// that costs a quarter more.
+const nearlyCheapest = (cheapest) => Math.max(0.1, Math.abs(cheapest) * 0.03);
+
 export function bestWindows(slots, kWh, mins, finishBy) {
   const all = windowCosts(slots, kWh, mins, finishBy);
   if (all.length === 0) return null;
   const sorted = [...all].sort((a, b) => a.cost - b.cost || a.start - b.start);
   // Nobody wants to wait a day to save a fraction of a penny, so take the
-  // soonest start that's within half a penny (or 3%) of the cheapest.
+  // soonest start that's within 3% (or a tenth of a penny) of the cheapest.
   const cheapest = sorted[0].cost;
-  const best = all.find((w) => w.cost <= cheapest + Math.max(0.5, Math.abs(cheapest) * 0.03));
+  const best = all.find((w) => w.cost <= cheapest + nearlyCheapest(cheapest));
 
   // Up to two other good times that don't overlap the best one or each other.
   const alternatives = [];
@@ -54,7 +59,7 @@ export function bestWindows(slots, kWh, mins, finishBy) {
     if (w.end > best.start) break;
     if (!sooner || w.cost < sooner.cost) sooner = w;
   }
-  if (sooner && (sooner === all[0] || all[0].cost - sooner.cost < 0.5)) sooner = null;
+  if (sooner && (sooner === all[0] || all[0].cost - sooner.cost < nearlyCheapest(sooner.cost))) sooner = null;
 
   return {
     best,
@@ -95,7 +100,7 @@ export function scheduleJobs(slots, jobs, { maxAtOnce = Infinity, finishBy = nul
     }
     // As with single runs, take the soonest start that's practically as cheap.
     const cheapest = Math.min(...options.map((w) => w.cost));
-    const window = options.find((w) => w.cost <= cheapest + Math.max(0.5, Math.abs(cheapest) * 0.03));
+    const window = options.find((w) => w.cost <= cheapest + nearlyCheapest(cheapest));
     for (let i = window.index; i < window.index + window.slotCount; i++) busy[i]++;
     placed.push({ job, window, nowCost });
   }

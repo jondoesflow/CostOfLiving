@@ -120,7 +120,7 @@ function Reminders({ elec, best, applianceName, kWh, mins }) {
   );
 }
 
-function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finishBy }) {
+function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finishBy, noTimer }) {
   const { slots, tariff, refRate, now: nowMs, tariffInfo } = elec;
   if (!result) {
     return (
@@ -192,7 +192,7 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
               </p>
             )}
 
-            {!startNow && (
+            {!startNow && !noTimer && (
               <div className="mt-5 rounded-xl border border-gray-200 p-4 flex gap-3">
                 <Timer size={22} className="shrink-0 text-navy mt-0.5" aria-hidden="true" />
                 <div>
@@ -316,6 +316,7 @@ export default function WhenToRun({ elec }) {
         <Result
           elec={elec} result={result} green={green} kWh={kWh} mins={mins}
           perWeek={appliance?.perWeek ?? 0} applianceName={appliance?.name ?? "Appliance"} finishBy={activeFinishBy}
+          noTimer={Boolean(appliance?.noTimer)}
         />
       )}
     </>

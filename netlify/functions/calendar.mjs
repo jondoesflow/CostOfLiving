@@ -24,7 +24,7 @@ export default async (req) => {
   const live = TARIFFS.find((t) => t.id === tariff && t.supplier);
   if (!live && tariff !== "e7") return bad("Unsupported tariff");
   if (live && !REGION.test(region)) return bad("Missing or invalid region");
-  if (!(kWh > 0 && kWh < 200) || !(mins >= 30 && mins <= 24 * 60)) return bad("Invalid appliance figures");
+  if (!(kWh > 0 && kWh < 200) || !(mins >= 1 && mins <= 24 * 60)) return bad("Invalid appliance figures");
 
   let slots;
   if (live) {
