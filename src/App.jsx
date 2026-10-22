@@ -108,17 +108,22 @@ export default function App() {
         <div className="max-w-[680px] mx-auto px-4 pt-6 pb-6">
           <div className="flex items-center justify-between gap-3">
             <p className="text-sm uppercase tracking-wider text-onbrand/80 font-semibold flex items-center gap-1.5"><Zap size={16} aria-hidden="true" /> Cheap Watts</p>
-            <label className="flex items-center gap-2 text-sm text-onbrand/90">
-              <span>Theme</span>
-              <select
-                value={theme.pref} onChange={(e) => theme.setPref(e.target.value)}
-                className="rounded-md bg-onbrand/10 border border-onbrand/40 text-onbrand px-2 py-1 [&>option]:text-gray-900 [&>option]:bg-white"
-              >
-                <option value="system">Match device</option>
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
-              </select>
-            </label>
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              <a href="/blog/" className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-sm font-semibold text-onbrand border border-onbrand/40 hover:bg-onbrand/10">
+                <BookOpen size={16} aria-hidden="true" /> Blog
+              </a>
+              <label className="flex items-center gap-2 text-sm text-onbrand/90">
+                <span className="sr-only sm:not-sr-only">Theme</span>
+                <select
+                  value={theme.pref} onChange={(e) => theme.setPref(e.target.value)}
+                  className="rounded-md bg-onbrand/10 border border-onbrand/40 text-onbrand px-2 py-1 [&>option]:text-gray-900 [&>option]:bg-white"
+                >
+                  <option value="system">Match device</option>
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </label>
+            </div>
           </div>
           <h1 className="text-3xl sm:text-4xl font-semibold mt-3" style={{ color: "#ffffff" }}>{tool.title}</h1>
           <p className="mt-3 text-onbrand/90 text-lg">{tool.intro}</p>
@@ -139,11 +144,6 @@ export default function App() {
                 </li>
               );
             })}
-            <li className="shrink-0">
-              <a href="/blog/" className="flex items-center gap-1.5 px-3 py-2.5 rounded-t-lg text-sm font-semibold whitespace-nowrap text-onbrand/90 hover:text-onbrand hover:bg-onbrand/10">
-                <BookOpen size={16} aria-hidden="true" /> Blog
-              </a>
-            </li>
           </ul>
         </nav>
       </header>

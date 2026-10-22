@@ -64,3 +64,17 @@ for (const scheme of ["light", "dark"]) {
     });
   }
 }
+
+test("Blog link sits in the header, to the left of the theme selector", async ({ page }) => {
+  await mockApis(page);
+  await page.goto("/");
+  const blog = page.getByRole("banner").getByRole("link", { name: "Blog" });
+  const theme = page.getByLabel("Theme");
+  await expect(blog).toHaveAttribute("href", "/blog/");
+  await expect(page.getByRole("navigation", { name: "Tools" }).getByRole("link", { name: "Blog" })).toHaveCount(0);
+  const [b, t] = [await blog.boundingBox(), await theme.boundingBox()];
+  expect(b.x + b.width).toBeLessThanOrEqual(t.x);
+  expect(Math.abs(b.y + b.height / 2 - (t.y + t.height / 2))).toBeLessThan(12); // same row
+  await blog.click();
+  await expect(page).toHaveURL(/\/blog\/$/);
+});
