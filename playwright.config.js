@@ -22,7 +22,7 @@ export default defineConfig({
     { name: "desktop", use: { ...devices["Desktop Chrome"] } },
   ],
   webServer: {
-    command: "npm run build && npx vite preview --port 4173 --strictPort",
+    command: "BLOG_DRAFTS=1 npm run build && npx vite preview --port 4173 --strictPort",
     url: "http://localhost:4173",
     reuseExistingServer: true,
     timeout: 120000,

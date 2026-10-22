@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Zap, Clock, ListChecks, Flame, Sun, Scale } from "lucide-react";
+import { Zap, Clock, ListChecks, Flame, Sun, Scale, BookOpen } from "lucide-react";
 import { useThemePreference, ThemeContext } from "./lib/theme";
 import useElectricity from "./lib/useElectricity";
 import TariffStep from "./components/TariffStep";
@@ -8,6 +8,7 @@ import PlanEvening from "./tools/PlanEvening";
 import GasOrElectric from "./tools/GasOrElectric";
 import Solar from "./tools/Solar";
 import SwitchCheck from "./tools/SwitchCheck";
+import { PAGES, pageFor } from "./pages";
 
 const TOOLS = [
   { id: "when", label: "When to run", icon: Clock, title: "When's cheapest to run it?",
@@ -28,29 +29,49 @@ const CREATOR_LINKS = [
   { label: "GitHub Projects", href: "https://github.com/jondoesflow?tab=repositories" },
 ];
 
-function useHashTab() {
-  const read = () => {
-    const id = window.location.hash.replace(/^#\/?/, "");
-    return TOOLS.some((t) => t.id === id) ? id : "when";
-  };
-  const [tab, setTab] = useState(read);
+// The tool comes from the address (/gas-or-electric/), falling back to the
+// older #/gas links so shared links keep working.
+function readTab() {
+  const byPath = PAGES.find((p) => p.path !== "/" && window.location.pathname.startsWith(p.path.replace(/\/$/, "")));
+  if (byPath) return byPath.id;
+  const id = window.location.hash.replace(/^#\/?/, "");
+  return TOOLS.some((t) => t.id === id) ? id : "when";
+}
+
+function useTab() {
+  const [tab, setTab] = useState(readTab);
   useEffect(() => {
-    const onHash = () => setTab(read());
-    window.addEventListener("hashchange", onHash);
-    return () => window.removeEventListener("hashchange", onHash);
+    const sync = () => setTab(readTab());
+    window.addEventListener("popstate", sync);
+    window.addEventListener("hashchange", sync);
+    return () => {
+      window.removeEventListener("popstate", sync);
+      window.removeEventListener("hashchange", sync);
+    };
   }, []);
-  return tab;
+  // Switch tools without a full reload, keeping a real, shareable address.
+  const go = (id) => (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    e.preventDefault();
+    window.history.pushState(null, "", pageFor(id).path);
+    setTab(id);
+  };
+  return [tab, go];
 }
 
 export default function App() {
   const elec = useElectricity();
-  const tab = useHashTab();
+  const [tab, go] = useTab();
   const tool = TOOLS.find((t) => t.id === tab);
   const theme = useThemePreference();
   const mainRef = useRef(null);
 
   // Tell screen reader users the page changed when they switch tools.
-  useEffect(() => { document.title = tool.id === "when" ? "Cheap Watts: cut the cost of your electricity" : `${tool.title} · Cheap Watts`; }, [tool]);
+  useEffect(() => {
+    const page = pageFor(tool.id);
+    document.title = page.title;
+    document.querySelector('meta[name="description"]')?.setAttribute("content", page.description);
+  }, [tool]);
 
   return (
     <ThemeContext.Provider value={theme.dark}>
@@ -110,7 +131,7 @@ export default function App() {
               return (
                 <li key={t.id} className="shrink-0">
                   <a
-                    href={`#/${t.id}`} aria-current={on ? "page" : undefined}
+                    href={pageFor(t.id).path} onClick={go(t.id)} aria-current={on ? "page" : undefined}
                     className={`flex items-center gap-1.5 px-3 py-2.5 rounded-t-lg text-sm font-semibold whitespace-nowrap ${on ? "bg-cream text-navy" : "text-onbrand/90 hover:text-onbrand hover:bg-onbrand/10"}`}
                   >
                     <Icon size={16} aria-hidden="true" /> {t.label}
@@ -118,6 +139,11 @@ export default function App() {
                 </li>
               );
             })}
+            <li className="shrink-0">
+              <a href="/blog/" className="flex items-center gap-1.5 px-3 py-2.5 rounded-t-lg text-sm font-semibold whitespace-nowrap text-onbrand/90 hover:text-onbrand hover:bg-onbrand/10">
+                <BookOpen size={16} aria-hidden="true" /> Blog
+              </a>
+            </li>
           </ul>
         </nav>
       </header>

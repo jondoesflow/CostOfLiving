@@ -66,7 +66,7 @@ test("should I switch: explains unreadable and daily-only files", async ({ page 
 test("tabs change the page and the address", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("link", { name: "Gas or electric?" }).click();
-  await expect(page).toHaveURL(/#\/gas$/);
+  await expect(page).toHaveURL(/\/gas-or-electric\/$/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Gas or electric?");
   await expect(page.getByRole("link", { name: "Gas or electric?" })).toHaveAttribute("aria-current", "page");
 });
