@@ -146,7 +146,7 @@ export default function SwitchCheck({ elec }) {
                     <div className="min-w-0">
                       <div className="font-semibold text-navy">
                         {r.tariff.label}
-                        {supplier && r.tariff.id !== "standard" && <span className="font-normal text-gray-500"> · {supplier.name}</span>}
+                        {supplier && r.tariff.id !== "standard" && <span className="font-normal text-gray-600"> · {supplier.name}</span>}
                         {r === baseline && <span className="ml-2 text-xs font-semibold text-gray-700 uppercase tracking-wide">Yours<span className="sr-only"> (your current tariff)</span></span>}
                       </div>
                       {ELIGIBILITY[r.tariff.id] && <div className="text-sm text-gray-600">{ELIGIBILITY[r.tariff.id]}</div>}
