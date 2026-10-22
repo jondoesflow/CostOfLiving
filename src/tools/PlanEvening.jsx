@@ -91,8 +91,8 @@ export default function PlanEvening({ elec }) {
   const lastEnd = Math.max(0, ...scheduled.map((p) => p.window.end));
 
   const events = scheduled.map((p) => ({
-    uid: `${p.window.start}-${p.job.id}@whentorunit`, start: p.window.start, end: p.window.end,
-    title: reminderTitle(p.job.name), description: "Planned with whentorunit.netlify.app",
+    uid: `${p.window.start}-${p.job.id}@cheapwatts`, start: p.window.start, end: p.window.end,
+    title: reminderTitle(p.job.name), description: "Planned with Cheap Watts (cheapwatts.co.uk)",
   }));
 
   const summary = !placed ? "" : allSame

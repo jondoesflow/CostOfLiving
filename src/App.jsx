@@ -44,7 +44,7 @@ export default function App() {
   const mainRef = useRef(null);
 
   // Tell screen reader users the page changed when they switch tools.
-  useEffect(() => { document.title = `${tool.title} · When to run it`; }, [tool]);
+  useEffect(() => { document.title = tool.id === "when" ? "Cheap Watts: cut the cost of your electricity" : `${tool.title} · Cheap Watts`; }, [tool]);
 
   return (
     <ThemeContext.Provider value={theme.dark}>
@@ -58,7 +58,7 @@ export default function App() {
       <header className="bg-brand text-onbrand">
         <div className="max-w-[680px] mx-auto px-4 pt-6 pb-6">
           <div className="flex items-center justify-between gap-3">
-            <p className="text-sm uppercase tracking-wider text-onbrand/80 font-semibold flex items-center gap-1.5"><Zap size={16} aria-hidden="true" /> Cost of living tools</p>
+            <p className="text-sm uppercase tracking-wider text-onbrand/80 font-semibold flex items-center gap-1.5"><Zap size={16} aria-hidden="true" /> Cheap Watts</p>
             <label className="flex items-center gap-2 text-sm text-onbrand/90">
               <span>Theme</span>
               <select

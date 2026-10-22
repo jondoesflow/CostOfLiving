@@ -33,7 +33,7 @@ export function icsCalendar(events, { name, refreshHours } = {}) {
   return [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//whentorunit//EN",
+    "PRODID:-//Cheap Watts//EN",
     "CALSCALE:GREGORIAN",
     ...(name ? [`X-WR-CALNAME:${esc(name)}`] : []),
     ...(refreshHours ? [`REFRESH-INTERVAL;VALUE=DURATION:PT${refreshHours}H`, `X-PUBLISHED-TTL:PT${refreshHours}H`] : []),

@@ -59,14 +59,14 @@ export default async (req) => {
   const title = reminderTitle(name);
   const events = windows.map((w) => ({
     // One event per day, so a refresh moves the reminder instead of adding another.
-    uid: `${tariff}-${region}-${name.replace(/\W+/g, "-")}-${new Date(w.start).toISOString().slice(0, 10)}@whentorunit`,
+    uid: `${tariff}-${region}-${name.replace(/\W+/g, "-")}-${new Date(w.start).toISOString().slice(0, 10)}@cheapwatts`,
     start: w.start,
     end: Math.max(w.end, w.start + SLOT_MS),
     title,
-    description: "Cheapest time to run it on your tariff, found by whentorunit.netlify.app. This updates as prices change.",
+    description: "Cheapest time to run it on your tariff, found by Cheap Watts (cheapwatts.co.uk). This updates as prices change.",
   }));
 
-  return new Response(icsCalendar(events, { name: `When to run: ${name}`, refreshHours: 3 }), {
+  return new Response(icsCalendar(events, { name: `Cheap Watts: ${name}`, refreshHours: 3 }), {
     headers: {
       "content-type": "text/calendar; charset=utf-8",
       "cache-control": "public, max-age=900",

@@ -1,7 +1,7 @@
-# When's cheapest to run it?
+# Cheap Watts
 
 Free tools to help UK households spend less on electricity. Live at
-https://whentorunit.netlify.app
+https://cheapwatts.co.uk (sister site to [Cheap Pumps](https://cheappumps.co.uk))
 
 - **When to run**: pick an appliance, get the cheapest (and greenest) time to
   run it, with delay-timer settings and calendar reminders, including a

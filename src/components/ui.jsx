@@ -64,8 +64,9 @@ export function Note({ children, className = "" }) {
 // with the keyboard and screen readers like any other form control.
 export function Choice({ name, type = "radio", on, onChange, title, subtitle, className = "", children }) {
   return (
-    <label className={`choice block cursor-pointer rounded-xl border-2 px-4 py-3 transition-colors ${on ? "border-navy bg-navy/10" : "border-gray-200 hover:border-gray-400"} ${className}`}>
-      <input type={type} name={name} checked={on} onChange={onChange} className="sr-only" />
+    <label className={`choice relative block cursor-pointer rounded-xl border-2 px-4 py-3 transition-colors ${on ? "border-navy bg-navy/10" : "border-gray-200 hover:border-gray-400"} ${className}`}>
+      {/* Invisible, but covers the whole tile so any tap or click lands on the real control. */}
+      <input type={type} name={name} checked={on} onChange={onChange} className="absolute inset-0 w-full h-full m-0 opacity-0 cursor-pointer z-10" />
       {children ?? (
         <>
           <span className="block font-semibold text-navy">{title}</span>

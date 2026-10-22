@@ -72,8 +72,8 @@ function Greenest({ green, cheapest, allSame }) {
 function Reminders({ elec, best, applianceName, kWh, mins }) {
   const [showFeed, setShowFeed] = useState(false);
   const title = reminderTitle(applianceName);
-  const description = `Cheapest time to run it on your tariff, found by whentorunit.netlify.app`;
-  const event = { uid: `${best.start}-${applianceName}@whentorunit`, start: best.start, end: best.end, title, description };
+  const description = `Cheapest time to run it on your tariff, found by Cheap Watts (cheapwatts.co.uk)`;
+  const event = { uid: `${best.start}-${applianceName}@cheapwatts`, start: best.start, end: best.end, title, description };
   const feed = feedUrl({ tariff: elec.tariff, region: elec.region, kWh, mins, name: applianceName, e7: elec.e7 });
   const webcal = feed.replace(/^https?:/, "webcal:");
   return (
