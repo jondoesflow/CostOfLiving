@@ -79,3 +79,12 @@ test("no sideways scrolling on any tool", async ({ page }) => {
     expect(overflow, tab).toBeLessThanOrEqual(0);
   }
 });
+
+test("header has the Ko-fi and creator links", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByRole("link", { name: /click here to support me on Ko-fi/ })).toHaveAttribute("href", "https://ko-fi.com/jondoesflow");
+  const creator = page.getByRole("navigation", { name: "About the creator" });
+  await expect(creator.getByRole("link", { name: /JonDoesFlow/ })).toHaveAttribute("href", "https://www.jondoesflow.com/");
+  await expect(creator.getByRole("link", { name: /Created By/ })).toHaveAttribute("href", "https://www.linkedin.com/in/jondoesflow");
+  await expect(creator.getByRole("link", { name: /GitHub Projects/ })).toHaveAttribute("href", "https://github.com/jondoesflow?tab=repositories");
+});

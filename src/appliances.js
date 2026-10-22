@@ -1,10 +1,10 @@
 // Typical figures for a UK household. Users can edit both numbers, so these
 // only need to be sensible starting points, not exact.
 export const APPLIANCES = [
-  { id: "washer", name: "Washing machine", icon: "WashingMachine", kWh: 0.8, mins: 120, perWeek: 4, note: "40°C cotton wash" },
-  { id: "dryer", name: "Tumble dryer", icon: "Wind", kWh: 4.0, mins: 120, perWeek: 3, note: "Condenser or vented, full load" },
-  { id: "hpdryer", name: "Heat pump dryer", icon: "Fan", kWh: 1.5, mins: 150, perWeek: 3, note: "Full load" },
-  { id: "dishwasher", name: "Dishwasher", icon: "Utensils", kWh: 1.0, mins: 150, perWeek: 5, note: "Eco programme" },
+  { id: "washer", labelHint: true, name: "Washing machine", icon: "WashingMachine", kWh: 0.8, mins: 120, perWeek: 4, note: "40°C cotton wash" },
+  { id: "dryer", labelHint: true, name: "Tumble dryer", icon: "Wind", kWh: 4.0, mins: 120, perWeek: 3, note: "Condenser or vented, full load" },
+  { id: "hpdryer", labelHint: true, name: "Heat pump dryer", icon: "Fan", kWh: 1.5, mins: 150, perWeek: 3, note: "Full load" },
+  { id: "dishwasher", labelHint: true, name: "Dishwasher", icon: "Utensils", kWh: 1.0, mins: 150, perWeek: 5, note: "Eco programme" },
   { id: "oven", name: "Electric oven", icon: "Flame", kWh: 1.5, mins: 60, perWeek: 4, note: "One hour at 200°C" },
   { id: "airfryer", name: "Air fryer", icon: "Soup", kWh: 0.5, mins: 30, perWeek: 4, note: "30 minutes" },
   { id: "slowcooker", name: "Slow cooker", icon: "CookingPot", kWh: 1.3, mins: 480, perWeek: 2, note: "8 hours on low" },

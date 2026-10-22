@@ -28,6 +28,12 @@ function ApplianceStep({ applianceId, pick, kWh, setKWh, mins, setMins, finishBy
               ? <>Typical figures for a {appliance.name.toLowerCase()} ({appliance.note}). Change them if you know yours.</>
               : <>Enter how much electricity it uses and how long it runs. The power rating (in kW) multiplied by the hours gives you the kWh.</>}
           </p>
+          {appliance?.labelHint && (
+            <p className="text-sm text-gray-600 mb-3">
+              For your exact model, check its energy label for a figure in kWh per 100 cycles. Divide it by 100 and enter that below: 49kWh per 100 cycles is 0.49kWh a cycle.
+              {(appliance.id === "dryer" || appliance.id === "hpdryer") && " Older tumble dryer labels show kWh per year instead, based on 160 cycles, so divide that by 160."}
+            </p>
+          )}
           <div className="grid grid-cols-2 gap-3">
             <NumberField label="Electricity used" value={kWh} onChange={setKWh} suffix="kWh" />
             <NumberField label="Run time" value={mins === "" ? "" : Number((mins / 60).toFixed(2))} step="0.25"

@@ -11,17 +11,19 @@ test("finds the cheapest and greenest time on Agile", async ({ page }) => {
   await page.getByRole("radio", { name: /Washing machine/ }).check();
   const result = page.getByRole("region", { name: /result/i });
   await expect(result.getByRole("heading", { name: "Start at midnight tonight" })).toBeVisible();
-  await expect(result).toContainText("Cost then 9.6p");
-  await expect(result).toContainText("If you start it now 16p");
+  await expect(result).toContainText(/Cost then\s*9\.6p/);
+  await expect(result).toContainText(/If you start it now\s*16p/);
   await expect(result).toContainText("Greenest time: 2am tomorrow");
   await expect(result).toContainText("start in 4h 50m");
 });
 
-test("finish-by deadline moves the start earlier or reports no time", async ({ page }) => {
+test("finish-by deadline moves the start earlier", async ({ page }) => {
   await setUp(page);
   await page.getByRole("radio", { name: /Electric car/ }).check();
+  await expect(page.getByRole("heading", { name: "Start at midnight tonight" })).toBeVisible();
+  // 4.5 hours of charging has to start now to be done by midnight.
   await page.getByLabel("Needs to be finished by").selectOption({ label: "midnight tonight" });
-  await expect(page.getByText("There isn't enough time to finish by then")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Start it now" })).toBeVisible();
 });
 
 test("postcode lookup finds the region, and a bad postcode explains itself", async ({ page }) => {
@@ -39,15 +41,16 @@ test("standard tariff says any time costs the same and offers the greenest time"
   await setUp(page, { tariff: /^Standard or fixed/ });
   await page.getByRole("radio", { name: /Dishwasher/ }).check();
   await expect(page.getByRole("heading", { name: "Any time costs the same" })).toBeVisible();
-  await expect(page.getByText(/Each run costs about 26p/)).toBeVisible();
-  await expect(page.getByText(/Greenest time: 2am tomorrow/)).toBeVisible();
+  const result = page.getByRole("region", { name: "Result" });
+  await expect(result).toContainText("Each run costs about 26p");
+  await expect(result).toContainText("Greenest time: 2am tomorrow");
 });
 
 test("EDF and E.ON Next tariffs use the newest product version", async ({ page }) => {
   await setUp(page, { supplier: "edf", tariff: /^GoElectric/ });
   await page.getByRole("radio", { name: /Dishwasher/ }).check();
   await expect(page.getByRole("heading", { name: "Start at 11pm tonight" })).toBeVisible();
-  await expect(page.getByText("Cost then 6.7p")).toBeVisible();
+  await expect(page.getByRole("region", { name: "Result" })).toContainText(/Cost then\s*6\.7p/);
   await page.getByLabel("Who supplies your electricity?").selectOption("eon");
   await page.getByRole("radio", { name: /^Next Drive Smart/ }).check();
   await expect(page.getByRole("heading", { name: "Start at midnight tonight" })).toBeVisible();

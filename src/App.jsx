@@ -22,6 +22,12 @@ const TOOLS = [
     intro: "Use your own half-hourly usage to see what you'd have paid on each tariff." },
 ];
 
+const CREATOR_LINKS = [
+  { label: "JonDoesFlow", href: "https://www.jondoesflow.com/" },
+  { label: "Created By", href: "https://www.linkedin.com/in/jondoesflow" },
+  { label: "GitHub Projects", href: "https://github.com/jondoesflow?tab=repositories" },
+];
+
 function useHashTab() {
   const read = () => {
     const id = window.location.hash.replace(/^#\/?/, "");
@@ -56,6 +62,28 @@ export default function App() {
         Skip to content
       </a>
       <header className="bg-brand text-onbrand">
+        <div className="bg-black/25 text-sm">
+          <div className="max-w-[680px] mx-auto px-4 py-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 sm:gap-4">
+            <p className="text-onbrand/90">
+              This website is free to use. If you wish to make a contribution to my next project, please{" "}
+              <a href="https://ko-fi.com/jondoesflow" target="_blank" rel="noopener noreferrer" className="font-semibold underline underline-offset-2 text-onbrand hover:no-underline">
+                click here<span className="sr-only"> to support me on Ko-fi (opens in a new tab)</span>
+              </a>.
+            </p>
+            <nav aria-label="About the creator" className="shrink-0">
+              <ul className="flex items-center gap-2 text-onbrand/90">
+                {CREATOR_LINKS.map((l, i) => (
+                  <li key={l.href} className="flex items-center gap-2">
+                    {i > 0 && <span aria-hidden="true" className="text-onbrand/60">|</span>}
+                    <a href={l.href} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:underline whitespace-nowrap">
+                      {l.label}<span className="sr-only"> (opens in a new tab)</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        </div>
         <div className="max-w-[680px] mx-auto px-4 pt-6 pb-6">
           <div className="flex items-center justify-between gap-3">
             <p className="text-sm uppercase tracking-wider text-onbrand/80 font-semibold flex items-center gap-1.5"><Zap size={16} aria-hidden="true" /> Cheap Watts</p>

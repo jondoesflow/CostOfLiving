@@ -62,7 +62,13 @@ export function bestWindows(slots, kWh, mins, finishBy) {
     now: all[0],
     worst: sorted[sorted.length - 1],
     alternatives,
-    allSame: sorted[sorted.length - 1].cost - best.cost < 0.05,
+    // Whether the tariff itself is flat: judged on every start time, not just
+    // the ones a deadline leaves, which can happen to cost the same.
+    allSame: (() => {
+      const every = finishBy ? windowCosts(slots, kWh, mins) : all;
+      const costs = every.map((w) => w.cost);
+      return Math.max(...costs) - Math.min(...costs) < 0.05;
+    })(),
   };
 }
 
