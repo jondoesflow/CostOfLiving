@@ -4,7 +4,6 @@ description: A heated airer costs a fraction of a tumble dryer per load, but it'
 date: 2026-10-22
 keywords: heated airer vs tumble dryer, heated airer running cost, cost to run tumble dryer uk, heat pump dryer running cost, cheapest way to dry clothes indoors, dehumidifier for drying clothes
 tool: gas
-draft: true
 ---
 
 Every autumn the same question comes round. The washing line's out of action until spring, the radiators are covered in damp socks, and the tumble dryer is sitting there looking expensive.

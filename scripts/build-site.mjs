@@ -2,6 +2,7 @@
 //   - a page per tool (/gas-or-electric/ ...) with its own title and description
 //   - the blog: /blog/, /blog/<slug>/ from content/blog/*.md, and /blog/feed.xml
 //   - sitemap.xml, robots.txt and 404.html
+// Posts are files named YYYY-MM-DD-slug.md (README.md and TOPICS.md are not).
 // Posts with `draft: true` are left out unless BLOG_DRAFTS=1 (for previewing).
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -76,7 +77,7 @@ function parsePost(file) {
   };
 }
 
-const posts = (existsSync(postsDir) ? readdirSync(postsDir).filter((f) => f.endsWith(".md")) : [])
+const posts = (existsSync(postsDir) ? readdirSync(postsDir).filter((f) => /^\d{4}-\d{2}-\d{2}-.+\.md$/.test(f)) : [])
   .map(parsePost)
   .filter((p) => showDrafts || !p.draft)
   .sort((a, b) => b.date.localeCompare(a.date) || a.title.localeCompare(b.title));

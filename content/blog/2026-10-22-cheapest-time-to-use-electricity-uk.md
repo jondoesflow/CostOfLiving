@@ -4,7 +4,6 @@ description: On a standard tariff the price is the same all day. On time-of-use 
 date: 2026-10-22
 keywords: cheapest time to use electricity uk, off peak electricity times, economy 7 times, octopus go times, agile octopus cheapest time, when is electricity cheapest
 tool: when
-draft: true
 ---
 
 Short answer first, because you came here for one: **it depends entirely on your tariff.**
