@@ -1,845 +1,600 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
-  LineChart, Line, BarChart, Bar,
-  XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine,
-  ResponsiveContainer, Cell
+  BarChart, Bar, XAxis, YAxis, Tooltip, ReferenceLine, ResponsiveContainer, Cell, CartesianGrid,
 } from "recharts";
 import {
-  ShoppingCart, Zap, Home, Phone, Baby, CreditCard,
-  ChevronDown, ChevronRight, ExternalLink, CheckCircle,
-  AlertCircle, Info, ArrowRight, Users, Bus
+  WashingMachine, Wind, Fan, Utensils, Flame, Soup, CookingPot, Droplets, Heater, AirVent, Bike, Car,
+  SlidersHorizontal, Clock, Timer, PiggyBank, MapPin, AlertCircle, Info, ExternalLink, Zap,
 } from "lucide-react";
-import {
-  AVG_WEEKLY_SPEND, AVG_WEEKLY_HOUSING, ENERGY_BILLS_ANNUAL,
-  BOE_BASE_RATE, INCOME_PRESSURE_PERCENTILE,
-  FALLBACK_FOOD_INFLATION, FALLBACK_RENTAL,
-  getRelevantSupport, getRelevantActions, getQuickWins
-} from "./data/staticData";
-import {
-  fetchFoodInflation, fetchRentalIndex, fetchEarningsGrowth, lookupPostcode
-} from "./api/fetchLiveData";
+import { APPLIANCES, REGIONS } from "./appliances";
+import { TARIFFS, loadSlots, standardRate, regionFromPostcode, economy7Slots, currentSlotStart, ukMinutes, SLOT_MS } from "./octopus";
+import { bestWindows } from "./optimise";
 
-const ICON_MAP = { ShoppingCart, Zap, Home, Phone, Baby, CreditCard, Bus };
+const ICONS = { WashingMachine, Wind, Fan, Utensils, Flame, Soup, CookingPot, Droplets, Heater, AirVent, Bike, Car, SlidersHorizontal };
 
-function calculatePressureScore(profile) {
-  let score = 30;
-  const ip = { "Under £1,000":40,"£1,000–£1,750":28,"£1,750–£2,500":16,"£2,500–£3,500":8,"Over £3,500":0,"Prefer not to say":15 };
-  score += ip[profile.incomeBand] ?? 15;
-  if (profile.tenure === "Renting privately") score += 15;
-  if (profile.tenure === "Own with a mortgage") score += 10;
-  score += profile.children * 5;
-  return Math.min(score, 95);
+const NAVY = "#1d3461";
+const RELIEF = "#2d6a4f";
+const MUTED_BAR = "#c9d1dc";
+
+const DEFAULT_E7 = { nightStart: "00:30", nightEnd: "07:30", dayRate: 30, nightRate: 15 };
+
+// ---------- storage (per-viewer convenience only) ----------
+function loadSaved(key, fallback) {
+  try {
+    const v = localStorage.getItem(`whenToRun.${key}`);
+    return v ? JSON.parse(v) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+function save(key, value) {
+  try { localStorage.setItem(`whenToRun.${key}`, JSON.stringify(value)); } catch { /* ignore */ }
+}
+function useSaved(key, fallback) {
+  const [value, setValue] = useState(() => loadSaved(key, fallback));
+  useEffect(() => save(key, value), [key, value]);
+  return [value, setValue];
 }
 
-function getPressureLabel(s) {
-  if (s <= 30) return "Lower pressure";
-  if (s <= 50) return "Moderate pressure";
-  if (s <= 70) return "Significant pressure";
-  return "High pressure";
+// ---------- formatting ----------
+const ukDate = (t) => new Date(t).toLocaleDateString("en-GB", { timeZone: "Europe/London" });
+
+function timeLabel(t) {
+  const m = ukMinutes(t);
+  if (m === 0) return "midnight";
+  if (m === 720) return "midday";
+  return new Date(t)
+    .toLocaleTimeString("en-GB", { timeZone: "Europe/London", hour: "numeric", minute: "2-digit", hour12: true })
+    .replace(":00", "")
+    .replace(" ", "");
 }
 
-function getPressureColor(s) {
-  if (s <= 30) return "#2d6a4f";
-  if (s <= 50) return "#e8703a";
-  return "#c8500a";
+function dayWord(t) {
+  const now = Date.now();
+  if (ukDate(t) === ukDate(now)) return "today";
+  if (ukDate(t) === ukDate(now + 24 * 3600 * 1000)) return "tomorrow";
+  return new Date(t).toLocaleDateString("en-GB", { timeZone: "Europe/London", weekday: "long" });
 }
 
-function buildHouseholdLabel(p) {
-  const a = p.adults === 1 ? "a single adult" : `${p.adults} adults`;
-  const k = p.children === 0 ? "" : p.children === 1 ? " with 1 child" : ` with ${p.children} children`;
-  const l = p.region ? ` in ${p.region}` : "";
-  return `${a}${k}${l}`;
+function whenLabel(t) {
+  const day = dayWord(t);
+  const time = timeLabel(t);
+  const hour = Number(new Date(t).toLocaleTimeString("en-GB", { timeZone: "Europe/London", hour: "2-digit", hourCycle: "h23" }));
+  if (day === "today" && hour >= 18) return `${time} tonight`;
+  return `${time} ${day}`;
 }
 
-function getSpendKey(p) { return `${Math.min(p.adults,3)}_${Math.min(p.children,3)}`; }
-
-function getComparisonPct(p) {
-  let pct = INCOME_PRESSURE_PERCENTILE[p.incomeBand] ?? 50;
-  if (p.children > 0) pct = Math.min(pct + 8, 95);
-  if (p.tenure === "Renting privately") pct = Math.min(pct + 5, 95);
-  return pct;
+function money(pence) {
+  const abs = Math.abs(pence);
+  const s = abs >= 100 ? `£${(abs / 100).toFixed(2)}` : abs < 10 ? `${abs.toFixed(1)}p` : `${Math.round(abs)}p`;
+  return pence < 0 ? `-${s}` : s;
 }
 
-function getPressureBullets(p) {
-  const b = [];
-  if (["Under £1,000","£1,000–£1,750","£1,750–£2,500"].includes(p.incomeBand))
-    b.push("Your household is in the income band most affected by food and energy price rises.");
-  if (p.tenure === "Renting privately")
-    b.push("Private renters have seen average rents rise 9.2% in the past year — the fastest increase since records began.");
-  if (p.tenure === "Own with a mortgage")
-    b.push("Mortgage holders refinancing today face rates around 3.75% — still well above the under 2% available in 2021.");
-  if (p.children > 0)
-    b.push(`Households with children spend an estimated £${(p.children*47)} more per week on food than those without.`);
-  if (p.worries.includes("Energy bills (gas/electric)"))
-    b.push("Average household energy bills are still 54% higher than they were in 2019, even after falling from the 2022 peak.");
-  if (b.length === 0)
-    b.push("Cost of living pressures affect households differently depending on income, housing, and family size.");
-  return b.slice(0, 3);
+function duration(ms) {
+  const mins = Math.max(0, Math.round(ms / 60000 / 5) * 5);
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  if (h === 0) return `${m} min`;
+  return m ? `${h}h ${m}m` : `${h} hour${h > 1 ? "s" : ""}`;
 }
 
-const fmt = (v) => `£${Number(v).toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-const fmtPct = (v) => `${Number(v).toFixed(1)}%`;
-
-// ============================================================
-// SETUP PHASE COMPONENTS
-// ============================================================
-
-function ProgressDots({ step }) {
+// ---------- small UI pieces ----------
+function Card({ children, className = "" }) {
   return (
-    <div className="flex justify-center gap-3 mb-8">
-      {[1, 2, 3].map((s) => (
-        <div key={s} className={`w-3 h-3 rounded-full transition-all ${s === step ? "bg-navy scale-110" : s < step ? "bg-relief" : "bg-gray-300"}`} />
-      ))}
-    </div>
+    <section className={`bg-white rounded-2xl p-5 sm:p-6 ${className}`} style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}>
+      {children}
+    </section>
   );
 }
 
-function SetupStep1({ profile, onChange }) {
+function StepTitle({ n, children }) {
   return (
-    <div className="space-y-6 animate-fade-in-up">
-      <p className="text-gray-600 text-lg">Tell us a bit about your household so we can personalise the numbers.</p>
-
-      <div>
-        <label className="block font-semibold text-gray-700 mb-1">Postcode <span className="text-gray-400 font-normal text-sm">(optional — used for regional context only)</span></label>
-        <input type="text" placeholder="e.g. SW1A 1AA" value={profile.postcode}
-          onChange={(e) => onChange({ postcode: e.target.value.toUpperCase() })}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:border-navy focus:ring-1 focus:ring-navy" />
-      </div>
-
-      <div>
-        <label className="block font-semibold text-gray-700 mb-2">Number of adults in your household</label>
-        <div className="flex gap-3">
-          {[1, 2, 3].map((n) => (
-            <button key={n} onClick={() => onChange({ adults: n })}
-              className={`flex-1 py-3 rounded-lg font-semibold text-base transition-all ${profile.adults === n ? "bg-navy text-white" : "bg-white border border-gray-300 text-gray-700 hover:border-navy"}`}>
-              {n === 3 ? "3+" : n}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <label className="block font-semibold text-gray-700 mb-2">Do you have children living at home?</label>
-        <div className="grid grid-cols-2 gap-3">
-          {[{ label: "No", val: 0 }, { label: "Yes — 1 child", val: 1 }, { label: "Yes — 2 children", val: 2 }, { label: "Yes — 3 or more", val: 3 }].map((o) => (
-            <button key={o.val} onClick={() => onChange({ children: o.val })}
-              className={`py-3 px-4 rounded-lg text-sm font-medium transition-all ${profile.children === o.val ? "bg-navy text-white" : "bg-white border border-gray-300 text-gray-700 hover:border-navy"}`}>
-              {o.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <label className="block font-semibold text-gray-700 mb-2">What best describes your housing situation?</label>
-        <div className="grid grid-cols-1 gap-2">
-          {["Renting privately","Renting from council or housing association","Own with a mortgage","Own outright","Living with family","Other"].map((t) => (
-            <button key={t} onClick={() => onChange({ tenure: t })}
-              className={`py-3 px-4 rounded-lg text-sm font-medium text-left transition-all ${profile.tenure === t ? "bg-navy text-white" : "bg-white border border-gray-300 text-gray-700 hover:border-navy"}`}>
-              {t}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
+    <h2 className="text-xl font-semibold mb-4 flex items-center gap-3">
+      <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-navy text-white text-sm font-body">{n}</span>
+      {children}
+    </h2>
   );
 }
 
-function SetupStep2({ profile, onChange }) {
-  const benefits = ["Universal Credit","Child Benefit","Housing Benefit","Pension Credit","Other benefits","No, I don't receive benefits"];
+function NumberField({ label, value, onChange, step = "0.1", min = "0", suffix }) {
   return (
-    <div className="space-y-6 animate-fade-in-up">
-      <p className="text-gray-600 text-lg">We don't need exact figures. Rough ranges help us show you the most relevant information and support.</p>
-
-      <div>
-        <label className="block font-semibold text-gray-700 mb-2">Approximate combined household income (after tax, per month)</label>
-        <div className="grid grid-cols-1 gap-2">
-          {["Under £1,000","£1,000–£1,750","£1,750–£2,500","£2,500–£3,500","Over £3,500","Prefer not to say"].map((b) => (
-            <button key={b} onClick={() => onChange({ incomeBand: b })}
-              className={`py-3 px-4 rounded-lg text-sm font-medium text-left transition-all ${profile.incomeBand === b ? "bg-navy text-white" : "bg-white border border-gray-300 text-gray-700 hover:border-navy"}`}>
-              {b}
-            </button>
-          ))}
-        </div>
+    <label className="block">
+      <span className="text-sm text-gray-600">{label}</span>
+      <div className="mt-1 flex items-center border border-gray-300 rounded-lg focus-within:border-navy bg-white">
+        <input
+          type="number" inputMode="decimal" step={step} min={min} value={value}
+          onChange={(e) => onChange(e.target.value === "" ? "" : Number(e.target.value))}
+          className="w-full px-3 py-2 rounded-lg outline-none tabular-nums bg-transparent"
+        />
+        {suffix && <span className="pr-3 text-gray-500 text-sm whitespace-nowrap">{suffix}</span>}
       </div>
-
-      <div>
-        <label className="block font-semibold text-gray-700 mb-2">Are you currently receiving any benefits?</label>
-        <div className="grid grid-cols-1 gap-2">
-          {benefits.map((b) => {
-            const checked = profile.benefits.includes(b);
-            return (
-              <button key={b} onClick={() => {
-                if (b === "No, I don't receive benefits") { onChange({ benefits: [b] }); return; }
-                const next = checked ? profile.benefits.filter((x) => x !== b) : [...profile.benefits.filter((x) => x !== "No, I don't receive benefits"), b];
-                onChange({ benefits: next });
-              }}
-                className={`py-3 px-4 rounded-lg text-sm font-medium text-left transition-all flex items-center gap-2 ${checked ? "bg-navy text-white" : "bg-white border border-gray-300 text-gray-700 hover:border-navy"}`}>
-                <span className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${checked ? "border-white bg-white" : "border-gray-400"}`}>
-                  {checked && <CheckCircle size={14} className="text-navy" />}
-                </span>
-                {b}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      <div>
-        <label className="block font-semibold text-gray-700 mb-2">Employment status</label>
-        <div className="grid grid-cols-2 gap-2">
-          {["Employed full-time","Employed part-time","Self-employed","Unemployed","Retired","Full-time carer","Student"].map((s) => (
-            <button key={s} onClick={() => onChange({ employmentStatus: s })}
-              className={`py-3 px-4 rounded-lg text-sm font-medium text-left transition-all ${profile.employmentStatus === s ? "bg-navy text-white" : "bg-white border border-gray-300 text-gray-700 hover:border-navy"}`}>
-              {s}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
+    </label>
   );
 }
 
-function SetupStep3({ profile, onChange }) {
-  const worries = ["Food and grocery costs","Energy bills (gas/electric)","Rent or mortgage payments","Childcare costs","Transport / getting to work","Debt and credit repayments","I'm managing fine, just curious"];
+// ---------- step 1: tariff and region ----------
+function TariffStep({ tariff, setTariff, region, setRegion, e7, setE7, flatOverride, setFlatOverride, apiFlatRate }) {
+  const [postcode, setPostcode] = useState("");
+  const [lookup, setLookup] = useState({ state: "idle" });
+
+  async function findRegion(e) {
+    e.preventDefault();
+    if (!postcode.trim()) return;
+    setLookup({ state: "loading" });
+    try {
+      const code = await regionFromPostcode(postcode);
+      if (!code) throw new Error();
+      setRegion(code);
+      setLookup({ state: "done", name: REGIONS.find((r) => r.code === code)?.name });
+    } catch {
+      setLookup({ state: "error" });
+    }
+  }
+
+  const needsRegion = tariff !== "e7";
+
   return (
-    <div className="space-y-6 animate-fade-in-up">
-      <p className="text-gray-600 text-lg">What's feeling most squeezed right now? Select all that apply.</p>
-      <div className="grid grid-cols-1 gap-2">
-        {worries.map((w) => {
-          const checked = profile.worries.includes(w);
+    <Card>
+      <StepTitle n={1}>Your electricity</StepTitle>
+      <p className="text-sm text-gray-600 mb-3">Which tariff are you on? It's on your bill or in your supplier's app.</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2" role="radiogroup" aria-label="Tariff">
+        {TARIFFS.map((t) => {
+          const on = t.id === tariff;
           return (
-            <button key={w} onClick={() => {
-              if (w === "I'm managing fine, just curious") { onChange({ worries: [w] }); return; }
-              const next = checked ? profile.worries.filter((x) => x !== w) : [...profile.worries.filter((x) => x !== "I'm managing fine, just curious"), w];
-              onChange({ worries: next });
-            }}
-              className={`py-3 px-4 rounded-lg text-sm font-medium text-left transition-all flex items-center gap-2 ${checked ? "bg-navy text-white" : "bg-white border border-gray-300 text-gray-700 hover:border-navy"}`}>
-              <span className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${checked ? "border-white bg-white" : "border-gray-400"}`}>
-                {checked && <CheckCircle size={14} className="text-navy" />}
-              </span>
-              {w}
+            <button
+              key={t.id} type="button" role="radio" aria-checked={on} onClick={() => setTariff(t.id)}
+              className={`text-left rounded-xl border-2 px-4 py-3 transition-colors ${on ? "border-navy bg-navy/5" : "border-gray-200 hover:border-gray-300"}`}
+            >
+              <div className="font-semibold text-navy">{t.label}</div>
+              <div className="text-sm text-gray-600">{t.blurb}</div>
             </button>
           );
         })}
       </div>
-    </div>
-  );
-}
 
-// ============================================================
-// RESULTS PHASE COMPONENTS
-// ============================================================
-
-function PressureGauge({ score }) {
-  const color = getPressureColor(score);
-  const label = getPressureLabel(score);
-  return (
-    <div className="mb-6">
-      <div className="flex justify-between text-sm text-gray-500 mb-1">
-        <span>Lower pressure</span><span>Higher pressure</span>
-      </div>
-      <div className="w-full h-5 bg-gray-200 rounded-full overflow-hidden" role="progressbar" aria-label={`Pressure score: ${score} out of 100`} aria-valuenow={score} aria-valuemin={0} aria-valuemax={100}>
-        <div className="h-full rounded-full transition-all duration-1000 ease-out" style={{ width: `${score}%`, background: `linear-gradient(90deg, #2d6a4f, ${color})` }} />
-      </div>
-      <div className="mt-2 text-center">
-        <span className="font-heading text-2xl font-bold" style={{ color }}>{score}</span>
-        <span className="text-gray-500 text-sm ml-2">/ 100 — {label}</span>
-      </div>
-    </div>
-  );
-}
-
-function BillCompareRow({ icon: IconName, label, avgAmount, comparison, onCompare }) {
-  const Icon = typeof IconName === "string" ? ICON_MAP[IconName] || Info : IconName;
-  return (
-    <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-      <div className="flex items-center gap-3 mb-3">
-        <div className="w-10 h-10 rounded-lg bg-cream flex items-center justify-center"><Icon size={20} className="text-navy" /></div>
-        <div className="flex-1"><span className="font-semibold text-gray-800">{label}</span></div>
-        <span className="font-heading text-lg font-bold text-navy tabular-nums">{fmt(avgAmount)}<span className="text-xs text-gray-500 font-body">/wk</span></span>
-      </div>
-      <div>
-        <p className="text-xs text-gray-500 mb-2">How does your spending compare to the UK average for households like yours?</p>
-        <div className="flex gap-2">
-          {["Less", "About the same", "More"].map((opt) => (
-            <button key={opt} onClick={() => onCompare(opt)}
-              className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all ${comparison === opt ? (opt === "More" ? "bg-warning text-white" : opt === "Less" ? "bg-relief text-white" : "bg-navy text-white") : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>
-              {opt}
-            </button>
-          ))}
-        </div>
-        {comparison === "More" && (
-          <div className="mt-3 bg-orange-50 border border-orange-200 rounded-lg p-3 text-sm text-orange-800 flex gap-2">
-            <AlertCircle size={16} className="flex-shrink-0 mt-0.5" />
-            <span>You might be spending more than typical. Scroll down for tips that could help reduce this cost.</span>
+      {needsRegion && (
+        <div className="mt-5">
+          <p className="text-sm text-gray-600 mb-2">Prices depend on where you live.</p>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <select
+              value={region || ""} onChange={(e) => { setRegion(e.target.value); setLookup({ state: "idle" }); }}
+              className="flex-1 border border-gray-300 rounded-lg px-3 py-2 bg-white" aria-label="Region"
+            >
+              <option value="" disabled>Choose your region…</option>
+              {REGIONS.map((r) => <option key={r.code} value={r.code}>{r.name}</option>)}
+            </select>
+            <form onSubmit={findRegion} className="flex gap-2 flex-1">
+              <input
+                value={postcode} onChange={(e) => setPostcode(e.target.value)} placeholder="or enter postcode"
+                aria-label="Postcode" autoComplete="postal-code"
+                className="flex-1 min-w-0 border border-gray-300 rounded-lg px-3 py-2 uppercase placeholder:normal-case"
+              />
+              <button type="submit" className="px-3 py-2 rounded-lg bg-navy text-white text-sm font-semibold flex items-center gap-1 whitespace-nowrap">
+                <MapPin size={16} /> Find
+              </button>
+            </form>
           </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function DotGrid({ highlightPct }) {
-  const total = 100;
-  const highlighted = Math.round(highlightPct);
-  return (
-    <div className="flex flex-wrap gap-1.5 justify-center max-w-xs mx-auto" role="img" aria-label={`${highlighted} out of 100 households under greater pressure`}>
-      {Array.from({ length: total }, (_, i) => (
-        <div key={i} className={`w-3 h-3 rounded-sm transition-all ${i < highlighted ? "bg-accent" : "bg-gray-200"}`} />
-      ))}
-    </div>
-  );
-}
-
-function SupportCard({ item }) {
-  return (
-    <div className={`bg-white rounded-xl p-5 shadow-sm border-l-4 ${item.highlight ? "border-relief bg-green-50" : "border-relief"}`}>
-      <h4 className="font-heading text-lg font-bold text-navy mb-1">{item.title}</h4>
-      <p className="text-gray-600 text-sm mb-2">{item.description}</p>
-      <p className="text-sm text-gray-700 mb-3"><strong>You may be eligible if:</strong> {item.eligibility}</p>
-      <div className="flex items-center justify-between">
-        <a href={item.url} target="_blank" rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 bg-navy text-white text-sm font-semibold px-4 py-2.5 rounded-lg hover:bg-opacity-90 transition-all min-h-[44px]">
-          Check if you qualify <ExternalLink size={14} />
-        </a>
-        <span className="text-xs text-gray-400">Shown because: {item.reason}</span>
-      </div>
-    </div>
-  );
-}
-
-function ActionAccordion({ action, expanded, onToggle }) {
-  const Icon = ICON_MAP[action.icon] || Info;
-  return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <button onClick={onToggle} className="w-full flex items-center gap-3 p-4 text-left min-h-[44px]" aria-expanded={expanded}>
-        <div className="w-10 h-10 rounded-lg bg-cream flex items-center justify-center flex-shrink-0"><Icon size={20} className="text-navy" /></div>
-        <div className="flex-1">
-          <span className="font-semibold text-gray-800 text-sm block">{action.title}</span>
-          {action.savingsPerMonth ? (
-            <span className="text-xs font-semibold text-relief">Save ~£{action.savingsPerMonth}/month</span>
-          ) : action.savingsNote ? (
-            <span className="text-xs font-semibold text-relief">{action.savingsNote}</span>
-          ) : null}
+          {lookup.state === "loading" && <p className="text-sm text-gray-500 mt-2">Looking up your region…</p>}
+          {lookup.state === "done" && <p className="text-sm text-relief mt-2">Found it: {lookup.name}.</p>}
+          {lookup.state === "error" && <p className="text-sm text-warning mt-2">We couldn't find that postcode. Pick your region from the list instead.</p>}
+          <p className="text-xs text-gray-500 mt-2">Your postcode is only used to find your region. It isn't stored.</p>
         </div>
-        {action.timeToAct && <span className="text-xs text-gray-400 mr-2">{action.timeToAct}</span>}
-        {expanded ? <ChevronDown size={18} className="text-gray-400" /> : <ChevronRight size={18} className="text-gray-400" />}
-      </button>
-      {expanded && (
-        <div className="px-4 pb-4 animate-fade-in-up">
-          <p className="text-sm text-gray-600 mb-3 pl-[52px]">{action.detail}</p>
-          {action.link && (
-            <a href={action.link} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 bg-navy text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-opacity-90 transition-all ml-[52px]">
-              Do this now <ExternalLink size={12} />
-            </a>
+      )}
+
+      {tariff === "e7" && (
+        <div className="mt-5">
+          <p className="text-sm text-gray-600 mb-3">Economy 7 night hours vary by meter. Check your bill and adjust these if yours are different.</p>
+          <div className="grid grid-cols-2 gap-3">
+            <label className="block">
+              <span className="text-sm text-gray-600">Night rate starts</span>
+              <input type="time" value={e7.nightStart} onChange={(e) => setE7({ ...e7, nightStart: e.target.value })}
+                className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2" />
+            </label>
+            <label className="block">
+              <span className="text-sm text-gray-600">Night rate ends</span>
+              <input type="time" value={e7.nightEnd} onChange={(e) => setE7({ ...e7, nightEnd: e.target.value })}
+                className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2" />
+            </label>
+            <NumberField label="Day rate" value={e7.dayRate} onChange={(v) => setE7({ ...e7, dayRate: v })} suffix="p/kWh" />
+            <NumberField label="Night rate" value={e7.nightRate} onChange={(v) => setE7({ ...e7, nightRate: v })} suffix="p/kWh" />
+          </div>
+        </div>
+      )}
+
+      {tariff === "flat" && region && (
+        <div className="mt-5 max-w-xs">
+          <NumberField
+            label="Your unit rate (from your bill)" value={flatOverride ?? (apiFlatRate ? Number(apiFlatRate.toFixed(2)) : "")}
+            onChange={setFlatOverride} suffix="p/kWh"
+          />
+          {apiFlatRate && (
+            <p className="text-xs text-gray-500 mt-1">
+              We've filled in the typical standard rate for your region ({apiFlatRate.toFixed(1)}p).
+              {flatOverride != null && <> <button type="button" className="underline" onClick={() => setFlatOverride(null)}>Reset</button></>}
+            </p>
           )}
         </div>
       )}
-    </div>
+    </Card>
   );
 }
 
-function LoadingSkeleton() {
-  return <div className="w-full h-64 loading-shimmer rounded-xl" />;
-}
-
-function DataNote({ live, source }) {
+// ---------- step 2: appliance ----------
+function ApplianceStep({ applianceId, pick, kWh, setKWh, mins, setMins, finishBy, setFinishBy, finishOptions }) {
+  const appliance = APPLIANCES.find((a) => a.id === applianceId);
   return (
-    <p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
-      <Info size={10} />
-      {live ? `Source: ${source}` : `Using published figures (live data unavailable). Source: ${source}`}
-    </p>
-  );
-}
-
-// ============================================================
-// CHART TOOLTIP
-// ============================================================
-
-function CustomTooltip({ active, payload, label }) {
-  if (!active || !payload?.length) return null;
-  return (
-    <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 text-sm">
-      <p className="font-semibold text-gray-800 mb-1">{label}</p>
-      {payload.map((p, i) => (
-        <p key={i} style={{ color: p.color }} className="tabular-nums">{p.name}: {typeof p.value === "number" ? (p.dataKey === "bill" ? fmt(p.value) : fmtPct(p.value)) : p.value}</p>
-      ))}
-    </div>
-  );
-}
-
-// ============================================================
-// MAIN APP COMPONENT
-// ============================================================
-
-export default function App() {
-  const [phase, setPhase] = useState("setup");
-  const [step, setStep] = useState(1);
-  const [profile, setProfile] = useState({
-    postcode: "", region: "", adults: 1, children: 0,
-    tenure: "", incomeBand: "", benefits: [],
-    employmentStatus: "", worries: [],
-  });
-
-  // Live data state
-  const [foodInflation, setFoodInflation] = useState(null);
-  const [rentalData, setRentalData] = useState(null);
-  const [earningsData, setEarningsData] = useState(null);
-  const [apiStatus, setApiStatus] = useState({ food: "idle", rental: "idle", earnings: "idle" });
-  const [billComparisons, setBillComparisons] = useState({});
-  const [expandedAction, setExpandedAction] = useState(null);
-  const [postcodeLoading, setPostcodeLoading] = useState(false);
-  const [postcodeError, setPostcodeError] = useState("");
-
-  const updateProfile = useCallback((partial) => {
-    setProfile((prev) => ({ ...prev, ...partial }));
-  }, []);
-
-  // Postcode lookup on blur
-  const handlePostcodeLookup = useCallback(async () => {
-    if (!profile.postcode || profile.postcode.length < 5) return;
-    setPostcodeLoading(true);
-    setPostcodeError("");
-    try {
-      const result = await lookupPostcode(profile.postcode);
-      if (result) {
-        setProfile((prev) => ({ ...prev, region: result.region }));
-      } else {
-        setPostcodeError("We couldn't find that postcode. You can skip this — it's optional.");
-      }
-    } catch {
-      setPostcodeError("Couldn't look up postcode right now. You can skip this.");
-    }
-    setPostcodeLoading(false);
-  }, [profile.postcode]);
-
-  // Fetch live data when entering results
-  useEffect(() => {
-    if (phase !== "results") return;
-
-    const loadFood = async () => {
-      setApiStatus((s) => ({ ...s, food: "loading" }));
-      try {
-        const data = await fetchFoodInflation();
-        if (data.length > 0) { setFoodInflation(data); setApiStatus((s) => ({ ...s, food: "ok" })); }
-        else { setFoodInflation(FALLBACK_FOOD_INFLATION); setApiStatus((s) => ({ ...s, food: "fallback" })); }
-      } catch { setFoodInflation(FALLBACK_FOOD_INFLATION); setApiStatus((s) => ({ ...s, food: "fallback" })); }
-    };
-
-    const loadRental = async () => {
-      if (!["Renting privately"].includes(profile.tenure)) return;
-      setApiStatus((s) => ({ ...s, rental: "loading" }));
-      try {
-        const data = await fetchRentalIndex();
-        if (data.length > 0) { setRentalData(data); setApiStatus((s) => ({ ...s, rental: "ok" })); }
-        else { setRentalData(FALLBACK_RENTAL); setApiStatus((s) => ({ ...s, rental: "fallback" })); }
-      } catch { setRentalData(FALLBACK_RENTAL); setApiStatus((s) => ({ ...s, rental: "fallback" })); }
-    };
-
-    const loadEarnings = async () => {
-      setApiStatus((s) => ({ ...s, earnings: "loading" }));
-      try {
-        const data = await fetchEarningsGrowth();
-        if (data.length > 0) { setEarningsData(data); setApiStatus((s) => ({ ...s, earnings: "ok" })); }
-        else { setApiStatus((s) => ({ ...s, earnings: "fallback" })); }
-      } catch { setApiStatus((s) => ({ ...s, earnings: "fallback" })); }
-    };
-
-    loadFood();
-    loadRental();
-    loadEarnings();
-  }, [phase, profile.tenure]);
-
-  const pressureScore = calculatePressureScore(profile);
-  const bullets = getPressureBullets(profile);
-  const support = getRelevantSupport(profile);
-  const actions = getRelevantActions(profile);
-  const quickWins = getQuickWins(profile);
-  const spendKey = getSpendKey(profile);
-  const spendData = AVG_WEEKLY_SPEND[spendKey] || AVG_WEEKLY_SPEND["2_0"];
-  const housingCost = AVG_WEEKLY_HOUSING[profile.tenure] || 0;
-  const totalWeekly = spendData.food + spendData.energy + spendData.transport + spendData.comms + housingCost;
-  const compPct = getComparisonPct(profile);
-  const showFood = profile.worries.includes("Food and grocery costs") || profile.worries.length === 0 || profile.worries.includes("I'm managing fine, just curious");
-  const showEnergy = profile.worries.includes("Energy bills (gas/electric)") || profile.worries.length === 0 || profile.worries.includes("I'm managing fine, just curious");
-  const showHousing = ["Renting privately", "Own with a mortgage"].includes(profile.tenure);
-
-  const goToResults = () => {
-    if (profile.postcode && !profile.region) handlePostcodeLookup();
-    setPhase("results");
-    window.scrollTo(0, 0);
-  };
-
-  // ============================================================
-  // RENDER — SETUP PHASE
-  // ============================================================
-  if (phase === "setup") {
-    return (
-      <div className="min-h-screen bg-cream">
-        <div className="max-w-[680px] mx-auto px-4 py-8">
-          <div className="text-center mb-8">
-            <h1 className="font-heading text-3xl md:text-4xl font-bold text-navy mb-2">What's the Squeeze?</h1>
-            <p className="text-gray-500 text-lg">A personal cost of living tool for UK households</p>
-          </div>
-
-          <ProgressDots step={step} />
-
-          <div className="bg-white rounded-2xl shadow-sm p-6 md:p-8 border border-gray-100">
-            {step === 1 && <SetupStep1 profile={profile} onChange={updateProfile} />}
-            {step === 2 && <SetupStep2 profile={profile} onChange={updateProfile} />}
-            {step === 3 && <SetupStep3 profile={profile} onChange={updateProfile} />}
-
-            {profile.region && step === 1 && (
-              <div className="mt-3 flex items-center gap-2 text-sm text-relief">
-                <CheckCircle size={14} /> Region detected: {profile.region}
-              </div>
-            )}
-            {postcodeError && step === 1 && (
-              <div className="mt-3 text-sm text-warning">{postcodeError}</div>
-            )}
-            {postcodeLoading && step === 1 && (
-              <div className="mt-3 text-sm text-gray-400">Looking up postcode...</div>
-            )}
-
-            <div className="flex gap-3 mt-8">
-              {step > 1 && (
-                <button onClick={() => setStep((s) => s - 1)}
-                  className="px-6 py-3 rounded-lg border border-gray-300 text-gray-600 font-semibold text-base hover:bg-gray-50 transition-all min-h-[48px]">
-                  Back
-                </button>
-              )}
-              {step < 3 ? (
-                <button onClick={() => { if (step === 1 && profile.postcode) handlePostcodeLookup(); setStep((s) => s + 1); }}
-                  className="flex-1 py-3 rounded-lg bg-navy text-white font-semibold text-base hover:bg-opacity-90 transition-all flex items-center justify-center gap-2 min-h-[48px]">
-                  Continue <ArrowRight size={18} />
-                </button>
-              ) : (
-                <button onClick={goToResults}
-                  className="flex-1 py-3 rounded-lg bg-navy text-white font-semibold text-base hover:bg-opacity-90 transition-all flex items-center justify-center gap-2 min-h-[48px]">
-                  See my results <ArrowRight size={18} />
-                </button>
-              )}
-            </div>
-          </div>
-
-          <p className="text-center text-xs text-gray-400 mt-6">Your answers are not stored or sent anywhere. This is a local calculation only.</p>
-        </div>
+    <Card>
+      <StepTitle n={2}>What do you want to run?</StepTitle>
+      <div className="grid grid-cols-3 sm:grid-cols-4 gap-2" role="radiogroup" aria-label="Appliance">
+        {[...APPLIANCES, { id: "custom", name: "Something else", icon: "SlidersHorizontal" }].map((a) => {
+          const Icon = ICONS[a.icon];
+          const on = a.id === applianceId;
+          return (
+            <button
+              key={a.id} type="button" role="radio" aria-checked={on} onClick={() => pick(a.id)}
+              className={`flex flex-col items-center justify-center gap-1 rounded-xl border-2 px-2 py-3 min-h-[88px] text-center transition-colors ${on ? "border-navy bg-navy/5" : "border-gray-200 hover:border-gray-300"}`}
+            >
+              <Icon size={26} color={on ? NAVY : "#4b5563"} aria-hidden="true" />
+              <span className={`text-sm leading-tight ${on ? "font-semibold text-navy" : "text-gray-700"}`}>{a.name}</span>
+            </button>
+          );
+        })}
       </div>
+
+      {applianceId && (
+        <div className="mt-5 border-t border-gray-100 pt-4">
+          <p className="text-sm text-gray-600 mb-3">
+            {appliance
+              ? <>Typical figures for a {appliance.name.toLowerCase()} ({appliance.note}). Change them if you know yours.</>
+              : <>Enter how much electricity it uses and how long it runs. The power rating (in kW) multiplied by the hours gives you the kWh.</>}
+          </p>
+          <div className="grid grid-cols-2 gap-3">
+            <NumberField label="Electricity used" value={kWh} onChange={setKWh} suffix="kWh" />
+            <NumberField label="Run time" value={mins === "" ? "" : Number((mins / 60).toFixed(2))} step="0.25"
+              onChange={(v) => setMins(v === "" ? "" : Math.round(v * 60))} suffix="hours" />
+          </div>
+          <label className="block mt-3">
+            <span className="text-sm text-gray-600">Needs to be finished by</span>
+            <select value={finishBy ?? ""} onChange={(e) => setFinishBy(e.target.value ? Number(e.target.value) : null)}
+              className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 bg-white">
+              <option value="">Any time</option>
+              {finishOptions.map((t) => <option key={t} value={t}>{whenLabel(t)}</option>)}
+            </select>
+          </label>
+        </div>
+      )}
+    </Card>
+  );
+}
+
+// ---------- result ----------
+function Result({ result, slots, kWh, perWeek, tariff, refRate, finishBy, now: nowMs }) {
+  if (!result) {
+    return (
+      <Card>
+        <div className="flex gap-3 text-warning">
+          <AlertCircle className="shrink-0 mt-0.5" size={20} />
+          <p>{finishBy ? "There isn't enough time to finish by then. Choose a later time." : "We don't have prices far enough ahead for a run this long yet. Try again after 4pm, when tomorrow's prices come out."}</p>
+        </div>
+      </Card>
     );
   }
 
-  // ============================================================
-  // RENDER — RESULTS PHASE
-  // ============================================================
+  const { best, now, sooner, alternatives, allSame } = result;
+  const saveNow = now.cost - best.cost;
+  const refCost = refRate != null ? kWh * refRate : null;
+  const saveVsRef = refCost != null ? refCost - best.cost : null;
+  const startIn = best.start - nowMs;
+  const finishIn = best.end - nowMs;
+  const startNow = best.index === 0;
+
   return (
-    <div className="min-h-screen bg-cream">
-      {/* Sticky header */}
-      <div className="sticky top-0 z-10 bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-[680px] mx-auto px-4 py-3 flex items-center justify-between">
-          <div>
-            <span className="text-sm text-gray-500">Results for </span>
-            <span className="text-sm font-semibold text-navy">{buildHouseholdLabel(profile)}</span>
-          </div>
-          <button onClick={() => { setPhase("setup"); setStep(1); }}
-            className="text-sm text-navy font-semibold hover:underline min-h-[44px] min-w-[44px] flex items-center">
-            Edit
-          </button>
-        </div>
-      </div>
+    <Card className="border-2" >
+      <div className="animate-fade-in-up">
+        {allSame ? (
+          <>
+            <p className="text-sm uppercase tracking-wide text-gray-500 font-semibold">On your tariff</p>
+            <h2 className="text-3xl font-semibold mt-1">Any time costs the same</h2>
+            <p className="mt-3 text-lg">Each run costs about <strong className="tabular-nums">{money(best.cost)}</strong>.</p>
+            {perWeek > 0 && <p className="text-gray-600 mt-1">That's about {money(best.cost * perWeek * 52)} a year at {perWeek} times a week.</p>}
+            {tariff === "flat" && (
+              <p className="text-sm text-gray-600 mt-4 flex gap-2">
+                <Info size={16} className="shrink-0 mt-0.5" />
+                On a time-of-use tariff such as Economy 7, Octopus Go or Agile, running this overnight could cost less. Those tariffs need a smart meter, and your daytime rate is usually higher, so they suit households that can move a lot of their use to the cheap hours.
+              </p>
+            )}
+          </>
+        ) : (
+          <>
+            <p className="text-sm uppercase tracking-wide text-relief font-semibold flex items-center gap-1"><Clock size={16} /> Cheapest time</p>
+            <h2 className="text-3xl sm:text-4xl font-semibold mt-1">
+              {startNow ? "Start it now" : <>Start at {whenLabel(best.start)}</>}
+            </h2>
+            <p className="text-gray-600 mt-1">Finishes around {whenLabel(best.end)}.</p>
 
-      <div className="max-w-[680px] mx-auto px-4 py-8 space-y-10">
-
-        {/* Section 1: Pressure Score */}
-        <section className="animate-fade-in-up">
-          <h2 className="font-heading text-2xl font-bold text-navy mb-1">Your Pressure Score</h2>
-          <p className="text-gray-500 text-sm mb-6">An at-a-glance estimate based on what you've told us</p>
-          <PressureGauge score={pressureScore} />
-          <div className="space-y-3 mt-6">
-            {bullets.map((b, i) => (
-              <div key={i} className="flex gap-3 items-start bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-                <AlertCircle size={16} className="text-accent mt-0.5 flex-shrink-0" />
-                <p className="text-sm text-gray-700">{b}</p>
+            <div className="grid grid-cols-2 gap-3 mt-5">
+              <div className="rounded-xl bg-relief/10 p-4">
+                <div className="text-sm text-gray-600">Cost then</div>
+                <div className="text-3xl font-heading font-semibold text-relief tabular-nums">{money(best.cost)}</div>
+                {best.cost < 0 && <div className="text-sm text-relief">Prices are below zero, so you'd be paid to use it.</div>}
               </div>
-            ))}
-          </div>
-        </section>
+              <div className="rounded-xl bg-gray-50 p-4">
+                <div className="text-sm text-gray-600">If you start it now</div>
+                <div className="text-3xl font-heading font-semibold text-gray-700 tabular-nums">{money(now.cost)}</div>
+              </div>
+            </div>
 
-        {/* Section: Quick Wins — Your Personalised Savings */}
-        {quickWins.wins.length > 0 && (
-          <section className="animate-fade-in-up">
-            <h2 className="font-heading text-2xl font-bold text-navy mb-1">Your Quick Wins</h2>
-            <p className="text-gray-500 text-sm mb-4">Actions you can take this week, personalised to your situation</p>
+            {saveNow > 0.05 && (
+              <p className="mt-4 flex gap-2 items-start">
+                <PiggyBank size={20} className="shrink-0 text-relief mt-0.5" />
+                <span>
+                  Waiting saves <strong className="tabular-nums">{money(saveNow)}</strong>
+                  {perWeek > 0 && <> — about <strong className="tabular-nums">{money(saveNow * perWeek * 52)} a year</strong> if you run it {perWeek} times a week and prices stay like today</>}.
+                </span>
+              </p>
+            )}
+            {saveVsRef != null && tariff !== "flat" && Math.abs(saveVsRef) > 0.05 && (
+              <p className="mt-2 text-sm text-gray-600">
+                On a standard tariff in your region it would cost {money(refCost)} at any time of day.
+              </p>
+            )}
 
-            {quickWins.totalMonthlySavings > 0 && (
-              <div className="bg-relief rounded-xl p-5 mb-4 text-center">
-                <p className="text-green-100 text-sm">Estimated potential monthly savings</p>
-                <p className="font-heading text-4xl font-bold text-white tabular-nums mt-1">
-                  £{quickWins.totalMonthlySavings.toLocaleString("en-GB")}
-                </p>
-                <p className="text-green-100 text-sm mt-1">
-                  That's up to £{(quickWins.totalMonthlySavings * 12).toLocaleString("en-GB")} per year
+            {!startNow && (
+              <div className="mt-5 rounded-xl border border-gray-200 p-4 flex gap-3">
+                <Timer size={22} className="shrink-0 text-navy mt-0.5" />
+                <div>
+                  <div className="font-semibold text-navy">Using a delay timer?</div>
+                  <p className="text-gray-700">
+                    Set it to <strong>start in {duration(startIn)}</strong>, or if your machine counts down to the end, <strong>finish in {duration(finishIn)}</strong>.
+                  </p>
+                  {finishIn > 24 * 3600 * 1000 && (
+                    <p className="text-sm text-gray-600 mt-1">Most delay timers only go up to 24 hours, so you may need to set it later on.</p>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {sooner && (
+              <div className="mt-5 rounded-xl bg-gray-50 p-4">
+                <div className="font-semibold text-navy">Can't wait that long?</div>
+                <p className="text-gray-700">
+                  The cheapest earlier time is {sooner.index === 0 ? "now" : <>{whenLabel(sooner.start)}</>}, for about <strong className="tabular-nums">{money(sooner.cost)}</strong>.
                 </p>
               </div>
             )}
 
-            <div className="space-y-2">
-              {quickWins.wins.map((win, i) => {
-                const Icon = ICON_MAP[win.icon] || Info;
+            {alternatives.length > 0 && (
+              <div className="mt-5">
+                <h3 className="text-base font-semibold mb-2">Other good times</h3>
+                <ul className="divide-y divide-gray-100">
+                  {alternatives.map((a) => (
+                    <li key={a.start} className="flex justify-between py-2">
+                      <span>{whenLabel(a.start)}</span>
+                      <span className="tabular-nums text-gray-700">{money(a.cost)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+
+      {!allSame && <PriceChart slots={slots} best={best} refRate={tariff === "flat" ? null : refRate} />}
+      {tariff === "agile" && slots.length > 0 && ukDate(slots[slots.length - 1].start) === ukDate(nowMs) && (
+        <p className="text-sm text-gray-600 mt-3 flex gap-2">
+          <Info size={16} className="shrink-0 mt-0.5" />
+          Tomorrow's Agile prices come out at about 4pm. Check back then — overnight is often cheaper.
+        </p>
+      )}
+    </Card>
+  );
+}
+
+function PriceChart({ slots, best, refRate }) {
+  const data = slots.map((s, i) => ({
+    i,
+    start: s.start,
+    price: Number(s.price.toFixed(2)),
+    inWindow: i >= best.index && i < best.index + best.slotCount,
+  }));
+  // Label every 6 hours on the clock, kept short so they fit on a phone.
+  const ticks = data.filter((d) => ukMinutes(d.start) % 360 === 0).map((d) => d.i);
+  const tickLabel = (i) => {
+    const m = ukMinutes(data[i].start);
+    return m === 0 ? "12am" : m === 720 ? "12pm" : timeLabel(data[i].start);
+  };
+
+  return (
+    <figure className="mt-6">
+      <figcaption className="text-base font-semibold text-navy mb-1">Price per unit, every half hour</figcaption>
+      <p className="text-sm text-gray-600 mb-3 flex flex-wrap gap-x-4 gap-y-1">
+        <span className="flex items-center gap-1.5"><span className="inline-block w-3 h-3 rounded-sm" style={{ background: RELIEF }} /> Your cheapest window</span>
+        <span className="flex items-center gap-1.5"><span className="inline-block w-3 h-3 rounded-sm" style={{ background: MUTED_BAR }} /> Other times</span>
+        {refRate != null && <span className="flex items-center gap-1.5"><span className="inline-block w-4 border-t-2 border-dashed border-gray-500" /> Standard rate</span>}
+      </p>
+      <div className="h-56 -ml-3" role="img" aria-label="Bar chart of electricity price for each half hour, with the cheapest window highlighted">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={data} barCategoryGap={1} margin={{ top: 8, right: 4, bottom: 0, left: 0 }}>
+            <CartesianGrid vertical={false} stroke="#eceae4" />
+            <XAxis dataKey="i" ticks={ticks} tickFormatter={tickLabel} tick={{ fontSize: 12, fill: "#6b7280" }}
+              axisLine={{ stroke: "#d1d5db" }} tickLine={false} interval={0} />
+            <YAxis width={40} tick={{ fontSize: 12, fill: "#6b7280" }} tickFormatter={(v) => `${v}p`} axisLine={false} tickLine={false} />
+            <Tooltip
+              cursor={{ fill: "rgba(29,52,97,0.06)" }}
+              content={({ active, payload }) => {
+                if (!active || !payload?.length) return null;
+                const d = payload[0].payload;
                 return (
-                  <div key={i} className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center flex-shrink-0">
-                      <Icon size={18} className="text-relief" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-gray-800 text-sm">{win.action}</p>
-                      <p className="text-xs text-gray-500">{win.category}</p>
-                    </div>
-                    <div className="text-right flex-shrink-0">
-                      {win.monthlySaving ? (
-                        <span className="font-heading text-lg font-bold text-relief tabular-nums">
-                          £{win.monthlySaving}<span className="text-xs font-body text-gray-500">/mo</span>
-                        </span>
-                      ) : (
-                        <span className="text-xs font-semibold text-relief">{win.savingsNote}</span>
-                      )}
-                    </div>
+                  <div className="bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm shadow-sm">
+                    <div className="text-gray-600">{whenLabel(d.start)} – {timeLabel(d.start + SLOT_MS)}</div>
+                    <div className="font-semibold text-gray-800 tabular-nums">{d.price.toFixed(1)}p per kWh</div>
                   </div>
                 );
-              })}
+              }}
+            />
+            {refRate != null && <ReferenceLine y={Number(refRate.toFixed(2))} stroke="#6b7280" strokeDasharray="4 3" />}
+            <ReferenceLine y={0} stroke="#9ca3af" />
+            <Bar dataKey="price" radius={[3, 3, 0, 0]} isAnimationActive={false}>
+              {data.map((d) => <Cell key={d.i} fill={d.inWindow ? RELIEF : MUTED_BAR} />)}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+      <details className="mt-2 text-sm">
+        <summary className="cursor-pointer text-gray-600">Show prices as a table</summary>
+        <table className="mt-2 w-full tabular-nums">
+          <thead><tr className="text-left text-gray-500"><th className="font-normal py-1">From</th><th className="font-normal py-1 text-right">p/kWh</th></tr></thead>
+          <tbody>
+            {data.map((d) => (
+              <tr key={d.i} className={d.inWindow ? "text-relief font-semibold" : ""}>
+                <td className="py-0.5">{whenLabel(d.start)}</td>
+                <td className="py-0.5 text-right">{d.price.toFixed(1)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </details>
+    </figure>
+  );
+}
+
+// ---------- app ----------
+export default function App() {
+  const [tariff, setTariff] = useSaved("tariff", "agile");
+  const [region, setRegion] = useSaved("region", "");
+  const [e7, setE7] = useSaved("e7", DEFAULT_E7);
+  const [flatOverride, setFlatOverride] = useSaved("flatRate", null);
+
+  const [applianceId, setApplianceId] = useState(null);
+  const [kWh, setKWh] = useState("");
+  const [mins, setMins] = useState("");
+  const [finishBy, setFinishBy] = useState(null);
+
+  const [slots, setSlots] = useState({ key: null, state: "idle", data: [] });
+  const [refRate, setRefRate] = useState(null);
+
+  // Tick once a minute so timers stay right, and refetch each new half hour.
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 60000);
+    return () => clearInterval(id);
+  }, []);
+  const slotKey = currentSlotStart(now);
+
+  // Load prices whenever the tariff or region changes.
+  const fetchKey = tariff !== "e7" && region ? `${tariff}|${region}` : null;
+  useEffect(() => {
+    if (!fetchKey) return;
+    const ctrl = new AbortController();
+    Promise.all([loadSlots(tariff, region, ctrl.signal), standardRate(region, ctrl.signal)])
+      .then(([data, ref]) => {
+        setSlots({ key: fetchKey, state: "ready", data });
+        setRefRate(ref);
+      })
+      .catch((e) => {
+        if (e.name !== "AbortError") setSlots({ key: fetchKey, state: "error", data: [] });
+      });
+    return () => ctrl.abort();
+  }, [fetchKey, tariff, region, slotKey]);
+  // Half-hourly refreshes keep showing the old prices until the new ones land.
+  const loading = fetchKey && slots.key !== fetchKey;
+
+  // Economy 7 and user-entered flat rates are worked out locally.
+  const effectiveSlots = useMemo(() => {
+    if (tariff === "e7") {
+      const ok = [e7.dayRate, e7.nightRate].every((v) => typeof v === "number") && e7.nightStart && e7.nightEnd;
+      return ok ? economy7Slots(e7, slotKey) : [];
+    }
+    if (tariff === "flat" && typeof flatOverride === "number") {
+      return slots.data.map((s) => ({ ...s, price: flatOverride }));
+    }
+    return slots.data;
+  }, [tariff, e7, flatOverride, slots.data, slotKey]);
+
+  const ready = tariff === "e7" ? effectiveSlots.length > 0 : !loading && slots.state === "ready";
+
+  const finishOptions = useMemo(() => {
+    if (!effectiveSlots.length || !mins) return [];
+    const earliest = now + mins * 60000;
+    const last = effectiveSlots[effectiveSlots.length - 1].start + SLOT_MS;
+    const out = [];
+    for (const s of effectiveSlots) {
+      const t = s.start + SLOT_MS;
+      if (t >= earliest && t <= last && t % 3600000 === 0) out.push(t);
+    }
+    return out;
+  }, [effectiveSlots, mins, now]);
+
+  // Drop a deadline that is no longer on offer (e.g. after changing tariff).
+  const activeFinishBy = finishBy && finishOptions.includes(finishBy) ? finishBy : null;
+
+  const result = useMemo(() => {
+    if (!ready || !applianceId || !(kWh > 0) || !(mins > 0)) return undefined;
+    return bestWindows(effectiveSlots, kWh, mins, activeFinishBy);
+  }, [ready, applianceId, effectiveSlots, kWh, mins, activeFinishBy]);
+
+  function pick(id) {
+    setApplianceId(id);
+    const a = APPLIANCES.find((x) => x.id === id);
+    if (a) { setKWh(a.kWh); setMins(a.mins); } else { setKWh(1); setMins(60); }
+  }
+
+  const appliance = APPLIANCES.find((a) => a.id === applianceId);
+  const refForResult = tariff === "e7" ? null : refRate;
+
+  return (
+    <div className="min-h-screen">
+      <header className="bg-navy text-white">
+        <div className="max-w-[680px] mx-auto px-4 py-8">
+          <p className="text-sm uppercase tracking-wider text-white/70 font-semibold flex items-center gap-1.5"><Zap size={16} /> Cost of living tools</p>
+          <h1 className="text-3xl sm:text-4xl font-semibold mt-2" style={{ color: "white" }}>When's cheapest to run it?</h1>
+          <p className="mt-3 text-white/85 text-lg">Pick an appliance and we'll find the cheapest time to switch it on today or tonight, and tell you what it'll cost.</p>
+        </div>
+      </header>
+
+      <main className="max-w-[680px] mx-auto px-4 py-6 space-y-4">
+        <TariffStep
+          tariff={tariff} setTariff={setTariff} region={region} setRegion={setRegion}
+          e7={e7} setE7={setE7} flatOverride={flatOverride} setFlatOverride={setFlatOverride}
+          apiFlatRate={tariff === "flat" && !loading ? slots.data[0]?.price : null}
+        />
+
+        <ApplianceStep
+          applianceId={applianceId} pick={pick} kWh={kWh} setKWh={setKWh} mins={mins} setMins={setMins}
+          finishBy={activeFinishBy} setFinishBy={setFinishBy} finishOptions={finishOptions}
+        />
+
+        {tariff !== "e7" && !region && applianceId && (
+          <Card><p className="text-gray-700">Choose your region in step 1 to see prices.</p></Card>
+        )}
+        {loading && (
+          <Card><p className="text-gray-600">Getting today's prices…</p></Card>
+        )}
+        {fetchKey && !loading && slots.state === "error" && (
+          <Card>
+            <div className="flex gap-3 text-warning">
+              <AlertCircle className="shrink-0 mt-0.5" size={20} />
+              <p>We couldn't get prices from Octopus Energy just now. Check your connection and try again in a minute.</p>
             </div>
-          </section>
+          </Card>
+        )}
+        {result !== undefined && (
+          <Result
+            result={result} slots={effectiveSlots} kWh={kWh} perWeek={appliance?.perWeek ?? 0}
+            tariff={tariff} refRate={refForResult} finishBy={activeFinishBy} now={now}
+          />
         )}
 
-        {/* Section 2: How Your Bills Compare */}
-        <section className="animate-fade-in-up delay-100">
-          <h2 className="font-heading text-2xl font-bold text-navy mb-1">How Your Bills Compare</h2>
-          <p className="text-gray-500 text-sm mb-6">UK averages for households similar to yours</p>
-          <div className="space-y-4">
-            <BillCompareRow icon={ShoppingCart} label="Food & groceries" avgAmount={spendData.food}
-              comparison={billComparisons.food} onCompare={(v) => setBillComparisons((p) => ({ ...p, food: v }))} />
-            <BillCompareRow icon={Zap} label="Gas & electricity" avgAmount={spendData.energy}
-              comparison={billComparisons.energy} onCompare={(v) => setBillComparisons((p) => ({ ...p, energy: v }))} />
-            {housingCost > 0 && (
-              <BillCompareRow icon={Home} label="Rent or mortgage" avgAmount={housingCost}
-                comparison={billComparisons.housing} onCompare={(v) => setBillComparisons((p) => ({ ...p, housing: v }))} />
-            )}
-            <BillCompareRow icon={Bus} label="Transport" avgAmount={spendData.transport}
-              comparison={billComparisons.transport} onCompare={(v) => setBillComparisons((p) => ({ ...p, transport: v }))} />
-            <BillCompareRow icon={Phone} label="Phone & broadband" avgAmount={spendData.comms}
-              comparison={billComparisons.comms} onCompare={(v) => setBillComparisons((p) => ({ ...p, comms: v }))} />
-          </div>
-          <div className="bg-navy rounded-xl p-5 mt-4">
-            <div className="grid grid-cols-3 gap-4 text-center">
-              <div>
-                <p className="text-blue-200 text-xs">Per week</p>
-                <p className="font-heading text-xl font-bold text-white tabular-nums mt-1">{fmt(totalWeekly)}</p>
-              </div>
-              <div>
-                <p className="text-blue-200 text-xs">Per month</p>
-                <p className="font-heading text-xl font-bold text-white tabular-nums mt-1">{fmt(totalWeekly * 4.33)}</p>
-              </div>
-              <div>
-                <p className="text-blue-200 text-xs">Per year</p>
-                <p className="font-heading text-xl font-bold text-white tabular-nums mt-1">{fmt(totalWeekly * 52)}</p>
-              </div>
-            </div>
-            <p className="text-blue-200 text-xs mt-3 text-center">Estimated total household spend based on UK averages for your household type</p>
-            {profile.incomeBand && profile.incomeBand !== "Prefer not to say" && (
-              <div className="mt-3 pt-3 border-t border-blue-800 text-center">
-                <p className="text-blue-200 text-xs">Estimated % of income spent on essentials</p>
-                <p className="font-heading text-lg font-bold tabular-nums mt-1" style={{ color: totalWeekly * 4.33 / ({
-                  "Under £1,000": 850, "£1,000–£1,750": 1375, "£1,750–£2,500": 2125,
-                  "£2,500–£3,500": 3000, "Over £3,500": 4000
-                }[profile.incomeBand] || 2125) > 0.7 ? "#ff9999" : "#99ffcc" }}>
-                  {Math.round(totalWeekly * 4.33 / ({
-                    "Under £1,000": 850, "£1,000–£1,750": 1375, "£1,750–£2,500": 2125,
-                    "£2,500–£3,500": 3000, "Over £3,500": 4000
-                  }[profile.incomeBand] || 2125) * 100)}%
-                </p>
-              </div>
-            )}
-          </div>
-          <DataNote live={false} source="ONS Family Spending in the UK, FYE 2024" />
-        </section>
-
-        {/* Section 3: What's Driven Your Bills Up */}
-        <section className="animate-fade-in-up delay-200">
-          <h2 className="font-heading text-2xl font-bold text-navy mb-1">What's Driven Your Bills Up</h2>
-          <p className="text-gray-500 text-sm mb-6">The story behind the numbers, based on what concerns you most</p>
-
-          {showFood && (
-            <div className="mb-8">
-              <h3 className="font-heading text-lg font-bold text-navy mb-3">Food prices</h3>
-              {apiStatus.food === "loading" ? <LoadingSkeleton /> : foodInflation ? (
-                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 overflow-x-auto">
-                  <ResponsiveContainer width="100%" height={260}>
-                    <LineChart data={foodInflation} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                      <XAxis dataKey="date" tick={{ fontSize: 11 }} interval="preserveStartEnd" />
-                      <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
-                      <Tooltip content={<CustomTooltip />} />
-                      <ReferenceLine x="Mar 23" stroke="#c8500a" strokeDasharray="5 5" label={{ value: "Peak: 19.2%", fill: "#c8500a", fontSize: 11 }} />
-                      <Line type="monotone" dataKey="value" name="Food inflation" stroke="#e8703a" strokeWidth={2.5} dot={false} />
-                    </LineChart>
-                  </ResponsiveContainer>
-                  <DataNote live={apiStatus.food === "ok"} source="ONS CPIH Food & Non-Alcoholic Beverages" />
-                </div>
-              ) : null}
-              <div className="bg-cream border border-gray-200 rounded-xl p-4 mt-3">
-                <p className="text-sm text-gray-700">In plain terms: a weekly food shop that cost £80 in January 2021 would have cost around £99 by early 2023 — a rise of nearly £20 for the same basket of goods. Prices have eased since then, but haven't fallen back.</p>
-              </div>
-            </div>
-          )}
-
-          {showEnergy && (
-            <div className="mb-8">
-              <h3 className="font-heading text-lg font-bold text-navy mb-3">Energy bills</h3>
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 overflow-x-auto">
-                <ResponsiveContainer width="100%" height={260}>
-                  <BarChart data={ENERGY_BILLS_ANNUAL} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                    <XAxis dataKey="year" tick={{ fontSize: 11 }} />
-                    <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => `£${v}`} />
-                    <Tooltip content={<CustomTooltip />} />
-                    <Bar dataKey="bill" name="Annual energy bill" radius={[4, 4, 0, 0]}>
-                      {ENERGY_BILLS_ANNUAL.map((entry) => (
-                        <Cell key={entry.year} fill={entry.year === "2022" || entry.year === "2023" ? "#c8500a" : "#1d3461"} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-                <DataNote live={false} source="Ofgem, DESNZ annual fuel poverty statistics" />
-              </div>
-              <div className="bg-cream border border-gray-200 rounded-xl p-4 mt-3">
-                <p className="text-sm text-gray-700">The energy price cap protects you from the very highest bills, but the 'cap' is still nearly twice what households paid in 2019. A typical household now spends around £161 a month on gas and electricity.</p>
-              </div>
-            </div>
-          )}
-
-          {showHousing && profile.tenure === "Renting privately" && (
-            <div className="mb-8">
-              <h3 className="font-heading text-lg font-bold text-navy mb-3">Rent costs</h3>
-              {apiStatus.rental === "loading" ? <LoadingSkeleton /> : rentalData ? (
-                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 overflow-x-auto">
-                  <ResponsiveContainer width="100%" height={260}>
-                    <LineChart data={rentalData} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                      <XAxis dataKey="date" tick={{ fontSize: 11 }} interval="preserveStartEnd" />
-                      <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => `${v}%`} label={{ value: "Annual % increase", angle: -90, position: "insideLeft", style: { fontSize: 11 } }} />
-                      <Tooltip content={<CustomTooltip />} />
-                      <Line type="monotone" dataKey="value" name="Rent increase" stroke="#1d3461" strokeWidth={2.5} dot={false} />
-                    </LineChart>
-                  </ResponsiveContainer>
-                  <DataNote live={apiStatus.rental === "ok"} source="ONS Index of Private Housing Rental Prices" />
-                </div>
-              ) : null}
-              <div className="bg-cream border border-gray-200 rounded-xl p-4 mt-3">
-                <p className="text-sm text-gray-700">Private rents have risen faster than wages for most of the past two years. If you're renegotiating a tenancy, check Shelter's advice on your rights before agreeing to an increase.</p>
-              </div>
-            </div>
-          )}
-
-          {showHousing && profile.tenure === "Own with a mortgage" && (
-            <div className="mb-8">
-              <h3 className="font-heading text-lg font-bold text-navy mb-3">Mortgage rates</h3>
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 overflow-x-auto">
-                <ResponsiveContainer width="100%" height={260}>
-                  <LineChart data={BOE_BASE_RATE} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                    <XAxis dataKey="date" tick={{ fontSize: 11 }} interval="preserveStartEnd" />
-                    <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
-                    <Tooltip content={<CustomTooltip />} />
-                    <Line type="stepAfter" dataKey="rate" name="Bank rate" stroke="#c8500a" strokeWidth={2.5} dot={{ r: 3 }} />
-                  </LineChart>
-                </ResponsiveContainer>
-                <DataNote live={false} source="Bank of England official bank rate" />
-              </div>
-              <div className="bg-cream border border-gray-200 rounded-xl p-4 mt-3">
-                <p className="text-sm text-gray-700">If you remortgaged at today's rates, a £200,000 mortgage over 25 years would cost roughly £300 more per month than it did in 2021. Rates have come down from their 5.25% peak but remain well above the near-zero era.</p>
-              </div>
-            </div>
-          )}
-        </section>
-
-        {/* Section 4: Support You Might Be Missing */}
-        <section className="animate-fade-in-up delay-300">
-          <h2 className="font-heading text-2xl font-bold text-navy mb-1">Support You Might Be Missing</h2>
-          <p className="text-gray-500 text-sm mb-2">Schemes and help you may be entitled to, based on what you've told us</p>
-          <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6 flex items-start gap-3">
-            <CheckCircle size={20} className="text-relief flex-shrink-0 mt-0.5" />
-            <div>
-              <p className="text-sm font-semibold text-gray-800">We found {support.length} schemes that may be relevant to you</p>
-              <p className="text-xs text-gray-600 mt-1">The average UK household misses out on £3,500 per year in unclaimed benefits and support. Check each one below — it takes 10–15 minutes.</p>
-            </div>
-          </div>
-          <div className="space-y-4">
-            {support.map((item, i) => <SupportCard key={i} item={item} />)}
-          </div>
-        </section>
-
-        {/* Section 5: How You Compare */}
-        <section className="animate-fade-in-up delay-400">
-          <h2 className="font-heading text-2xl font-bold text-navy mb-1">How You Compare</h2>
-          <p className="text-gray-500 text-sm mb-6">Where your household sits nationally</p>
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center">
-            <DotGrid highlightPct={compPct} />
-            <p className="text-sm text-gray-700 mt-4">
-              Based on your household type and income band, roughly <strong className="text-navy">{Math.round(compPct / 10)} in 10</strong> UK households are likely under greater financial pressure than yours right now.
-            </p>
-            <p className="text-xs text-gray-400 mt-3">This is based on ONS income distribution data (FY2024) and does not account for individual circumstances like debt, health costs, or recent job changes.</p>
-          </div>
-        </section>
-
-        {/* Section 6: Do This Week */}
-        <section className="animate-fade-in-up delay-500">
-          <h2 className="font-heading text-2xl font-bold text-navy mb-1">Do This Week</h2>
-          <p className="text-gray-500 text-sm mb-4">Concrete actions with real savings — tap each one for details and a direct link</p>
-          {actions.some(a => a.savingsPerMonth) && (
-            <div className="bg-cream border border-gray-200 rounded-xl p-3 mb-4 text-center">
-              <p className="text-xs text-gray-500">Combined potential savings from these actions</p>
-              <p className="font-heading text-xl font-bold text-relief tabular-nums">
-                £{actions.reduce((sum, a) => sum + (a.savingsPerMonth || 0), 0)}/month
-              </p>
-            </div>
-          )}
-          <div className="space-y-3">
-            {actions.map((action, i) => (
-              <ActionAccordion key={i} action={action} expanded={expandedAction === i}
-                onToggle={() => setExpandedAction(expandedAction === i ? null : i)} />
-            ))}
-          </div>
-        </section>
-
-        {/* Footer */}
-        <footer className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 space-y-4">
-          <h3 className="font-heading text-lg font-bold text-navy">Need to talk to someone?</h3>
-          <div className="space-y-3 text-sm text-gray-700">
-            <div>
-              <p className="font-semibold">Citizens Advice</p>
-              <p>Free, impartial advice on benefits, debt, housing and employment.</p>
-              <p>Call 0800 144 8848 (free) or <a href="https://www.citizensadvice.org.uk" target="_blank" rel="noopener noreferrer" className="text-navy font-semibold hover:underline">citizensadvice.org.uk</a></p>
-            </div>
-            <div>
-              <p className="font-semibold">StepChange</p>
-              <p>Free debt advice and a personal action plan.</p>
-              <p>Call 0800 138 1111 or <a href="https://www.stepchange.org" target="_blank" rel="noopener noreferrer" className="text-navy font-semibold hover:underline">stepchange.org</a></p>
-            </div>
-            <div>
-              <p className="font-semibold">Turn2Us</p>
-              <p>Benefits calculator and grants search.</p>
-              <p><a href="https://www.turn2us.org.uk" target="_blank" rel="noopener noreferrer" className="text-navy font-semibold hover:underline">turn2us.org.uk</a></p>
-            </div>
-          </div>
-          <hr className="border-gray-200" />
-          <p className="text-xs text-gray-400">
-            This tool uses data from the Office for National Statistics, DESNZ, DWP, and Postcodes.io, all published under the Open Government Licence v3.0.
-            Your answers are not stored or sent anywhere. This is a local calculation only.
+        <footer className="text-sm text-gray-500 pt-4 pb-10 space-y-2">
+          <p>
+            Prices come from Octopus Energy's public data and include VAT. Costs are estimates: real appliances use power unevenly, and your own model may use more or less. Standing charges are the same whenever you run things, so they're left out.
+          </p>
+          <p>
+            <a href="https://developer.octopus.energy/rest/" className="underline inline-flex items-center gap-1" target="_blank" rel="noopener noreferrer">About the Octopus Energy price data <ExternalLink size={13} /></a>
           </p>
         </footer>
-
-      </div>
+      </main>
     </div>
   );
 }

@@ -1,17 +1,29 @@
-# React + Vite
+# When's cheapest to run it?
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Pick an appliance and find the cheapest time to run it on your electricity
+tariff, with what it will cost.
 
-Currently, two official plugins are available:
+- Tariffs: Agile Octopus, Octopus Go, Cosy Octopus, Economy 7 and standard/fixed
+- Live half-hourly prices from Octopus Energy's public API (no key needed)
+- Shows the cheapest start time, the cost versus starting now, delay-timer
+  settings and a price chart
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Run it locally
 
-## React Compiler
+Needs Node.js 20.19 or newer.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+Then open the address it prints (usually http://localhost:5173/).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# CostOfLiving
+## Build
+
+```bash
+npm run build
+```
+
+The site is static and builds to `dist/`. `netlify.toml` holds the Netlify
+build settings.
