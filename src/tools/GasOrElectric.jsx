@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { gasRate } from "../prices";
 import { money } from "../lib/format";
-import { Card, StepTitle, NumberField, Note, RELIEF, MUTED_BAR } from "../components/ui";
+import { Card, StepTitle, NumberField, Note, Choice } from "../components/ui";
 import PricesStatus from "../components/PricesStatus";
 
 // Energy each option uses, in kWh of electricity or gas. These are typical
@@ -66,19 +66,20 @@ function Comparison({ c, elecRate, gasPrice }) {
     .sort((a, b) => a.cost - b.cost);
   const max = Math.max(...rows.map((r) => r.cost), 0.01);
   return (
-    <Card>
-      <h2 className="text-xl font-semibold mb-3">{c.title}</h2>
+    <Card labelledBy={`cmp-${c.id}`}>
+      <h2 id={`cmp-${c.id}`} className="text-xl font-semibold mb-3">{c.title}</h2>
       <ul className="space-y-2.5">
         {rows.map((r, i) => (
           <li key={r.name}>
             <div className="flex justify-between gap-3 text-sm">
               <span className={i === 0 ? "font-semibold text-relief" : "text-gray-800"}>
-                {r.name} <span className="text-gray-500 font-normal">({r.fuel === "gas" ? "gas" : r.fuel === "none" ? "free" : "electric"})</span>
+                {i === 0 && <span className="sr-only">Cheapest: </span>}
+                {r.name} <span className="text-gray-600 font-normal">({r.fuel === "gas" ? "gas" : r.fuel === "none" ? "free" : "electric"})</span>
               </span>
               <span className="tabular-nums font-semibold">{money(r.cost)}</span>
             </div>
-            <div className="h-2 mt-1 rounded-full bg-gray-100">
-              <div className="h-2 rounded-full" style={{ width: `${Math.max(1, (r.cost / max) * 100)}%`, background: i === 0 ? RELIEF : MUTED_BAR }} />
+            <div className="h-2 mt-1 rounded-full bg-gray-100" aria-hidden="true">
+              <div className={`h-2 rounded-full ${i === 0 ? "bg-relief" : "bg-[rgb(var(--bar))]"}`} style={{ width: `${Math.max(1, (r.cost / max) * 100)}%` }} />
             </div>
           </li>
         ))}
@@ -119,24 +120,23 @@ export default function GasOrElectric({ elec }) {
     <>
       <PricesStatus elec={elec} waiting />
       {ready && (
-        <Card>
-          <StepTitle n={2}>Your prices</StepTitle>
+        <Card labelledBy="prices-title">
+          <StepTitle n={2} id="prices-title">Your prices</StepTitle>
           <div className="space-y-4">
-            <div>
-              <span className="text-sm text-gray-600">Electricity price to use</span>
-              <div className="flex flex-wrap gap-2 mt-1" role="radiogroup" aria-label="Electricity price">
+            <fieldset>
+              <legend className="text-sm text-gray-600">Electricity price to use</legend>
+              <div className="flex flex-wrap gap-2 mt-1">
                 {electricOptions.map((o) => (
-                  <button key={o.id} type="button" role="radio" aria-checked={elecOverride == null && picked?.id === o.id}
-                    onClick={() => { setElecChoice(o.id); setElecOverride(null); }}
-                    className={`px-3 py-2 rounded-lg border-2 text-sm text-left ${elecOverride == null && picked?.id === o.id ? "border-navy bg-navy/5" : "border-gray-200"}`}>
+                  <Choice key={o.id} name="elec-price" on={elecOverride == null && picked?.id === o.id}
+                    onChange={() => { setElecChoice(o.id); setElecOverride(null); }} className="px-3 py-2 text-sm">
                     <span className="font-semibold text-navy">{o.label}</span> <span className="tabular-nums text-gray-600">{o.rate.toFixed(1)}p</span>
-                  </button>
+                  </Choice>
                 ))}
               </div>
               <div className="mt-2 max-w-xs">
                 <NumberField label="Or type your own" value={elecOverride ?? ""} onChange={(v) => setElecOverride(v === "" ? null : v)} suffix="p/kWh" />
               </div>
-            </div>
+            </fieldset>
             <div className="max-w-xs">
               <NumberField label="Gas price" value={gasOverride ?? (fetchedGas != null ? Number(fetchedGas.toFixed(2)) : "")}
                 onChange={(v) => setGasOverride(v === "" ? null : v)} suffix="p/kWh" />

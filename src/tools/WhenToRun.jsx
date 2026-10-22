@@ -5,7 +5,7 @@ import { SLOT_MS } from "../prices";
 import { bestWindows, windowCosts } from "../optimise";
 import { whenLabel, money, duration, ukDate } from "../lib/format";
 import { downloadIcs, googleCalendarUrl, feedUrl, reminderTitle } from "../lib/calendar";
-import { Card, StepTitle, NumberField, Warning, Note, RELIEF } from "../components/ui";
+import { Card, StepTitle, NumberField, Warning, Note, LiveSummary } from "../components/ui";
 import ApplianceGrid from "../components/ApplianceGrid";
 import SlotChart from "../components/SlotChart";
 import PricesStatus from "../components/PricesStatus";
@@ -17,9 +17,9 @@ function grams(g) {
 function ApplianceStep({ applianceId, pick, kWh, setKWh, mins, setMins, finishBy, setFinishBy, finishOptions }) {
   const appliance = APPLIANCES.find((a) => a.id === applianceId);
   return (
-    <Card>
-      <StepTitle n={2}>What do you want to run?</StepTitle>
-      <ApplianceGrid selected={applianceId} onPick={pick} />
+    <Card labelledBy="appliance-title">
+      <StepTitle n={2} id="appliance-title">What do you want to run?</StepTitle>
+      <ApplianceGrid selected={applianceId} onPick={pick} legend="What do you want to run?" />
 
       {applianceId && (
         <div className="mt-5 border-t border-gray-100 pt-4">
@@ -55,7 +55,7 @@ function Greenest({ green, cheapest, allSame }) {
   const sameTime = atCheapest != null && atCheapest - best.cost <= Math.max(20, best.cost * 0.15);
   return (
     <div className="mt-5 rounded-xl border border-gray-200 p-4 flex gap-3">
-      <Leaf size={22} className="shrink-0 text-relief mt-0.5" />
+      <Leaf size={22} className="shrink-0 text-relief mt-0.5" aria-hidden="true" />
       <div>
         <div className="font-semibold text-navy">Greenest time: {best.index === 0 ? "now" : whenLabel(best.start)}</div>
         <p className="text-gray-700">
@@ -79,26 +79,26 @@ function Reminders({ elec, best, applianceName, kWh, mins }) {
   return (
     <div className="mt-5 rounded-xl border border-gray-200 p-4">
       <div className="flex gap-3">
-        <CalendarPlus size={22} className="shrink-0 text-navy mt-0.5" />
+        <CalendarPlus size={22} className="shrink-0 text-navy mt-0.5" aria-hidden="true" />
         <div className="min-w-0">
           <div className="font-semibold text-navy">Remind me</div>
           <p className="text-gray-700">Put it in your calendar with an alert at the start time.</p>
           <div className="flex flex-wrap gap-2 mt-3">
             <button type="button" onClick={() => downloadIcs(event, "start-it.ics")}
-              className="px-3 py-2 rounded-lg bg-navy text-white text-sm font-semibold">Add to calendar</button>
+              className="px-3 py-2 rounded-lg bg-brand text-onbrand text-sm font-semibold">Add to calendar</button>
             <a href={googleCalendarUrl(event)} target="_blank" rel="noopener noreferrer"
-              className="px-3 py-2 rounded-lg border border-gray-300 text-sm font-semibold text-navy">Google Calendar</a>
+              className="px-3 py-2 rounded-lg border border-gray-300 text-sm font-semibold text-navy">Google Calendar<span className="sr-only"> (opens in a new tab)</span></a>
           </div>
         </div>
       </div>
       <div className="flex gap-3 mt-4 pt-4 border-t border-gray-100">
-        <BellRing size={22} className="shrink-0 text-navy mt-0.5" />
+        <BellRing size={22} className="shrink-0 text-navy mt-0.5" aria-hidden="true" />
         <div className="min-w-0">
           <div className="font-semibold text-navy">Do this every day?</div>
           <p className="text-gray-700">Subscribe to a calendar that keeps moving the reminder to the cheapest time as prices change.</p>
           <div className="flex flex-wrap gap-2 mt-3">
-            <a href={webcal} className="px-3 py-2 rounded-lg bg-navy text-white text-sm font-semibold">Subscribe</a>
-            <button type="button" onClick={() => setShowFeed((v) => !v)}
+            <a href={webcal} className="px-3 py-2 rounded-lg bg-brand text-onbrand text-sm font-semibold">Subscribe<span className="sr-only"> to a daily reminder calendar</span></a>
+            <button type="button" onClick={() => setShowFeed((v) => !v)} aria-expanded={showFeed}
               className="px-3 py-2 rounded-lg border border-gray-300 text-sm font-semibold text-navy">{showFeed ? "Hide link" : "Copy link instead"}</button>
           </div>
           {showFeed && (
@@ -118,7 +118,7 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
   const { slots, tariff, refRate, now: nowMs, tariffInfo } = elec;
   if (!result) {
     return (
-      <Card>
+      <Card label="Result">
         <Warning>
           <p>{finishBy ? "There isn't enough time to finish by then. Choose a later time." : "We don't have prices far enough ahead for a run this long yet. Try again in the afternoon, when tomorrow's prices come out."}</p>
         </Warning>
@@ -137,7 +137,7 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
   const reminderWindow = allSame && green ? green.result.best : best;
 
   return (
-    <Card className="border-2">
+    <Card className="border-2" label="Result">
       <div className="animate-fade-in-up">
         {allSame ? (
           <>
@@ -153,7 +153,7 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
           </>
         ) : (
           <>
-            <p className="text-sm uppercase tracking-wide text-relief font-semibold flex items-center gap-1"><Clock size={16} /> Cheapest time</p>
+            <p className="text-sm uppercase tracking-wide text-relief font-semibold flex items-center gap-1"><Clock size={16} aria-hidden="true" /> Cheapest time</p>
             <h2 className="text-3xl sm:text-4xl font-semibold mt-1">
               {startNow ? "Start it now" : <>Start at {whenLabel(best.start)}</>}
             </h2>
@@ -173,7 +173,7 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
 
             {saveNow > 0.05 && (
               <p className="mt-4 flex gap-2 items-start">
-                <PiggyBank size={20} className="shrink-0 text-relief mt-0.5" />
+                <PiggyBank size={20} className="shrink-0 text-relief mt-0.5" aria-hidden="true" />
                 <span>
                   Waiting saves <strong className="tabular-nums">{money(saveNow)}</strong>
                   {perWeek > 0 && <> — about <strong className="tabular-nums">{money(saveNow * perWeek * 52)} a year</strong> if you run it {perWeek} times a week and prices stay like today</>}.
@@ -188,7 +188,7 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
 
             {!startNow && (
               <div className="mt-5 rounded-xl border border-gray-200 p-4 flex gap-3">
-                <Timer size={22} className="shrink-0 text-navy mt-0.5" />
+                <Timer size={22} className="shrink-0 text-navy mt-0.5" aria-hidden="true" />
                 <div>
                   <div className="font-semibold text-navy">Using a delay timer?</div>
                   <p className="text-gray-700">
@@ -235,7 +235,7 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
       {!allSame && (
         <SlotChart
           slots={slots} title="Price per unit, every half hour"
-          highlights={[{ from: best.index, count: best.slotCount, color: RELIEF, label: "Your cheapest window" }]}
+          highlights={[{ from: best.index, count: best.slotCount, color: "relief", label: "Your cheapest window" }]}
           refValue={tariff === "flat" ? null : refRate} refLabel="Standard rate"
           ariaLabel="Bar chart of electricity price for each half hour, with the cheapest window highlighted"
         />
@@ -291,9 +291,16 @@ export default function WhenToRun({ elec }) {
   }
 
   const appliance = APPLIANCES.find((a) => a.id === applianceId);
+  let summary = "";
+  if (result === null) summary = activeFinishBy ? "There isn't enough time to finish by then." : "Not enough prices ahead for a run this long yet.";
+  else if (result?.allSame) summary = `Any time costs the same. Each run costs about ${money(result.best.cost)}.`;
+  else if (result) {
+    summary = `${result.best.index === 0 ? "Start it now" : `Start at ${whenLabel(result.best.start)}`}. Cost then ${money(result.best.cost)}, or ${money(result.now.cost)} if you start it now.`;
+  }
 
   return (
     <>
+      <LiveSummary text={summary} />
       <ApplianceStep
         applianceId={applianceId} pick={pick} kWh={kWh} setKWh={setKWh} mins={mins} setMins={setMins}
         finishBy={activeFinishBy} setFinishBy={setFinishBy} finishOptions={finishOptions}

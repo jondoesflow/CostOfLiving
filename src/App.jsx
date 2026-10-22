@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Zap, Clock, ListChecks, Flame, Sun, Scale } from "lucide-react";
+import { useThemePreference, ThemeContext } from "./lib/theme";
 import useElectricity from "./lib/useElectricity";
 import TariffStep from "./components/TariffStep";
 import WhenToRun from "./tools/WhenToRun";
@@ -39,14 +40,39 @@ export default function App() {
   const elec = useElectricity();
   const tab = useHashTab();
   const tool = TOOLS.find((t) => t.id === tab);
+  const theme = useThemePreference();
+  const mainRef = useRef(null);
+
+  // Tell screen reader users the page changed when they switch tools.
+  useEffect(() => { document.title = `${tool.title} · When to run it`; }, [tool]);
 
   return (
+    <ThemeContext.Provider value={theme.dark}>
     <div className="min-h-screen">
-      <header className="bg-navy text-white">
-        <div className="max-w-[680px] mx-auto px-4 pt-8 pb-6">
-          <p className="text-sm uppercase tracking-wider text-white/70 font-semibold flex items-center gap-1.5"><Zap size={16} /> Cost of living tools</p>
-          <h1 className="text-3xl sm:text-4xl font-semibold mt-2" style={{ color: "white" }}>{tool.title}</h1>
-          <p className="mt-3 text-white/85 text-lg">{tool.intro}</p>
+      <a
+        href="#main" onClick={(e) => { e.preventDefault(); mainRef.current?.focus(); }}
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:rounded-lg focus:bg-white focus:text-navy focus:font-semibold"
+      >
+        Skip to content
+      </a>
+      <header className="bg-brand text-onbrand">
+        <div className="max-w-[680px] mx-auto px-4 pt-6 pb-6">
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-sm uppercase tracking-wider text-onbrand/80 font-semibold flex items-center gap-1.5"><Zap size={16} aria-hidden="true" /> Cost of living tools</p>
+            <label className="flex items-center gap-2 text-sm text-onbrand/90">
+              <span>Theme</span>
+              <select
+                value={theme.pref} onChange={(e) => theme.setPref(e.target.value)}
+                className="rounded-md bg-onbrand/10 border border-onbrand/40 text-onbrand px-2 py-1 [&>option]:text-gray-900 [&>option]:bg-white"
+              >
+                <option value="system">Match device</option>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+              </select>
+            </label>
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-semibold mt-3" style={{ color: "#ffffff" }}>{tool.title}</h1>
+          <p className="mt-3 text-onbrand/90 text-lg">{tool.intro}</p>
         </div>
         <nav aria-label="Tools" className="max-w-[680px] mx-auto px-4">
           <ul className="flex gap-1 overflow-x-auto -mb-px pb-0" style={{ scrollbarWidth: "none" }}>
@@ -57,7 +83,7 @@ export default function App() {
                 <li key={t.id} className="shrink-0">
                   <a
                     href={`#/${t.id}`} aria-current={on ? "page" : undefined}
-                    className={`flex items-center gap-1.5 px-3 py-2.5 rounded-t-lg text-sm font-semibold whitespace-nowrap ${on ? "bg-cream text-navy" : "text-white/80 hover:text-white hover:bg-white/10"}`}
+                    className={`flex items-center gap-1.5 px-3 py-2.5 rounded-t-lg text-sm font-semibold whitespace-nowrap ${on ? "bg-cream text-navy" : "text-onbrand/90 hover:text-onbrand hover:bg-onbrand/10"}`}
                   >
                     <Icon size={16} aria-hidden="true" /> {t.label}
                   </a>
@@ -68,7 +94,7 @@ export default function App() {
         </nav>
       </header>
 
-      <main className="max-w-[680px] mx-auto px-4 py-6 space-y-4">
+      <main id="main" ref={mainRef} tabIndex={-1} className="max-w-[680px] mx-auto px-4 py-6 space-y-4 focus:outline-none">
         <TariffStep
           supplier={elec.supplier} setSupplier={elec.setSupplier} tariff={elec.tariff} setTariff={elec.setTariff}
           region={elec.region} setRegion={elec.setRegion} e7={elec.e7} setE7={elec.setE7}
@@ -80,14 +106,15 @@ export default function App() {
         {tab === "gas" && <GasOrElectric elec={elec} />}
         {tab === "solar" && <Solar elec={elec} />}
         {tab === "switch" && <SwitchCheck elec={elec} />}
+      </main>
 
-        <footer className="text-sm text-gray-500 pt-4 pb-10 space-y-2">
+      <footer className="max-w-[680px] mx-auto px-4 text-sm text-gray-600 pt-4 pb-10 space-y-2">
           <p>
             Live prices come from the public price data published by Octopus Energy, EDF and E.ON Next, and include VAT. The standard rate shown for comparison is Octopus's standard variable tariff. Carbon figures are National Grid's regional forecast. Costs are estimates: real appliances use power unevenly, and your own model may use more or less.
           </p>
           <p>Not affiliated with any energy supplier.</p>
-        </footer>
-      </main>
+      </footer>
     </div>
+    </ThemeContext.Provider>
   );
 }

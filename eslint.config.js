@@ -26,4 +26,9 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
+  {
+    // Tests, config and Netlify Functions run in Node.
+    files: ['tests/**/*.js', '*.config.js', 'netlify/**/*.{js,mjs}'],
+    languageOptions: { globals: { ...globals.node } },
+  },
 ])

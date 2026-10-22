@@ -4,9 +4,10 @@ import { Card, Warning } from "./ui";
 // Returns null once the tool can go ahead.
 export default function PricesStatus({ elec, waiting = true }) {
   if (!waiting) return null;
-  if (!elec.supplier) return <Card><p className="text-gray-700">Choose your supplier in step 1 to see prices.</p></Card>;
-  if (elec.tariff !== "e7" && !elec.region) return <Card><p className="text-gray-700">Choose your region in step 1 to see prices.</p></Card>;
-  if (elec.loading) return <Card><p className="text-gray-600">Getting today's prices…</p></Card>;
+  const message = (text) => <Card><p className="text-gray-700" role="status">{text}</p></Card>;
+  if (!elec.supplier) return message("Choose your supplier in step 1 to see prices.");
+  if (elec.tariff !== "e7" && !elec.region) return message("Choose your region in step 1 to see prices.");
+  if (elec.loading) return message("Getting today's prices…");
   if (elec.error) {
     return (
       <Card>

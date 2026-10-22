@@ -1,3 +1,54 @@
+/* Colour tokens as "R G B" so Tailwind can add opacity (see index.html).
+   Every text colour here meets WCAG AA contrast on the page and card
+   backgrounds in its theme. */
+:root {
+  color-scheme: light;
+  --page: 248 247 244;
+  --surface: 255 255 255;
+  --g50: 249 250 251;
+  --g100: 243 244 246;
+  --g200: 229 231 235;
+  --g300: 209 213 219;
+  --g400: 156 163 175;
+  --g500: 107 114 128;
+  --g600: 75 85 99;
+  --g700: 55 65 81;
+  --g800: 31 41 55;
+  --g900: 17 24 39;
+  --ink: 29 52 97;        /* headings, selected borders, icons */
+  --brand: 29 52 97;      /* header and buttons, always with white text */
+  --relief: 45 106 79;    /* good news, cheapest times */
+  --warning: 180 71 10;
+  --accent: 232 112 58;
+  --bar: 133 146 163;     /* chart bars that aren't highlighted */
+  --grid: 236 234 228;
+  --focus: 29 52 97;
+}
+
+:root.dark {
+  color-scheme: dark;
+  --page: 15 20 28;
+  --surface: 23 30 41;
+  --g50: 29 37 49;
+  --g100: 35 44 58;
+  --g200: 46 56 70;
+  --g300: 61 72 88;
+  --g400: 107 118 134;
+  --g500: 154 164 178;
+  --g600: 180 188 200;
+  --g700: 205 211 220;
+  --g800: 227 231 236;
+  --g900: 243 245 247;
+  --ink: 169 196 245;
+  --brand: 43 79 143;
+  --relief: 92 192 143;
+  --warning: 255 159 102;
+  --accent: 242 140 85;
+  --bar: 95 109 128;
+  --grid: 46 56 70;
+  --focus: 169 196 245;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -8,82 +59,49 @@ body {
   font-family: 'Source Sans 3', sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  color: #374151;
-  background: #f8f7f4;
+  color: rgb(var(--g800));
+  background: rgb(var(--page));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4 {
   font-family: 'Fraunces', serif;
-  color: #1d3461;
+  color: rgb(var(--ink));
   line-height: 1.25;
 }
 
 input, select, button {
   font-family: 'Source Sans 3', sans-serif;
+  color: inherit;
 }
 
-/* Tabular numbers for data display */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 3px;
-}
-
-/* Animated counter */
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in-up {
   animation: fadeInUp 0.5s ease-out forwards;
 }
 
-/* Stagger delays */
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
-.delay-500 { animation-delay: 500ms; }
-
-/* Pulse shimmer for loading */
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up { animation: none; }
 }
 
-.loading-shimmer {
-  background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
-}
-
-/* Gauge animation */
-@keyframes fillGauge {
-  from { width: 0%; }
-}
-
-/* Focus ring for accessibility */
+/* A clear focus ring for keyboard users, in both themes. */
 *:focus-visible {
-  outline: 2px solid #1d3461;
+  outline: 3px solid rgb(var(--focus));
   outline-offset: 2px;
-  border-radius: 2px;
+  border-radius: 4px;
+}
+
+/* Choice tiles wrap a visually hidden radio or checkbox; show its focus on the tile. */
+.choice:has(input:focus-visible) {
+  outline: 3px solid rgb(var(--focus));
+  outline-offset: 2px;
 }

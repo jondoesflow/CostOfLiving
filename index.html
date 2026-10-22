@@ -1,16 +1,28 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>When's cheapest to run it? — Appliance cost timer</title>
     <meta name="description" content="Pick an appliance and find the cheapest time to run it on your electricity tariff, with the cost in pounds and pence." />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      // Apply the saved theme before anything draws, so there's no flash.
+      (function () {
+        var pref = "system";
+        try { pref = JSON.parse(localStorage.getItem("whenToRun.theme")) || "system"; } catch (e) {}
+        var dark = pref === "dark" || (pref === "system" && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.classList.toggle("dark", dark);
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
     <script>
+      // Colours come from CSS variables (src/index.css) so dark mode can swap them.
+      var v = function (name) { return "rgb(var(--" + name + ") / <alpha-value>)"; };
       tailwind.config = {
         theme: {
           extend: {
@@ -19,12 +31,19 @@
               body: ['"Source Sans 3"', 'sans-serif'],
             },
             colors: {
-              cream: '#f8f7f4',
-              navy: '#1d3461',
-              accent: '#e8703a',
-              relief: '#2d6a4f',
-              warning: '#c8500a',
-              surface: '#ffffff',
+              cream: v("page"),
+              white: v("surface"),
+              navy: v("ink"),
+              brand: v("brand"),
+              onbrand: "#ffffff",
+              accent: v("accent"),
+              relief: v("relief"),
+              warning: v("warning"),
+              surface: v("surface"),
+              gray: {
+                50: v("g50"), 100: v("g100"), 200: v("g200"), 300: v("g300"), 400: v("g400"),
+                500: v("g500"), 600: v("g600"), 700: v("g700"), 800: v("g800"), 900: v("g900"),
+              },
             },
           },
         },

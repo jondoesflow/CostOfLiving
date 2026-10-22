@@ -4,7 +4,7 @@ import { EXPORT_TARIFFS, loadSlots } from "../prices";
 import { windowCosts } from "../optimise";
 import { whenLabel, timeLabel, money, pounds } from "../lib/format";
 import { useSaved } from "../lib/storage";
-import { Card, StepTitle, NumberField, Note, Warning, Choice, RELIEF, NAVY } from "../components/ui";
+import { Card, StepTitle, NumberField, Note, Warning, Choice, LiveSummary } from "../components/ui";
 import SlotChart from "../components/SlotChart";
 import PricesStatus from "../components/PricesStatus";
 
@@ -69,32 +69,40 @@ export default function Solar({ elec }) {
     [ready, valid, importSlots, exportSlots, battery],
   );
   const exportLoading = live && expKey && exp.key !== expKey;
+  let summary = "";
+  if (ready && importNow != null && exportNow != null) summary = importNow >= exportNow ? "Solar right now: use it yourself." : "Solar right now: sell it.";
+  if (plan?.best) summary += ` Battery: charge at ${whenLabel(plan.charge.start)}, then ${plan.best.kind === "sell" ? "sell" : "use it"} at ${whenLabel(plan.best.window.start)}.`;
 
   return (
     <>
-      <Card>
-        <StepTitle n={2}>Your export tariff</StepTitle>
-        <p className="text-sm text-gray-600 mb-3">What are you paid for electricity you send to the grid?</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2" role="radiogroup" aria-label="Export tariff">
-          {EXPORT_TARIFFS.map((t) => (
-            <Choice key={t.id} on={exportId === t.id} onClick={() => setExportId(t.id)} title={t.label} subtitle={t.blurb} />
-          ))}
-        </div>
+      <LiveSummary text={summary} />
+      <Card labelledBy="export-title">
+        <StepTitle n={2} id="export-title">Your export tariff</StepTitle>
+        <fieldset>
+          <legend className="text-sm text-gray-600 mb-3">What are you paid for electricity you send to the grid?</legend>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {EXPORT_TARIFFS.map((t) => (
+              <Choice key={t.id} name="export" on={exportId === t.id} onChange={() => setExportId(t.id)} title={t.label} subtitle={t.blurb} />
+            ))}
+          </div>
+        </fieldset>
         {!live && (
           <div className="mt-4 max-w-xs">
             <NumberField label="Your export rate" value={ownRate} onChange={setOwnRate} suffix="p/kWh" />
           </div>
         )}
-        {live && !region && <p className="text-sm text-warning mt-3">Choose your region in step 1 to get live export prices.</p>}
-        {exp.state === "error" && exp.key === expKey && <p className="text-sm text-warning mt-3">We couldn't get export prices just now. Try again in a minute.</p>}
+        <div role="status">
+          {live && !region && <p className="text-sm text-warning mt-3">Choose your region in step 1 to get live export prices.</p>}
+          {exp.state === "error" && exp.key === expKey && <p className="text-sm text-warning mt-3">We couldn't get export prices just now. Try again in a minute.</p>}
+        </div>
       </Card>
 
       <PricesStatus elec={elec} waiting />
-      {exportLoading && <Card><p className="text-gray-600">Getting export prices…</p></Card>}
+      {exportLoading && <Card><p className="text-gray-600" role="status">Getting export prices…</p></Card>}
 
       {ready && importNow != null && exportNow != null && (
-        <Card className="border-2">
-          <p className="text-sm uppercase tracking-wide text-relief font-semibold flex items-center gap-1"><Sun size={16} /> Solar power right now</p>
+        <Card className="border-2" label="Solar power right now">
+          <p className="text-sm uppercase tracking-wide text-relief font-semibold flex items-center gap-1"><Sun size={16} aria-hidden="true" /> Solar power right now</p>
           {importNow >= exportNow ? (
             <>
               <h2 className="text-3xl font-semibold mt-1">Use it yourself</h2>
@@ -114,8 +122,8 @@ export default function Solar({ elec }) {
       )}
 
       {ready && (
-        <Card>
-          <StepTitle><BatteryCharging size={22} className="text-navy" /> Home battery</StepTitle>
+        <Card labelledBy="battery-title">
+          <StepTitle id="battery-title"><BatteryCharging size={22} className="text-navy" aria-hidden="true" /> Home battery</StepTitle>
           <div className="grid grid-cols-3 gap-3">
             <NumberField label="Size" value={battery.capacity} onChange={(v) => setBattery({ ...battery, capacity: v })} suffix="kWh" />
             <NumberField label="Charge speed" value={battery.power} onChange={(v) => setBattery({ ...battery, power: v })} suffix="kW" />
@@ -130,7 +138,7 @@ export default function Solar({ elec }) {
                   <div className="font-semibold text-relief">1. Charge from the grid at {whenLabel(plan.charge.start)}</div>
                   <p className="text-gray-700 text-sm mt-0.5">Until about {timeLabel(plan.charge.end)}. Filling it costs about <strong className="tabular-nums">{money(plan.charge.cost)}</strong>.</p>
                 </li>
-                <li className="rounded-xl bg-navy/5 p-4">
+                <li className="rounded-xl bg-navy/10 p-4">
                   <div className="font-semibold text-navy">
                     2. {plan.best.kind === "sell" ? "Sell it back" : "Run your home from it"} at {whenLabel(plan.best.window.start)}
                   </div>
@@ -151,15 +159,15 @@ export default function Solar({ elec }) {
               <SlotChart
                 slots={importSlots} title="What you pay for electricity"
                 highlights={[
-                  { from: plan.charge.index, count: plan.charge.slotCount, color: RELIEF, label: "Charge" },
-                  ...(plan.best.kind === "use" ? [{ from: plan.best.window.index, count: plan.best.window.slotCount, color: NAVY, label: "Use at home" }] : []),
+                  { from: plan.charge.index, count: plan.charge.slotCount, color: "relief", label: "Charge" },
+                  ...(plan.best.kind === "use" ? [{ from: plan.best.window.index, count: plan.best.window.slotCount, color: "ink", label: "Use at home" }] : []),
                 ]}
                 ariaLabel="Bar chart of import prices with the charging window highlighted"
               />
               {live && exportSlots.length > 0 && (
                 <SlotChart
                   slots={exportSlots} title="What you're paid for exporting"
-                  highlights={plan.best.kind === "sell" ? [{ from: plan.best.window.index, count: plan.best.window.slotCount, color: NAVY, label: "Sell" }] : []}
+                  highlights={plan.best.kind === "sell" ? [{ from: plan.best.window.index, count: plan.best.window.slotCount, color: "ink", label: "Sell" }] : []}
                   ariaLabel="Bar chart of export prices"
                 />
               )}
