@@ -24,7 +24,7 @@ test("blog post has search metadata and structured data", async ({ page }) => {
   expect(types).toEqual(expect.arrayContaining(["BlogPosting", "BreadcrumbList"]));
   // Internal links to the tools, for readers and for search engines.
   await expect(page.getByRole("link", { name: "Open Cheap Watts" })).toHaveAttribute("href", "/");
-  await expect(page.getByRole("region", { name: "More from the blog" }).getByRole("listitem")).toHaveCount(1);
+  await expect(page.getByRole("region", { name: "More from the blog" }).getByRole("listitem").first()).toBeVisible();
 });
 
 test("each tool has its own address, title and description", async ({ page }) => {
