@@ -115,3 +115,18 @@ test("appliances are grouped under headings", async ({ page }) => {
   }
   await expect(page.getByRole("group", { name: "Charging" }).getByRole("radio")).toHaveCount(4);
 });
+
+test("share button copies a tagged link with the result", async ({ page, context, browserName }) => {
+  test.skip(browserName !== "chromium");
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.addInitScript(() => { delete Navigator.prototype.share; }); // use the copy fallback
+  await setUp(page);
+  await page.getByRole("radio", { name: /Washing machine/ }).check();
+  const result = page.getByRole("region", { name: "Result" });
+  await result.getByRole("button", { name: "Share this" }).click();
+  await expect(result.getByRole("status")).toContainText("Copied");
+  const copied = await page.evaluate(() => navigator.clipboard.readText());
+  expect(copied).toContain("Running my washing machine at midnight tonight instead of now saves 6.4p, about £13.31 a year.");
+  expect(copied).toContain("https://cheapwatts.co.uk/?utm_source=share&utm_medium=result&utm_campaign=when");
+  await expect(result.getByRole("button", { name: "Share this" })).toHaveAttribute("data-umami-event", "share-result");
+});

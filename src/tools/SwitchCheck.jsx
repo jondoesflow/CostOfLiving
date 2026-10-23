@@ -4,6 +4,7 @@ import { TARIFFS, SUPPLIERS, REFERENCE, pricingFor, economy7Slots, ukMinutes, cu
 import { parseUsage, exampleUsage } from "../lib/usage";
 import { pounds } from "../lib/format";
 import { Card, StepTitle, Warning, Note, LiveSummary } from "../components/ui";
+import ShareButton from "../components/ShareButton";
 
 // Who each tariff is for, so a cheap result isn't misleading.
 const ELIGIBILITY = {
@@ -102,9 +103,9 @@ export default function SwitchCheck({ elec }) {
         <div className="flex flex-wrap gap-2 mt-4">
           <label className="choice px-3 py-2 rounded-lg bg-brand text-onbrand text-sm font-semibold inline-flex items-center gap-1.5 cursor-pointer">
             <Upload size={16} aria-hidden="true" /> Choose a CSV file
-            <input type="file" accept=".csv,text/csv,text/plain" onChange={onFile} className="sr-only" />
+            <input type="file" accept=".csv,text/csv,text/plain" onChange={onFile} className="sr-only" data-umami-event="switch-upload" />
           </label>
-          <button type="button" onClick={() => load(exampleUsage(), "Example household")}
+          <button type="button" onClick={() => load(exampleUsage(), "Example household")} data-umami-event="switch-example"
             className="px-3 py-2 rounded-lg border border-gray-300 text-sm font-semibold text-navy inline-flex items-center gap-1.5">
             <FileText size={16} aria-hidden="true" /> Try an example household
           </button>
@@ -136,6 +137,12 @@ export default function SwitchCheck({ elec }) {
           <p className="text-sm text-gray-600 mt-1">
             Compared with {baseline.own ? baseline.tariff.label.toLowerCase() : baseline.tariff.label}. Includes standing charges and VAT, scaled up from your {Math.round(usage.days)} days.
           </p>
+          <ShareButton
+            tool="switch" path="/should-i-switch/"
+            text={rows[0] !== baseline && fileName !== "Example household"
+              ? `${rows[0].tariff.label} could save me about ${pounds(baseline.yearly - rows[0].yearly)} a year on electricity. Check yours with your own smart meter data, free:`
+              : "See what you'd pay on each electricity tariff, using your own smart meter data, free:"}
+          />
           <ul className="mt-4 divide-y divide-gray-100">
             {rows.map((r) => {
               const diff = r.yearly - baseline.yearly;

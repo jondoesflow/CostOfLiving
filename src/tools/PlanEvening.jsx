@@ -8,6 +8,7 @@ import { downloadIcs, reminderTitle } from "../lib/calendar";
 import { Card, StepTitle, NumberField, Warning, Note, LiveSummary } from "../components/ui";
 import ApplianceGrid from "../components/ApplianceGrid";
 import PricesStatus from "../components/PricesStatus";
+import ShareButton from "../components/ShareButton";
 
 const LIMITS = [
   { value: 1, label: "One at a time" },
@@ -176,10 +177,16 @@ export default function PlanEvening({ elec }) {
                   ))}
                 </ul>
                 <Timeline placed={scheduled} from={slots[0].start} to={Math.max(lastEnd, slots[0].start + 6 * 3600 * 1000)} />
-                <button type="button" onClick={() => downloadIcs(events, "my-plan.ics")}
+                <button type="button" onClick={() => downloadIcs(events, "my-plan.ics")} data-umami-event="add-plan-to-calendar"
                   className="mt-4 px-3 py-2 rounded-lg bg-brand text-onbrand text-sm font-semibold inline-flex items-center gap-1.5">
                   <CalendarPlus size={16} aria-hidden="true" /> Add the plan to my calendar
                 </button>
+                <ShareButton
+                  tool="plan" path="/plan-my-evening/"
+                  text={totalNow - total > 0.05
+                    ? `I fitted ${scheduled.length} jobs into the cheap hours and saved ${money(totalNow - total)} on running them all now. Plan yours, free:`
+                    : "Fit your washing, dishwasher and car charging into the cheapest hours, free:"}
+                />
               </>
             )}
 

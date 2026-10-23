@@ -9,6 +9,7 @@ import { Card, StepTitle, NumberField, Warning, Note, LiveSummary } from "../com
 import ApplianceGrid from "../components/ApplianceGrid";
 import SlotChart from "../components/SlotChart";
 import PricesStatus from "../components/PricesStatus";
+import ShareButton from "../components/ShareButton";
 
 function grams(g) {
   return g >= 1000 ? `${(g / 1000).toFixed(1)}kg` : `${Math.round(g)}g`;
@@ -90,7 +91,7 @@ function Reminders({ elec, best, applianceName, kWh, mins }) {
           <div className="font-semibold text-navy">Remind me</div>
           <p className="text-gray-700">Put it in your calendar with an alert at the start time.</p>
           <div className="flex flex-wrap gap-2 mt-3">
-            <button type="button" onClick={() => downloadIcs(event, "start-it.ics")}
+            <button type="button" onClick={() => downloadIcs(event, "start-it.ics")} data-umami-event="add-to-calendar"
               className="px-3 py-2 rounded-lg bg-brand text-onbrand text-sm font-semibold">Add to calendar</button>
             <a href={googleCalendarUrl(event)} target="_blank" rel="noopener noreferrer"
               className="px-3 py-2 rounded-lg border border-gray-300 text-sm font-semibold text-navy">Google Calendar<span className="sr-only"> (opens in a new tab)</span></a>
@@ -103,7 +104,7 @@ function Reminders({ elec, best, applianceName, kWh, mins }) {
           <div className="font-semibold text-navy">Do this every day?</div>
           <p className="text-gray-700">Subscribe to a calendar that keeps moving the reminder to the cheapest time as prices change.</p>
           <div className="flex flex-wrap gap-2 mt-3">
-            <a href={webcal} className="px-3 py-2 rounded-lg bg-brand text-onbrand text-sm font-semibold">Subscribe<span className="sr-only"> to a daily reminder calendar</span></a>
+            <a href={webcal} data-umami-event="subscribe-calendar" className="px-3 py-2 rounded-lg bg-brand text-onbrand text-sm font-semibold">Subscribe<span className="sr-only"> to a daily reminder calendar</span></a>
             <button type="button" onClick={() => setShowFeed((v) => !v)} aria-expanded={showFeed}
               className="px-3 py-2 rounded-lg border border-gray-300 text-sm font-semibold text-navy">{showFeed ? "Hide link" : "Copy link instead"}</button>
           </div>
@@ -139,6 +140,10 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
   const startIn = best.start - nowMs;
   const finishIn = best.end - nowMs;
   const startNow = best.index === 0;
+  const thing = applianceName.toLowerCase();
+  const shareText = !allSame && saveNow > 0.05 && perWeek > 0
+    ? `Running my ${thing} at ${whenLabel(best.start)} instead of now saves ${money(saveNow)}, about ${money(saveNow * perWeek * 52)} a year. Find the cheapest time to run yours, free:`
+    : "Find the cheapest and greenest time to run your appliances on your electricity tariff, free:";
   // On a flat tariff the greenest time is the useful one to remind about.
   const reminderWindow = allSame && green ? green.result.best : best;
 
@@ -232,6 +237,7 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
           </>
         )}
 
+        <ShareButton tool="when" path="/" text={shareText} />
         <Greenest green={green} cheapest={best} allSame={allSame} />
         {(!allSame || green) && reminderWindow.index !== 0 && (
           <Reminders elec={elec} best={reminderWindow} applianceName={applianceName} kWh={kWh} mins={mins} />
