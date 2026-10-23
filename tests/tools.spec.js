@@ -88,3 +88,42 @@ test("header has the Ko-fi and creator links", async ({ page }) => {
   await expect(creator.getByRole("link", { name: /Created By/ })).toHaveAttribute("href", "https://www.linkedin.com/in/jondoesflow");
   await expect(creator.getByRole("link", { name: /GitHub Projects/ })).toHaveAttribute("href", "https://github.com/jondoesflow?tab=repositories");
 });
+
+test("should I switch: car charging is moved into each tariff's cheap hours", async ({ page }) => {
+  await page.goto("/should-i-switch/");
+  await setUp(page);
+  // Two weeks of a home that charges a car 11pm to 1am, which suits a tariff
+  // cheap from 11pm, but sits outside Octopus Go's 12:30am to 5:30am window.
+  let csv = "Start,Consumption (kWh)\n";
+  for (let d = 1; d <= 14; d++) {
+    for (let h = 0; h < 48; h++) {
+      const hh = String(Math.floor(h / 2)).padStart(2, "0");
+      const mm = h % 2 ? "30" : "00";
+      const charging = h >= 46 || h < 2; // 23:00 to 01:00
+      csv += `2026-09-${String(d).padStart(2, "0")}T${hh}:${mm}:00+01:00,${charging ? "3.500" : "0.200"}\n`;
+    }
+  }
+  await page.locator('input[type="file"]').setInputFiles({ name: "ev.csv", mimeType: "text/csv", buffer: Buffer.from(csv) });
+  const card = page.getByRole("region", { name: "Car charging found" });
+  await expect(card).toContainText("92kWh a week");
+  const moveIt = card.getByRole("checkbox", { name: "Move car charging to each tariff's cheapest hours" });
+  await expect(moveIt).toBeChecked();
+
+  const results = page.getByRole("region", { name: /yearly cost/i });
+  const goCost = async () => Number((await results.getByRole("listitem").filter({ hasText: /^Octopus Go/ }).locator(".tabular-nums > div").first().innerText()).replace(/[£,]/g, ""));
+  await expect(results.getByRole("listitem").filter({ hasText: /^Octopus Go/ })).toBeVisible();
+  const moved = await goCost();
+  await moveIt.uncheck();
+  await expect.poll(goCost).not.toBe(moved);
+  const asIs = await goCost();
+  expect(moved).toBeLessThan(asIs);
+  await expect(results).toContainText("It assumes you'd use electricity at the same times as before");
+});
+
+test("should I switch: no car charging notice for an ordinary home", async ({ page }) => {
+  await page.goto("/should-i-switch/");
+  await setUp(page);
+  await page.getByRole("button", { name: /Try an example household/ }).click();
+  await expect(page.getByRole("region", { name: /yearly cost/i })).toBeVisible();
+  await expect(page.getByRole("region", { name: "Car charging found" })).toHaveCount(0);
+});

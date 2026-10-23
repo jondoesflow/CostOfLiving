@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
-import { Upload, FileText } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { Upload, FileText, Car } from "lucide-react";
 import { TARIFFS, SUPPLIERS, REFERENCE, pricingFor, economy7Slots, ukMinutes, currentSlotStart } from "../prices";
 import { parseUsage, exampleUsage } from "../lib/usage";
+import { findFlexibleLoad, energyCost } from "../lib/flexible";
 import { pounds } from "../lib/format";
 import { Card, StepTitle, Warning, Note, LiveSummary } from "../components/ui";
 import ShareButton from "../components/ShareButton";
@@ -20,9 +21,8 @@ const ELIGIBILITY = {
 
 const CANDIDATES = [...TARIFFS.filter((t) => t.supplier), REFERENCE];
 
-function costOn(usage, priceAt, standingCharge) {
-  const energy = usage.readings.reduce((sum, r) => sum + r.kWh * priceAt(r.t), 0);
-  const total = energy + standingCharge * usage.days;
+function costOn(usage, priceAt, standingCharge, flexible) {
+  const total = energyCost(usage, priceAt, flexible) + standingCharge * usage.days;
   return { total, yearly: (total / usage.days) * 365 };
 }
 
@@ -32,6 +32,7 @@ export default function SwitchCheck({ elec }) {
   const [fileName, setFileName] = useState("");
   const [parseError, setParseError] = useState("");
   const [results, setResults] = useState({ key: null, rows: [], state: "idle" });
+  const [shift, setShift] = useState(true);
 
   function load(text, name) {
     try {
@@ -56,7 +57,7 @@ export default function SwitchCheck({ elec }) {
     const ctrl = new AbortController();
     Promise.all(CANDIDATES.map((t) =>
       pricingFor(t.id, region, usage.from, usage.to, ctrl.signal)
-        .then((p) => ({ tariff: t, standingCharge: p.standingCharge, ...costOn(usage, p.priceAt, p.standingCharge) }))
+        .then((p) => ({ tariff: t, priceAt: p.priceAt, standingCharge: p.standingCharge }))
         .catch((e) => (e.name === "AbortError" ? Promise.reject(e) : { tariff: t, error: true })),
     ))
       .then((rows) => setResults({ key, rows, state: "ready" }))
@@ -64,9 +65,18 @@ export default function SwitchCheck({ elec }) {
     return () => ctrl.abort();
   }, [key, region, usage]);
 
+  // Car charging (or similar) found in the file; when it's significant and the
+  // option is on, each tariff gets it re-timed into its own cheapest hours.
+  const flexibleLoad = useMemo(() => (usage ? findFlexibleLoad(usage) : null), [usage]);
+  const moveCharging = Boolean(flexibleLoad?.significant && shift);
+  const priced = useMemo(
+    () => results.rows.map((r) => (r.error ? r : { ...r, ...costOn(usage, r.priceAt, r.standingCharge, moveCharging ? flexibleLoad : null) })),
+    [results.rows, usage, moveCharging, flexibleLoad],
+  );
+
   // The user's own tariff when it isn't one we can look up: priced from what
   // they entered, with the standard tariff's standing charge.
-  const standardRow = results.rows.find((r) => r.tariff.id === "standard" && !r.error);
+  const standardRow = priced.find((r) => r.tariff.id === "standard" && !r.error);
   let ownRow = null;
   if (usage && standardRow && (tariff === "e7" || tariff === "flat")) {
     let priceAt;
@@ -78,14 +88,14 @@ export default function SwitchCheck({ elec }) {
       const rate = typeof flatOverride === "number" ? flatOverride : apiFlatRate;
       priceAt = rate != null ? () => rate : null;
     }
-    if (priceAt) ownRow = { tariff: { id: "own", label: tariff === "e7" ? "Your off-peak tariff" : "Your current rate" }, ...costOn(usage, priceAt, standardRow.standingCharge), own: true };
+    if (priceAt) ownRow = { tariff: { id: "own", label: tariff === "e7" ? "Your off-peak tariff" : "Your current rate" }, ...costOn(usage, priceAt, standardRow.standingCharge, moveCharging ? flexibleLoad : null), own: true };
   }
 
   const ready = results.key === key && results.state === "ready";
   const rows = ready
-    ? [...results.rows.filter((r) => !r.error), ...(ownRow ? [ownRow] : [])].sort((a, b) => a.yearly - b.yearly)
+    ? [...priced.filter((r) => !r.error), ...(ownRow ? [ownRow] : [])].sort((a, b) => a.yearly - b.yearly)
     : [];
-  const failed = ready ? results.rows.filter((r) => r.error) : [];
+  const failed = ready ? priced.filter((r) => r.error) : [];
   const baseline = rows.find((r) => r.own) ?? rows.find((r) => r.tariff.id === tariff) ?? rows.find((r) => r.tariff.id === "standard");
 
   const summary = ready && rows.length
@@ -119,6 +129,25 @@ export default function SwitchCheck({ elec }) {
           </p>
         )}</div>
       </Card>
+
+      {flexibleLoad?.significant && (
+        <Card labelledBy="charging-title">
+          <h2 id="charging-title" className="text-xl font-semibold mb-2 flex items-center gap-2"><Car size={22} className="text-navy" aria-hidden="true" /> Car charging found</h2>
+          <p className="text-gray-700">
+            Your usage includes about <strong>{Math.round(flexibleLoad.perWeek)}kWh a week</strong> of big, steady loads. That's usually an electric car charging (or storage heaters).
+          </p>
+          <p className="text-gray-700 mt-2">
+            When you charged was chosen to suit your current tariff, so pricing those same times on another tariff isn't fair: its cheap hours are different. Instead, we can move that charging into each tariff's own cheapest hours, overnight where possible, as you would if you switched.
+          </p>
+          <label className="mt-3 flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" checked={shift} onChange={(e) => setShift(e.target.checked)} className="mt-1 w-5 h-5 accent-[rgb(var(--ink))]" />
+            <span className="font-semibold text-navy">Move car charging to each tariff's cheapest hours</span>
+          </label>
+          <Note className="mt-3">
+            Intelligent Octopus Go isn't in this comparison: Octopus chooses its cheap charging times each night, so it can't be priced from past usage. If you're on it now, the daytime charging it scheduled for you is treated like any other charging and moved.
+          </Note>
+        </Card>
+      )}
 
       {usage && !region && <Card><p className="text-gray-700">Choose your supplier and region in step 1 so we can look up prices for your area.</p></Card>}
       {key && !ready && results.state !== "error" && <Card><p className="text-gray-600" role="status">Working out what you'd have paid on each tariff…</p></Card>}
@@ -171,7 +200,9 @@ export default function SwitchCheck({ elec }) {
           </ul>
           {failed.length > 0 && <p className="text-sm text-gray-500 mt-2">We couldn't get prices for {failed.map((f) => f.tariff.label).join(", ")}.</p>}
           <Note className="mt-4">
-            This uses today's prices for fixed-time tariffs and real past prices for Agile and FreePhase Dynamic. It assumes you'd use electricity at the same times as before; on a time-of-use tariff most people shift some use to cheap hours and save more. Check the supplier's terms, any exit fees on your current deal, and whether the tariff suits your home before switching.
+            This uses today's prices for fixed-time tariffs and real past prices for Agile and FreePhase Dynamic. {moveCharging
+              ? "Car charging is moved into each tariff's cheapest hours; everything else is priced at the times you actually used it."
+              : "It assumes you'd use electricity at the same times as before; on a time-of-use tariff most people shift some use to cheap hours and save more."} Check the supplier's terms, any exit fees on your current deal, and whether the tariff suits your home before switching.
           </Note>
         </Card>
       )}
