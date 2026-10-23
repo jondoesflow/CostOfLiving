@@ -106,3 +106,62 @@ export function scheduleJobs(slots, jobs, { maxAtOnce = Infinity, finishBy = nul
   }
   return placed.sort((a, b) => (a.window?.start ?? Infinity) - (b.window?.start ?? Infinity));
 }
+
+// Charging that can stop and start, like an electric car: the energy goes into
+// the cheapest half hours rather than one unbroken block, the way a smart
+// charger does it. Looks `within` ms ahead. With `cheapOnly`, only half hours
+// close to the cheapest price are used, and whatever doesn't fit is left as
+// `remaining` (for when tomorrow's prices aren't out yet).
+export function cheapestSlots(slots, kWh, mins, { finishBy = null, within = 24 * 3600 * 1000, cheapOnly = false } = {}) {
+  const perSlot = (kWh * 30) / Math.max(1, mins);
+  let candidates = slots
+    .map((s, index) => ({ ...s, index }))
+    .filter((s) => s.start < slots[0].start + within && (!finishBy || s.start + SLOT_MS <= finishBy));
+  if (!candidates.length) return null;
+  if (cheapOnly) {
+    const floor = Math.min(...candidates.map((s) => s.price));
+    candidates = candidates.filter((s) => s.price <= floor + Math.max(2, Math.abs(floor) * 0.15));
+  }
+
+  let left = kWh;
+  const chosen = [];
+  for (const s of [...candidates].sort((a, b) => a.price - b.price || a.start - b.start)) {
+    if (left <= 1e-9) break;
+    const e = Math.min(perSlot, left);
+    chosen.push({ ...s, kWh: e });
+    left -= e;
+  }
+  chosen.sort((a, b) => a.index - b.index);
+
+  // Back-to-back half hours become one charging session.
+  const sessions = [];
+  for (const s of chosen) {
+    const end = s.start + (s.kWh / perSlot) * SLOT_MS;
+    const last = sessions[sessions.length - 1];
+    if (last && last.lastIndex === s.index - 1) {
+      Object.assign(last, { end, lastIndex: s.index, kWh: last.kWh + s.kWh, cost: last.cost + s.kWh * s.price, count: last.count + 1 });
+    } else {
+      sessions.push({ start: s.start, end, index: s.index, lastIndex: s.index, count: 1, kWh: s.kWh, cost: s.kWh * s.price });
+    }
+  }
+
+  // The same energy charged straight away, for comparison.
+  const placed = kWh - Math.max(0, left);
+  let nowLeft = placed;
+  let nowCost = 0;
+  for (const s of slots) {
+    if (nowLeft <= 1e-9) break;
+    const e = Math.min(perSlot, nowLeft);
+    nowCost += e * s.price;
+    nowLeft -= e;
+  }
+
+  return {
+    sessions,
+    cost: sessions.reduce((sum, s) => sum + s.cost, 0),
+    placed,
+    remaining: Math.max(0, left),
+    nowCost,
+    startsNow: sessions[0].index === 0,
+  };
+}

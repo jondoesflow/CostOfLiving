@@ -29,6 +29,29 @@ for (const scheme of ["light", "dark"]) {
   }
 }
 
+// The result screens shown before tomorrow's Agile prices are published.
+const PENDING = {
+  "cheapest so far": { appliance: /Washing machine/, patterns: {} },
+  "split car charging": { appliance: /Electric car/, patterns: { agile: (h) => (h < 5 ? 12 : h < 16 ? 25 : h < 19 ? 40 : h < 22.5 ? 20 : 10) } },
+};
+
+for (const scheme of ["light", "dark"]) {
+  for (const [name, { appliance, patterns }] of Object.entries(PENDING)) {
+    test(`${name}, before tomorrow's prices, has no WCAG 2.2 AA violations (${scheme})`, async ({ page }) => {
+      await page.emulateMedia({ colorScheme: scheme });
+      await mockApis(page, { now: new Date("2026-10-23T12:00:00Z"), patterns });
+      await page.goto("/");
+      await setUp(page);
+      await page.getByRole("radio", { name: appliance }).check();
+      await expect(page.getByRole("region", { name: /result/i })).toContainText("Tomorrow's prices aren't out yet");
+      await page.waitForTimeout(500);
+      const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
+      const summary = results.violations.map((v) => `${v.id} (${v.impact}): ${v.help} — ${v.nodes.length} node(s): ${v.nodes.slice(0, 3).map((n) => n.target.join(" ")).join(" | ")}`);
+      expect(summary, summary.join("\n")).toEqual([]);
+    });
+  }
+}
+
 test("dark mode follows the system and can be switched by hand", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "dark" });
   await mockApis(page);

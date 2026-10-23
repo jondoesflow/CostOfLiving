@@ -1,9 +1,9 @@
 import { useState, useMemo } from "react";
-import { Clock, Timer, PiggyBank, Leaf, CalendarPlus, BellRing } from "lucide-react";
+import { Clock, Timer, PiggyBank, Leaf, CalendarPlus, BellRing, Hourglass, Car } from "lucide-react";
 import { APPLIANCES } from "../appliances";
-import { SLOT_MS } from "../prices";
-import { bestWindows, windowCosts } from "../optimise";
-import { whenLabel, money, duration, ukDate } from "../lib/format";
+import { SLOT_MS, ukMinutes } from "../prices";
+import { bestWindows, windowCosts, cheapestSlots } from "../optimise";
+import { whenLabel, timeLabel, money, duration, ukDate } from "../lib/format";
 import { downloadIcs, googleCalendarUrl, feedUrl, reminderTitle } from "../lib/calendar";
 import { Card, StepTitle, NumberField, Warning, Note, LiveSummary } from "../components/ui";
 import ApplianceGrid from "../components/ApplianceGrid";
@@ -121,8 +121,37 @@ function Reminders({ elec, best, applianceName, kWh, mins }) {
   );
 }
 
-function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finishBy, noTimer }) {
-  const { slots, tariff, refRate, now: nowMs, tariffInfo } = elec;
+// Whether a run touches the 4pm to 7pm peak, or the half hour after it.
+const PEAK_FROM = 16 * 60;
+const PEAK_TO = 19 * 60 + 30;
+function nearPeak(slots, w) {
+  for (let i = w.index; i < w.index + w.slotCount; i++) {
+    const m = ukMinutes(slots[i].start);
+    if (m >= PEAK_FROM && m < PEAK_TO) return true;
+  }
+  return false;
+}
+
+// Dynamic tariffs publish the next day's prices in the afternoon, so before
+// then we can only see up to about 11pm tonight.
+function PricesPending({ elec }) {
+  const { slots, tariff, tariffInfo } = elec;
+  const until = slots[slots.length - 1].start + SLOT_MS;
+  return (
+    <div className="mb-5 rounded-xl border-2 border-warning/40 bg-warning/10 p-4 flex gap-3" role="note">
+      <Hourglass size={22} className="shrink-0 text-warning mt-0.5" aria-hidden="true" />
+      <div>
+        <div className="font-semibold text-navy">Tomorrow's prices aren't out yet</div>
+        <p className="text-gray-700">
+          We only have {tariffInfo.label} prices up to {timeLabel(until)} tonight. {tariff === "agile" ? "Octopus publishes the next day's prices around 4pm" : "The next day's prices usually come out in the afternoon"}, and overnight is often cheaper, so check back then before planning anything for tonight.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finishBy, noTimer, pending }) {
+  const { slots, tariff, refRate, now: nowMs } = elec;
   if (!result) {
     return (
       <Card label="Result">
@@ -134,6 +163,9 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
   }
 
   const { best, now, sooner, alternatives, allSame } = result;
+  // Before tomorrow's prices are out, a time in or just after the peak is
+  // only the cheapest of what we can see, not a time worth planning around.
+  const soFar = pending && !allSame && nearPeak(slots, best);
   const saveNow = now.cost - best.cost;
   const refCost = refRate != null ? kWh * refRate : null;
   const saveVsRef = refCost != null ? refCost - best.cost : null;
@@ -149,6 +181,7 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
 
   return (
     <Card className="border-2" label="Result">
+      {pending && <PricesPending elec={elec} />}
       <div className="animate-fade-in-up">
         {allSame ? (
           <>
@@ -164,11 +197,16 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
           </>
         ) : (
           <>
-            <p className="text-sm uppercase tracking-wide text-relief font-semibold flex items-center gap-1"><Clock size={16} aria-hidden="true" /> Cheapest time</p>
+            <p className={`text-sm uppercase tracking-wide font-semibold flex items-center gap-1 ${soFar ? "text-warning" : "text-relief"}`}><Clock size={16} aria-hidden="true" /> {soFar ? "Cheapest so far" : "Cheapest time"}</p>
             <h2 className="text-3xl sm:text-4xl font-semibold mt-1">
-              {startNow ? "Start it now" : <>Start at {whenLabel(best.start)}</>}
+              {soFar ? <>Cheapest so far: {startNow ? "now" : whenLabel(best.start)}</> : startNow ? "Start it now" : <>Start at {whenLabel(best.start)}</>}
             </h2>
             <p className="text-gray-600 mt-1">Finishes around {whenLabel(best.end)}.</p>
+            {soFar && (
+              <p className="mt-3 text-gray-700">
+                That's in or just after the 4pm to 7pm peak, only because later prices aren't published yet. If it can wait, check back once tomorrow's prices are out: overnight is usually cheaper.
+              </p>
+            )}
 
             <div className="grid grid-cols-2 gap-3 mt-5">
               <div className="rounded-xl bg-relief/10 p-4">
@@ -187,7 +225,7 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
                 <PiggyBank size={20} className="shrink-0 text-relief mt-0.5" aria-hidden="true" />
                 <span>
                   Waiting saves <strong className="tabular-nums">{money(saveNow)}</strong>
-                  {perWeek > 0 && <> — about <strong className="tabular-nums">{money(saveNow * perWeek * 52)} a year</strong> if you run it {perWeek} times a week and prices stay like today</>}.
+                  {perWeek > 0 && !soFar && <> — about <strong className="tabular-nums">{money(saveNow * perWeek * 52)} a year</strong> if you run it {perWeek} times a week and prices stay like today</>}.
                 </span>
               </p>
             )}
@@ -197,7 +235,7 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
               </p>
             )}
 
-            {!startNow && !noTimer && (
+            {!startNow && !noTimer && !soFar && (
               <div className="mt-5 rounded-xl border border-gray-200 p-4 flex gap-3">
                 <Timer size={22} className="shrink-0 text-navy mt-0.5" aria-hidden="true" />
                 <div>
@@ -239,7 +277,7 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
 
         <ShareButton tool="when" path="/" text={shareText} />
         <Greenest green={green} cheapest={best} allSame={allSame} />
-        {(!allSame || green) && reminderWindow.index !== 0 && (
+        {(!allSame || green) && reminderWindow.index !== 0 && !soFar && (
           <Reminders elec={elec} best={reminderWindow} applianceName={applianceName} kWh={kWh} mins={mins} />
         )}
       </div>
@@ -252,9 +290,98 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
           ariaLabel="Bar chart of electricity price for each half hour, with the cheapest window highlighted"
         />
       )}
-      {tariffInfo?.dynamic && slots.length > 0 && ukDate(slots[slots.length - 1].start) === ukDate(nowMs) && (
-        <Note className="mt-3">Tomorrow's prices come out in the afternoon. Check back then — overnight is often cheaper.</Note>
-      )}
+    </Card>
+  );
+}
+
+// Car charging split across the cheapest half hours.
+function ChargeResult({ elec, plan, green, kWh, mins, perWeek, applianceName, finishBy, pending }) {
+  const { slots, now: nowMs } = elec;
+  const { sessions, cost, nowCost, placed, remaining, startsNow } = plan;
+  const first = sessions[0];
+  const done = sessions[sessions.length - 1].end;
+  const partial = remaining > 0.05;
+  const saveNow = nowCost - cost;
+  const shareText = !partial && saveNow > 0.05 && perWeek > 0
+    ? `Charging my car in the cheapest half hours instead of straight away saves ${money(saveNow)}, about ${money(saveNow * perWeek * 52)} a year. Find yours, free:`
+    : "Find the cheapest and greenest time to run your appliances on your electricity tariff, free:";
+  const kwh = (n) => `${Number(n.toFixed(1))}kWh`;
+
+  return (
+    <Card className="border-2" label="Result">
+      {pending && <PricesPending elec={elec} />}
+      <div className="animate-fade-in-up">
+        <p className="text-sm uppercase tracking-wide text-relief font-semibold flex items-center gap-1"><Clock size={16} aria-hidden="true" /> Cheapest half hours</p>
+        <h2 className="text-3xl sm:text-4xl font-semibold mt-1">
+          {startsNow ? "Start charging now" : <>Start charging at {whenLabel(first.start)}</>}
+        </h2>
+        <p className="text-gray-600 mt-1">
+          {sessions.length > 1 ? `Charge in ${sessions.length} spells, finishing around ${whenLabel(done)}.` : `Finishes around ${whenLabel(done)}.`}
+        </p>
+        {partial && (
+          <p className="mt-3 text-gray-700">
+            {pending
+              ? <>That covers <strong>{kwh(placed)}</strong> of the {kwh(kWh)}. Leave the other {kwh(remaining)} until tomorrow's prices are out, when the cheapest overnight hours can be picked.</>
+              : <>That covers <strong>{kwh(placed)}</strong> of the {kwh(kWh)}. The other {kwh(remaining)} doesn't fit {finishBy ? "before your finish time" : "in the hours we have prices for"}.</>}
+          </p>
+        )}
+
+        <div className="grid grid-cols-2 gap-3 mt-5">
+          <div className="rounded-xl bg-relief/10 p-4">
+            <div className="text-sm text-gray-600">Cost then{partial && <> for {kwh(placed)}</>}</div>
+            <div className="text-3xl font-heading font-semibold text-relief tabular-nums">{money(cost)}</div>
+          </div>
+          <div className="rounded-xl bg-gray-50 p-4">
+            <div className="text-sm text-gray-600">If you charge straight away</div>
+            <div className="text-3xl font-heading font-semibold text-gray-700 tabular-nums">{money(nowCost)}</div>
+          </div>
+        </div>
+
+        {saveNow > 0.05 && (
+          <p className="mt-4 flex gap-2 items-start">
+            <PiggyBank size={20} className="shrink-0 text-relief mt-0.5" aria-hidden="true" />
+            <span>
+              Waiting saves <strong className="tabular-nums">{money(saveNow)}</strong>
+              {perWeek > 0 && !partial && <>, about <strong className="tabular-nums">{money(saveNow * perWeek * 52)} a year</strong> if you charge {perWeek} times a week and prices stay like today</>}.
+            </span>
+          </p>
+        )}
+
+        <div className="mt-5">
+          <h3 className="text-base font-semibold mb-2">When to charge</h3>
+          <ul className="divide-y divide-gray-100">
+            {sessions.map((s) => (
+              <li key={s.start} className="flex justify-between gap-3 py-2">
+                <span>{s.index === 0 ? "Now" : whenLabel(s.start)} to {timeLabel(s.end)}</span>
+                <span className="tabular-nums text-gray-700">{kwh(s.kWh)}, {money(s.cost)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mt-5 rounded-xl border border-gray-200 p-4 flex gap-3">
+          <Car size={22} className="shrink-0 text-navy mt-0.5" aria-hidden="true" />
+          <div>
+            <div className="font-semibold text-navy">It doesn't need to charge in one go</div>
+            <p className="text-gray-700">
+              Set these times in your car's or charger's app{!startsNow && <>, or set it to start in <strong>{duration(first.start - nowMs)}</strong></>}. If your charger has a smart or Agile mode, it can pick the cheap half hours for you.
+            </p>
+          </div>
+        </div>
+
+        <ShareButton tool="when" path="/" text={shareText} />
+        <Greenest green={green} cheapest={null} allSame={false} />
+        {!startsNow && (
+          <Reminders elec={elec} best={{ start: first.start, end: done }} applianceName={applianceName} kWh={kWh} mins={mins} />
+        )}
+      </div>
+
+      <SlotChart
+        slots={slots} title="Price per unit, every half hour"
+        highlights={sessions.map((s) => ({ from: s.index, count: s.count, color: "relief", label: "Cheapest half hours" }))}
+        refValue={elec.tariff === "flat" ? null : elec.refRate} refLabel="Standard rate"
+        ariaLabel="Bar chart of electricity price for each half hour, with the cheapest half hours for charging highlighted"
+      />
     </Card>
   );
 }
@@ -264,7 +391,7 @@ export default function WhenToRun({ elec }) {
   const [kWh, setKWh] = useState("");
   const [mins, setMins] = useState("");
   const [finishBy, setFinishBy] = useState(null);
-  const { slots, ready, now, carbon } = elec;
+  const { slots, ready, now, carbon, tariffInfo } = elec;
 
   const finishOptions = useMemo(() => {
     if (!slots.length || !mins) return [];
@@ -287,6 +414,16 @@ export default function WhenToRun({ elec }) {
     return bestWindows(slots, kWh, mins, activeFinishBy);
   }, [ready, valid, slots, kWh, mins, activeFinishBy]);
 
+  const appliance = APPLIANCES.find((a) => a.id === applianceId);
+  // Tomorrow's prices on a dynamic tariff aren't published until the afternoon.
+  const pending = Boolean(ready && tariffInfo?.dynamic && slots.length && ukDate(slots[slots.length - 1].start) === ukDate(now));
+
+  // Car charging can stop and start, so it goes into the cheapest half hours.
+  const plan = useMemo(() => {
+    if (!ready || !valid || !appliance?.splittable || result?.allSame) return null;
+    return cheapestSlots(slots, kWh, mins, { finishBy: activeFinishBy, cheapOnly: pending });
+  }, [ready, valid, appliance, result, slots, kWh, mins, activeFinishBy, pending]);
+
   // Same search over the carbon forecast, with grams of CO2 in place of pence.
   const green = useMemo(() => {
     if (!valid || !carbon.length) return null;
@@ -302,12 +439,14 @@ export default function WhenToRun({ elec }) {
     if (a) { setKWh(a.kWh); setMins(a.mins); } else { setKWh(1); setMins(60); }
   }
 
-  const appliance = APPLIANCES.find((a) => a.id === applianceId);
   let summary = "";
-  if (result === null) summary = activeFinishBy ? "There isn't enough time to finish by then." : "Not enough prices ahead for a run this long yet.";
+  if (plan) {
+    summary = `${plan.startsNow ? "Start charging now" : `Start charging at ${whenLabel(plan.sessions[0].start)}`}, in ${plan.sessions.length} ${plan.sessions.length === 1 ? "spell" : "spells"}. Cost ${money(plan.cost)}, or ${money(plan.nowCost)} if you charge straight away.`;
+  } else if (result === null) summary = activeFinishBy ? "There isn't enough time to finish by then." : "Not enough prices ahead for a run this long yet.";
   else if (result?.allSame) summary = `Any time costs the same. Each run costs about ${money(result.best.cost)}.`;
   else if (result) {
-    summary = `${result.best.index === 0 ? "Start it now" : `Start at ${whenLabel(result.best.start)}`}. Cost then ${money(result.best.cost)}, or ${money(result.now.cost)} if you start it now.`;
+    const soFar = pending && nearPeak(slots, result.best);
+    summary = `${soFar ? "Cheapest so far: " : ""}${result.best.index === 0 ? "Start it now" : `Start at ${whenLabel(result.best.start)}`}. Cost then ${money(result.best.cost)}, or ${money(result.now.cost)} if you start it now.`;
   }
 
   return (
@@ -318,11 +457,16 @@ export default function WhenToRun({ elec }) {
         finishBy={activeFinishBy} setFinishBy={setFinishBy} finishOptions={finishOptions}
       />
       <PricesStatus elec={elec} waiting={Boolean(applianceId)} />
-      {result !== undefined && (
+      {plan ? (
+        <ChargeResult
+          elec={elec} plan={plan} green={green} kWh={kWh} mins={mins}
+          perWeek={appliance.perWeek ?? 0} applianceName={appliance.name} finishBy={activeFinishBy} pending={pending}
+        />
+      ) : result !== undefined && (
         <Result
           elec={elec} result={result} green={green} kWh={kWh} mins={mins}
           perWeek={appliance?.perWeek ?? 0} applianceName={appliance?.name ?? "Appliance"} finishBy={activeFinishBy}
-          noTimer={Boolean(appliance?.noTimer)}
+          noTimer={Boolean(appliance?.noTimer)} pending={pending}
         />
       )}
     </>

@@ -26,7 +26,7 @@ export const APPLIANCES = [
   { id: "dehumidifier", group: "heat", name: "Dehumidifier", icon: "AirVent", kWh: 2.0, mins: 480, perWeek: 4, note: "250W for 8 hours" },
   { id: "ebike", group: "charging", name: "E-bike / scooter", icon: "Bike", kWh: 0.5, mins: 240, perWeek: 3, note: "Full charge" },
   { id: "mobility", group: "charging", name: "Mobility scooter", icon: "Accessibility", kWh: 1.0, mins: 480, perWeek: 3, note: "Full overnight charge" },
-  { id: "ev", group: "charging", name: "Electric car", icon: "Car", kWh: 30, mins: 270, perWeek: 2, note: "30kWh on a 7kW home charger" },
+  { id: "ev", splittable: true, group: "charging", name: "Electric car", icon: "Car", kWh: 30, mins: 270, perWeek: 2, note: "30kWh on a 7kW home charger" },
 ];
 
 export const REGIONS = [

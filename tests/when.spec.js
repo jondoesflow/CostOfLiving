@@ -19,12 +19,24 @@ test("finds the cheapest and greenest time on Agile", async ({ page }) => {
 
 test("finish-by deadline moves the start earlier", async ({ page }) => {
   await setUp(page);
-  await page.getByRole("radio", { name: /Electric car/ }).check();
+  await page.getByRole("radio", { name: /Dishwasher/ }).check();
   await expect(page.getByRole("heading", { name: "Start at midnight tonight" })).toBeVisible();
-  // 4.5 hours of charging has to start now to be done by midnight.
-  await page.getByLabel("Needs to be finished by").selectOption({ label: "midnight tonight" });
+  await page.getByLabel("Needs to be finished by").selectOption({ label: "11pm tonight" });
   await expect(page.getByRole("heading", { name: "Start it now" })).toBeVisible();
 });
+
+test("car charging goes into the cheapest half hours", async ({ page }) => {
+  await setUp(page);
+  await page.getByRole("radio", { name: /Electric car/ }).check();
+  const result = page.getByRole("region", { name: /result/i });
+  await expect(result.getByRole("heading", { name: "Start charging at midnight tonight" })).toBeVisible();
+  // 30kWh at 12p overnight, against starting at 7:10pm on 20p.
+  await expect(result).toContainText(/Cost then\s*£3\.60/);
+  await expect(result).toContainText(/If you charge straight away\s*£6\.00/);
+  await expect(result.getByRole("listitem").filter({ hasText: "midnight tonight to 4:30am" })).toContainText("30kWh, £3.60");
+  await expect(result).not.toContainText("Tomorrow's prices aren't out yet");
+});
+
 
 test("postcode lookup finds the region, and a bad postcode explains itself", async ({ page }) => {
   await page.getByLabel("Who supplies your electricity?").selectOption("octopus");
@@ -129,4 +141,44 @@ test("share button copies a tagged link with the result", async ({ page, context
   expect(copied).toContain("Running my washing machine at midnight tonight instead of now saves 6.4p, about £13.31 a year.");
   expect(copied).toContain("https://cheapwatts.co.uk/?utm_source=share&utm_medium=result&utm_campaign=when");
   await expect(result.getByRole("button", { name: "Share this" })).toHaveAttribute("data-umami-event", "share-result");
+});
+
+test.describe("before tomorrow's Agile prices are out", () => {
+  // 1pm, so prices only run to 11pm tonight.
+  const morning = new Date("2026-10-23T12:00:00Z");
+
+  test("says so up front, and doesn't pass off a time next to the peak as the best", async ({ page }) => {
+    await mockApis(page, { now: morning });
+    await page.goto("/");
+    await setUp(page);
+    await page.getByRole("radio", { name: /Washing machine/ }).check();
+    const result = page.getByRole("region", { name: /result/i });
+    await expect(result).toContainText("Tomorrow's prices aren't out yet");
+    await expect(result).toContainText("prices up to 11pm tonight. Octopus publishes the next day's prices around 4pm");
+    await expect(result.getByRole("heading", { name: "Cheapest so far: 7pm tonight" })).toBeVisible();
+    await expect(result).toContainText("just after the 4pm to 7pm peak");
+    await expect(result).not.toContainText("Using a delay timer?");
+  });
+
+  test("a time clear of the peak is still shown as the cheapest", async ({ page }) => {
+    await mockApis(page, { now: morning, patterns: { agile: (h) => (h < 5 ? 12 : h < 16 ? 25 : h < 19 ? 40 : h < 20 ? 30 : 15) } });
+    await page.goto("/");
+    await setUp(page);
+    await page.getByRole("radio", { name: /Washing machine/ }).check();
+    const result = page.getByRole("region", { name: /result/i });
+    await expect(result).toContainText("Tomorrow's prices aren't out yet");
+    await expect(result.getByRole("heading", { name: "Start at 8pm tonight" })).toBeVisible();
+  });
+
+  test("car charging uses the cheap slots it can see and leaves the rest", async ({ page }) => {
+    // Cheap from 10:30pm, the last half hour with a price.
+    await mockApis(page, { now: morning, patterns: { agile: (h) => (h < 5 ? 12 : h < 16 ? 25 : h < 19 ? 40 : h < 22.5 ? 20 : 10) } });
+    await page.goto("/");
+    await setUp(page);
+    await page.getByRole("radio", { name: /Electric car/ }).check();
+    const result = page.getByRole("region", { name: /result/i });
+    await expect(result).toContainText("Tomorrow's prices aren't out yet");
+    await expect(result.getByRole("heading", { name: "Start charging at 10:30pm tonight" })).toBeVisible();
+    await expect(result).toContainText("That covers 3.3kWh of the 30kWh. Leave the other 26.7kWh until tomorrow's prices are out");
+  });
 });

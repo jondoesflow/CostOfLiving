@@ -64,9 +64,9 @@ function krakenRates(product, from, to) {
   return out.reverse(); // the real API returns newest first
 }
 
-export async function mockApis(page, { failKraken = false, patterns = {} } = {}) {
+export async function mockApis(page, { failKraken = false, patterns = {}, now = NOW } = {}) {
   Object.assign(ACTIVE, PATTERNS, patterns);
-  await page.clock.setFixedTime(NOW);
+  await page.clock.setFixedTime(now);
 
   await page.route(/https:\/\/(api\.octopus\.energy|api\.edfgb-kraken\.energy|api\.eonnext-kraken\.energy)\/v1\/.*/, (route) => {
     const url = new URL(route.request().url());

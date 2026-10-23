@@ -24,7 +24,7 @@ export default function SlotChart({ slots, highlights = [], title, unit = "p", u
     <figure className="mt-6">
       <figcaption className="text-base font-semibold text-navy mb-1">{title}</figcaption>
       <p className="text-sm text-gray-600 mb-3 flex flex-wrap gap-x-4 gap-y-1">
-        {highlights.map((h) => (
+        {highlights.filter((h, i) => highlights.findIndex((o) => o.label === h.label) === i).map((h) => (
           <span key={h.label} className="flex items-center gap-1.5"><span className="inline-block w-3 h-3 rounded-sm" style={{ background: c[h.color] }} aria-hidden="true" /> {h.label}</span>
         ))}
         <span className="flex items-center gap-1.5"><span className="inline-block w-3 h-3 rounded-sm" style={{ background: c.bar }} aria-hidden="true" /> Other times</span>
