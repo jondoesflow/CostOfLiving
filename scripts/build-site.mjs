@@ -18,7 +18,7 @@ const today = new Date().toISOString().slice(0, 10);
 
 const AUTHOR = { name: "Jon Russell", url: "https://www.linkedin.com/in/jondoesflow" };
 const IMAGE = `${SITE_URL}/og-image.png`;
-const UMAMI = `<script defer src="https://cloud.umami.is/script.js" data-website-id="74f37327-8238-4722-bf55-31f81c6ea0df" data-domains="cheapwatts.co.uk"></script>`;
+const UMAMI = `<script defer src="https://umami.jondoesflow.com/script.js" data-website-id="74f37327-8238-4722-bf55-31f81c6ea0df" data-domains="cheapwatts.co.uk"></script>`;
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const write = (path, text) => { mkdirSync(dirname(path), { recursive: true }); writeFileSync(path, text); };
