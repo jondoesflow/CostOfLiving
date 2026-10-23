@@ -88,6 +88,16 @@ test("calendar file and feed link carry the right details", async ({ page }) => 
   expect(href).toMatch(/^webcal:\/\/.*\/calendar\.ics\?t=agile&k=0\.8&m=120&n=Washing\+machine&r=M$/);
 });
 
+test("smart home link and guide", async ({ page }) => {
+  await setUp(page);
+  await page.getByRole("radio", { name: /Washing machine/ }).check();
+  await page.getByRole("button", { name: "Smart home link" }).click();
+  await expect(page.getByLabel("Smart home link")).toHaveValue(/^https?:\/\/[^/]+\/api\/best-time\?t=agile&k=0\.8&m=120&r=M$/);
+  await page.getByRole("link", { name: "See how to set it up" }).click();
+  await expect(page).toHaveURL(/\/smart-home\/$/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Home Assistant/);
+});
+
 test("price failures show a helpful message", async ({ page }) => {
   await page.unrouteAll();
   await mockApis(page, { failKraken: true });

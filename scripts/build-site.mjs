@@ -263,11 +263,37 @@ ${posts.map((p) => `    <item>
 </rss>
 `);
 
+// ---------- guide pages: /<slug>/ from content/pages/*.md ----------
+const pagesDir = join(root, "content", "pages");
+const guides = (existsSync(pagesDir) ? readdirSync(pagesDir).filter((f) => f.endsWith(".md")) : []).map((file) => {
+  const m = readFileSync(join(pagesDir, file), "utf8").match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
+  if (!m) throw new Error(`${file}: missing front matter`);
+  const meta = Object.fromEntries(m[1].split(/\r?\n/).map((l) => l.match(/^(\w+):\s*(.*)$/)).filter(Boolean).map((kv) => [kv[1], kv[2].trim()]));
+  for (const key of ["title", "description", "slug"]) if (!meta[key]) throw new Error(`${file}: missing ${key}`);
+  // Code blocks can scroll sideways, so keyboard users need to be able to reach them.
+  const html = marked.parse(m[2]).replace(/<pre>/g, '<pre tabindex="0">');
+  return { ...meta, html, url: `${SITE_URL}/${meta.slug}/` };
+});
+
+for (const g of guides) {
+  write(join(dist, g.slug, "index.html"), layout({
+    title: `${g.title} · Cheap Watts`, description: g.description, canonical: g.url,
+    ld: [{ "@context": "https://schema.org", "@type": "TechArticle", headline: g.title, description: g.description, inLanguage: "en-GB", author: { "@type": "Person", ...AUTHOR }, mainEntityOfPage: g.url }],
+    main: `      <article>
+        <header><h1>${esc(g.title)}</h1></header>
+        <div class="prose">
+${g.html}
+        </div>
+      </article>`,
+  }));
+}
+
 // ---------- sitemap, robots, 404 ----------
 const urls = [
   ...PAGES.map((p) => ({ loc: `${SITE_URL}${p.path}`, lastmod: today, priority: p.path === "/" ? "1.0" : "0.8" })),
   { loc: `${SITE_URL}/blog/`, lastmod: posts[0]?.date ?? today, priority: "0.7" },
   ...posts.map((p) => ({ loc: p.url, lastmod: p.updated || p.date, priority: "0.6" })),
+  ...guides.map((g) => ({ loc: g.url, lastmod: today, priority: "0.5" })),
 ];
 write(join(dist, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -277,6 +303,7 @@ ${urls.map((u) => `  <url><loc>${u.loc}</loc><lastmod>${u.lastmod}</lastmod><pri
 write(join(dist, "robots.txt"), `User-agent: *
 Allow: /
 Disallow: /calendar.ics
+Disallow: /api/
 
 Sitemap: ${SITE_URL}/sitemap.xml
 `);
@@ -286,4 +313,4 @@ write(join(dist, "404.html"), layout({
       <p class="lede">It may have moved. Try <a href="/">the Cheap Watts tools</a> or <a href="/blog/">the blog</a>.</p>`,
 }).replace('<meta name="description"', '<meta name="robots" content="noindex" />\n    <meta name="description"'));
 
-console.log(`Built ${PAGES.length} tool pages, ${posts.length} blog post(s)${showDrafts ? " (including drafts)" : ""}, sitemap with ${urls.length} URLs.`);
+console.log(`Built ${PAGES.length} tool pages, ${guides.length} guide(s), ${posts.length} blog post(s)${showDrafts ? " (including drafts)" : ""}, sitemap with ${urls.length} URLs.`);

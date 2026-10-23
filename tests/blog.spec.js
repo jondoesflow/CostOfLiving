@@ -54,7 +54,7 @@ test("sitemap and robots point search engines at every page", async ({ request }
 });
 
 for (const scheme of ["light", "dark"]) {
-  for (const path of ["/blog/", POST]) {
+  for (const path of ["/blog/", POST, "/smart-home/"]) {
     test(`${path} has no WCAG 2.2 AA violations (${scheme})`, async ({ page }) => {
       await page.emulateMedia({ colorScheme: scheme });
       await page.goto(path);

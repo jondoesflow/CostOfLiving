@@ -1,10 +1,10 @@
 import { useState, useMemo } from "react";
-import { Clock, Timer, PiggyBank, Leaf, CalendarPlus, BellRing, Hourglass, Car } from "lucide-react";
+import { Clock, Timer, PiggyBank, Leaf, CalendarPlus, BellRing, Hourglass, Car, House } from "lucide-react";
 import { APPLIANCES } from "../appliances";
-import { SLOT_MS, ukMinutes } from "../prices";
-import { bestWindows, windowCosts, cheapestSlots } from "../optimise";
-import { whenLabel, timeLabel, money, duration, ukDate } from "../lib/format";
-import { downloadIcs, googleCalendarUrl, feedUrl, reminderTitle } from "../lib/calendar";
+import { SLOT_MS } from "../prices";
+import { bestWindows, windowCosts, cheapestSlots, nearPeak, pricesPending } from "../optimise";
+import { whenLabel, timeLabel, money, duration } from "../lib/format";
+import { downloadIcs, googleCalendarUrl, feedUrl, bestTimeUrl, reminderTitle } from "../lib/calendar";
 import { Card, StepTitle, NumberField, Warning, Note, LiveSummary } from "../components/ui";
 import ApplianceGrid from "../components/ApplianceGrid";
 import SlotChart from "../components/SlotChart";
@@ -78,11 +78,13 @@ function Greenest({ green, cheapest, allSame }) {
 
 function Reminders({ elec, best, applianceName, kWh, mins }) {
   const [showFeed, setShowFeed] = useState(false);
+  const [showApi, setShowApi] = useState(false);
   const title = reminderTitle(applianceName);
   const description = `Cheapest time to run it on your tariff, found by Cheap Watts (cheapwatts.co.uk)`;
   const event = { uid: `${best.start}-${applianceName}@cheapwatts`, start: best.start, end: best.end, title, description };
   const feed = feedUrl({ tariff: elec.tariff, region: elec.region, kWh, mins, name: applianceName, e7: elec.e7 });
   const webcal = feed.replace(/^https?:/, "webcal:");
+  const api = bestTimeUrl({ tariff: elec.tariff, region: elec.region, kWh, mins, name: applianceName, e7: elec.e7 });
   return (
     <div className="mt-5 rounded-xl border border-gray-200 p-4">
       <div className="flex gap-3">
@@ -117,19 +119,23 @@ function Reminders({ elec, best, applianceName, kWh, mins }) {
           </p>
         </div>
       </div>
+      <div className="flex gap-3 mt-4 pt-4 border-t border-gray-100">
+        <House size={22} className="shrink-0 text-navy mt-0.5" aria-hidden="true" />
+        <div className="min-w-0">
+          <div className="font-semibold text-navy">Got a smart home?</div>
+          <p className="text-gray-700">
+            Home Assistant and similar systems can start your machine at the cheapest time, using the calendar above or a smart home link. <a href="/smart-home/" className="underline font-semibold text-navy">See how to set it up</a>.
+          </p>
+          <button type="button" onClick={() => setShowApi((v) => !v)} aria-expanded={showApi} data-umami-event="show-smart-home-link"
+            className="mt-3 px-3 py-2 rounded-lg border border-gray-300 text-sm font-semibold text-navy">{showApi ? "Hide smart home link" : "Smart home link"}</button>
+          {showApi && (
+            <input readOnly value={api} onFocus={(e) => e.target.select()} aria-label="Smart home link"
+              className="mt-2 w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700" />
+          )}
+        </div>
+      </div>
     </div>
   );
-}
-
-// Whether a run touches the 4pm to 7pm peak, or the half hour after it.
-const PEAK_FROM = 16 * 60;
-const PEAK_TO = 19 * 60 + 30;
-function nearPeak(slots, w) {
-  for (let i = w.index; i < w.index + w.slotCount; i++) {
-    const m = ukMinutes(slots[i].start);
-    if (m >= PEAK_FROM && m < PEAK_TO) return true;
-  }
-  return false;
 }
 
 // Dynamic tariffs publish the next day's prices in the afternoon, so before
@@ -416,7 +422,7 @@ export default function WhenToRun({ elec }) {
 
   const appliance = APPLIANCES.find((a) => a.id === applianceId);
   // Tomorrow's prices on a dynamic tariff aren't published until the afternoon.
-  const pending = Boolean(ready && tariffInfo?.dynamic && slots.length && ukDate(slots[slots.length - 1].start) === ukDate(now));
+  const pending = ready && pricesPending(tariffInfo, slots, now);
 
   // Car charging can stop and start, so it goes into the cheapest half hours.
   const plan = useMemo(() => {

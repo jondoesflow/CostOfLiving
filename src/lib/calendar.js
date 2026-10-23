@@ -77,3 +77,8 @@ export function feedUrl({ tariff, region, kWh, mins, name, e7 }) {
   }
   return `${window.location.origin}/calendar.ics?${params}`;
 }
+
+// The same settings as JSON, for Home Assistant and other smart home systems.
+export function bestTimeUrl(settings) {
+  return feedUrl(settings).replace("/calendar.ics?", "/api/best-time?").replace(/&n=[^&]*/, "");
+}

@@ -1,4 +1,22 @@
-import { SLOT_MS } from "./prices.js";
+import { SLOT_MS, ukMinutes } from "./prices.js";
+
+const ukDay = (t) => new Date(t).toLocaleDateString("en-GB", { timeZone: "Europe/London" });
+
+// Dynamic tariffs publish the next day's prices in the afternoon, so before
+// then the last price we have is for tonight.
+export const pricesPending = (tariff, slots, now = Date.now()) =>
+  Boolean(tariff?.dynamic && slots.length && ukDay(slots[slots.length - 1].start) === ukDay(now));
+
+// Whether a run touches the 4pm to 7pm peak, or the half hour after it.
+const PEAK_FROM = 16 * 60;
+const PEAK_TO = 19 * 60 + 30;
+export function nearPeak(slots, w) {
+  for (let i = w.index; i < w.index + w.slotCount; i++) {
+    const m = ukMinutes(slots[i].start);
+    if (m >= PEAK_FROM && m < PEAK_TO) return true;
+  }
+  return false;
+}
 
 // Share of the run's energy used in each half-hour slot, assuming it draws
 // evenly across the run. A 45-minute run is [2/3, 1/3].
