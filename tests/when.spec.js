@@ -85,14 +85,14 @@ test("calendar file and feed link carry the right details", async ({ page }) => 
   expect(ics).toContain("SUMMARY:Start the washing machine");
   expect(ics).toContain("BEGIN:VALARM");
   const href = await page.getByRole("link", { name: /Subscribe/ }).getAttribute("href");
-  expect(href).toMatch(/^webcal:\/\/.*\/calendar\.ics\?t=agile&k=0\.8&m=120&n=Washing\+machine&r=M$/);
+  expect(href).toMatch(/^webcal:\/\/.*\/calendar\.ics\?t=agile&k=0\.8&m=120&n=Washing\+machine&r=M&a=washer$/);
 });
 
 test("smart home link and guide", async ({ page }) => {
   await setUp(page);
   await page.getByRole("radio", { name: /Washing machine/ }).check();
   await page.getByRole("button", { name: "Smart home link" }).click();
-  await expect(page.getByLabel("Smart home link")).toHaveValue(/^https?:\/\/[^/]+\/api\/best-time\?t=agile&k=0\.8&m=120&r=M$/);
+  await expect(page.getByLabel("Smart home link")).toHaveValue(/^https?:\/\/[^/]+\/api\/best-time\?t=agile&k=0\.8&m=120&r=M&a=washer$/);
   await page.getByRole("link", { name: "See how to set it up" }).click();
   await expect(page).toHaveURL(/\/smart-home\/$/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Home Assistant/);
@@ -191,4 +191,30 @@ test.describe("before tomorrow's Agile prices are out", () => {
     await expect(result.getByRole("heading", { name: "Start charging at 10:30pm tonight" })).toBeVisible();
     await expect(result).toContainText("That covers 3.3kWh of the 30kWh. Leave the other 26.7kWh until tomorrow's prices are out");
   });
+});
+
+test("ready when I'm up: the heating stays in the cheap hours and it finishes near wake-up", async ({ page }) => {
+  // Cheap rate 2am to 5am only, as in the feedback that prompted this.
+  await page.getByLabel("Who supplies your electricity?").selectOption("britishgas");
+  await page.getByLabel("Cheap rate starts").fill("02:00");
+  await page.getByLabel("Cheap rate ends").fill("05:00");
+  await page.getByRole("spinbutton", { name: /^Normal rate/ }).fill("28");
+  await page.getByRole("spinbutton", { name: /^Cheap rate/ }).fill("7");
+  await page.getByRole("radio", { name: /Washing machine/ }).check();
+  await expect(page.getByText("Most of the electricity goes on heating the water at the start")).toBeVisible();
+  const result = page.getByRole("region", { name: /result/i });
+  await expect(result.getByRole("heading", { name: "Start at 2am tomorrow" })).toBeVisible();
+  await expect(result).toContainText(/Cost then\s*5\.6p/);
+
+  await page.getByLabel("I'll be up at").selectOption({ label: "7am tomorrow" });
+  await expect(page.getByLabel("It can wait up to")).toHaveValue("60");
+  // Starting at 4am heats the water before 5am and finishes at 6am.
+  await expect(result.getByRole("heading", { name: "Start at 4am tomorrow" })).toBeVisible();
+  await expect(result).toContainText("Ready around 6am tomorrow");
+  await expect(result).toContainText(/Cost then\s*7\.7p/);
+  await expect(result).toContainText("That's 2.1p more than the cheapest time, which finishes at 4am tomorrow");
+
+  await page.getByLabel("It can wait up to").selectOption({ label: "3 hours" });
+  await expect(result.getByRole("heading", { name: "Start at 2am tomorrow" })).toBeVisible();
+  await expect(result).not.toContainText("more than the cheapest time");
 });

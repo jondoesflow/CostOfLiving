@@ -18,15 +18,26 @@ export function nearPeak(slots, w) {
   return false;
 }
 
-// Share of the run's energy used in each half-hour slot, assuming it draws
-// evenly across the run. A 45-minute run is [2/3, 1/3].
-function slotWeights(mins) {
+// Share of the run's energy used in each half-hour slot. `profile` is a list
+// of [share of the run time, share of the energy] in order, e.g. a washing
+// machine heating its water at the start is [[0.2, 0.8], [0.8, 0.2]]. With no
+// profile it draws evenly: a 45-minute run is [2/3, 1/3].
+function slotWeights(mins, profile) {
+  let t = 0;
+  const parts = (profile ?? [[1, 1]]).map(([time, energy]) => {
+    const from = t;
+    t += time * mins;
+    return { from, to: t, rate: energy / (time * mins) };
+  });
   const weights = [];
-  let left = mins;
-  while (left > 0) {
-    const used = Math.min(30, left);
-    weights.push(used / mins);
-    left -= used;
+  for (let from = 0; from < mins; from += 30) {
+    const to = Math.min(from + 30, mins);
+    let w = 0;
+    for (const p of parts) {
+      const overlap = Math.min(to, p.to) - Math.max(from, p.from);
+      if (overlap > 0) w += overlap * p.rate;
+    }
+    weights.push(w);
   }
   return weights;
 }
@@ -34,8 +45,8 @@ function slotWeights(mins) {
 // Cost in pence for every possible start slot. `finishBy` (a timestamp)
 // rules out starts that would end after it. The first slot is treated as
 // "now" even though part of it has passed.
-export function windowCosts(slots, kWh, mins, finishBy = null) {
-  const weights = slotWeights(Math.max(1, mins));
+export function windowCosts(slots, kWh, mins, finishBy = null, profile = null) {
+  const weights = slotWeights(Math.max(1, mins), profile);
   const out = [];
   for (let i = 0; i + weights.length <= slots.length; i++) {
     const end = slots[i].start + mins * 60 * 1000;
@@ -52,8 +63,11 @@ export function windowCosts(slots, kWh, mins, finishBy = null) {
 // that costs a quarter more.
 const nearlyCheapest = (cheapest) => Math.max(0.1, Math.abs(cheapest) * 0.03);
 
-export function bestWindows(slots, kWh, mins, finishBy) {
-  const all = windowCosts(slots, kWh, mins, finishBy);
+// `notBefore` (a timestamp) rules out runs that would finish before it, so
+// washing isn't left sitting in the machine for hours.
+export function bestWindows(slots, kWh, mins, finishBy = null, { notBefore = null, profile = null } = {}) {
+  const every = windowCosts(slots, kWh, mins, null, profile);
+  const all = every.filter((w) => (!finishBy || w.end <= finishBy) && (!notBefore || w.end >= notBefore));
   if (all.length === 0) return null;
   const sorted = [...all].sort((a, b) => a.cost - b.cost || a.start - b.start);
   // Nobody wants to wait a day to save a fraction of a penny, so take the
@@ -82,13 +96,12 @@ export function bestWindows(slots, kWh, mins, finishBy) {
   return {
     best,
     sooner,
-    now: all[0],
+    now: every[0],
     worst: sorted[sorted.length - 1],
     alternatives,
     // Whether the tariff itself is flat: judged on every start time, not just
     // the ones a deadline leaves, which can happen to cost the same.
     allSame: (() => {
-      const every = finishBy ? windowCosts(slots, kWh, mins) : all;
       const costs = every.map((w) => w.cost);
       return Math.max(...costs) - Math.min(...costs) < 0.05;
     })(),
@@ -110,8 +123,8 @@ export function scheduleJobs(slots, jobs, { maxAtOnce = Infinity, finishBy = nul
       for (let i = w.index; i < w.index + w.slotCount; i++) if (busy[i] >= maxAtOnce) return false;
       return true;
     };
-    const options = windowCosts(slots, job.kWh, job.mins, finishBy).filter(fits);
-    const nowCost = windowCosts(slots, job.kWh, job.mins)[0]?.cost ?? null;
+    const options = windowCosts(slots, job.kWh, job.mins, finishBy, job.profile).filter(fits);
+    const nowCost = windowCosts(slots, job.kWh, job.mins, null, job.profile)[0]?.cost ?? null;
     if (!options.length) {
       placed.push({ job, window: null, nowCost });
       continue;

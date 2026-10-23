@@ -1,5 +1,6 @@
 // Calendar events for "start it now" reminders: a downloadable .ics file, a
 // Google Calendar link, and the address of the self-updating calendar feed.
+import { profileOf } from "../appliances.js";
 
 // "Charge the electric car", "Switch on the heated airer", "Start the washing machine".
 export function reminderTitle(name) {
@@ -66,9 +67,10 @@ export function googleCalendarUrl({ start, end, title, description }) {
 }
 
 // Address of the calendar feed served by netlify/functions/calendar.mjs.
-export function feedUrl({ tariff, region, kWh, mins, name, e7 }) {
+export function feedUrl({ tariff, region, kWh, mins, name, appliance, e7 }) {
   const params = new URLSearchParams({ t: tariff, k: String(kWh), m: String(mins), n: name });
   if (region) params.set("r", region);
+  if (profileOf(appliance)) params.set("a", appliance);
   if (tariff === "e7") {
     params.set("ns", e7.nightStart);
     params.set("ne", e7.nightEnd);

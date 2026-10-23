@@ -3,8 +3,10 @@
 //   t   tariff id (agile, go, cosy, ...) or "e7" for your own off-peak times
 //   r   region letter, A to P (not needed for e7)
 //   k   kWh per run, m minutes per run, n appliance name (optional)
+//   a   appliance id (optional), for when in the run it uses its power
 //   ns, ne, dr, nr   e7 only: night start and end (HH:MM), day and night rates
 import { TARIFFS, loadSlots, economy7Slots } from "../prices.js";
+import { profileOf } from "../appliances.js";
 
 const REGION = /^[A-HJ-NP]$/;
 const TIME = /^\d{2}:\d{2}$/;
@@ -40,5 +42,5 @@ export async function readFeedRequest(q) {
     }
     slots = economy7Slots(e7);
   }
-  return { tariff, region, kWh, mins, name, live, slots };
+  return { tariff, region, kWh, mins, name, live, slots, profile: profileOf(q.get("a")) };
 }

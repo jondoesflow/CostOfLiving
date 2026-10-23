@@ -49,6 +49,8 @@ https://cheapwatts.co.uk/api/best-time?t=agile&r=M&k=0.8&m=120
 
 Add `&by=07:00` to the end if it must be finished by a set time (UK time, 24-hour clock).
 
+Add `&up=07:00` if you want it ready when you get up rather than hours before, so washing isn't left sitting damp. It finishes by then, but no more than an hour before. Change the hour with `&wait=120` (in minutes). For washing machines, washer-dryers and dishwashers, keep the `&a=` part of your link: it tells Cheap Watts most of the power goes on heating, so it can keep the heating in your cheap hours and let the rest run later.
+
 In Home Assistant, add a REST sensor to `configuration.yaml`, using your own link:
 
 ```yaml
@@ -82,6 +84,7 @@ actions:
 | Field | What it means |
 | --- | --- |
 | `start`, `end` | The cheapest time to start and finish, in UTC |
+| `finish_by`, `ready_from` | The latest and earliest finish allowed by `by`, `up` and `wait` |
 | `start_in_minutes`, `finish_in_minutes` | Minutes from now, handy for a machine's delay timer |
 | `cost_pence`, `cost_now_pence`, `saving_pence` | The cost then, the cost if started now, and the difference |
 | `any_time_same` | True on a flat tariff, where timing doesn't matter |

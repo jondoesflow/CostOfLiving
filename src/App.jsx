@@ -164,7 +164,7 @@ export default function App() {
 
       <footer className="max-w-[680px] mx-auto px-4 text-sm text-gray-600 pt-4 pb-10 space-y-2">
           <p>
-            Live prices come from the public price data published by Octopus Energy, EDF and E.ON Next, and include VAT. The standard rate shown for comparison is Octopus's standard variable tariff. Carbon figures are National Grid's regional forecast. Costs are estimates: real appliances use power unevenly, and your own model may use more or less.
+            Live prices come from the public price data published by Octopus Energy, EDF and E.ON Next, and include VAT. The standard rate shown for comparison is Octopus's standard variable tariff. Carbon figures are National Grid's regional forecast. Costs are estimates. Washing machines, washer-dryers and dishwashers are counted as using most of their power while heating; everything else as using it evenly. Your own model may use more or less.
           </p>
           <p>Not affiliated with any energy supplier.</p>
       </footer>

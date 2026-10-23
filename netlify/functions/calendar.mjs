@@ -11,11 +11,11 @@ const DAY = 24 * 3600 * 1000;
 export default async (req) => {
   const request = await readFeedRequest(new URL(req.url).searchParams);
   if (request.error) return request.error;
-  const { tariff, region, kWh, mins, name, live, slots } = request;
+  const { tariff, region, kWh, mins, name, live, slots, profile } = request;
 
   // Dynamic tariffs only publish about a day ahead, so offer the best time we
   // can see. Fixed-pattern tariffs repeat daily, so show the next three days.
-  const found = bestWindows(slots, kWh, mins)?.best;
+  const found = bestWindows(slots, kWh, mins, null, { profile })?.best;
   const windows = found ? [found] : [];
   if (found && !live?.dynamic) {
     for (let d = 1; d < 3; d++) {

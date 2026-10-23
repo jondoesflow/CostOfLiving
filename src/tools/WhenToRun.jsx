@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { Clock, Timer, PiggyBank, Leaf, CalendarPlus, BellRing, Hourglass, Car, House } from "lucide-react";
-import { APPLIANCES } from "../appliances";
+import { APPLIANCES, PROFILES, profileOf } from "../appliances";
 import { SLOT_MS } from "../prices";
 import { bestWindows, windowCosts, cheapestSlots, nearPeak, pricesPending } from "../optimise";
 import { whenLabel, timeLabel, money, duration } from "../lib/format";
@@ -15,7 +15,14 @@ function grams(g) {
   return g >= 1000 ? `${(g / 1000).toFixed(1)}kg` : `${Math.round(g)}g`;
 }
 
-function ApplianceStep({ applianceId, pick, kWh, setKWh, mins, setMins, finishBy, setFinishBy, finishOptions }) {
+const WAITS = [
+  { value: 30, label: "30 minutes" },
+  { value: 60, label: "1 hour" },
+  { value: 120, label: "2 hours" },
+  { value: 180, label: "3 hours" },
+];
+
+function ApplianceStep({ applianceId, pick, kWh, setKWh, mins, setMins, finishBy, setFinishBy, finishOptions, upAt, setUpAt, wait, setWait }) {
   const appliance = APPLIANCES.find((a) => a.id === applianceId);
   return (
     <Card labelledBy="appliance-title">
@@ -28,6 +35,7 @@ function ApplianceStep({ applianceId, pick, kWh, setKWh, mins, setMins, finishBy
             {appliance
               ? <>Typical figures for a {appliance.name.toLowerCase()} ({appliance.note}). Change them if you know yours.</>
               : <>Enter how much electricity it uses and how long it runs. The power rating (in kW) multiplied by the hours gives you the kWh.</>}
+            {appliance?.profile && <> {PROFILES[appliance.profile].note}</>}
           </p>
           {appliance?.labelHint && (
             <p className="text-sm text-gray-600 mb-3">
@@ -48,6 +56,31 @@ function ApplianceStep({ applianceId, pick, kWh, setKWh, mins, setMins, finishBy
               {finishOptions.map((t) => <option key={t} value={t}>{whenLabel(t)}</option>)}
             </select>
           </label>
+          {!appliance?.splittable && (
+            <fieldset className="mt-4">
+              <legend className="font-semibold text-navy text-sm">Don't want it sitting in the machine?</legend>
+              <p className="text-sm text-gray-600">Tell us when you'll be up, and it'll be ready around then instead of hours before.</p>
+              <div className="grid grid-cols-2 gap-3 mt-2">
+                <label className="block">
+                  <span className="text-sm text-gray-600">I'll be up at</span>
+                  <select value={upAt ?? ""} onChange={(e) => setUpAt(e.target.value ? Number(e.target.value) : null)}
+                    className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 bg-white">
+                    <option value="">Not set</option>
+                    {finishOptions.map((t) => <option key={t} value={t}>{whenLabel(t)}</option>)}
+                  </select>
+                </label>
+                {upAt && (
+                  <label className="block">
+                    <span className="text-sm text-gray-600">It can wait up to</span>
+                    <select value={wait} onChange={(e) => setWait(Number(e.target.value))}
+                      className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 bg-white">
+                      {WAITS.map((w) => <option key={w.value} value={w.value}>{w.label}</option>)}
+                    </select>
+                  </label>
+                )}
+              </div>
+            </fieldset>
+          )}
         </div>
       )}
     </Card>
@@ -76,15 +109,15 @@ function Greenest({ green, cheapest, allSame }) {
   );
 }
 
-function Reminders({ elec, best, applianceName, kWh, mins }) {
+function Reminders({ elec, best, applianceName, applianceId, kWh, mins }) {
   const [showFeed, setShowFeed] = useState(false);
   const [showApi, setShowApi] = useState(false);
   const title = reminderTitle(applianceName);
   const description = `Cheapest time to run it on your tariff, found by Cheap Watts (cheapwatts.co.uk)`;
   const event = { uid: `${best.start}-${applianceName}@cheapwatts`, start: best.start, end: best.end, title, description };
-  const feed = feedUrl({ tariff: elec.tariff, region: elec.region, kWh, mins, name: applianceName, e7: elec.e7 });
+  const feed = feedUrl({ tariff: elec.tariff, region: elec.region, kWh, mins, name: applianceName, appliance: applianceId, e7: elec.e7 });
   const webcal = feed.replace(/^https?:/, "webcal:");
-  const api = bestTimeUrl({ tariff: elec.tariff, region: elec.region, kWh, mins, name: applianceName, e7: elec.e7 });
+  const api = bestTimeUrl({ tariff: elec.tariff, region: elec.region, kWh, mins, name: applianceName, appliance: applianceId, e7: elec.e7 });
   return (
     <div className="mt-5 rounded-xl border border-gray-200 p-4">
       <div className="flex gap-3">
@@ -156,13 +189,13 @@ function PricesPending({ elec }) {
   );
 }
 
-function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finishBy, noTimer, pending }) {
+function Result({ elec, result, green, kWh, mins, perWeek, applianceName, applianceId, finishBy, noTimer, pending, upAt, cheapestAny }) {
   const { slots, tariff, refRate, now: nowMs } = elec;
   if (!result) {
     return (
       <Card label="Result">
         <Warning>
-          <p>{finishBy ? "There isn't enough time to finish by then. Choose a later time." : "We don't have prices far enough ahead for a run this long yet. Try again in the afternoon, when tomorrow's prices come out."}</p>
+          <p>{upAt ? "It can't be ready by then with the prices we have. Choose a later time, or let it wait longer." : finishBy ? "There isn't enough time to finish by then. Choose a later time." : "We don't have prices far enough ahead for a run this long yet. Try again in the afternoon, when tomorrow's prices come out."}</p>
         </Warning>
       </Card>
     );
@@ -207,7 +240,14 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
             <h2 className="text-3xl sm:text-4xl font-semibold mt-1">
               {soFar ? <>Cheapest so far: {startNow ? "now" : whenLabel(best.start)}</> : startNow ? "Start it now" : <>Start at {whenLabel(best.start)}</>}
             </h2>
-            <p className="text-gray-600 mt-1">Finishes around {whenLabel(best.end)}.</p>
+            <p className="text-gray-600 mt-1">{upAt ? "Ready" : "Finishes"} around {whenLabel(best.end)}.</p>
+            {upAt && cheapestAny && cheapestAny.start !== best.start && (
+              <p className="mt-3 text-gray-700">
+                {best.cost - cheapestAny.cost > 0.05
+                  ? <>That's <strong className="tabular-nums">{money(best.cost - cheapestAny.cost)}</strong> more than the cheapest time, which finishes at {whenLabel(cheapestAny.end)}, so you're not paying much to avoid it sitting there.</>
+                  : <>That costs the same as the cheapest time, which finishes at {whenLabel(cheapestAny.end)}.</>}
+              </p>
+            )}
             {soFar && (
               <p className="mt-3 text-gray-700">
                 That's in or just after the 4pm to 7pm peak, only because later prices aren't published yet. If it can wait, check back once tomorrow's prices are out: overnight is usually cheaper.
@@ -284,7 +324,7 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, finish
         <ShareButton tool="when" path="/" text={shareText} />
         <Greenest green={green} cheapest={best} allSame={allSame} />
         {(!allSame || green) && reminderWindow.index !== 0 && !soFar && (
-          <Reminders elec={elec} best={reminderWindow} applianceName={applianceName} kWh={kWh} mins={mins} />
+          <Reminders elec={elec} best={reminderWindow} applianceName={applianceName} applianceId={applianceId} kWh={kWh} mins={mins} />
         )}
       </div>
 
@@ -378,7 +418,7 @@ function ChargeResult({ elec, plan, green, kWh, mins, perWeek, applianceName, fi
         <ShareButton tool="when" path="/" text={shareText} />
         <Greenest green={green} cheapest={null} allSame={false} />
         {!startsNow && (
-          <Reminders elec={elec} best={{ start: first.start, end: done }} applianceName={applianceName} kWh={kWh} mins={mins} />
+          <Reminders elec={elec} best={{ start: first.start, end: done }} applianceName={applianceName} applianceId="ev" kWh={kWh} mins={mins} />
         )}
       </div>
 
@@ -397,6 +437,8 @@ export default function WhenToRun({ elec }) {
   const [kWh, setKWh] = useState("");
   const [mins, setMins] = useState("");
   const [finishBy, setFinishBy] = useState(null);
+  const [upAt, setUpAt] = useState(null);
+  const [wait, setWait] = useState(60);
   const { slots, ready, now, carbon, tariffInfo } = elec;
 
   const finishOptions = useMemo(() => {
@@ -413,14 +455,25 @@ export default function WhenToRun({ elec }) {
 
   // Drop a deadline that is no longer on offer (e.g. after changing tariff).
   const activeFinishBy = finishBy && finishOptions.includes(finishBy) ? finishBy : null;
+  const appliance = APPLIANCES.find((a) => a.id === applianceId);
+  const activeUpAt = upAt && finishOptions.includes(upAt) && !appliance?.splittable ? upAt : null;
+  // Ready when they're up: finished by then, but not long before.
+  const latest = activeUpAt && activeFinishBy ? Math.min(activeUpAt, activeFinishBy) : activeUpAt ?? activeFinishBy;
+  const notBefore = activeUpAt ? activeUpAt - wait * 60000 : null;
+  const profile = profileOf(applianceId);
   const valid = applianceId && kWh > 0 && mins > 0;
 
   const result = useMemo(() => {
     if (!ready || !valid) return undefined;
-    return bestWindows(slots, kWh, mins, activeFinishBy);
-  }, [ready, valid, slots, kWh, mins, activeFinishBy]);
+    return bestWindows(slots, kWh, mins, latest, { notBefore, profile });
+  }, [ready, valid, slots, kWh, mins, latest, notBefore, profile]);
 
-  const appliance = APPLIANCES.find((a) => a.id === applianceId);
+  // The cheapest time with no wake-up time, to show what being ready costs.
+  const cheapestAny = useMemo(() => {
+    if (!ready || !valid || !activeUpAt) return null;
+    return bestWindows(slots, kWh, mins, activeFinishBy, { profile })?.best ?? null;
+  }, [ready, valid, activeUpAt, slots, kWh, mins, activeFinishBy, profile]);
+
   // Tomorrow's prices on a dynamic tariff aren't published until the afternoon.
   const pending = ready && pricesPending(tariffInfo, slots, now);
 
@@ -433,11 +486,11 @@ export default function WhenToRun({ elec }) {
   // Same search over the carbon forecast, with grams of CO2 in place of pence.
   const green = useMemo(() => {
     if (!valid || !carbon.length) return null;
-    const greenResult = bestWindows(carbon, kWh, mins, activeFinishBy);
+    const greenResult = bestWindows(carbon, kWh, mins, latest, { notBefore, profile });
     if (!greenResult) return null;
-    const all = windowCosts(carbon, kWh, mins);
+    const all = windowCosts(carbon, kWh, mins, null, profile);
     return { result: greenResult, costAt: (start) => all.find((w) => w.start === start)?.cost ?? null };
-  }, [valid, carbon, kWh, mins, activeFinishBy]);
+  }, [valid, carbon, kWh, mins, latest, notBefore, profile]);
 
   function pick(id) {
     setApplianceId(id);
@@ -448,7 +501,7 @@ export default function WhenToRun({ elec }) {
   let summary = "";
   if (plan) {
     summary = `${plan.startsNow ? "Start charging now" : `Start charging at ${whenLabel(plan.sessions[0].start)}`}, in ${plan.sessions.length} ${plan.sessions.length === 1 ? "spell" : "spells"}. Cost ${money(plan.cost)}, or ${money(plan.nowCost)} if you charge straight away.`;
-  } else if (result === null) summary = activeFinishBy ? "There isn't enough time to finish by then." : "Not enough prices ahead for a run this long yet.";
+  } else if (result === null) summary = activeUpAt ? "It can't be ready by then with the prices we have." : activeFinishBy ? "There isn't enough time to finish by then." : "Not enough prices ahead for a run this long yet.";
   else if (result?.allSame) summary = `Any time costs the same. Each run costs about ${money(result.best.cost)}.`;
   else if (result) {
     const soFar = pending && nearPeak(slots, result.best);
@@ -461,6 +514,7 @@ export default function WhenToRun({ elec }) {
       <ApplianceStep
         applianceId={applianceId} pick={pick} kWh={kWh} setKWh={setKWh} mins={mins} setMins={setMins}
         finishBy={activeFinishBy} setFinishBy={setFinishBy} finishOptions={finishOptions}
+        upAt={activeUpAt} setUpAt={setUpAt} wait={wait} setWait={setWait}
       />
       <PricesStatus elec={elec} waiting={Boolean(applianceId)} />
       {plan ? (
@@ -471,7 +525,8 @@ export default function WhenToRun({ elec }) {
       ) : result !== undefined && (
         <Result
           elec={elec} result={result} green={green} kWh={kWh} mins={mins}
-          perWeek={appliance?.perWeek ?? 0} applianceName={appliance?.name ?? "Appliance"} finishBy={activeFinishBy}
+          perWeek={appliance?.perWeek ?? 0} applianceName={appliance?.name ?? "Appliance"} applianceId={applianceId} finishBy={latest}
+          upAt={activeUpAt} cheapestAny={cheapestAny}
           noTimer={Boolean(appliance?.noTimer)} pending={pending}
         />
       )}

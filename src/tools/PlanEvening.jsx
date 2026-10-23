@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { PiggyBank, CalendarPlus } from "lucide-react";
-import { APPLIANCES } from "../appliances";
+import { APPLIANCES, profileOf } from "../appliances";
 import { SLOT_MS, ukMinutes } from "../prices";
 import { scheduleJobs } from "../optimise";
 import { whenLabel, timeLabel, money } from "../lib/format";
@@ -65,7 +65,7 @@ export default function PlanEvening({ elec }) {
   const setFigure = (id, key, value) => setFigures((f) => ({ ...f, [id]: { ...f[id], [key]: value } }));
 
   const jobs = chosen
-    .map((id) => ({ id, name: APPLIANCES.find((a) => a.id === id).name, ...figures[id] }))
+    .map((id) => ({ id, name: APPLIANCES.find((a) => a.id === id).name, profile: profileOf(id), ...figures[id] }))
     .filter((j) => j.kWh > 0 && j.mins > 0);
   const longest = Math.max(0, ...jobs.map((j) => j.mins));
 
