@@ -14,7 +14,7 @@ Add, remove or reorder freely; keep each one a specific question people search.
 
 ## Next up
 - [ ] Which gadgets cost the most on standby, and is it worth switching them off at the wall? (habits; tool: when)
-- [ ] Draught-proofing on a budget: the cheap fixes that make the biggest difference (DIY; tool: gas)
+- [x] Draught-proofing on a budget: the cheap fixes that make the biggest difference (2026-10-24)
 - [ ] Octopus Agile explained: who it suits, and who it doesn't (tariffs; tool: when)
 - [ ] Boiler flow temperature: the free setting that can cut your gas bill (habits; tool: gas)
 - [ ] Priority Services Register: who can join and what it gives you (support; tool: when)
