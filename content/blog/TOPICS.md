@@ -11,9 +11,9 @@ Add, remove or reorder freely; keep each one a specific question people search.
 - [x] What's the cheapest time to use electricity in the UK? (2026-10-22)
 - [x] Heated airer vs tumble dryer: which is cheaper to run? (2026-10-22)
 - [x] Does turning your thermostat down by 1°C really save money? (2026-10-23)
+- [x] Which gadgets cost the most on standby, and is it worth switching them off at the wall? (2026-10-24)
 
 ## Next up
-- [ ] Which gadgets cost the most on standby, and is it worth switching them off at the wall? (habits; tool: when)
 - [ ] Draught-proofing on a budget: the cheap fixes that make the biggest difference (DIY; tool: gas)
 - [ ] Octopus Agile explained: who it suits, and who it doesn't (tariffs; tool: when)
 - [ ] Boiler flow temperature: the free setting that can cut your gas bill (habits; tool: gas)
