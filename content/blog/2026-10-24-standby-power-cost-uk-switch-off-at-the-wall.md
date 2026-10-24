@@ -43,7 +43,7 @@ I'm not going to put a wattage next to each product, because I can't verify one 
 - **Charges something and stays plugged in.** Chargers left in the wall with nothing attached, power banks, and electric toothbrush bases.
 - **Sits in a cluster.** The TV area and the desk area are the usual two. One extension lead with a switch can cover six gadgets at once.
 
-Then there are things that should stay on. Your broadband router, a fridge or freezer, and anything a medical device depends on should not be switched off to save a few pence. Smoke alarms and security systems are the same. Don't touch them.
+This post is only about gadgets that are sitting idle. Anything that has to keep running, such as a fridge, freezer or broadband router, and anything you rely on for your safety or health, is outside it. Leave those alone.
 
 ## How to find out what yours actually draw
 
@@ -75,7 +75,7 @@ If you want to see what your laundry, dishwasher or oven costs at different time
 - At 25.6p per kWh (Flexible Octopus, Yorkshire, 24 October 2026), every watt left on all year costs about £2.24.
 - A 10W gadget costs about £22 a year, and a 20W one about £45.
 - Measure rather than guess: a plug-in energy monitor, or your smart meter overnight.
-- Don't switch off the router, fridge, freezer, smoke alarms or medical devices.
+- This is about idle gadgets only. Leave the fridge, freezer, router and anything you rely on for safety or health alone.
 - Switch off the handful of gadgets that draw 5W or more when you're not using them, and ignore the rest.
 
 This weekend, find the plug with the most things in it behind your TV, put a monitor on it, and see what the number says.
