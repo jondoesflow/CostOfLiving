@@ -26,13 +26,13 @@ For comparison, Flexible Octopus in Yorkshire was 25.60p per kWh, all day, on th
 
 ## What a real week of Agile prices looked like
 
-I pulled the half-hourly Agile prices for Yorkshire for the seven days from 18 to 24 October 2026, straight from the Octopus API. Here is what they showed.
+These are unit-rate illustrations, not a bill. I pulled the half-hourly Agile prices for Yorkshire for the seven days from 18 to 24 October 2026, straight from the Octopus API. Here is what they showed.
 
 | What I looked at | Price per kWh (inc VAT) |
 |---|---|
-| Average across the whole week | 27.6p |
-| Average from 4pm to 7pm | 47.6p |
-| Average for the rest of the day | 24.8p |
+| Simple average of every half-hour price in the week | 27.6p |
+| Simple average from 4pm to 7pm | 47.6p |
+| Simple average for the rest of the day | 24.8p |
 | Cheapest half hour of the week | minus 2.3p |
 | Dearest half hour of the week | 56.8p |
 
@@ -40,7 +40,11 @@ Three things jump out.
 
 **The 4pm to 7pm peak is real.** In that week it averaged nearly double the rest of the day. This is the stretch when most of us are home, cooking, putting the lights on and the heating up.
 
-**The average is higher than the flat rate.** At 27.6p, Agile's weekly average was above Flexible's 25.60p. That is the bit people miss. Agile is not a discount tariff. It only beats a flat rate if you use less power at the expensive times than the average household does.
+**The simple average is above the flat rate.** The 27.6p is every half-hour price added up and divided by the number of slots, so it treats 3am the same as 6pm. It is not what a household would actually pay per unit, because nobody uses power evenly across the day. Your real average depends on when you use your electricity and how much you use in total, which is why one household can pay less on Agile than on Flexible while its neighbour pays more.
+
+Standing charges matter too. Agile's was 2.22p a day higher than Flexible's on that date (63.11p against 60.89p), which is about £8 over a year. That is small next to the swings in the unit rate, but it is not nothing for a low-use household.
+
+So treat the 27.6p against 25.60p as a picture of how prices behave, not as a verdict. The only fair test is a comparison weighted by your own half-hourly usage.
 
 **The cheap days can be very cheap.** On Saturday 24 October the average price across the day was just 6.1p, and the cheapest half hour went below zero. But the days before were between 28p and 36p on average. Agile is a tariff that rewards paying attention, because the good days are not evenly spread.
 
@@ -79,7 +83,7 @@ If you are in that group, a tariff with a fixed cheap window, like Octopus Go, m
 Don't guess. You can check Agile against your own habits without signing anything.
 
 1. **Work out when you use power.** Your smart meter's half-hourly data shows how much of your use falls in 4pm to 7pm.
-2. **Run the numbers on real prices.** The [Should I switch?](/should-i-switch/) tool takes your half-hourly usage and compares it with Agile and other tariffs, standing charges included.
+2. **Run a comparison weighted by your own usage.** The [Should I switch?](/should-i-switch/) tool takes your half-hourly usage and prices it on Agile and other tariffs, standing charges included. This is the test that counts, because it uses when you actually use power.
 3. **See what moving would save.** The [Cheap Watts](/) calculator shows the price of starting an appliance now against the cheapest slot, using live Agile prices.
 4. **Check Octopus's own page.** Eligibility and terms are on the [Octopus Agile page](https://octopus.energy/smart/agile/), and they can change.
 
