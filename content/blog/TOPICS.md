@@ -14,9 +14,9 @@ Add, remove or reorder freely; keep each one a specific question people search.
 - [x] Which gadgets cost the most on standby, and is it worth switching them off at the wall? (2026-10-24)
 - [x] Draught-proofing on a budget: the cheap fixes that make the biggest difference (2026-10-24)
 - [x] Octopus Agile explained: who it suits, and who it doesn't (2026-10-25)
+- [x] Boiler flow temperature: the free setting that can cut your gas bill (habits; tool: gas) (2026-10-25)
 
 ## Next up
-- [ ] Boiler flow temperature: the free setting that can cut your gas bill (habits; tool: gas)
 - [ ] Priority Services Register: who can join and what it gives you (support; tool: when)
 - [ ] Air fryer vs oven vs microwave: which is cheapest per meal? (habits; tool: gas)
 - [ ] Bleeding radiators, radiator reflector panels and TRVs: what actually helps? (DIY; tool: gas)
