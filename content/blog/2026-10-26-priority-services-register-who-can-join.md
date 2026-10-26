@@ -17,8 +17,8 @@ Everything below comes from [Ofgem's guidance on the Priority Services Register]
 
 Ofgem says joining means you can get a range of extra help, either all the time or for a short period. The list includes:
 
-- Priority support in an emergency, wherever possible.
-- Advance notice of scheduled power cuts.
+- Priority support in an emergency.
+- Advance notice of scheduled power cuts, wherever possible.
 - An identification and password scheme, so you can be confident anyone who contacts or visits you is genuine.
 - The ability to nominate someone to receive communications and bills from your supplier, such as a family member, carer or someone you trust.
 - The chance to move your prepayment meter if you can't safely get to it to top up.
@@ -81,7 +81,7 @@ It is also worth telling a relative, neighbour or carer that you are on it, so s
 
 ## What it won't do
 
-I'd rather be straight about this. The register doesn't cut your bill, and it doesn't guarantee that your power stays on. Ofgem's wording is "priority support in an emergency wherever possible", and that "wherever possible" is doing real work.
+I'd rather be straight about this. The register doesn't cut your bill, and it doesn't guarantee that your power stays on. Ofgem lists "priority support in an emergency" and, separately, "wherever possible, advanced notice of scheduled power cuts". That "wherever possible" is doing real work: notice isn't promised every time.
 
 If your worry is the size of the bill itself, the cheapest wins are still about when and how you use power. My post on [the cheapest time to use electricity in the UK](/blog/cheapest-time-to-use-electricity-uk/) is a good place to start, and the [Cheap Watts](/) calculator shows what your appliances cost to run right now.
 
