@@ -40,7 +40,7 @@ const config: ExpoConfig = {
   experiments: { typedRoutes: true },
   extra: {
     // Filled in after `npx eas-cli@latest init` (it can't write into a .ts config).
-    eas: { projectId: '' },
+    eas: { projectId: '7b597654-8b48-4fa2-96d7-c04ee319b9f0' },
   },
 };
 
