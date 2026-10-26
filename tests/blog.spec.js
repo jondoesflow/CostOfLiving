@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-import { mockApis } from "./mocks";
+import { mockApis, setUp } from "./mocks";
 
 // The test server builds with BLOG_DRAFTS=1, so draft posts are included here.
 const POST = "/blog/cheapest-time-to-use-electricity-uk/";
@@ -54,7 +54,7 @@ test("sitemap and robots point search engines at every page", async ({ request }
 });
 
 for (const scheme of ["light", "dark"]) {
-  for (const path of ["/blog/", POST, "/smart-home/"]) {
+  for (const path of ["/blog/", POST, "/smart-home/", "/cost-to-run/", "/cost-to-run/dryer/"]) {
     test(`${path} has no WCAG 2.2 AA violations (${scheme})`, async ({ page }) => {
       await page.emulateMedia({ colorScheme: scheme });
       await page.goto(path);
@@ -77,4 +77,24 @@ test("Blog link sits in the header, to the left of the theme selector", async ({
   expect(Math.abs(b.y + b.height / 2 - (t.y + t.height / 2))).toBeLessThan(12); // same row
   await blog.click();
   await expect(page).toHaveURL(/\/blog\/$/);
+});
+
+test("running cost pages: static figures, live cost for the region, and a link into the tool", async ({ page }) => {
+  await mockApis(page);
+  await page.goto("/cost-to-run/");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("How much does it cost to run?");
+  await page.getByRole("link", { name: "How much does a tumble dryer cost to run?" }).click();
+  await expect(page).toHaveURL(/\/cost-to-run\/dryer\/$/);
+  await expect(page.getByText(/a run on a standard tariff/)).toBeVisible();
+  // Live figures for the region: 4kWh at the mocked 25.6p standard rate, and Agile's 12p overnight.
+  await page.getByLabel("Your region").selectOption("M");
+  const live = page.getByRole("region", { name: "Today's cost where you live" });
+  await expect(live).toContainText("On a standard tariff in Yorkshire today (25.6p per kWh)");
+  await expect(live).toContainText("£1.02 a run");
+  await expect(live).toContainText(/cheapest time today: midnight tonight\s*48p/);
+  await page.getByRole("link", { name: /Find the cheapest time to run your tumble dryer/ }).click();
+  await expect(page).toHaveURL(/\/\?appliance=dryer$/);
+  await expect(page.getByRole("radio", { name: /Tumble dryer/ })).toBeChecked();
+  await setUp(page);
+  await expect(page.getByRole("heading", { name: "Start at midnight tonight" })).toBeVisible();
 });

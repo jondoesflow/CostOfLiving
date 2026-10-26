@@ -433,9 +433,11 @@ function ChargeResult({ elec, plan, green, kWh, mins, perWeek, applianceName, fi
 }
 
 export default function WhenToRun({ elec }) {
-  const [applianceId, setApplianceId] = useState(null);
-  const [kWh, setKWh] = useState("");
-  const [mins, setMins] = useState("");
+  // Running-cost pages link here with the appliance already chosen.
+  const linked = APPLIANCES.find((a) => a.id === new URLSearchParams(window.location.search).get("appliance"));
+  const [applianceId, setApplianceId] = useState(linked?.id ?? null);
+  const [kWh, setKWh] = useState(linked?.kWh ?? "");
+  const [mins, setMins] = useState(linked?.mins ?? "");
   const [finishBy, setFinishBy] = useState(null);
   const [upAt, setUpAt] = useState(null);
   const [wait, setWait] = useState(60);

@@ -9,6 +9,8 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { marked } from "marked";
 import { PAGES, SITE_URL } from "../src/pages.js";
+import { APPLIANCES, APPLIANCE_GROUPS, REGIONS } from "../src/appliances.js";
+import { GUIDES } from "../src/applianceGuides.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(root, "dist");
@@ -154,6 +156,7 @@ function layout({ title, description, canonical, type = "website", ld = [], main
         <nav aria-label="Main">
           <ul>
             <li><a href="/">Tools</a></li>
+            <li><a href="/cost-to-run/" ${canonical.startsWith(`${SITE_URL}/cost-to-run/`) ? 'aria-current="page"' : ""}>Running costs</a></li>
             <li><a href="/blog/" ${canonical.startsWith(`${SITE_URL}/blog/`) ? 'aria-current="page"' : ""}>Blog</a></li>
           </ul>
         </nav>
@@ -263,6 +266,99 @@ ${posts.map((p) => `    <item>
 </rss>
 `);
 
+// ---------- running cost pages: /cost-to-run/ and /cost-to-run/<appliance>/ ----------
+// The typical standard (price cap) unit rate, averaged over the regions, is
+// fetched at build time so the static copy has a real figure. The page then
+// loads live prices for the reader's own region.
+async function typicalStandardRate() {
+  const list = await (await fetch("https://api.octopus.energy/v1/products/?is_variable=true&is_business=false")).json();
+  const product = list.results.find((p) => /^Flexible Octopus$/.test(p.display_name) && !p.available_to);
+  const detail = await (await fetch(`https://api.octopus.energy/v1/products/${product.code}/`)).json();
+  const rates = REGIONS.map((r) => Object.values(detail.single_register_electricity_tariffs[`_${r.code}`])[0].standard_unit_rate_inc_vat);
+  return rates.reduce((a, b) => a + b, 0) / rates.length;
+}
+let stdRate = 26;
+try {
+  stdRate = await typicalStandardRate();
+} catch (e) {
+  console.warn(`Couldn't fetch the standard rate (${e.message}); using ${stdRate}p.`);
+}
+const pence = (p) => (p >= 100 ? `£${(p / 100).toFixed(2)}` : p < 10 ? `${p.toFixed(1)}p` : `${Math.round(p)}p`);
+const yearly = (p) => (p >= 100 ? `£${Math.round(p / 100)}` : pence(p));
+const hours = (m) => (m < 60 ? `${m} minutes` : m % 60 ? `${(m / 60).toFixed(1)} hours` : m === 60 ? "1 hour" : `${m / 60} hours`);
+const costScript = readFileSync(join(dist, "cost.html"), "utf8").match(/<script type="module"[^>]*><\/script>/)[0];
+const costPages = APPLIANCES.filter((a) => GUIDES[a.id]).map((a) => ({ ...a, ...GUIDES[a.id], url: `${SITE_URL}/cost-to-run/${a.id}/` }));
+
+for (const a of costPages) {
+  const run = a.kWh * stdRate;
+  const year = run * a.perWeek * 52;
+  const alt = a.alt && costPages.find((o) => o.id === a.alt.id);
+  const others = costPages.filter((o) => o.group === a.group && o !== a);
+  const description = `${a.name === "Electric car" ? "Charging an electric car at home" : `A ${a.name.toLowerCase()}`} costs about ${pence(run)} a run on a standard UK tariff (${a.kWh}kWh, ${a.note.toLowerCase()}). See today's price for your region, and the cheapest time to run it on your tariff.`;
+  const ld = [
+    { "@context": "https://schema.org", "@type": "Article", headline: a.question, description, inLanguage: "en-GB", image: IMAGE,
+      author: { "@type": "Person", ...AUTHOR }, mainEntityOfPage: a.url, dateModified: today },
+    { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [{ "@type": "Question", name: a.question,
+      acceptedAnswer: { "@type": "Answer", text: `About ${pence(run)} a run on a standard UK tariff, using ${a.kWh}kWh for ${a.note.toLowerCase()}. That's about ${yearly(year)} a year at ${a.perWeek} times a week. On a time-of-use tariff such as Agile Octopus it can cost much less at the cheapest time of day.` } }] },
+    { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Cheap Watts", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Running costs", item: `${SITE_URL}/cost-to-run/` },
+      { "@type": "ListItem", position: 3, name: a.name, item: a.url } ] },
+  ];
+  const main = `      <nav aria-label="Breadcrumb" class="crumbs"><ol><li><a href="/">Cheap Watts</a></li><li><a href="/cost-to-run/">Running costs</a></li><li aria-current="page">${esc(a.name)}</li></ol></nav>
+      <article>
+        <header>
+          <h1>${esc(a.question)}</h1>
+          <p class="lede">About <strong>${pence(run)} a run</strong> on a standard tariff, or around <strong>${yearly(year)} a year</strong> at ${a.perWeek} times a week. Less at the right time on a time-of-use tariff.</p>
+        </header>
+        <section class="live" id="live-cost" data-appliance="${a.id}" data-kwh="${a.kWh}" data-mins="${a.mins}" data-perweek="${a.perWeek}" aria-labelledby="live-title">
+          <h2 id="live-title">Today's cost where you live</h2>
+          <label>Your region <select></select></label>
+          <div data-out><p class="muted">Loading today's prices needs JavaScript. <a href="/?appliance=${a.id}">Open the tool</a> instead.</p></div>
+        </section>
+        <div class="prose">
+          <p>${esc(a.intro)}</p>
+          <h2>How we work it out</h2>
+          <p>A typical ${a.name.toLowerCase()} uses about <strong>${a.kWh}kWh</strong> for ${esc(a.note.toLowerCase())}, taking around ${hours(a.mins)}. Electricity on a standard variable tariff costs about ${stdRate.toFixed(0)}p a unit across Great Britain at the moment (it varies a little by region), so one run comes to about ${pence(run)}. Your own model may use more or less: the energy label, or a plug-in energy monitor, will tell you.</p>
+          <p>If you're on a tariff where the price changes through the day, such as Agile Octopus, Economy 7 or an electric car tariff, the same run can cost much less at the right time. <a href="/?appliance=${a.id}">The Cheap Watts tool</a> finds that time for you on your own tariff.</p>
+          <h2>How to spend less</h2>
+          <ul>${a.tips.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
+          ${alt ? `<h2>A cheaper option</h2><p>${esc(a.alt.note)} <a href="/cost-to-run/${alt.id}/">See what a ${alt.name.toLowerCase()} costs to run</a>.</p>` : ""}
+        </div>
+        <aside class="cta" aria-label="Try the tool">
+          <p class="cta-title">When's the cheapest time to run it on your tariff?</p>
+          <p>Free, no sign-up, with live prices for Octopus, EDF and E.ON Next, or your own rates.</p>
+          <a class="button" href="/?appliance=${a.id}">Find the cheapest time</a>
+        </aside>
+      </article>${others.length ? `
+      <section aria-labelledby="more" class="related">
+        <h2 id="more">More running costs</h2>
+        <ul class="cards">
+        ${others.map((o) => `<li class="card"><h2><a href="/cost-to-run/${o.id}/">${esc(o.question)}</a></h2><p>About ${pence(o.kWh * stdRate)} a run.</p></li>`).join("\n        ")}
+        </ul>
+      </section>` : ""}`;
+  write(join(dist, "cost-to-run", a.id, "index.html"), layout({
+    title: `${a.question} · Cheap Watts`, description, canonical: a.url, type: "article", ld, main,
+  }).replace("  </head>", `    ${costScript}\n  </head>`));
+}
+
+write(join(dist, "cost-to-run", "index.html"), layout({
+  title: "How much does it cost to run? UK appliance running costs at today's prices · Cheap Watts",
+  description: "What a washing machine, tumble dryer, dishwasher, oven, air fryer, electric heater, shower or electric car costs to run in the UK, at today's electricity prices, with the cheapest time to run each one.",
+  canonical: `${SITE_URL}/cost-to-run/`,
+  ld: [{ "@context": "https://schema.org", "@type": "ItemList", name: "Appliance running costs",
+    itemListElement: costPages.map((a, i) => ({ "@type": "ListItem", position: i + 1, name: a.question, url: a.url })) }],
+  main: `      <h1>How much does it cost to run?</h1>
+      <p class="lede">Typical running costs for everyday appliances at today's UK electricity prices, with how to pay less for each one. Standard tariff figures use about ${stdRate.toFixed(0)}p a unit; pick your region on each page for today's exact price.</p>
+      ${APPLIANCE_GROUPS.map((g) => {
+        const items = costPages.filter((a) => a.group === g.id);
+        return items.length ? `<h2>${esc(g.name)}</h2>
+      <ul class="cards">
+        ${items.map((a) => `<li class="card"><h2><a href="/cost-to-run/${a.id}/">${esc(a.question)}</a></h2><p>About ${pence(a.kWh * stdRate)} a run, ${esc(a.note.toLowerCase())}.</p></li>`).join("\n        ")}
+      </ul>` : "";
+      }).join("\n      ")}`,
+}));
+
 // ---------- guide pages: /<slug>/ from content/pages/*.md ----------
 const pagesDir = join(root, "content", "pages");
 const guides = (existsSync(pagesDir) ? readdirSync(pagesDir).filter((f) => f.endsWith(".md")) : []).map((file) => {
@@ -294,6 +390,8 @@ const urls = [
   { loc: `${SITE_URL}/blog/`, lastmod: posts[0]?.date ?? today, priority: "0.7" },
   ...posts.map((p) => ({ loc: p.url, lastmod: p.updated || p.date, priority: "0.6" })),
   ...guides.map((g) => ({ loc: g.url, lastmod: today, priority: "0.5" })),
+  { loc: `${SITE_URL}/cost-to-run/`, lastmod: today, priority: "0.8" },
+  ...costPages.map((a) => ({ loc: a.url, lastmod: today, priority: "0.7" })),
 ];
 write(join(dist, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -313,4 +411,4 @@ write(join(dist, "404.html"), layout({
       <p class="lede">It may have moved. Try <a href="/">the Cheap Watts tools</a> or <a href="/blog/">the blog</a>.</p>`,
 }).replace('<meta name="description"', '<meta name="robots" content="noindex" />\n    <meta name="description"'));
 
-console.log(`Built ${PAGES.length} tool pages, ${guides.length} guide(s), ${posts.length} blog post(s)${showDrafts ? " (including drafts)" : ""}, sitemap with ${urls.length} URLs.`);
+console.log(`Built ${PAGES.length} tool pages, ${costPages.length} running-cost pages, ${guides.length} guide(s), ${posts.length} blog post(s)${showDrafts ? " (including drafts)" : ""}, sitemap with ${urls.length} URLs.`);

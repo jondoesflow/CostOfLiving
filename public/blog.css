@@ -69,3 +69,13 @@ article header { margin-bottom: 24px; }
 
 .site-footer { border-top: 1px solid var(--line); padding-top: 18px; padding-bottom: 40px; font-size: 15px; color: var(--muted); }
 .site-footer ul { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 8px; }
+
+/* Running cost pages */
+.live { margin: 24px 0 28px; background: var(--surface); border: 2px solid var(--relief); border-radius: 16px; padding: 20px; }
+.live h2 { font-size: 22px; margin-bottom: 10px; }
+.live label { display: block; font-size: 16px; color: var(--muted); margin-bottom: 14px; }
+.live select { display: block; width: 100%; margin-top: 4px; font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+.live-row { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; padding: 8px 0; border-top: 1px solid var(--line); }
+.live-row strong { font-family: "Fraunces", Georgia, serif; font-size: 24px; color: var(--relief); white-space: nowrap; }
+.live .muted { color: var(--muted); font-size: 16px; margin: 6px 0; }
+.live .button { margin-top: 10px; }
