@@ -67,6 +67,7 @@ export function T({
   numberOfLines?: number;
   accessibilityLabel?: string;
   accessibilityRole?: 'header' | 'text' | 'summary';
+  accessibilityLiveRegion?: 'none' | 'polite' | 'assertive';
   selectable?: boolean;
 }) {
   const { colors } = useTheme();

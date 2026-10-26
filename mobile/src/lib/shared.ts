@@ -5,6 +5,7 @@ export * from '../../../src/optimise.js';
 export * from '../../../src/appliances.js';
 export * from '../../../src/carbon.js';
 export * from '../../../src/lib/format.js';
+export { reminderTitle } from '../../../src/lib/calendar.js';
 export type { Slot, Tariff, Supplier, E7 } from '../../../src/prices.js';
 export type { Window, Best, ChargePlan, Session, Job, Placed, Profile } from '../../../src/optimise.js';
 export type { Appliance } from '../../../src/appliances.js';
