@@ -1,6 +1,6 @@
 # Cheap Watts privacy policy
 
-> The public copy of this policy is https://cheapwatts.co.uk/privacy/ (the website renders content/pages/privacy.md). Keep the two in step. Before publishing, replace [Your email address] and check the items marked [CHECK] in store/listing.md.
+> The public copy of this policy is https://cheapwatts.co.uk/privacy/ (the website renders content/pages/privacy.md). Keep the two in step. Before publishing, replace jon@jondoesflow.com and check the items marked [CHECK] in store/listing.md.
 
 _Last updated: 26 October 2026_
 
@@ -55,10 +55,10 @@ Cheap Watts doesn't knowingly collect any personal information from anyone, incl
 
 ## Your rights and how to complain
 
-Because we hold no personal information about you, there is nothing for us to give you, correct or delete. If you have a question or a concern about privacy, please get in touch at [Your email address]. If you are in the UK and are unhappy with how we have handled it, you can complain to the Information Commissioner's Office (ICO) at ico.org.uk.
+Because we hold no personal information about you, there is nothing for us to give you, correct or delete. If you have a question or a concern about privacy, please get in touch at jon@jondoesflow.com. If you are in the UK and are unhappy with how we have handled it, you can complain to the Information Commissioner's Office (ICO) at ico.org.uk.
 
 ## Changes and contact
 
 If this policy changes, the new version will be published at https://cheapwatts.co.uk/privacy/ with a new date.
 
-Questions: [Your email address]
+Questions: jon@jondoesflow.com

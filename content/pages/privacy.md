@@ -57,10 +57,10 @@ Cheap Watts doesn't knowingly collect any personal information from anyone, incl
 
 ## Your rights and how to complain
 
-Because we hold no personal information about you, there is nothing for us to give you, correct or delete. If you have a question or a concern about privacy, please get in touch at [Your email address]. If you are in the UK and are unhappy with how we have handled it, you can complain to the Information Commissioner's Office (ICO) at ico.org.uk.
+Because we hold no personal information about you, there is nothing for us to give you, correct or delete. If you have a question or a concern about privacy, please get in touch at jon@jondoesflow.com. If you are in the UK and are unhappy with how we have handled it, you can complain to the Information Commissioner's Office (ICO) at ico.org.uk.
 
 ## Changes and contact
 
 If this policy changes, the new version will be published at https://cheapwatts.co.uk/privacy/ with a new date.
 
-Questions: [Your email address]
+Questions: jon@jondoesflow.com
