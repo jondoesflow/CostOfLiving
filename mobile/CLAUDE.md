@@ -9,6 +9,6 @@ maths in ../src, never here.
 
 - Screens live in src/app (expo-router); everything else in src/components, src/lib, src/theme.
 - Settings (supplier, tariff, region, off-peak hours) are kept on the device by src/lib/electricity.tsx.
-- No account, no adverts, no analytics, no tip links (Apple rejects them). Reminders are local notifications.
+- No account, no adverts, no analytics, no tip links (Apple rejects them), and no affiliate links: the website's "Worth a look" box (src/products.js) stays out of the app. Reminders are local notifications.
 - Run `npm run typecheck`, `npm test` and `npm run lint` before declaring any task done.
 - Store paperwork is in store/. The public privacy policy is the website's content/pages/privacy.md.
