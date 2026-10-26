@@ -12,6 +12,12 @@ import { PAGES, SITE_URL } from "../src/pages.js";
 import { APPLIANCES, APPLIANCE_GROUPS, REGIONS } from "../src/appliances.js";
 import { GUIDES } from "../src/applianceGuides.js";
 import { picksFor, amazonUrl, DISCLOSURE, AMAZON_NOTICE } from "../src/products.js";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import * as lucide from "lucide-react";
+
+// The same icon tiles the app shows, as inline SVG for static pages.
+const iconSvg = (name) => renderToStaticMarkup(createElement(lucide[name] ?? lucide.ShoppingBag, { size: 28, "aria-hidden": "true" }));
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(root, "dist");
@@ -328,7 +334,7 @@ for (const a of costPages) {
         </div>
         ${(() => { const picks = picksFor(a.id); return picks.length ? `<section class="worth" aria-labelledby="worth">
           <h2 id="worth">Worth a look</h2>
-          <ul>${picks.map((p) => `<li><a href="${amazonUrl(p.query)}" target="_blank" rel="noopener noreferrer sponsored" data-umami-event="affiliate-click" data-umami-event-product="${p.id}" data-umami-event-place="cost-page">${esc(p.name)}<span class="sr-only"> (Amazon, opens in a new tab)</span></a><p>${esc(p.why)}</p></li>`).join("")}</ul>
+          <ul>${picks.map((p) => `<li><span class="tile">${iconSvg(p.icon)}</span><span><a href="${amazonUrl(p.query)}" target="_blank" rel="noopener noreferrer sponsored" data-umami-event="affiliate-click" data-umami-event-product="${p.id}" data-umami-event-place="cost-page">${esc(p.name)}<span class="sr-only"> (Amazon, opens in a new tab)</span></a><p>${esc(p.why)}</p></span></li>`).join("")}</ul>
           <p class="muted">${DISCLOSURE}</p>
         </section>` : ""; })()}
         <aside class="cta" aria-label="Try the tool">

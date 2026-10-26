@@ -1,7 +1,8 @@
 // "Worth a look": products that genuinely help with the thing someone just
 // looked up, linked to Amazon.co.uk searches with the Cheap Watts affiliate
 // tag. Searches rather than specific products, so links don't go stale and
-// nothing needs Amazon's product API. The result itself never depends on any
+// nothing needs Amazon's product API. Each has an icon tile, since Amazon
+// only lets a site use its product photos once it has made some sales. The result itself never depends on any
 // of this; the box sits below it and is labelled as affiliate links.
 export const AMAZON_TAG = "cheapwatts-21";
 
@@ -9,51 +10,51 @@ export const amazonUrl = (query) => `https://www.amazon.co.uk/s?k=${encodeURICom
 
 const PRODUCTS = {
   monitorPlug: {
-    id: "monitor-plug", name: "Smart plug with energy monitoring", query: "smart plug energy monitor uk",
+    icon: "Gauge", id: "monitor-plug", name: "Smart plug with energy monitoring", query: "smart plug energy monitor uk",
     why: "Measure what your own appliance really uses per run, instead of the typical figure.",
   },
   schedulePlug: {
-    id: "schedule-plug", name: "Smart plug with a timer", query: "smart plug timer schedule uk",
+    icon: "PlugZap", id: "schedule-plug", name: "Smart plug with a timer", query: "smart plug timer schedule uk",
     why: "Switch it on in your cheap hours without getting up.",
   },
   airer: {
-    id: "airer", name: "Heated airer with a cover", query: "heated clothes airer with cover",
+    icon: "Rows3", id: "airer", name: "Heated airer with a cover", query: "heated clothes airer with cover",
     why: "Dries a load for a fraction of what a tumble dryer costs. The cover halves the drying time.",
   },
   hpdryer: {
-    id: "hpdryer", name: "Heat pump tumble dryer", query: "heat pump tumble dryer",
+    icon: "Fan", id: "hpdryer", name: "Heat pump tumble dryer", query: "heat pump tumble dryer",
     why: "About a third of the electricity of a condenser or vented dryer for the same load.",
   },
   dehumidifier: {
-    id: "dehumidifier", name: "Dehumidifier with a laundry mode", query: "dehumidifier laundry mode",
+    icon: "AirVent", id: "dehumidifier", name: "Dehumidifier with a laundry mode", query: "dehumidifier laundry mode",
     why: "Dries washing indoors cheaply and stops the damp that comes with it.",
   },
   blanket: {
-    id: "blanket", name: "Electric blanket or heated throw", query: "electric heated throw",
+    icon: "BedDouble", id: "blanket", name: "Electric blanket or heated throw", query: "electric heated throw",
     why: "Warms you for about a penny an hour, against a pound or more for a room heater.",
   },
   airfryer: {
-    id: "airfryer", name: "Air fryer", query: "air fryer",
+    icon: "Soup", id: "airfryer", name: "Air fryer", query: "air fryer",
     why: "Cooks one or two portions for a fraction of the oven's cost.",
   },
   slowcooker: {
-    id: "slowcooker", name: "Slow cooker", query: "slow cooker",
+    icon: "CookingPot", id: "slowcooker", name: "Slow cooker", query: "slow cooker",
     why: "A whole meal for about a unit of electricity.",
   },
   immersionTimer: {
-    id: "immersion-timer", name: "Immersion heater timer", query: "immersion heater timer switch",
+    icon: "Timer", id: "immersion-timer", name: "Immersion heater timer", query: "immersion heater timer switch",
     why: "Heat the tank in your cheap hours only, rather than keeping it hot all day.",
   },
   showerTimer: {
-    id: "shower-timer", name: "Shower timer", query: "shower timer 4 minute",
+    icon: "ShowerHead", id: "shower-timer", name: "Shower timer", query: "shower timer 4 minute",
     why: "A four-minute shower costs half an eight-minute one.",
   },
   tankJacket: {
-    id: "tank-jacket", name: "Hot water cylinder jacket", query: "hot water cylinder jacket 80mm",
+    icon: "Cylinder", id: "tank-jacket", name: "Hot water cylinder jacket", query: "hot water cylinder jacket 80mm",
     why: "A badly insulated tank loses heat all day.",
   },
   kettle: {
-    id: "kettle", name: "Kettle with a one-cup setting", query: "one cup kettle energy saving",
+    icon: "Coffee", id: "kettle", name: "Kettle with a one-cup setting", query: "one cup kettle energy saving",
     why: "Boils only what you need. Overfilling is where most kettle energy goes.",
   },
 };

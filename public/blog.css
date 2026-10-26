@@ -84,7 +84,8 @@ article header { margin-bottom: 24px; }
 .worth { margin-top: 28px; border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; }
 .worth h2 { font-size: 22px; margin-bottom: 8px; }
 .worth ul { list-style: none; }
-.worth li { padding: 8px 0; border-top: 1px solid var(--line); }
+.worth li { padding: 10px 0; border-top: 1px solid var(--line); display: flex; gap: 12px; align-items: flex-start; }
+.worth .tile { flex: none; width: 56px; height: 56px; border-radius: 12px; background: rgba(139, 92, 246, 0.15); color: #8b5cf6; display: flex; align-items: center; justify-content: center; }
 .worth li:first-child { border-top: 0; }
 .worth li a { font-weight: 600; }
 .worth li p { font-size: 16px; color: var(--muted); }
