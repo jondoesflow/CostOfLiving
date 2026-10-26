@@ -12,7 +12,8 @@ test("plan my evening schedules everything and respects one-at-a-time", async ({
   const plan = page.getByRole("region", { name: /plan/i });
   await expect(plan.getByRole("heading", { name: /for everything/ })).toBeVisible();
   await page.getByLabel("How many can run at once?").selectOption({ label: "One at a time" });
-  const items = plan.getByRole("listitem");
+  // The "Worth a look" box below the plan has its own list, so count the plan's list only.
+  const items = plan.getByRole("list").first().getByRole("listitem");
   await expect(items).toHaveCount(3);
   // One at a time: each start is at or after the previous finish.
   const texts = await items.allInnerTexts();

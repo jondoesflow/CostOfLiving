@@ -11,7 +11,7 @@ Cheap Watts helps you find the cheapest and greenest time to run your appliances
 ## The short version
 
 - No account, no sign-up, no email address.
-- No adverts.
+- No adverts. The website shows a few clearly labelled affiliate links to Amazon; if you buy through one, Cheap Watts earns a small commission. Amazon sets its own cookies once you are on its site, under its own privacy policy. The app has no affiliate links.
 - The app has no analytics or tracking. The website counts visits with a cookie-less, self-hosted tool (see below).
 - Your settings stay on your own device.
 - The only things that leave your device are your tariff and region, sent to the public price and carbon APIs so we can show you prices, and your postcode when you ask us to find your region.

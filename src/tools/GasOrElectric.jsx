@@ -3,6 +3,8 @@ import { gasRate } from "../prices";
 import { money } from "../lib/format";
 import { Card, StepTitle, NumberField, Note, Choice } from "../components/ui";
 import PricesStatus from "../components/PricesStatus";
+import WorthALook from "../components/WorthALook";
+import { GAS_PICKS } from "../products";
 
 // Energy each option uses, in kWh of electricity or gas. These are typical
 // figures worked out from power ratings and rough efficiencies, stated on the
@@ -154,6 +156,7 @@ export default function GasOrElectric({ elec }) {
       {ready && elecRate != null && gasPrice != null && COMPARISONS.map((c) => (
         <Comparison key={c.id} c={c} elecRate={elecRate} gasPrice={gasPrice} />
       ))}
+      {ready && elecRate != null && gasPrice != null && <Card><WorthALook picks={GAS_PICKS} place="gas" /></Card>}
     </>
   );
 }

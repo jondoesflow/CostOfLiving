@@ -10,6 +10,8 @@ import ApplianceGrid from "../components/ApplianceGrid";
 import SlotChart from "../components/SlotChart";
 import PricesStatus from "../components/PricesStatus";
 import ShareButton from "../components/ShareButton";
+import WorthALook from "../components/WorthALook";
+import { picksFor } from "../products";
 
 function grams(g) {
   return g >= 1000 ? `${(g / 1000).toFixed(1)}kg` : `${Math.round(g)}g`;
@@ -323,6 +325,7 @@ function Result({ elec, result, green, kWh, mins, perWeek, applianceName, applia
 
         <ShareButton tool="when" path="/" text={shareText} />
         <Greenest green={green} cheapest={best} allSame={allSame} />
+        <WorthALook picks={picksFor(applianceId, { timed: !allSame })} place="when" />
         {(!allSame || green) && reminderWindow.index !== 0 && !soFar && (
           <Reminders elec={elec} best={reminderWindow} applianceName={applianceName} applianceId={applianceId} kWh={kWh} mins={mins} />
         )}

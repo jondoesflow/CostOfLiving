@@ -218,3 +218,23 @@ test("ready when I'm up: the heating stays in the cheap hours and it finishes ne
   await expect(result.getByRole("heading", { name: "Start at 2am tomorrow" })).toBeVisible();
   await expect(result).not.toContainText("more than the cheapest time");
 });
+
+test("worth a look: affiliate picks match the appliance and are labelled", async ({ page }) => {
+  await setUp(page);
+  await page.getByRole("radio", { name: /Tumble dryer/ }).check();
+  const box = page.getByRole("region", { name: "Worth a look" });
+  await expect(box).toBeVisible();
+  const links = box.getByRole("link");
+  await expect(links).toHaveCount(3);
+  await expect(links.nth(0)).toHaveText(/Heat pump tumble dryer/);
+  await expect(links.nth(1)).toHaveText(/Smart plug with a timer/); // Agile has cheap hours
+  for (const link of await links.all()) {
+    expect(await link.getAttribute("href")).toMatch(/^https:\/\/www\.amazon\.co\.uk\/s\?k=.*&tag=cheapwatts-21$/);
+    expect(await link.getAttribute("rel")).toContain("sponsored");
+  }
+  await expect(box).toContainText("Affiliate links");
+  await expect(page.getByRole("contentinfo")).toContainText("Amazon Associate");
+  // The electric car gets no picks.
+  await page.getByRole("radio", { name: /Electric car/ }).check();
+  await expect(page.getByRole("region", { name: "Worth a look" })).toHaveCount(0);
+});

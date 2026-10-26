@@ -39,7 +39,7 @@ It answers the questions people ask about electricity bills in plain English:
 
 A few things that matter for the people you support:
 
-- It's completely free, with no sign-up, no adverts and no app to install.
+- It's completely free, with no sign-up, no adverts and no app to install. (A few results link to related products on Amazon, clearly labelled, which helps keep the site free.)
 - It works on any phone and is built to the WCAG 2.2 AA accessibility standard, including screen readers.
 - It uses live prices from Octopus, EDF and E.ON Next, and people on any other supplier can type in their own rates.
 - Nothing personal is collected. If someone uploads their usage file, it's read on their own device and never leaves it.

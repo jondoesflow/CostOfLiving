@@ -31,7 +31,7 @@ Alongside the main tool, Cheap Watts includes:
 - **Solar and batteries:** shows whether to use or sell solar power, and when to charge a home battery.
 - **Should I switch?:** estimates what a household would have paid on each tariff, using their own smart meter data, which never leaves their device.
 
-The site is free, with no sign-up and no adverts, works on any phone, and is built to the WCAG 2.2 AA accessibility standard.
+The site is free, with no sign-up and no adverts (a few results link to related products, clearly labelled), works on any phone, and is built to the WCAG 2.2 AA accessibility standard.
 
 [DRAFT QUOTE: for Jon to rewrite in his own words before sending]
 "I kept seeing the same questions from friends and family: is it cheaper to run the dishwasher at night, is the air fryer really cheaper than the oven? The answers are out there, but they're buried in tariff tables. I wanted something that gives a straight answer for your own home in a few taps, and tells you honestly when it won't make a difference," said Jon Russell, who built the site.

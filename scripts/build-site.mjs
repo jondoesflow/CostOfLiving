@@ -11,6 +11,7 @@ import { marked } from "marked";
 import { PAGES, SITE_URL } from "../src/pages.js";
 import { APPLIANCES, APPLIANCE_GROUPS, REGIONS } from "../src/appliances.js";
 import { GUIDES } from "../src/applianceGuides.js";
+import { picksFor, amazonUrl, DISCLOSURE, AMAZON_NOTICE } from "../src/products.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(root, "dist");
@@ -173,7 +174,7 @@ ${main}
           <li><a href="https://github.com/jondoesflow?tab=repositories" target="_blank" rel="noopener noreferrer">GitHub Projects<span class="sr-only"> (opens in a new tab)</span></a></li>
         </ul>
       </nav>
-      <p>Cheap Watts is free and not affiliated with any energy supplier. Prices change; always check your own tariff.</p>
+      <p>Cheap Watts is free and not affiliated with any energy supplier. Prices change; always check your own tariff. ${AMAZON_NOTICE}</p>
     </footer>
   </body>
 </html>
@@ -325,6 +326,11 @@ for (const a of costPages) {
           <ul>${a.tips.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
           ${alt ? `<h2>A cheaper option</h2><p>${esc(a.alt.note)} <a href="/cost-to-run/${alt.id}/">See what a ${alt.name.toLowerCase()} costs to run</a>.</p>` : ""}
         </div>
+        ${(() => { const picks = picksFor(a.id); return picks.length ? `<section class="worth" aria-labelledby="worth">
+          <h2 id="worth">Worth a look</h2>
+          <ul>${picks.map((p) => `<li><a href="${amazonUrl(p.query)}" target="_blank" rel="noopener noreferrer sponsored" data-umami-event="affiliate-click" data-umami-event-product="${p.id}" data-umami-event-place="cost-page">${esc(p.name)}<span class="sr-only"> (Amazon, opens in a new tab)</span></a><p>${esc(p.why)}</p></li>`).join("")}</ul>
+          <p class="muted">${DISCLOSURE}</p>
+        </section>` : ""; })()}
         <aside class="cta" aria-label="Try the tool">
           <p class="cta-title">When's the cheapest time to run it on your tariff?</p>
           <p>Free, no sign-up, with live prices for Octopus, EDF and E.ON Next, or your own rates.</p>

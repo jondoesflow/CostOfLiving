@@ -98,3 +98,11 @@ test("running cost pages: static figures, live cost for the region, and a link i
   await setUp(page);
   await expect(page.getByRole("heading", { name: "Start at midnight tonight" })).toBeVisible();
 });
+
+test("running cost pages carry labelled affiliate picks", async ({ page }) => {
+  await page.goto("/cost-to-run/heater/");
+  const box = page.getByRole("region", { name: "Worth a look" });
+  await expect(box.getByRole("link").first()).toHaveText(/Electric blanket or heated throw/);
+  expect(await box.getByRole("link").first().getAttribute("href")).toContain("tag=cheapwatts-21");
+  await expect(box).toContainText("Affiliate links");
+});

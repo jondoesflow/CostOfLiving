@@ -79,3 +79,13 @@ article header { margin-bottom: 24px; }
 .live-row strong { font-family: "Fraunces", Georgia, serif; font-size: 24px; color: var(--relief); white-space: nowrap; }
 .live .muted { color: var(--muted); font-size: 16px; margin: 6px 0; }
 .live .button { margin-top: 10px; }
+
+/* Worth a look (affiliate picks) */
+.worth { margin-top: 28px; border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; }
+.worth h2 { font-size: 22px; margin-bottom: 8px; }
+.worth ul { list-style: none; }
+.worth li { padding: 8px 0; border-top: 1px solid var(--line); }
+.worth li:first-child { border-top: 0; }
+.worth li a { font-weight: 600; }
+.worth li p { font-size: 16px; color: var(--muted); }
+.worth .muted { font-size: 14px; color: var(--muted); margin-top: 8px; }

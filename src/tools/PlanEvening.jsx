@@ -9,6 +9,8 @@ import { Card, StepTitle, NumberField, Warning, Note, LiveSummary } from "../com
 import ApplianceGrid from "../components/ApplianceGrid";
 import PricesStatus from "../components/PricesStatus";
 import ShareButton from "../components/ShareButton";
+import WorthALook from "../components/WorthALook";
+import { PLAN_PICKS } from "../products";
 
 const LIMITS = [
   { value: 1, label: "One at a time" },
@@ -187,6 +189,7 @@ export default function PlanEvening({ elec }) {
                     ? `I fitted ${scheduled.length} jobs into the cheap hours and saved ${money(totalNow - total)} on running them all now. Plan yours, free:`
                     : "Fit your washing, dishwasher and car charging into the cheapest hours, free:"}
                 />
+                <WorthALook picks={PLAN_PICKS} place="plan" />
               </>
             )}
 
