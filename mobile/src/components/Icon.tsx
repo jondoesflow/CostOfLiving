@@ -31,7 +31,7 @@ const ICONS = {
   // Appliances
   WashingMachine: { sf: 'washer', md: 'local-laundry-service' },
   Wind: { sf: 'dryer', md: 'dry' },
-  Fan: { sf: 'fan', md: 'mode-fan' },
+  Fan: { sf: 'fan', md: 'heat-pump' },
   Rows3: { sf: 'rectangle.grid.1x2', md: 'view-agenda' },
   Shirt: { sf: 'tshirt', md: 'iron' },
   Utensils: { sf: 'dishwasher', md: 'dinner-dining' },

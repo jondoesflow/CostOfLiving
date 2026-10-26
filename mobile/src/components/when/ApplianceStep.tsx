@@ -29,7 +29,7 @@ export function ApplianceStep({ applianceId, pick, kWh, setKWh, mins, setMins, f
   const { colors } = useTheme();
   const appliance = APPLIANCES.find((a) => a.id === applianceId);
   const note = appliance
-    ? `Typical figures for a ${appliance.name.toLowerCase()} (${appliance.note}). Change them if you know yours.`
+    ? `Typical figures for ${/^[aeiou]/i.test(appliance.name) ? 'an' : 'a'} ${appliance.name.toLowerCase()} (${appliance.note}). Change them if you know yours.`
     : 'Enter how much electricity it uses and how long it runs. The power rating (in kW) multiplied by the hours gives you the kWh.';
   const profileNote = appliance?.profile ? PROFILES[appliance.profile].note : null;
   const dryer = appliance?.id === 'dryer' || appliance?.id === 'hpdryer';

@@ -33,7 +33,7 @@ function ApplianceStep({ applianceId, pick, kWh, setKWh, mins, setMins, finishBy
         <div className="mt-5 border-t border-gray-100 pt-4">
           <p className="text-sm text-gray-600 mb-3">
             {appliance
-              ? <>Typical figures for a {appliance.name.toLowerCase()} ({appliance.note}). Change them if you know yours.</>
+              ? <>Typical figures for {/^[aeiou]/i.test(appliance.name) ? "an" : "a"} {appliance.name.toLowerCase()} ({appliance.note}). Change them if you know yours.</>
               : <>Enter how much electricity it uses and how long it runs. The power rating (in kW) multiplied by the hours gives you the kWh.</>}
             {appliance?.profile && <> {PROFILES[appliance.profile].note}</>}
           </p>
