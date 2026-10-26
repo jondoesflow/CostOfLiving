@@ -12,7 +12,6 @@ import {
   View,
   type ScrollViewProps,
   type StyleProp,
-  type TextInputProps,
   type TextStyle,
   type ViewStyle,
 } from 'react-native';
@@ -332,13 +331,13 @@ export function TextField({ label, error, hint, style, ref, ...rest }: React.Com
 }
 
 /** A toggleable filter chip (Material 3 filter chip / iOS capsule). */
-export function Chip({ label, selected, onPress, icon }: { label: string; selected: boolean; onPress: () => void; icon?: IconName }) {
+export function Chip({ label, selected, onPress, icon, role = 'checkbox' }: { label: string; selected: boolean; onPress: () => void; icon?: IconName; role?: 'checkbox' | 'radio' }) {
   const { colors } = useTheme();
   return (
     <Pressable
       onPress={onPress}
-      accessibilityRole="checkbox"
-      accessibilityState={{ checked: selected }}
+      accessibilityRole={role}
+      accessibilityState={role === 'radio' ? { selected, checked: selected } : { checked: selected }}
       android_ripple={{ color: colors.separator, foreground: true }}
       hitSlop={{ top: 6, bottom: 6 }}
       style={({ pressed }) => ({
