@@ -2,7 +2,6 @@ import * as WebBrowser from 'expo-web-browser';
 import { Linking } from 'react-native';
 import type { Palette } from '../theme';
 
-/** The website owner's tip page (optional; the app is free). */
 
 /**
  * Open a web page in the in-app browser (SFSafariViewController on iOS, Custom Tabs on Android),
