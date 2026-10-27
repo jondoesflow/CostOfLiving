@@ -16,13 +16,13 @@ Add, remove or reorder freely; keep each one a specific question people search.
 - [x] Octopus Agile explained: who it suits, and who it doesn't (2026-10-25)
 - [x] Boiler flow temperature: the free setting that can cut your gas bill (habits; tool: gas) (2026-10-25)
 - [x] Air fryer vs oven vs microwave: which is cheapest per meal? (habits; tool: gas) (2026-10-26)
+- [x] How much does it cost to run an electric blanket? (habits; tool: when) (2026-10-27)
 
 ## Next up
 - [ ] Priority Services Register: who can join and what it gives you (support; tool: when)
 - [ ] Bleeding radiators, radiator reflector panels and TRVs: what actually helps? (DIY; tool: gas)
 - [ ] How to read your smart meter and download your half-hourly usage (smart tech; tool: switch)
 - [ ] Solar panels in the UK: how much do they really generate, and should you use or sell the power? (big upgrades; tool: solar)
-- [ ] How much does it cost to run an electric blanket? (habits; tool: when)
 - [ ] Thermal curtains, window film and secondary glazing: what's worth it for renters? (DIY; tool: gas)
 - [ ] Energy labels explained: turning A to G ratings into pounds per year (smart tech; tool: when)
 - [ ] Great British Insulation Scheme and ECO4: who qualifies and how to apply (grants; tool: gas)
