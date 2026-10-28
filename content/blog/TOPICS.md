@@ -33,7 +33,7 @@ payments, check GOV.UK, Ofgem or Citizens Advice on the day and link the page.
 - [ ] After the Budget: what changed for your energy bill, and what didn't (billing; tool: switch). Write only after the Budget, from confirmed GOV.UK or Ofgem announcements, never from press speculation.
 
 ## Next up
-- [ ] Priority Services Register: who can join and what it gives you (support; tool: when)
+- [x] Priority Services Register: who can join and what it gives you (support; tool: when) (2026-10-26)
 - [ ] Bleeding radiators, radiator reflector panels and TRVs: what actually helps? (DIY; tool: gas)
 - [ ] Solar panels in the UK: how much do they really generate, and should you use or sell the power? (big upgrades; tool: solar)
 - [ ] How much does it cost to run an electric blanket? (habits; tool: when)
