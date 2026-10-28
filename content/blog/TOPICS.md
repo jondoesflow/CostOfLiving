@@ -35,7 +35,7 @@ payments, check GOV.UK, Ofgem or Citizens Advice on the day and link the page.
 ## Next up
 - [x] Priority Services Register: who can join and what it gives you (support; tool: when) (2026-10-26)
 - [x] Bleeding radiators, radiator reflector panels and TRVs: what actually helps? (DIY; tool: gas) (2026-10-27)
-- [ ] Solar panels in the UK: how much do they really generate, and should you use or sell the power? (big upgrades; tool: solar)
+- [x] Solar panels in the UK: how much do they really generate, and should you use or sell the power? (big upgrades; tool: solar) (2026-10-28)
 - [x] How much does it cost to run an electric blanket? (habits; tool: when) (2026-10-27)
 - [ ] Thermal curtains, window film and secondary glazing: what's worth it for renters? (DIY; tool: gas)
 - [ ] Energy labels explained: turning A to G ratings into pounds per year (smart tech; tool: when)
