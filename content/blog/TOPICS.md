@@ -16,6 +16,7 @@ Add, remove or reorder freely; keep each one a specific question people search.
 - [x] Octopus Agile explained: who it suits, and who it doesn't (2026-10-25)
 - [x] Boiler flow temperature: the free setting that can cut your gas bill (habits; tool: gas) (2026-10-25)
 - [x] Air fryer vs oven vs microwave: which is cheapest per meal? (habits; tool: gas) (2026-10-26)
+- [x] Autumn Budget 2026: what could it mean for your energy bills? (topical; tool: switch) (2026-10-28)
 
 ## Next up
 - [ ] Priority Services Register: who can join and what it gives you (support; tool: when)
