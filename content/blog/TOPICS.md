@@ -18,6 +18,19 @@ Add, remove or reorder freely; keep each one a specific question people search.
 - [x] Air fryer vs oven vs microwave: which is cheapest per meal? (habits; tool: gas) (2026-10-26)
 - [x] Autumn Budget 2026: what could it mean for your energy bills? (topical; tool: switch) (2026-10-28)
 
+## Budget week (UK Autumn Budget, Wednesday 28 October 2026)
+Take these first, in order, one per run, so a Budget-relevant post goes out every
+day up to and after the Budget. Evergreen and factual: never predict or guess
+what the Budget will contain. For anything involving schemes, VAT, levies or
+payments, check GOV.UK, Ofgem or Citizens Advice on the day and link the page.
+- [ ] What is the Ofgem price cap, and how does it affect your bill? (billing; tool: switch)
+- [ ] What's in your electricity bill? VAT, levies and policy costs explained (billing; tool: switch)
+- [ ] Cold Weather Payments and Winter Fuel Payment: who gets them this winter (support; tool: when)
+- [ ] Standing charges explained: why you pay even if you use nothing (billing; tool: switch)
+- [ ] Behind on your energy bills? Supplier hardship funds and free debt advice (support; tool: switch)
+- [ ] Great British Insulation Scheme and ECO4: who qualifies and how to apply (grants; tool: gas). Check first whether the scheme is still open and say so plainly.
+- [ ] After the Budget: what changed for your energy bill, and what didn't (billing; tool: switch). Write only after the Budget, from confirmed GOV.UK or Ofgem announcements, never from press speculation.
+
 ## Next up
 - [ ] Priority Services Register: who can join and what it gives you (support; tool: when)
 - [ ] Bleeding radiators, radiator reflector panels and TRVs: what actually helps? (DIY; tool: gas)
@@ -26,23 +39,19 @@ Add, remove or reorder freely; keep each one a specific question people search.
 - [ ] How much does it cost to run an electric blanket? (habits; tool: when)
 - [ ] Thermal curtains, window film and secondary glazing: what's worth it for renters? (DIY; tool: gas)
 - [ ] Energy labels explained: turning A to G ratings into pounds per year (smart tech; tool: when)
-- [ ] Great British Insulation Scheme and ECO4: who qualifies and how to apply (grants; tool: gas)
 - [ ] Is it cheaper to boil a kettle or use the hob? (habits; tool: gas)
 - [ ] Lagging pipes and hot water cylinders: a cheap DIY job, explained (DIY; tool: gas)
 - [ ] Economy 7: how to find your off-peak hours and make them pay (tariffs; tool: when)
 - [ ] Heat pumps explained: running costs, efficiency (COP) and the Boiler Upgrade Scheme (big upgrades; tool: gas)
 - [ ] Renting? Minimum energy efficiency standards and what you can ask your landlord (rights; tool: gas)
 - [ ] Hot water: shower heads, combi boilers and immersion timers that save money (habits; tool: when)
-- [ ] Standing charges explained: why you pay even if you use nothing (billing; tool: switch)
 - [ ] Smart Export Guarantee: how export tariffs work and how to compare them (big upgrades; tool: solar)
-- [ ] Behind on your energy bills? Supplier hardship funds and free debt advice (support; tool: switch)
 - [ ] How much does an electric shower cost per shower? (habits; tool: when)
 - [ ] Loft hatches, floorboards and letterboxes: plugging the heat leaks you can't see (DIY; tool: gas)
 - [ ] Is a time-of-use tariff worth it if you don't have an electric car? (tariffs; tool: switch)
 - [ ] Home batteries: can charging from the grid at night pay off? (big upgrades; tool: solar)
 - [ ] Estimated bills and direct debits: how to check and challenge them (billing; tool: switch)
 - [ ] Electric heater vs central heating: which costs less to warm one room? (habits; tool: gas)
-- [ ] Cold Weather Payments and Winter Fuel Payment: who gets them this winter (support; tool: when)
 - [ ] Cavity wall vs solid wall insulation: costs, benefits and condensation risks (big upgrades; tool: gas)
 - [ ] How much does it cost to charge an electric car at home? (tariffs; tool: when)
 - [ ] What uses the most electricity in a UK home? (habits; tool: when)
@@ -51,7 +60,6 @@ Add, remove or reorder freely; keep each one a specific question people search.
 - [ ] How much does a dishwasher cost to run, and when should you run it? (habits; tool: plan)
 - [ ] Switching energy supplier: the rules, exit fees and how long it takes (billing; tool: switch)
 - [ ] How much does a dehumidifier cost to run? (habits; tool: when)
-- [ ] What is the Ofgem price cap, and how does it affect your bill? (billing; tool: switch)
 - [ ] Washing machine running costs: does a 30 degree wash really save money? (habits; tool: plan)
 - [ ] Heat pump dryer: is it worth replacing your tumble dryer? (big upgrades; tool: when)
 - [ ] The greenest time to use electricity, and why it's often the cheapest (tariffs; tool: when)
