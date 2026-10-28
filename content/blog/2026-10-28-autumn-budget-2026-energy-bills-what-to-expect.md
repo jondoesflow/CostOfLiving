@@ -8,7 +8,7 @@ tool: switch
 
 *Updated 28 October 2026, 1:35pm: three energy measures announced so far. More to follow when the speech ends and the Budget documents are published.*
 
-Short answer first: **three things are announced so far. A £100 payment this winter for around 20 million households in council tax bands A to D, paid straight into bank accounts. VAT-free electricity carries on until July, instead of ending in March. And gas standing charges are being scrapped, from 2027 at the earliest, with the cost moved onto the unit rate. Everything else below is still reporting until the Budget documents are out.**
+Short answer first: **three things are announced so far. A £100 payment this winter for around 20 million households in England in council tax bands A to D, paid straight into bank accounts. VAT-free electricity in Great Britain carries on until July, instead of ending in March. And gas standing charges are being scrapped, from 2027 at the earliest, with the cost moved onto the unit rate. Everything else below is still reporting until the Budget documents are out.**
 
 The Autumn Budget is today, Wednesday 28 October 2026. It is Healey's first as Chancellor. The government hasn't published a start time, but in recent years the Chancellor has stood up around midday, after Prime Minister's Questions, [according to Which?](https://www.which.co.uk/news/article/autumn-budget-2026-when-is-it-and-what-will-it-contain-aQqC47O24jnl).
 
@@ -18,17 +18,19 @@ I wrote the original version of this before the speech, so the "what's expected"
 
 ### A £100 energy payment this winter
 
-The Chancellor announced a £100 payment to help with energy costs this winter, [reported by Sky News](https://news.sky.com/share/12593360) and [GB News](https://www.gbnews.com/money/energy-bill-support-budget-2026-john-healey). According to GB News, Healey said it will reach 20 million households in council tax bands A to D, paid directly into bank accounts.
+The Chancellor announced a £100 payment to help with energy costs this winter, [reported by Sky News](https://news.sky.com/share/12593360) and [GB News](https://www.gbnews.com/money/energy-bill-support-budget-2026-john-healey). According to GB News, Healey said it will reach 20 million households in council tax bands A to D, paid directly into bank accounts. It's a £2.6 billion scheme for households in England. The Scottish, Welsh and Northern Ireland governments will get their share of the money, and Healey urged them to introduce similar support, [as reported here](https://www.peeblesshirenews.com/news/national/uk-today/26677553.100-energy-bill-support-sent-directly-bank-accounts/). Whether they will, and in what form, isn't known yet.
 
 This isn't the Warm Home Discount top-up that was trailed. It's a separate payment, and it goes by council tax band rather than benefits, so far more households get it.
 
-What isn't clear yet: exactly when it's paid, which nations it covers, whether you need to do anything, and how it reaches people who don't pay council tax by direct debit. I'll add those details from the Budget documents. Until the official details are out, be wary of any text or email asking for your bank details to "claim" it. Scammers jump on announcements like this within hours.
+What isn't clear yet: exactly when it's paid, whether you need to do anything, and how it reaches people who don't pay council tax by direct debit. I'll add those details from the Budget documents. Until the official details are out, be wary of any text or email asking for your bank details to "claim" it. Scammers jump on announcements like this within hours.
 
 ### VAT-free electricity extended to July
 
 The VAT cut on household electricity was due to end on 31 March 2027. The Chancellor has extended it "through the winter and spring until July", according to the [Pembrokeshire Herald's live coverage](https://pembrokeshire-herald.com/152908/live-budget-2026-chancellor-john-healey-unveils-tax-energy-and-spending-plans/), which puts it at around £50 off the annual price cap. [FXStreet](https://www.fxstreet.com/news/uk-budget-healey-walks-a-fiscal-tightrope-as-2027-growth-outlook-darkens-202610281314) and Sky News reported the same extension.
 
-You don't need to do anything. It's applied to the price per unit, so it comes off automatically, including on fixed tariffs, as the original cut did. The exact end date will be in the Budget documents.
+It covers England, Scotland and Wales. The original cut only ever applied in Great Britain, according to [HMRC's guidance](https://www.gov.uk/government/publications/temporary-zero-rate-of-vat-for-domestic-electricity-in-great-britain), and nothing reported so far changes that for Northern Ireland.
+
+If you're in Great Britain you don't need to do anything. It's applied to the price per unit, so it comes off automatically, including on fixed tariffs, as the original cut did. The exact end date will be in the Budget documents.
 
 ### Gas standing charges will be scrapped
 
@@ -116,12 +118,12 @@ He's also sticking with the fiscal rules set by Rachel Reeves: day-to-day spendi
 
 | Measure | Reported value | Who it would help | Reported by |
 | --- | --- | --- | --- |
-| £100 energy payment | **Announced.** £100 this winter, paid into bank accounts | Around 20 million households in council tax bands A to D | The Chancellor, via Sky News and GB News |
+| £100 energy payment | **Announced.** £100 this winter, paid into bank accounts | Around 20 million households in England in council tax bands A to D. Devolved governments get funding and are asked to do the same | The Chancellor, via Sky News and GB News |
 | Warm Home Discount top-up | +£100 on top of £150. Not in the speech so far; the £100 payment above went by council tax band instead | Households on qualifying benefits | The Guardian, via The Independent and Which? |
 | Scrapping gas standing charges | **Confirmed**, from 2027 at the earliest. Government says about £45 a year off a typical bill | Lower gas users; higher users may pay more | The Chancellor, via MoneySavingExpert |
 | Remaining levies off electricity bills | £75 to £286 a year (Which? estimate) | All electricity users | Called for by Which? and the Energy Secretary |
 | Fuel duty rise cancelled | Avoids about 3p a litre from January | Drivers | LBC, Which? |
-| Extending VAT-free electricity past March 2027 | **Announced.** Extended until July, around £50 off the annual price cap | All electricity users | Sky News, FXStreet, Pembrokeshire Herald |
+| Extending VAT-free electricity past March 2027 | **Announced.** Extended until July, around £50 off the annual price cap | Households in Great Britain (not Northern Ireland) | Sky News, FXStreet, Pembrokeshire Herald |
 
 ## What you can do now, whatever the Budget says
 
