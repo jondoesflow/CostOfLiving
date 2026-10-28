@@ -68,12 +68,12 @@ I haven't included what the system costs, because I can't give you a verified pr
 
 Solar power arrives in the middle of the day, and most homes use it in the morning and evening. Moving the big jobs closer to the sun is the cheapest way to raise your self-use.
 
-- **Run the washing machine, dishwasher and tumble dryer at midday.** The site counts a tumble dryer load as 4.0 kWh. At 25.60p that is about £1.02 if you'd have bought it, and about 16p if you sold it at 4.1p. Same load, very different value.
+- **Run the washing machine, dishwasher and tumble dryer at midday, while someone is home.** The site counts a tumble dryer load as 4.0 kWh. At 25.60p that is about £1.02 if you'd have bought it, and about 16p if you sold it at 4.1p. Same load, very different value.
 - **Heat water when the sun is out.** An immersion heater uses about 3.0 kWh an hour on the site's figures, which a decent day of solar can cover.
 - **Work from home if you can.** More daytime use means more self-use.
 - **Think about a battery.** It stores the afternoon surplus for the evening. Whether it pays depends on its cost and your rates, and I'll look at that in a later post.
 
-Most of the saving comes from habits, not kit. If you can only do one thing, put the washing machine on a timer for midday.
+Most of the saving comes from habits, not kit. If you can only do one thing, run the washing machine around midday. Only do it when someone is home and awake, because washing machines and dryers shouldn't be left running while you're out or asleep.
 
 ## What to do next
 
