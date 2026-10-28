@@ -17,6 +17,7 @@ Add, remove or reorder freely; keep each one a specific question people search.
 - [x] Boiler flow temperature: the free setting that can cut your gas bill (habits; tool: gas) (2026-10-25)
 - [x] Air fryer vs oven vs microwave: which is cheapest per meal? (habits; tool: gas) (2026-10-26)
 - [x] Autumn Budget 2026: what could it mean for your energy bills? (topical; tool: switch) (2026-10-28)
+- [x] How to read your smart meter and download your half-hourly usage (smart tech; tool: switch) (2026-10-28)
 
 ## Budget week (UK Autumn Budget, Wednesday 28 October 2026)
 Take these first, in order, one per run, so a Budget-relevant post goes out every
@@ -34,7 +35,6 @@ payments, check GOV.UK, Ofgem or Citizens Advice on the day and link the page.
 ## Next up
 - [ ] Priority Services Register: who can join and what it gives you (support; tool: when)
 - [ ] Bleeding radiators, radiator reflector panels and TRVs: what actually helps? (DIY; tool: gas)
-- [ ] How to read your smart meter and download your half-hourly usage (smart tech; tool: switch)
 - [ ] Solar panels in the UK: how much do they really generate, and should you use or sell the power? (big upgrades; tool: solar)
 - [ ] How much does it cost to run an electric blanket? (habits; tool: when)
 - [ ] Thermal curtains, window film and secondary glazing: what's worth it for renters? (DIY; tool: gas)
