@@ -129,17 +129,19 @@ export default function App() {
           <p className="mt-3 text-onbrand/90 text-lg">{tool.intro}</p>
         </div>
         <nav aria-label="Tools" className="max-w-[680px] mx-auto px-4">
-          <ul className="flex gap-1 overflow-x-auto -mb-px pb-0" style={{ scrollbarWidth: "none" }}>
+          {/* Five equal columns that always fit the width: the icon sits above the
+              label, and long labels wrap rather than being cut off. */}
+          <ul className="grid grid-cols-5 gap-1 -mb-px">
             {TOOLS.map((t) => {
               const Icon = t.icon;
               const on = t.id === tab;
               return (
-                <li key={t.id} className="shrink-0">
+                <li key={t.id} className="min-w-0 flex">
                   <a
                     href={pageFor(t.id).path} onClick={go(t.id)} aria-current={on ? "page" : undefined}
-                    className={`flex items-center gap-1.5 px-3 py-2.5 rounded-t-lg text-sm font-semibold whitespace-nowrap ${on ? "bg-cream text-navy" : "text-onbrand/90 hover:text-onbrand hover:bg-onbrand/10"}`}
+                    className={`flex-1 flex flex-col items-center justify-start gap-1 px-1 sm:px-2 pt-2.5 pb-2 rounded-t-lg text-xs sm:text-sm leading-tight text-center font-semibold [overflow-wrap:anywhere] ${on ? "bg-cream text-navy" : "text-onbrand/90 hover:text-onbrand hover:bg-onbrand/10"}`}
                   >
-                    <Icon size={16} aria-hidden="true" /> {t.label}
+                    <Icon size={18} aria-hidden="true" className="shrink-0" /> {t.label}
                   </a>
                 </li>
               );

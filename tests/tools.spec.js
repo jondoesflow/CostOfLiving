@@ -128,3 +128,18 @@ test("should I switch: no car charging notice for an ordinary home", async ({ pa
   await expect(page.getByRole("region", { name: /yearly cost/i })).toBeVisible();
   await expect(page.getByRole("region", { name: "Car charging found" })).toHaveCount(0);
 });
+
+test("every tool tab is fully visible, from small phones to desktop", async ({ page }) => {
+  await mockApis(page);
+  for (const width of [320, 375, 768, 1280]) {
+    await page.setViewportSize({ width, height: 800 });
+    await page.goto("/should-i-switch/");
+    for (const tab of await page.getByRole("navigation", { name: "Tools" }).getByRole("link").all()) {
+      const clipped = await tab.evaluate((el) => {
+        const r = el.getBoundingClientRect();
+        return el.scrollWidth > el.clientWidth + 1 || r.left < 0 || r.right > window.innerWidth;
+      });
+      expect(clipped, `${await tab.innerText()} at ${width}px`).toBe(false);
+    }
+  }
+});
