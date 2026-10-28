@@ -6,9 +6,9 @@ keywords: autumn budget 2026 energy bills, budget 2026 energy, warm home discoun
 tool: switch
 ---
 
-*Updated 28 October 2026, 1:35pm: two energy measures announced so far. More to follow when the speech ends and the Budget documents are published.*
+*Updated 28 October 2026, 1:35pm: three energy measures announced so far. More to follow when the speech ends and the Budget documents are published.*
 
-Short answer first: **two things are announced so far. A £100 payment this winter for around 20 million households in council tax bands A to D, paid straight into bank accounts. And gas standing charges are being scrapped, from 2027 at the earliest, with the cost moved onto the unit rate. Everything else below is still reporting until the Budget documents are out.**
+Short answer first: **three things are announced so far. A £100 payment this winter for around 20 million households in council tax bands A to D, paid straight into bank accounts. VAT-free electricity carries on until July, instead of ending in March. And gas standing charges are being scrapped, from 2027 at the earliest, with the cost moved onto the unit rate. Everything else below is still reporting until the Budget documents are out.**
 
 The Autumn Budget is today, Wednesday 28 October 2026. It is Healey's first as Chancellor. The government hasn't published a start time, but in recent years the Chancellor has stood up around midday, after Prime Minister's Questions, [according to Which?](https://www.which.co.uk/news/article/autumn-budget-2026-when-is-it-and-what-will-it-contain-aQqC47O24jnl).
 
@@ -23,6 +23,12 @@ The Chancellor announced a £100 payment to help with energy costs this winter, 
 This isn't the Warm Home Discount top-up that was trailed. It's a separate payment, and it goes by council tax band rather than benefits, so far more households get it.
 
 What isn't clear yet: exactly when it's paid, which nations it covers, whether you need to do anything, and how it reaches people who don't pay council tax by direct debit. I'll add those details from the Budget documents. Until the official details are out, be wary of any text or email asking for your bank details to "claim" it. Scammers jump on announcements like this within hours.
+
+### VAT-free electricity extended to July
+
+The VAT cut on household electricity was due to end on 31 March 2027. The Chancellor has extended it "through the winter and spring until July", according to the [Pembrokeshire Herald's live coverage](https://pembrokeshire-herald.com/152908/live-budget-2026-chancellor-john-healey-unveils-tax-energy-and-spending-plans/), which puts it at around £50 off the annual price cap. [FXStreet](https://www.fxstreet.com/news/uk-budget-healey-walks-a-fiscal-tightrope-as-2027-growth-outlook-darkens-202610281314) and Sky News reported the same extension.
+
+You don't need to do anything. It's applied to the price per unit, so it comes off automatically, including on fixed tariffs, as the original cut did. The exact end date will be in the Budget documents.
 
 ### Gas standing charges will be scrapped
 
@@ -64,7 +70,7 @@ Two measures from earlier in the year are already in your bill, and both are rel
 
 **The £150 cut from April 2026.** The November 2025 Budget [took an average of £150 off household bills](https://www.gov.uk/government/news/what-does-the-autumn-budget-mean-for-your-energy-bills) from April this year. It did it by ending the Energy Company Obligation (an insulation scheme paid for through bills) on 31 March 2026, worth £59, and moving 75% of the Renewables Obligation onto general taxation, worth £88. Lower VAT on both added £7.
 
-**The VAT cut on electricity.** As above, VAT came off household electricity on 1 October. It's worth about £45 a year to a typical household, and it is due to end on 31 March 2027. Whether it gets extended is one of the obvious questions for today.
+**The VAT cut on electricity.** As above, VAT came off household electricity on 1 October. It's worth about £45 a year to a typical household. It was due to end on 31 March 2027, and today's Budget has extended it to July (see "Confirmed so far").
 
 ## What's expected today, and who reported it
 
@@ -115,7 +121,7 @@ He's also sticking with the fiscal rules set by Rachel Reeves: day-to-day spendi
 | Scrapping gas standing charges | **Confirmed**, from 2027 at the earliest. Government says about £45 a year off a typical bill | Lower gas users; higher users may pay more | The Chancellor, via MoneySavingExpert |
 | Remaining levies off electricity bills | £75 to £286 a year (Which? estimate) | All electricity users | Called for by Which? and the Energy Secretary |
 | Fuel duty rise cancelled | Avoids about 3p a litre from January | Drivers | LBC, Which? |
-| Extending VAT-free electricity past March 2027 | About £45 a year | All electricity users | Open question; the cut is due to end 31 March 2027 |
+| Extending VAT-free electricity past March 2027 | **Announced.** Extended until July, around £50 off the annual price cap | All electricity users | Sky News, FXStreet, Pembrokeshire Herald |
 
 ## What you can do now, whatever the Budget says
 
