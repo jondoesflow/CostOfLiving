@@ -6,11 +6,30 @@ keywords: autumn budget 2026 energy bills, budget 2026 energy, warm home discoun
 tool: switch
 ---
 
-Short answer first: **nothing about energy bills is confirmed until John Healey sits down this afternoon, but the reporting points to more help for poorer households, a freeze on January's fuel duty rise, and some movement on the charges added to bills.**
+*Updated 28 October 2026, 1:15pm: the first energy measure is confirmed. More to follow when the speech ends and the Budget documents are published.*
+
+Short answer first: **one thing is confirmed so far. Gas standing charges are being scrapped, from 2027 at the earliest, with the cost moved onto the unit rate. Everything else below is still reporting until the Budget documents are out.**
 
 The Autumn Budget is today, Wednesday 28 October 2026. It is Healey's first as Chancellor. The government hasn't published a start time, but in recent years the Chancellor has stood up around midday, after Prime Minister's Questions, [according to Which?](https://www.which.co.uk/news/article/autumn-budget-2026-when-is-it-and-what-will-it-contain-aQqC47O24jnl).
 
-I've written this before the speech, so everything below in the "what's expected" section is reporting, not policy. I've said where each item came from, so you can judge it for yourself. I'll update this post once the Budget documents are out.
+I wrote the original version of this before the speech, so the "what's expected" section further down is reporting, not policy. I've said where each item came from, so you can judge it for yourself. Confirmed measures go in the section straight below, and I'll update it again once the Budget documents are out.
+
+## Confirmed so far
+
+### Gas standing charges will be scrapped
+
+The Chancellor has confirmed that standing charges will come off gas bills. In his words, as [reported by MoneySavingExpert](https://www.moneysavingexpert.com/news/2026/10/energy-standing-charges-scrapped/): "Gas Standing Charges are unfair and outdated so I am scrapping them."
+
+What we know, from MoneySavingExpert's report:
+
+- **When:** "in 2027 or as soon as possible after". MoneySavingExpert expects it to arrive with the October 2027 or January 2028 price cap. It isn't happening this winter.
+- **Where:** England, Scotland and Wales, for around 23 million households.
+- **Who pays instead:** the cost moves onto the gas unit rate. The standing charge is currently about £108 a year. MoneySavingExpert estimates the average gas unit rate could go from 7.97p to about 9.11p per kWh.
+- **Winners and losers:** lower gas users pay less, higher users pay more. Martin Lewis estimates about 60% of households will pay less and 40% more, with the dividing line somewhere around 12,500 kWh of gas a year (his estimate). The government puts the saving at about £45 a year on a typical bill.
+- **Electricity standing charges stay for now.** The government says it will set out more next year and work with Ofgem on reducing them.
+- **Still unknown:** whether it applies to every tariff and payment type, including prepayment. The government says "targeted mitigation for a small number of households" will follow.
+
+So if you live alone, or in a well-insulated flat, this should help. If you heat a large or draughty house with gas, you may pay a little more. Either way, it doesn't change anything about your bill this winter.
 
 ## Where bills stand going into the Budget
 
@@ -51,7 +70,7 @@ The Guardian reported that Healey is considering adding another £100 to it, as 
 
 If it happens, this is the measure most likely to make a real difference this winter for the households struggling most.
 
-### Cutting standing charges on gas
+### Cutting standing charges on gas (now confirmed, see above)
 
 The Telegraph reported that the Prime Minister has asked Healey and the Energy Secretary, Miatta Fahnbulleh, to look at scrapping standing charges on gas bills, [according to LBC](https://www.lbc.co.uk/article/john-healey-budget-2026-5HjdkXh_2/). Together with limits on the Energy Secretary's power to add net zero charges to household bills, the report says this could cut household gas bills by up to £50 a year.
 
@@ -84,7 +103,7 @@ He's also sticking with the fiscal rules set by Rachel Reeves: day-to-day spendi
 | Measure | Reported value | Who it would help | Reported by |
 | --- | --- | --- | --- |
 | Warm Home Discount top-up | +£100 on top of £150 | Households on qualifying benefits | The Guardian, via The Independent and Which? |
-| Scrapping gas standing charges, limiting net zero charges | Up to £50 a year off gas bills | Mainly low gas users | The Telegraph, via LBC |
+| Scrapping gas standing charges | **Confirmed**, from 2027 at the earliest. Government says about £45 a year off a typical bill | Lower gas users; higher users may pay more | The Chancellor, via MoneySavingExpert |
 | Remaining levies off electricity bills | £75 to £286 a year (Which? estimate) | All electricity users | Called for by Which? and the Energy Secretary |
 | Fuel duty rise cancelled | Avoids about 3p a litre from January | Drivers | LBC, Which? |
 | Extending VAT-free electricity past March 2027 | About £45 a year | All electricity users | Open question; the cut is due to end 31 March 2027 |
