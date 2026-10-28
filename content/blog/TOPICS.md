@@ -16,21 +16,34 @@ Add, remove or reorder freely; keep each one a specific question people search.
 - [x] Octopus Agile explained: who it suits, and who it doesn't (2026-10-25)
 - [x] Boiler flow temperature: the free setting that can cut your gas bill (habits; tool: gas) (2026-10-25)
 - [x] Air fryer vs oven vs microwave: which is cheapest per meal? (habits; tool: gas) (2026-10-26)
-- [x] Autumn Budget 2026: what could it mean for your energy bills? (topical; tool: switch) (2026-10-28)
+- [x] Autumn Budget 2026: what it means for your energy bills (topical; tool: switch) (2026-10-28, updated after the Budget)
+- [x] After the Budget: what changed for your energy bill, and what didn't (covered by the updated Budget post above; don't write a second one)
 - [x] How to read your smart meter and download your half-hourly usage (smart tech; tool: switch) (2026-10-28)
 
 ## Budget week (UK Autumn Budget, Wednesday 28 October 2026)
-Take these first, in order, one per run, so a Budget-relevant post goes out every
-day up to and after the Budget. Evergreen and factual: never predict or guess
-what the Budget will contain. For anything involving schemes, VAT, levies or
-payments, check GOV.UK, Ofgem or Citizens Advice on the day and link the page.
+Take these first, in order, one per run. The Budget has now happened: write
+from what was confirmed, link the Budget 2026 document on GOV.UK
+(https://www.gov.uk/government/publications/budget-2026-document/budget-2026-html) where a measure
+is mentioned, and link the Budget post (/blog/autumn-budget-2026-energy-bills-what-to-expect/).
+Measures that are announced but not yet in force must be described as planned,
+with their start date. Anything not confirmed by GOV.UK, Ofgem or Citizens Advice
+on the day stays out. Confirmed measures that touch these topics:
+- VAT on household electricity cut to 0% in Great Britain until July 2027;
+  Northern Ireland expected to follow from April 2027.
+- Gas standing charges to be abolished by the end of 2027 (moved onto unit
+  rates); electricity standing charge reform to follow next year.
+- No new policy costs on bills until the Cost Control Framework is in place;
+  the Gas Shipper Obligation scrapped.
+- £100 Household Energy Payment for council tax bands A to D in England from
+  January 2027, paid through council tax.
+- An Energy Debt Circuit Breaker for households in arrears.
+- Warm Homes Plan funding reduced by £1bn, with low-income funding protected.
 - [ ] What is the Ofgem price cap, and how does it affect your bill? (billing; tool: switch)
-- [ ] What's in your electricity bill? VAT, levies and policy costs explained (billing; tool: switch)
+- [ ] What's in your electricity bill? VAT, levies and policy costs explained (billing; tool: switch). Cover the 0% VAT period and the freeze on new policy costs.
 - [ ] Cold Weather Payments and Winter Fuel Payment: who gets them this winter (support; tool: when)
-- [ ] Standing charges explained: why you pay even if you use nothing (billing; tool: switch)
-- [ ] Behind on your energy bills? Supplier hardship funds and free debt advice (support; tool: switch)
-- [ ] Great British Insulation Scheme and ECO4: who qualifies and how to apply (grants; tool: gas). Check first whether the scheme is still open and say so plainly.
-- [ ] After the Budget: what changed for your energy bill, and what didn't (billing; tool: switch). Write only after the Budget, from confirmed GOV.UK or Ofgem announcements, never from press speculation.
+- [ ] Standing charges explained: why you pay even if you use nothing (billing; tool: switch). Explain the planned end of gas standing charges by the end of 2027 and that electricity reform is still to be set out.
+- [ ] Behind on your energy bills? Supplier hardship funds and free debt advice (support; tool: switch). Include the Energy Debt Circuit Breaker, and only what has been confirmed about how it works.
+- [ ] Great British Insulation Scheme and ECO4: who qualifies and how to apply (grants; tool: gas). Check first whether the scheme is still open and say so plainly, and how the Warm Homes Plan change affects it.
 
 ## Next up
 - [x] Priority Services Register: who can join and what it gives you (support; tool: when) (2026-10-26)
