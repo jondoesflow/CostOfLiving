@@ -6,15 +6,23 @@ keywords: autumn budget 2026 energy bills, budget 2026 energy, warm home discoun
 tool: switch
 ---
 
-*Updated 28 October 2026, 1:15pm: the first energy measure is confirmed. More to follow when the speech ends and the Budget documents are published.*
+*Updated 28 October 2026, 1:35pm: two energy measures announced so far. More to follow when the speech ends and the Budget documents are published.*
 
-Short answer first: **one thing is confirmed so far. Gas standing charges are being scrapped, from 2027 at the earliest, with the cost moved onto the unit rate. Everything else below is still reporting until the Budget documents are out.**
+Short answer first: **two things are announced so far. A £100 payment this winter for around 20 million households in council tax bands A to D, paid straight into bank accounts. And gas standing charges are being scrapped, from 2027 at the earliest, with the cost moved onto the unit rate. Everything else below is still reporting until the Budget documents are out.**
 
 The Autumn Budget is today, Wednesday 28 October 2026. It is Healey's first as Chancellor. The government hasn't published a start time, but in recent years the Chancellor has stood up around midday, after Prime Minister's Questions, [according to Which?](https://www.which.co.uk/news/article/autumn-budget-2026-when-is-it-and-what-will-it-contain-aQqC47O24jnl).
 
 I wrote the original version of this before the speech, so the "what's expected" section further down is reporting, not policy. I've said where each item came from, so you can judge it for yourself. Confirmed measures go in the section straight below, and I'll update it again once the Budget documents are out.
 
 ## Confirmed so far
+
+### A £100 energy payment this winter
+
+The Chancellor announced a £100 payment to help with energy costs this winter, [reported by Sky News](https://news.sky.com/share/12593360) and [GB News](https://www.gbnews.com/money/energy-bill-support-budget-2026-john-healey). According to GB News, Healey said it will reach 20 million households in council tax bands A to D, paid directly into bank accounts.
+
+This isn't the Warm Home Discount top-up that was trailed. It's a separate payment, and it goes by council tax band rather than benefits, so far more households get it.
+
+What isn't clear yet: exactly when it's paid, which nations it covers, whether you need to do anything, and how it reaches people who don't pay council tax by direct debit. I'll add those details from the Budget documents. Until the official details are out, be wary of any text or email asking for your bank details to "claim" it. Scammers jump on announcements like this within hours.
 
 ### Gas standing charges will be scrapped
 
@@ -102,7 +110,8 @@ He's also sticking with the fiscal rules set by Rachel Reeves: day-to-day spendi
 
 | Measure | Reported value | Who it would help | Reported by |
 | --- | --- | --- | --- |
-| Warm Home Discount top-up | +£100 on top of £150 | Households on qualifying benefits | The Guardian, via The Independent and Which? |
+| £100 energy payment | **Announced.** £100 this winter, paid into bank accounts | Around 20 million households in council tax bands A to D | The Chancellor, via Sky News and GB News |
+| Warm Home Discount top-up | +£100 on top of £150. Not in the speech so far; the £100 payment above went by council tax band instead | Households on qualifying benefits | The Guardian, via The Independent and Which? |
 | Scrapping gas standing charges | **Confirmed**, from 2027 at the earliest. Government says about £45 a year off a typical bill | Lower gas users; higher users may pay more | The Chancellor, via MoneySavingExpert |
 | Remaining levies off electricity bills | £75 to £286 a year (Which? estimate) | All electricity users | Called for by Which? and the Energy Secretary |
 | Fuel duty rise cancelled | Avoids about 3p a litre from January | Drivers | LBC, Which? |
