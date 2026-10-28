@@ -1,37 +1,68 @@
 ---
-title: Autumn Budget 2026: what could it mean for your energy bills?
-description: John Healey's first Budget is today. Here is what has been reported for energy bills, from the Warm Home Discount to fuel duty, what is confirmed and what isn't.
+title: Autumn Budget 2026: what it means for your energy bills
+description: A £100 payment from January, VAT-free electricity to July 2027 and an end to gas standing charges. What the Budget means for your energy bills.
 date: 2026-10-28
 keywords: autumn budget 2026 energy bills, budget 2026 energy, warm home discount budget 2026, fuel duty freeze 2026, energy bill support budget, vat on electricity budget
 tool: switch
 ---
 
-*Updated 28 October 2026, 1:15pm: the first energy measure is confirmed. More to follow when the speech ends and the Budget documents are published.*
+*Updated: 28 October 2026, after the Budget. This now covers what was actually announced, taken from the [Budget 2026 document](https://www.gov.uk/government/publications/budget-2026-document/budget-2026-html) published on GOV.UK. My preview from this morning is further down as background.*
 
-Short answer first: **one thing is confirmed so far. Gas standing charges are being scrapped, from 2027 at the earliest, with the cost moved onto the unit rate. Everything else below is still reporting until the Budget documents are out.**
+Short answer first: **the Budget brings a £100 payment from January 2027 for up to 20 million households in England in council tax bands A to D, keeps electricity VAT-free until July 2027, and will scrap gas standing charges by the end of 2027, with the cost moved onto the unit rate. The trailed Warm Home Discount top-up didn't happen.**
 
-The Autumn Budget is today, Wednesday 28 October 2026. It is Healey's first as Chancellor. The government hasn't published a start time, but in recent years the Chancellor has stood up around midday, after Prime Minister's Questions, [according to Which?](https://www.which.co.uk/news/article/autumn-budget-2026-when-is-it-and-what-will-it-contain-aQqC47O24jnl).
+None of this lands before Christmas. The £100 comes from January and the VAT extension matters from April, so for the next couple of months your bills are set by Ofgem's cap, not the Budget.
 
-I wrote the original version of this before the speech, so the "what's expected" section further down is reporting, not policy. I've said where each item came from, so you can judge it for yourself. Confirmed measures go in the section straight below, and I'll update it again once the Budget documents are out.
+## What was announced
 
-## Confirmed so far
+### A £100 Household Energy Payment from January 2027
 
-### Gas standing charges will be scrapped
+The headline measure. From the [Budget document](https://www.gov.uk/government/publications/budget-2026-document/budget-2026-html):
 
-The Chancellor has confirmed that standing charges will come off gas bills. In his words, as [reported by MoneySavingExpert](https://www.moneysavingexpert.com/news/2026/10/energy-standing-charges-scrapped/): "Gas Standing Charges are unfair and outdated so I am scrapping them."
+- **Who:** households in England in council tax bands A to D, "supporting up to 20 million households". The government estimates it will reach 83% of fuel-stressed households in England.
+- **When:** "from January 2027".
+- **How:** "directly provided to up to 20 million households via the Council Tax system", as a £100 payment. You shouldn't need to apply, but exactly how each council pays it hasn't been set out yet.
+- **Scotland, Wales and Northern Ireland:** the devolved governments get their share of the £2.6 billion through the Barnett formula. Healey urged them to introduce similar support, [as reported here](https://www.peeblesshirenews.com/news/national/uk-today/26677553.100-energy-bill-support-sent-directly-bank-accounts/), but it's up to them whether and how.
+- **Paid for by:** a temporary rise in the Bank Corporation Tax Surcharge from 3% to 6%, from 1 January 2027 to 31 March 2028.
 
-What we know, from MoneySavingExpert's report:
+It isn't the Warm Home Discount top-up that was trailed. It's a separate payment based on council tax band rather than benefits, so far more households get it.
 
-- **When:** "in 2027 or as soon as possible after". MoneySavingExpert expects it to arrive with the October 2027 or January 2028 price cap. It isn't happening this winter.
-- **Where:** England, Scotland and Wales, for around 23 million households.
-- **Who pays instead:** the cost moves onto the gas unit rate. The standing charge is currently about £108 a year. MoneySavingExpert estimates the average gas unit rate could go from 7.97p to about 9.11p per kWh.
-- **Winners and losers:** lower gas users pay less, higher users pay more. Martin Lewis estimates about 60% of households will pay less and 40% more, with the dividing line somewhere around 12,500 kWh of gas a year (his estimate). The government puts the saving at about £45 a year on a typical bill.
-- **Electricity standing charges stay for now.** The government says it will set out more next year and work with Ofgem on reducing them.
-- **Still unknown:** whether it applies to every tariff and payment type, including prepayment. The government says "targeted mitigation for a small number of households" will follow.
+Be wary of any text, email or call asking for bank details to "claim" this. Scammers jump on announcements like this within hours, and the Budget says it comes through the council tax system.
 
-So if you live alone, or in a well-insulated flat, this should help. If you heat a large or draughty house with gas, you may pay a little more. Either way, it doesn't change anything about your bill this winter.
+### VAT-free electricity extended to July 2027
 
-## Where bills stand going into the Budget
+VAT on household electricity in Great Britain was cut to 0% on 1 October 2026 and was due to go back up on 1 April 2027. The [Budget](https://www.gov.uk/government/publications/budget-2026-document/budget-2026-html) extends it "for another three months, until July 2027", which "is expected to take around £50 off the annual Ofgem price cap in April 2027".
+
+Northern Ireland wasn't covered by the original cut (see [HMRC's guidance](https://www.gov.uk/government/publications/temporary-zero-rate-of-vat-for-domestic-electricity-in-great-britain)), but the Budget says "extended VAT relief is expected to apply in Northern Ireland from April 2027".
+
+You don't need to do anything. It's applied to the price per unit, so it comes off automatically, including on fixed tariffs.
+
+### Gas standing charges abolished, by the end of 2027
+
+The government has asked Ofgem to abolish gas standing charges on household bills, "aiming for delivery by the end of 2027", according to the [Budget document](https://www.gov.uk/government/publications/budget-2026-document/budget-2026-html) and the [Treasury's press release](https://www.gov.uk/government/news/chancellor-abolishes-standing-charges-on-gas-bills-to-make-payments-fairer).
+
+- **The cost moves onto the unit rate.** Ofgem will make suppliers recover it through gas unit rates instead. The standing charge is £108 a year on average today.
+- **Winners and losers.** The government says it "could save 60% of account-holding households around an average of £45 off their annual bill". The other 40%, the higher gas users, will pay more. [MoneySavingExpert estimates](https://www.moneysavingexpert.com/news/2026/10/energy-standing-charges-scrapped/) the average gas unit rate could rise from 7.97p to about 9.11p per kWh, and Martin Lewis puts the dividing line somewhere around 12,500 kWh of gas a year. Both are their estimates, not official figures.
+- **Help for those who lose out.** The government will set out "targeted mitigation". No detail yet, including on prepayment.
+
+So if you live alone, or in a well-insulated flat, this should help. If you heat a large or draughty house with gas, you may pay a little more. Either way, it doesn't touch your bill this winter.
+
+### Everything else for household bills
+
+- **Electricity standing charges:** not scrapped. The government is "committing to reform electricity standing charges and will set out details next year".
+- **No new policy costs on bills:** "no new policy costs will be put on bills until a comprehensive Cost Control Framework is in place". That framework comes at the 2027 spending review.
+- **A planned new tax on gas bills is scrapped:** the Gas Shipper Obligation "will not be introduced as planned".
+- **Energy debt:** household energy debt has "almost tripled to over £5 billion". A new Energy Debt Circuit Breaker brings reforms to stop debt building up and "a one-off targeted debt relief scheme for eligible households", which the government says saves all billpayers around £30 by 2030.
+- **Fuel duty:** the 5p cut stays and the planned rise is deferred to 1 July 2027.
+- **Warm Homes Plan:** £1 billion of capital grant is saved from it, but "the majority of WHP funding for low-income households and social housing" is protected. The Boiler Upgrade Scheme stays at £400 million in 2027-28.
+- **Businesses:** around 10,000 energy-intensive manufacturers get a 20% to 25% electricity discount through the British Industrial Competitiveness Scheme, starting in April 2027.
+
+### What wasn't announced
+
+- **No Warm Home Discount top-up.** The Budget document doesn't mention a change to the Warm Home Discount. The £100 payment went by council tax band instead.
+- **No removal of the remaining levies from electricity bills,** beyond the freeze on new policy costs above.
+- **Nothing specific on prepayment** yet.
+
+## Background: where bills stood going into the Budget
 
 It helps to know the starting point, because it explains why energy is near the top of the list.
 
@@ -50,17 +81,17 @@ The bigger worry is January. Cornwall Insight, the consultancy most people quote
 
 So the Budget lands just before what could be the biggest jump in bills since January 2023. That's the backdrop.
 
-## What's already changed this year
+## Background: what had already changed this year
 
-Two measures from earlier in the year are already in your bill, and both are relevant to today, because the Budget could extend or build on them.
+Two measures from earlier in the year are already in your bill.
 
 **The £150 cut from April 2026.** The November 2025 Budget [took an average of £150 off household bills](https://www.gov.uk/government/news/what-does-the-autumn-budget-mean-for-your-energy-bills) from April this year. It did it by ending the Energy Company Obligation (an insulation scheme paid for through bills) on 31 March 2026, worth £59, and moving 75% of the Renewables Obligation onto general taxation, worth £88. Lower VAT on both added £7.
 
-**The VAT cut on electricity.** As above, VAT came off household electricity on 1 October. It's worth about £45 a year to a typical household, and it is due to end on 31 March 2027. Whether it gets extended is one of the obvious questions for today.
+**The VAT cut on electricity.** As above, VAT came off household electricity on 1 October. It's worth about £45 a year to a typical household. It was due to end on 31 March 2027, and the Budget has extended it to July 2027 (see "What was announced").
 
-## What's expected today, and who reported it
+## Background: what was trailed before the speech
 
-Here's what has been trailed in the run-up. None of this is confirmed.
+This is what I wrote this morning, from the reporting in the run-up. What actually happened to each is in the table below.
 
 ### More money for poorer households through the Warm Home Discount
 
@@ -70,7 +101,7 @@ The Guardian reported that Healey is considering adding another £100 to it, as 
 
 If it happens, this is the measure most likely to make a real difference this winter for the households struggling most.
 
-### Cutting standing charges on gas (now confirmed, see above)
+### Cutting standing charges on gas
 
 The Telegraph reported that the Prime Minister has asked Healey and the Energy Secretary, Miatta Fahnbulleh, to look at scrapping standing charges on gas bills, [according to LBC](https://www.lbc.co.uk/article/john-healey-budget-2026-5HjdkXh_2/). Together with limits on the Energy Secretary's power to add net zero charges to household bills, the report says this could cut household gas bills by up to £50 a year.
 
@@ -90,27 +121,29 @@ This is the most expensive option on the table, which is exactly why it's the le
 
 Not a household energy bill, but it's in the same conversation. Fuel duty is due to rise on 1 January, [from roughly 53p to nearly 56p a litre](https://www.which.co.uk/news/article/autumn-budget-2026-when-is-it-and-what-will-it-contain-aQqC47O24jnl), after the temporary cut was unwound. [LBC reports](https://www.lbc.co.uk/article/john-healey-budget-2026-5HjdkXh_2/) that Healey is expected to cancel that rise.
 
-## What the Chancellor has said
+## Background: what the Chancellor said beforehand
 
-Healey has been careful not to pre-announce anything, but the direction is clear. He told ITV News that "energy costs are punishing at the moment" and that the government will "do what we can in the Budget" for households and businesses, [as reported by Which?](https://www.which.co.uk/news/article/autumn-budget-2026-when-is-it-and-what-will-it-contain-aQqC47O24jnl).
+Healey was careful not to pre-announce anything, but the direction was clear. He told ITV News that "energy costs are punishing at the moment" and that the government will "do what we can in the Budget" for households and businesses, [as reported by Which?](https://www.which.co.uk/news/article/autumn-budget-2026-when-is-it-and-what-will-it-contain-aQqC47O24jnl).
 
 Ahead of the speech, he said he wants "to start the long-term action needed to get energy costs down for good", and that "conflicts abroad are pushing up energy prices", [according to LBC](https://www.lbc.co.uk/article/john-healey-budget-2026-5HjdkXh_2/).
 
 He's also sticking with the fiscal rules set by Rachel Reeves: day-to-day spending paid for by taxes rather than borrowing, and debt falling as a share of the economy, both by 2029/30. That's the brake on all of the above. Every pound of bill support has to be found somewhere else.
 
-## The trailed measures at a glance
+## At a glance: what was trailed, and what happened
 
-| Measure | Reported value | Who it would help | Reported by |
+| Trailed measure | What happened | Who it helps | When |
 | --- | --- | --- | --- |
-| Warm Home Discount top-up | +£100 on top of £150 | Households on qualifying benefits | The Guardian, via The Independent and Which? |
-| Scrapping gas standing charges | **Confirmed**, from 2027 at the earliest. Government says about £45 a year off a typical bill | Lower gas users; higher users may pay more | The Chancellor, via MoneySavingExpert |
-| Remaining levies off electricity bills | £75 to £286 a year (Which? estimate) | All electricity users | Called for by Which? and the Energy Secretary |
-| Fuel duty rise cancelled | Avoids about 3p a litre from January | Drivers | LBC, Which? |
-| Extending VAT-free electricity past March 2027 | About £45 a year | All electricity users | Open question; the cut is due to end 31 March 2027 |
+| Warm Home Discount top-up (+£100) | **Not announced.** A £100 Household Energy Payment by council tax band instead | Up to 20 million households in England, bands A to D | From January 2027 |
+| Scrapping gas standing charges | **Announced.** Cost moves onto the unit rate; government says around £45 a year off for 60% of households | Lower gas users; higher users pay more | Aiming for the end of 2027 |
+| Remaining levies off electricity bills | **Not announced.** No new policy costs on bills until a Cost Control Framework is in place | Everyone, by stopping new costs | Framework at the 2027 spending review |
+| Fuel duty rise cancelled | **Announced.** 5p cut kept, rise deferred | Drivers | To 1 July 2027 |
+| VAT-free electricity past March 2027 | **Announced.** Extended, around £50 off the annual price cap | Households in Great Britain; Northern Ireland expected from April 2027 | Until July 2027 |
 
-## What you can do now, whatever the Budget says
+All figures are from the [Budget 2026 document](https://www.gov.uk/government/publications/budget-2026-document/budget-2026-html).
 
-The honest truth is that none of these, even if they all happen, would fully offset a 16% rise in January if Cornwall Insight's forecast is right. So it's worth doing the boring things now rather than waiting.
+## What you can do now
+
+The honest truth is that £100 in January won't fully offset a 16% rise in January if Cornwall Insight's forecast is right, and the gas change doesn't arrive until 2027. So it's still worth doing the boring things now.
 
 **Look at a fixed tariff.** Ofgem's own Neil Kenward said in August that fixed tariffs were available "at £100 or more below the October price cap". With a big January rise forecast, fixing could be worth it. Check exit fees and compare against what you'd pay on the cap, not just the headline price.
 
@@ -122,6 +155,9 @@ The honest truth is that none of these, even if they all happen, would fully off
 
 ## What happens next
 
-The Budget documents and the Office for Budget Responsibility's forecasts are published straight after the speech on GOV.UK. Ofgem then confirms the January cap by 25 November, which is when we'll find out what all of this actually means for bills.
+- **By 25 November:** Ofgem confirms the January to March 2027 price cap. That's the next big number for your bill.
+- **From January 2027:** the £100 Household Energy Payment starts reaching households in England through the council tax system. Watch for details from your council.
+- **Next year:** details of the electricity standing charge reform, the targeted help for households who lose out from the gas change, and how the devolved governments use their share.
+- **By the end of 2027:** gas standing charges are due to go.
 
-I'll update this post with what was announced once the speech is over.
+I'll write a follow-up when Ofgem announces the January cap.
