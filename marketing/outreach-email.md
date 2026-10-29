@@ -16,11 +16,13 @@ each one. Replace everything in [square brackets].
 - Libraries and community centres that keep printed resource lists.
 
 Start with your own area, where "a local developer built this" is a genuine
-connection, then widen out.
+connection, then widen out. `outreach-contacts.md` lists the largest councils
+and the national bodies, with contact routes checked on their own websites.
 
 ## Subject line (pick one)
 
 - A free tool for your cost of living page: cheaper electricity, no sign-up
+- A free box for your energy advice page: what residents' appliances cost to run
 - Free resource for residents: when's the cheapest time to run the washing machine?
 
 ## Email
@@ -45,7 +47,20 @@ A few things that matter for the people you support:
 - Nothing personal is collected. If someone uploads their usage file, it's read on their own device and never leaves it.
 - It's honest: if someone's on a standard tariff, it tells them the time of day doesn't matter, rather than promising savings that aren't there.
 
-If you think it would help, I'd be really grateful if you'd add it to your resources. I'm happy to answer any questions, or to write a short description for your page.
+If you think it would help, there are two easy ways to add it:
+
+1. A link on your page. I've put a short description below that you're welcome to use as it is.
+2. A free box that sits on your page itself. Residents pick an appliance and see what it costs to run at today's prices in [region name], with a button through to the full tool. It's one line of code, with no cookies and no adverts. Here it is with your region already set:
+
+<iframe src="https://cheapwatts.co.uk/widget/?r=[region letter]" title="Cheap Watts: what does it cost to run?" width="100%" height="460" style="border:0;max-width:480px" loading="lazy"></iframe>
+
+There's a preview and instructions for your web team here: https://cheapwatts.co.uk/widget-for-your-website/?utm_source=outreach&utm_medium=email&utm_campaign=widget
+
+Suggested description:
+
+> Cheap Watts (cheapwatts.co.uk) is a free website that shows what your appliances cost to run, the cheapest time to run them on your tariff, and whether a different tariff would save you money. No sign-up, and it works for customers of any supplier.
+
+I'm happy to answer any questions.
 
 Thanks for the work you do,
 
@@ -59,6 +74,8 @@ Hi [Name],
 
 Just a gentle nudge on this in case it got buried. Cheap Watts is a free tool that helps residents cut their electricity bills: https://cheapwatts.co.uk/?utm_source=outreach&utm_medium=email&utm_campaign=resource-pages
 
+If a link is easier than the box, that's just as welcome.
+
 If it's not a fit for your page, no problem at all, and thanks for reading.
 
 Jon
@@ -68,4 +85,14 @@ Jon
 Keep a simple list: organisation, contact, date sent, date followed up, and
 whether they linked. Links from council and charity sites help the site rank
 in Google as well as reaching people directly. Visits from these emails show up
-in Umami under `utm_source=outreach`.
+in Umami under `utm_source=outreach`, and visits from embedded boxes under
+`utm_source=widget`. To see which sites have embedded the box, open the
+`/widget/` page in Umami and look at its referrers.
+
+## Region letters for the box
+
+A Eastern England, B East Midlands, C London, D Merseyside and North Wales,
+E West Midlands, F North East England, G North West England, H Southern England,
+J South East England, K South Wales, L South West England, M Yorkshire,
+N South Scotland, P North Scotland. If you're not sure, look up the council's
+own postcode in the Cheap Watts tool ("Or find it by postcode").
