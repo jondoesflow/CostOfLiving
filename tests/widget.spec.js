@@ -28,6 +28,22 @@ test("widget asks for a region when none is given, and ignores a bad one", async
   await expect(page.getByRole("status")).toContainText("Choose your region");
 });
 
+test("clearing the region while prices load doesn't show a stale cost", async ({ page }) => {
+  await mockApis(page);
+  // Hold the price lookup back, so the region can change while it's running.
+  await page.route(/standard-unit-rates/, async (route) => {
+    await new Promise((r) => setTimeout(r, 800));
+    await route.fallback();
+  });
+  await page.goto("/widget/?a=dryer");
+  await page.getByLabel("Your region").selectOption("M");
+  await expect(page.getByRole("status")).toContainText("Getting today's prices");
+  await page.getByLabel("Your region").selectOption("");
+  await page.waitForTimeout(1500);
+  await expect(page.getByRole("status")).toContainText("Choose your region");
+  await expect(page.getByRole("status")).not.toContainText("a run");
+});
+
 test("widget fits narrow and wide boxes without scrolling sideways", async ({ page }) => {
   await mockApis(page);
   for (const width of [280, 320, 480, 800]) {

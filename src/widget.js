@@ -29,15 +29,18 @@ async function show() {
   const a = APPLIANCES.find((x) => x.id === applianceSelect.value);
   const region = regionSelect.value;
   cta.href = tagged(`/?appliance=${encodeURIComponent(a.id)}`);
+  // Cancel any lookup still running, so it can't overwrite this choice.
+  ctrl?.abort();
+  ctrl = null;
   if (!region) {
     out.innerHTML = `<p class="small">Choose your region to see what a ${a.name.toLowerCase()} costs to run at today's standard rate.</p>`;
     return;
   }
-  ctrl?.abort();
-  ctrl = new AbortController();
+  const mine = (ctrl = new AbortController());
   out.innerHTML = `<p class="small">Getting today's prices…</p>`;
   try {
-    const rate = await standardRate(region, ctrl.signal);
+    const rate = await standardRate(region, mine.signal);
+    if (mine.signal.aborted) return;
     if (rate == null) throw new Error("No rate");
     const run = a.kWh * rate;
     out.innerHTML = `
