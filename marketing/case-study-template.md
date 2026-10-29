@@ -16,8 +16,9 @@ Rules:
 
 > Hello [Name],
 >
-> Thank you for adding Cheap Watts to [page name]. It's live and I can see
-> [residents / visitors] using it already.
+> Thank you for adding Cheap Watts to [page name]. [Only if Umami shows visits
+> from their site: "I can already see visits coming through from your page."
+> Otherwise: "I've checked and it's working nicely on your page."]
 >
 > Would you be happy for me to write a short piece about it for the Cheap Watts
 > blog and LinkedIn? It would say what [Organisation] does, why you added it,
