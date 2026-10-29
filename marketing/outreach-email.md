@@ -41,7 +41,7 @@ It answers the questions people ask about electricity bills in plain English:
 
 A few things that matter for the people you support:
 
-- It's completely free, with no sign-up, no adverts and no app to install. (A few results link to related products on Amazon, clearly labelled, which helps keep the site free.)
+- It's completely free, with no sign-up, no banner adverts or pop-ups, and no app to install. A few results link to related products on Amazon as affiliate links, clearly labelled, which helps keep the site free.
 - It works on any phone and is built to the WCAG 2.2 AA accessibility standard, including screen readers.
 - It uses live prices from Octopus, EDF and E.ON Next, and people on any other supplier can type in their own rates.
 - Nothing personal is collected. If someone uploads their usage file, it's read on their own device and never leaves it.
@@ -50,7 +50,7 @@ A few things that matter for the people you support:
 If you think it would help, there are two easy ways to add it:
 
 1. A link on your page. I've put a short description below that you're welcome to use as it is.
-2. A free box that sits on your page itself. Residents pick an appliance and see what it costs to run at today's prices in [region name], with a button through to the full tool. It's one line of code, with no cookies and no adverts. Here it is with your region already set:
+2. A free box that sits on your page itself. Residents pick an appliance and see what it costs to run at today's prices in [region name], with a button through to the full tool. It's one line of code, and the box itself has no cookies, adverts or affiliate links. Here it is with your region already set:
 
 <iframe src="https://cheapwatts.co.uk/widget/?r=[region letter]" title="Cheap Watts: what does it cost to run?" width="100%" height="460" style="border:0;max-width:480px" loading="lazy"></iframe>
 

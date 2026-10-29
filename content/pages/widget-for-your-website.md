@@ -6,7 +6,7 @@ slug: widget-for-your-website
 
 If you run a cost of living page, an energy advice page or a tenant help page, you can add this free box to it. Residents pick an appliance and their region and see what it costs to run at today's standard rate, then open the full tool to find the cheapest time on their own tariff.
 
-It's free, needs no account, and has no adverts or affiliate links. Copy the code below and paste it into your page.
+It's free and needs no account. The box itself has no adverts or affiliate links. Copy the code below and paste it into your page.
 
 ## What it looks like
 
