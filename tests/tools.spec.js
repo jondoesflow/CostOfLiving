@@ -143,3 +143,25 @@ test("every tool tab is fully visible, from small phones to desktop", async ({ p
     }
   }
 });
+
+test("region and postcode fit the tariff card, from small phones to desktop", async ({ page }) => {
+  await mockApis(page);
+  for (const width of [320, 375, 768, 1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    await page.getByLabel("Who supplies your electricity?").selectOption({ label: "E.ON Next" });
+    await page.getByRole("radio", { name: /^Next Drive Cheap/ }).check();
+    const find = page.getByRole("button", { name: "Find" });
+    await expect(find).toBeVisible();
+    const fits = await find.evaluate((el) => {
+      let box = el.parentElement;
+      while (box && box.scrollWidth <= box.clientWidth + 1 && box !== document.body) box = box.parentElement;
+      const r = el.getBoundingClientRect();
+      return { inside: r.right <= window.innerWidth && r.left >= 0, overflowing: box && box !== document.body ? box.className : null };
+    });
+    expect(fits.inside, `Find button off screen at ${width}px`).toBe(true);
+    expect(fits.overflowing, `horizontal overflow at ${width}px`).toBeNull();
+    const region = await page.getByLabel("Region").boundingBox();
+    expect(region.width, `region picker too narrow at ${width}px`).toBeGreaterThan(150);
+  }
+});
