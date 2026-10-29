@@ -65,8 +65,8 @@ export default function TariffStep({ supplier, setSupplier, tariff, setTariff, r
 
       {needsRegion && (
         <div className="mt-5">
-          <div className="flex flex-col sm:flex-row gap-3">
-            <label className="flex-1 block">
+          <div className="flex flex-col sm:flex-row lg:flex-col gap-3">
+            <label className="flex-1 min-w-0 block">
               <span className="text-sm text-gray-600">Region</span>
               <select
                 value={region || ""} onChange={(e) => { setRegion(e.target.value); setLookup({ state: "idle" }); }}
@@ -77,7 +77,7 @@ export default function TariffStep({ supplier, setSupplier, tariff, setTariff, r
                 {REGIONS.map((r) => <option key={r.code} value={r.code}>{r.name}</option>)}
               </select>
             </label>
-            <form onSubmit={findRegion} className="flex-1">
+            <form onSubmit={findRegion} className="flex-1 min-w-0">
               <label className="block">
                 <span className="text-sm text-gray-600">Or find it by postcode</span>
                 <span className="mt-1 flex gap-2">
