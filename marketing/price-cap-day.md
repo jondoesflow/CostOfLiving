@@ -88,7 +88,7 @@ The headline figure is an average, not a bill. What households actually pay depe
 [DRAFT QUOTE: for Jon to rewrite in his own words]
 "The price cap is a yardstick, not a bill. Most people want to know one thing: what does this mean for me? Cheap Watts answers that for the appliances in your own home, in a few taps, and it tells you honestly when timing won't make a difference," said Jon Russell.
 
-The site is free, with no sign-up and no adverts (a few results link to related products, clearly labelled). It uses live prices published by Octopus Energy, EDF and E.ON Next, and works for customers of any supplier.
+The site is free, with no sign-up and no banner adverts or pop-ups (a few results link to related products on Amazon as clearly labelled affiliate links). It uses live prices published by Octopus Energy, EDF and E.ON Next, and works for customers of any supplier.
 
 **Try it:** https://cheapwatts.co.uk/?utm_source=press&utm_medium=pr&utm_campaign=price-cap
 
