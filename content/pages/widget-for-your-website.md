@@ -22,6 +22,8 @@ Paste this into your page where you want the box to appear:
 
 Or [download the code as a file](/cheap-watts-widget.html) to pass to whoever looks after your website. It includes these instructions.
 
+There's also a [printable A4 flyer](/cheap-watts-flyer.pdf) with a QR code, for noticeboards, drop-in sessions and warm spaces.
+
 Most content management systems have an "embed", "HTML" or "code" block for this. If yours strips out iframes, ask your web team to allow `cheapwatts.co.uk`.
 
 ## Show your own region first
