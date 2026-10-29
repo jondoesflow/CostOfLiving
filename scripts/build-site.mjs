@@ -181,6 +181,7 @@ ${main}
         </ul>
       </nav>
       <p>Cheap Watts is free and not affiliated with any energy supplier. Prices change; always check your own tariff. ${AMAZON_NOTICE}</p>
+      <p>Run a council, charity or housing association website? <a href="/widget-for-your-website/">Add Cheap Watts to it for free</a>.</p>
     </footer>
   </body>
 </html>
