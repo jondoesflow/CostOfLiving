@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>What does it cost to run? · Cheap Watts</title>
+    <!-- Embedded on other sites in an iframe: see /widget-for-your-website/. -->
+    <style>
+      :root { --line: #d1d5db; --muted: #4b5563; --text: #1f2937; --ink: #1d3461; --relief: #2d6a4f; --tint: #eef1f7; }
+      * { box-sizing: border-box; margin: 0; }
+      :root { color-scheme: light; }
+      html, body { background: transparent; }
+      body { color: var(--text); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+      .card { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+      h1 { font-size: 18px; color: var(--ink); line-height: 1.3; margin-bottom: 8px; }
+      label { display: block; font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+      select { display: block; width: 100%; margin-top: 4px; font: inherit; color: var(--text); background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+      .out { background: var(--tint); border-radius: 8px; padding: 8px 12px; min-height: 64px; margin-bottom: 10px; }
+      .cost { font-size: 20px; font-weight: 700; color: var(--ink); }
+      .small { font-size: 13px; color: var(--muted); }
+      a { color: var(--ink); text-underline-offset: 3px; }
+      .button { display: block; text-align: center; background: var(--ink); color: #fff; font-weight: 600; text-decoration: none; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+      :focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+      .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    </style>
+    <script defer src="https://umami.jondoesflow.com/script.js" data-website-id="74f37327-8238-4722-bf55-31f81c6ea0df" data-domains="cheapwatts.co.uk"></script>
+  </head>
+  <body>
+    <main class="card">
+      <h1>What does it cost to run?</h1>
+      <label>Appliance <select id="appliance"></select></label>
+      <label>Your region <select id="region"></select></label>
+      <div class="out" id="out" role="status" aria-live="polite"></div>
+      <a class="button" id="cta" target="_blank" rel="noopener">Find the cheapest time on your tariff<span class="sr-only"> (opens in a new tab)</span></a>
+      <p class="small">Free from <a href="https://cheapwatts.co.uk/?utm_source=widget&amp;utm_medium=embed&amp;utm_campaign=partner" target="_blank" rel="noopener">Cheap Watts<span class="sr-only"> (opens in a new tab)</span></a>. No sign-up, no adverts.</p>
+    </main>
+    <script type="module" src="/src/widget.js"></script>
+  </body>
+</html>

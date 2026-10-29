@@ -174,6 +174,7 @@ export default function App() {
             Live prices come from the public price data published by Octopus Energy, EDF and E.ON Next, and include VAT. The standard rate shown for comparison is Octopus's standard variable tariff. Carbon figures are National Grid's regional forecast. Costs are estimates. Washing machines, washer-dryers and dishwashers are counted as using most of their power while heating; everything else as using it evenly. Your own model may use more or less.
           </p>
           <p>Not affiliated with any energy supplier. Some "Worth a look" links go to Amazon: as an Amazon Associate, Cheap Watts earns from qualifying purchases, at no extra cost to you.</p>
+          <p>Run a council, charity or housing association website? <a href="/widget-for-your-website/" className="underline">Add Cheap Watts to it for free</a>.</p>
       </footer>
     </div>
     </ThemeContext.Provider>
