@@ -39,7 +39,7 @@ on the day stays out. Confirmed measures that touch these topics:
 - An Energy Debt Circuit Breaker for households in arrears.
 - Warm Homes Plan funding reduced by £1bn, with low-income funding protected.
 - [x] What is the Ofgem price cap, and how does it affect your bill? (billing; tool: switch) (2026-10-29)
-- [ ] What's in your electricity bill? VAT, levies and policy costs explained (billing; tool: switch). Cover the 0% VAT period and the freeze on new policy costs.
+- [x] What's in your electricity bill? VAT, levies and policy costs explained (billing; tool: switch) (2026-10-29). Cover the 0% VAT period and the freeze on new policy costs.
 - [ ] Cold Weather Payments and Winter Fuel Payment: who gets them this winter (support; tool: when)
 - [ ] Standing charges explained: why you pay even if you use nothing (billing; tool: switch). Explain the planned end of gas standing charges by the end of 2027 and that electricity reform is still to be set out.
 - [ ] Behind on your energy bills? Supplier hardship funds and free debt advice (support; tool: switch). Include the Energy Debt Circuit Breaker, and only what has been confirmed about how it works.
