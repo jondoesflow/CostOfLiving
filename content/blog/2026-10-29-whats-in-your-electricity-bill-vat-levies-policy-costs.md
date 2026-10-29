@@ -75,9 +75,9 @@ The Budget asks Ofgem to abolish gas standing charges, aiming for the end of 202
 
 ## How to check your own bill
 
-1. **Find the two rates.** Look for the unit rate in pence per kWh and the standing charge in pence per day. Check whether the rates are shown with or without VAT.
+1. **Find your rates.** Look for the unit rate in pence per kWh and the standing charge in pence per day. Check whether the rates are shown with or without VAT. If you are on Economy 7 or another time-of-use tariff, you will have more than one unit rate, such as a day rate and a night rate.
 2. **Check your usage.** Use the kWh on your bill or smart meter, not a national average.
-3. **Multiply it out.** Units times the unit rate, plus days times the standing charge, plus VAT. If it doesn't match your bill, ask your supplier why.
+3. **Multiply it out.** Units times the unit rate, plus days times the standing charge, plus VAT. If you have more than one unit rate, multiply the units used in each period by that period's rate and add them up. If it doesn't match your bill, ask your supplier why.
 4. **Compare tariffs on your usage.** A higher standing charge with a lower unit rate suits heavy users. The opposite suits light users. Our [Should I switch? tool](/should-i-switch/) takes your smart meter data and works out what you would have paid on each tariff.
 
 If you want to see how the unit rate changes through the day on a time-of-use tariff, my post on [who Octopus Agile suits](/blog/octopus-agile-explained-who-it-suits/) is a sensible next read.
