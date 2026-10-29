@@ -35,7 +35,7 @@ export default function ApplianceGrid({ selected, onPick, multi = false, include
         {APPLIANCE_GROUPS.map((g) => (
           <div key={g.id} role="group" aria-labelledby={`group-${g.id}`}>
             <h3 id={`group-${g.id}`} className="text-sm font-semibold font-body text-gray-600 uppercase tracking-wide mb-2">{g.name}</h3>
-            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+            <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-2">
               {APPLIANCES.filter((a) => a.group === g.id).map((a) => (
                 <Tile key={a.id} a={a} on={isOn(a.id)} multi={multi} onPick={onPick} />
               ))}

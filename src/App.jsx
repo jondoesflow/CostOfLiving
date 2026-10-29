@@ -84,7 +84,7 @@ export default function App() {
       </a>
       <header className="bg-brand text-onbrand">
         <div className="bg-black/25 text-sm">
-          <div className="max-w-[680px] mx-auto px-4 py-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 sm:gap-4">
+          <div className="max-w-[680px] lg:max-w-[1120px] mx-auto px-4 lg:px-8 py-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 sm:gap-4">
             <p className="text-onbrand/90">
               This website is free to use. If you wish to make a contribution to my next project, please{" "}
               <a href="https://ko-fi.com/jondoesflow" target="_blank" rel="noopener noreferrer" className="font-semibold underline underline-offset-2 text-onbrand hover:no-underline">
@@ -105,7 +105,7 @@ export default function App() {
             </nav>
           </div>
         </div>
-        <div className="max-w-[680px] mx-auto px-4 pt-6 pb-6">
+        <div className="max-w-[680px] lg:max-w-[1120px] mx-auto px-4 lg:px-8 pt-6 pb-6">
           <div className="flex items-center justify-between gap-3">
             <p className="text-sm uppercase tracking-wider text-onbrand/80 font-semibold flex items-center gap-1.5"><Zap size={16} aria-hidden="true" /> Cheap Watts</p>
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
@@ -126,9 +126,9 @@ export default function App() {
             </div>
           </div>
           <h1 className="text-3xl sm:text-4xl font-semibold mt-3" style={{ color: "#ffffff" }}>{tool.title}</h1>
-          <p className="mt-3 text-onbrand/90 text-lg">{tool.intro}</p>
+          <p className="mt-3 text-onbrand/90 text-lg lg:max-w-3xl">{tool.intro}</p>
         </div>
-        <nav aria-label="Tools" className="max-w-[680px] mx-auto px-4">
+        <nav aria-label="Tools" className="max-w-[680px] lg:max-w-[1120px] mx-auto px-4 lg:px-8">
           {/* Five equal columns that always fit the width: the icon sits above the
               label, and long labels wrap rather than being cut off. */}
           <ul className="grid grid-cols-5 gap-1 -mb-px">
@@ -150,21 +150,26 @@ export default function App() {
         </nav>
       </header>
 
-      <main id="main" ref={mainRef} tabIndex={-1} className="max-w-[680px] mx-auto px-4 py-6 space-y-4 focus:outline-none">
+      <main id="main" ref={mainRef} tabIndex={-1} className="max-w-[680px] lg:max-w-[1120px] mx-auto px-4 lg:px-8 py-6 space-y-4 lg:space-y-0 lg:grid lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-6 lg:items-start focus:outline-none">
+        <div className="lg:sticky lg:top-4 lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto">
         <TariffStep
           supplier={elec.supplier} setSupplier={elec.setSupplier} tariff={elec.tariff} setTariff={elec.setTariff}
           region={elec.region} setRegion={elec.setRegion} e7={elec.e7} setE7={elec.setE7}
           flatOverride={elec.flatOverride} setFlatOverride={elec.setFlatOverride} apiFlatRate={elec.apiFlatRate}
         />
+        </div>
+
+        <div className="flex flex-col gap-4 min-w-0">
 
         {tab === "when" && <WhenToRun elec={elec} />}
         {tab === "plan" && <PlanEvening elec={elec} />}
         {tab === "gas" && <GasOrElectric elec={elec} />}
         {tab === "solar" && <Solar elec={elec} />}
         {tab === "switch" && <SwitchCheck elec={elec} />}
+        </div>
       </main>
 
-      <footer className="max-w-[680px] mx-auto px-4 text-sm text-gray-600 pt-4 pb-10 space-y-2">
+      <footer className="max-w-[680px] lg:max-w-[1120px] mx-auto px-4 lg:px-8 text-sm text-gray-600 pt-4 pb-10 space-y-2">
           <p>
             Live prices come from the public price data published by Octopus Energy, EDF and E.ON Next, and include VAT. The standard rate shown for comparison is Octopus's standard variable tariff. Carbon figures are National Grid's regional forecast. Costs are estimates. Washing machines, washer-dryers and dishwashers are counted as using most of their power while heating; everything else as using it evenly. Your own model may use more or less.
           </p>
