@@ -41,6 +41,7 @@ export default async (req) => {
   return new Response(icsCalendar(events, { name: `Cheap Watts: ${name}`, refreshHours: 3 }), {
     headers: {
       "content-type": "text/calendar; charset=utf-8",
+      "access-control-allow-origin": "*",
       "cache-control": "public, max-age=900",
     },
   });
