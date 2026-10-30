@@ -21,6 +21,7 @@ group together.
 | MoneySavingExpert forum | https://cheapwatts.co.uk/?utm_source=mse-forum&utm_medium=community&utm_campaign=answers |
 | Mumsnet | https://cheapwatts.co.uk/?utm_source=mumsnet&utm_medium=community&utm_campaign=answers |
 | Facebook groups | https://cheapwatts.co.uk/?utm_source=facebook&utm_medium=community&utm_campaign=answers |
+| Facebook post (fbflti) | https://cheapwatts.co.uk/?utm_source=facebook&utm_medium=social&utm_campaign=fbflti |
 | Outreach email to councils and charities | https://cheapwatts.co.uk/?utm_source=outreach&utm_medium=email&utm_campaign=resource-pages |
 | Press release | https://cheapwatts.co.uk/?utm_source=press&utm_medium=pr&utm_campaign=price-cap |
 | Printed flyer or poster (via QR code) | https://cheapwatts.co.uk/?utm_source=flyer&utm_medium=print&utm_campaign=community |
