@@ -15,7 +15,7 @@ They are two different payments with different rules, and people mix them up. Ev
 
 For winter 2026 to 2027, GOV.UK says you can get it if you were born on or before 27 June 1960 and usually live in England, Wales or Northern Ireland. The qualifying week is 21 to 27 September 2026, and your amount depends on your circumstances in that week.
 
-You won't get it if, for example, you were in hospital getting free treatment, or in prison, for the whole of that week, or if your leave to enter the UK says you can't claim public funds. The eligibility page also has special rules for care homes.
+You won't get it if, for example, you were in prison for the whole of that week, or in hospital getting free treatment for the whole of that week and the year before it, or if your leave to enter the UK says you can't claim public funds. The eligibility page also has special rules for care homes.
 
 If you live in Scotland, GOV.UK says you cannot get it. You might be eligible for the Pension Age Winter Heating payment instead, which is a separate Scottish payment.
 
@@ -34,7 +34,7 @@ If you live with another eligible person and neither of you gets Pension Credit,
 
 Most people don't need to claim. GOV.UK says that if you are eligible you will get a letter in October or November telling you how much you will get, and most eligible people will be paid in November or December 2026.
 
-The payment doesn't affect your other benefits. It does need watching if your income is over £35,000. Then HMRC takes the payment back, usually through your tax code, or through your tax bill if you complete Self Assessment. Your partner's income doesn't count towards the total. GOV.UK says you can opt out if your income is over £35,000 or you simply don't want the payment, and the [recovery page](https://www.gov.uk/winter-fuel-payment/if-your-income-is-over-35000) links to the steps.
+The payment doesn't affect your other benefits. It does need watching if your income is over £35,000. Then HMRC takes the payment back, usually through your tax code, or through your tax bill if you complete Self Assessment. Your partner's income doesn't count towards the total. GOV.UK says the [opt-out window for this winter has closed](https://www.gov.uk/winter-fuel-payment/opt-out-of-winter-fuel-payment), and that you can opt out for 2027 to 2028 from 21 December 2026. The [recovery page](https://www.gov.uk/winter-fuel-payment/if-your-income-is-over-35000) explains how HMRC collects it.
 
 One more warning from GOV.UK: be wary of unsolicited calls, emails or messages asking for bank details or passwords. The payment is automatic, so nobody legitimate needs to ask you for them.
 
