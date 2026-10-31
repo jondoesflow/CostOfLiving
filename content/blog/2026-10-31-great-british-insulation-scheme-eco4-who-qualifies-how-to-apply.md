@@ -25,11 +25,11 @@ Two things to know before you get your hopes up. Ofgem's page says "ECO is not a
 
 ## Who qualifies for ECO4?
 
-[Ofgem's guidance for homeowners and tenants](https://www.ofgem.gov.uk/environmental-and-social-schemes/energy-company-obligation-eco/homeowners-and-tenants) gives two main routes. Your home must need the upgrades, a retrofit assessment decides which, and you must own it or have your landlord's permission.
+[Ofgem's guidance for homeowners and tenants](https://www.ofgem.gov.uk/environmental-and-social-schemes/energy-company-obligation-eco/homeowners-and-tenants) gives two main routes. Your home must need the upgrades, a retrofit assessment decides which, and you must own it or have your landlord's permission. Ofgem's [FAQ](https://www.ofgem.gov.uk/energy-company-obligation-eco/homeowners-and-tenants/faqs-domestic-consumers-and-landlords) says only homes with an EPC rating of D to G can be treated, and privately rented homes need an E, F or G.
 
 | Route | Who it covers |
 |---|---|
-| Benefits | Someone in the household gets Child Benefit, Pension Guarantee Credit, income-related ESA, income-based JSA, Income Support, Universal Credit, Housing Benefit or Pension Credit Savings Credit |
+| Benefits | Someone in the household gets Child Benefit (within income caps, which Ofgem sets out in its ECO4 delivery guidance), Pension Guarantee Credit, income-related ESA, income-based JSA, Income Support, Universal Credit, Housing Benefit or Pension Credit Savings Credit |
 | ECO4 Flex | Your council or devolved government refers you. Combined gross household income under £31,000, or someone in the household has a qualifying health condition (cardiovascular, respiratory, limited mobility or immunosuppression) |
 
 Suppliers can also refer households with persistent fuel debt or prepayment meter problems.
