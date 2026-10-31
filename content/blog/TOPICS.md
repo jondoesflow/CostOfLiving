@@ -42,7 +42,7 @@ on the day stays out. Confirmed measures that touch these topics:
 - [x] What's in your electricity bill? VAT, levies and policy costs explained (billing; tool: switch) (2026-10-29). Cover the 0% VAT period and the freeze on new policy costs.
 - [ ] Cold Weather Payments and Winter Fuel Payment: who gets them this winter (support; tool: when)
 - [ ] Standing charges explained: why you pay even if you use nothing (billing; tool: switch). Explain the planned end of gas standing charges by the end of 2027 and that electricity reform is still to be set out.
-- [ ] Behind on your energy bills? Supplier hardship funds and free debt advice (support; tool: switch). Include the Energy Debt Circuit Breaker, and only what has been confirmed about how it works.
+- [x] Behind on your energy bills? Supplier hardship funds and free debt advice (support; tool: switch). Include the Energy Debt Circuit Breaker, and only what has been confirmed about how it works. (2026-10-31)
 - [ ] Great British Insulation Scheme and ECO4: who qualifies and how to apply (grants; tool: gas). Check first whether the scheme is still open and say so plainly, and how the Warm Homes Plan change affects it.
 
 ## Next up
