@@ -30,9 +30,9 @@ Two things to know before you get your hopes up. Ofgem's page says "ECO is not a
 | Route | Who it covers |
 |---|---|
 | Benefits | Someone in the household gets Child Benefit (within income caps, which Ofgem sets out in its ECO4 delivery guidance), Pension Guarantee Credit, income-related ESA, income-based JSA, Income Support, Universal Credit, Housing Benefit or Pension Credit Savings Credit |
-| ECO4 Flex | Your council or devolved government refers you. Combined gross household income under £31,000, or someone in the household has a qualifying health condition (cardiovascular, respiratory, limited mobility or immunosuppression) |
+| ECO4 Flex | Your council or devolved government refers you. Combined gross household income under £31,000, or someone in the household has a severe or long-term health condition that is adversely affected by living in a cold home, due to a cardiovascular condition, respiratory disease, limited mobility or immunosuppression |
 
-Suppliers can also refer households with persistent fuel debt or prepayment meter problems.
+This table is a short guide, not the full rulebook. Suppliers can also refer households with persistent fuel debt or prepayment meter problems, and Ofgem says councils can use other criteria to identify low-income or vulnerable households. Social homes let below the market rate can also be treated if their EPC rating is D to G (see Ofgem's [FAQ](https://www.ofgem.gov.uk/energy-company-obligation-eco/homeowners-and-tenants/faqs-domestic-consumers-and-landlords)), so social tenants should ask their landlord.
 
 ## How do you apply for ECO4?
 
