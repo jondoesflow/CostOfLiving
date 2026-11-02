@@ -13,7 +13,7 @@ That is the whole trick. Here is how to read each part of the label, the sum for
 
 ## What is on the label
 
-Since 1 March 2021, products such as washing machines, dishwashers, fridges, ovens and televisions have carried a [rescaled energy label across the UK](https://www.gov.uk/guidance/the-energy-labelling-of-products), on a scale of A to G. Shops and websites have to display it when they sell you the product.
+Since 1 March 2021, products such as washing machines, dishwashers, fridges and televisions have carried a [rescaled energy label across the UK](https://www.gov.uk/guidance/the-energy-labelling-of-products), on a scale of A to G. Shops and websites have to display it when they sell you the product.
 
 On a washing machine, the [regulation that sets the label](https://www.legislation.gov.uk/eur/2019/2014/data.htm) lists, among other things:
 
