@@ -53,6 +53,8 @@ Not every pipe is worth the effort. I would work in this order:
 3. **Any other exposed hot water pipes** in cold spaces such as lofts, garages and under floors.
 4. **Cold pipes in unheated areas.** This is about freezing risk, not bills. If you want advice on that, read your home insurer's guidance or [Citizens Advice](https://www.citizensadvice.org.uk/).
 
+Before you touch any hot water pipe, turn off the heating and hot water and let the pipes cool. Hot pipes can burn you, and the job is easier on cold pipes anyway.
+
 Pipe lagging is usually foam tubing cut to length and taped at the joints. I have not priced it, because the cost varies by shop and pipe size. Measure the pipe run first, then compare.
 
 ## What it will not do
