@@ -53,6 +53,14 @@ const PRODUCTS = {
     icon: "Cylinder", id: "tank-jacket", name: "Hot water cylinder jacket", query: "hot water cylinder jacket 80mm",
     why: "A badly insulated tank loses heat all day.",
   },
+  ecoflow: {
+    icon: "BatteryCharging", id: "ecoflow", name: "EcoFlow portable power station", query: "EcoFlow portable power station",
+    why: "Charge it in your cheap hours or from solar, then run small appliances from it later. Put its size into the battery calculator above first: on bill savings alone, small units rarely pay for themselves.",
+  },
+  ankerSolix: {
+    icon: "BatteryFull", id: "anker-solix", name: "Anker SOLIX portable power station", query: "Anker SOLIX portable power station",
+    why: "The same idea from Anker. Check how many kWh it holds against what the calculator says one charge is worth.",
+  },
   kettle: {
     icon: "Coffee", id: "kettle", name: "Kettle with a one-cup setting", query: "one cup kettle energy saving",
     why: "Boils only what you need. Overfilling is where most kettle energy goes.",
@@ -96,6 +104,8 @@ export function picksFor(applianceId, { timed = false } = {}) {
 // Picks for the other tools and pages.
 export const PLAN_PICKS = [PRODUCTS.schedulePlug, PRODUCTS.monitorPlug];
 export const GAS_PICKS = [PRODUCTS.airfryer, PRODUCTS.airer, PRODUCTS.blanket];
+// Shown with the home battery plan on the solar and batteries tool.
+export const SOLAR_PICKS = [PRODUCTS.ecoflow, PRODUCTS.ankerSolix];
 
 export const DISCLOSURE = "Affiliate links: if you buy through them, Cheap Watts earns a small commission at no extra cost to you. They don't change the results above.";
 export const AMAZON_NOTICE = "As an Amazon Associate, Cheap Watts earns from qualifying purchases.";
