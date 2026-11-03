@@ -4,6 +4,7 @@ description: The letter on an energy label tells you little about running cost. 
 date: 2026-11-09
 keywords: energy labels explained, what do energy labels mean, energy rating A to G, appliance energy label cost per year, washing machine energy label kWh per 100 cycles
 tool: when
+products: monitor-plug
 draft: false
 ---
 

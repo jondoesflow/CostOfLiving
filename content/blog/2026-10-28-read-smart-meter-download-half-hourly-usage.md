@@ -4,6 +4,7 @@ description: Your smart meter records your electricity use every half hour. Here
 date: 2026-10-28
 keywords: how to download smart meter data, half-hourly electricity usage, how to read smart meter, smart meter data download UK, smart meter csv
 tool: switch
+products: monitor-plug
 ---
 
 Short answer first: **your smart meter already records your electricity use every half hour. To see it, check your supplier's app or website for a "usage" or "download data" option, or read the in-home display for what you are using right now.**

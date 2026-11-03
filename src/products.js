@@ -88,9 +88,55 @@ const PRODUCTS = {
     icon: "Coffee", id: "kettle", name: "Kettle with a one-cup setting", query: "one cup kettle energy saving",
     why: "Boils only what you need. Overfilling is where most kettle energy goes.",
   },
+  // Picks used by blog posts (see "products:" in a post's front matter).
+  draughtStrip: {
+    icon: "Wind", id: "draught-strip", name: "Self-adhesive draught strip", query: "self adhesive draught excluder strip doors windows",
+    why: "Foam or rubber strip for the frames of doors and windows that open. Measure first and clean the frame so it sticks.",
+  },
+  doorBrush: {
+    icon: "DoorClosed", id: "door-brush", name: "Door bottom brush strip", query: "door bottom brush draught excluder",
+    why: "Fixes to the bottom of an external door to block the gap underneath.",
+  },
+  letterboxBrush: {
+    icon: "Mail", id: "letterbox-brush", name: "Letterbox brush draught excluder", query: "letterbox draught excluder brush",
+    why: "Stops the draught through the letterbox without stopping the post.",
+  },
+  roomThermometer: {
+    icon: "Thermometer", id: "room-thermometer", name: "Room thermometer", query: "digital room thermometer",
+    why: "Shows what a room is actually doing, so you can check your thermostat before turning it down.",
+  },
+  bleedKey: {
+    icon: "KeyRound", id: "bleed-key", name: "Radiator bleed key", query: "radiator bleed key",
+    why: "For radiators that are cold at the top. Turn the heating off and let them cool before you bleed them.",
+  },
+  trv: {
+    icon: "Thermometer", id: "trv", name: "Thermostatic radiator valves (TRVs)", query: "thermostatic radiator valve",
+    why: "Let each room stop heating once it's warm enough. Check the fitting matches your radiator valves first, or ask a plumber.",
+  },
+  reflector: {
+    icon: "Layers", id: "radiator-reflector", name: "Radiator reflector panels", query: "radiator reflector panels",
+    why: "Only worth it behind radiators on outside walls, as the post explains.",
+  },
+  thermalCurtains: {
+    icon: "Blinds", id: "thermal-curtains", name: "Thermal lined curtains", query: "thermal lined curtains",
+    why: "Close them at dusk to keep the heat in, and take them with you when you move.",
+  },
+  windowFilm: {
+    icon: "AppWindow", id: "window-film", name: "Window insulation film kit", query: "window insulation film kit",
+    why: "For windows you won't open over winter. If you rent, check with your landlord first, as the tape can lift paint.",
+  },
+  pipeLagging: {
+    icon: "Shield", id: "pipe-lagging", name: "Foam pipe lagging", query: "foam pipe lagging",
+    why: "Slips over hot water pipes where they run through cold spaces. Turn the hot water off and let the pipes cool before fitting.",
+  },
+  switchedExtension: {
+    icon: "Power", id: "switched-extension", name: "Extension lead with individual switches", query: "extension lead individually switched",
+    why: "Switch a whole cluster of gadgets off at once, such as the TV corner or the desk.",
+  },
 };
 
 export const ALL_PRODUCTS = Object.values(PRODUCTS);
+export const productById = (id) => ALL_PRODUCTS.find((p) => p.id === id);
 
 // Picks per appliance, most useful first. Every list ends with the monitoring
 // plug, because the typical figures are only a starting point.

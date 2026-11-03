@@ -48,7 +48,9 @@ not commit it.
 
 "Worth a look" picks live in `src/products.js`. Picks with an `awin` entry use
 Awin (publisher 3143222) once their programme is in `src/awinJoined.js`, and
-Amazon (tag cheapwatts-21) until then. After an approval, run
+Amazon (tag cheapwatts-21) until then. Blog posts list their picks in front matter
+(`products: id, id`); every post about something you can buy should have them
+(see `content/blog/README.md`). After an approval, run
 `AWIN_TOKEN=... node scripts/awin-sync.mjs` (see `marketing/awin.md`). Never
 commit the Awin token. The iOS app has no affiliate links.
 

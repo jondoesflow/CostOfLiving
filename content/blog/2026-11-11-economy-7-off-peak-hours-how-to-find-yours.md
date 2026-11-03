@@ -4,6 +4,7 @@ description: Economy 7 gives you seven cheaper hours each night. How to find you
 date: 2026-11-11
 keywords: economy 7 off-peak hours, what are my economy 7 times, economy 7 worth it, economy 7 night rate, how to find economy 7 hours
 tool: when
+products: immersion-timer
 draft: false
 ---
 

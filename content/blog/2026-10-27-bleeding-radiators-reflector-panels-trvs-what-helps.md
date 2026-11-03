@@ -4,6 +4,7 @@ description: Bleeding fixes cold patches, TRVs stop you heating empty rooms, and
 date: 2026-10-27
 keywords: bleeding radiators, radiator reflector panels worth it, thermostatic radiator valves TRV, do radiator reflectors work, how to bleed a radiator, radiator cold at top
 tool: gas
+products: bleed-key, trv, radiator-reflector
 draft: false
 ---
 

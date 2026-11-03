@@ -4,6 +4,7 @@ description: The cheapest draught-proofing jobs for a UK home, where to find the
 date: 2026-10-24
 keywords: draught proofing on a budget, cheap draught proofing uk, how to stop draughts in house, draught proofing windows and doors, draught excluder save money
 tool: gas
+products: draught-strip, door-brush, letterbox-brush
 draft: false
 ---
 

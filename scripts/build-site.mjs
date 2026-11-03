@@ -13,7 +13,7 @@ import { marked } from "marked";
 import { PAGES, SITE_URL } from "../src/pages.js";
 import { APPLIANCES, APPLIANCE_GROUPS, REGIONS } from "../src/appliances.js";
 import { GUIDES } from "../src/applianceGuides.js";
-import { picksFor, productLink, DISCLOSURE, AMAZON_NOTICE } from "../src/products.js";
+import { picksFor, productLink, productById, DISCLOSURE, AMAZON_NOTICE } from "../src/products.js";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import * as lucide from "lucide-react";
@@ -84,6 +84,12 @@ function parsePost(file) {
   return {
     ...meta, slug, draft: meta.draft === "true",
     keywords: (meta.keywords ?? "").split(",").map((k) => k.trim()).filter(Boolean),
+    // Optional "products: id, id" names "Worth a look" picks from src/products.js.
+    products: (meta.products ?? "").split(",").map((k) => k.trim()).filter(Boolean).map((id) => {
+      const p = productById(id);
+      if (!p) throw new Error(`${file}: unknown product "${id}" in products`);
+      return p;
+    }),
     html: marked.parse(m[2]), minutes: Math.max(1, Math.round(words / 220)), url: `${SITE_URL}/blog/${slug}/`,
   };
 }
@@ -92,6 +98,17 @@ const posts = (existsSync(postsDir) ? readdirSync(postsDir).filter((f) => /^\d{4
   .map(parsePost)
   .filter((p) => showDrafts || (!p.draft && p.date <= today))
   .sort((a, b) => b.date.localeCompare(a.date) || a.title.localeCompare(b.title));
+
+// "Worth a look" box for the running-cost pages and blog posts: affiliate picks,
+// clearly labelled, through Awin where we're approved and Amazon otherwise.
+function worthBox(picks, place) {
+  if (!picks.length) return "";
+  return `<section class="worth" aria-labelledby="worth">
+          <h2 id="worth">Worth a look</h2>
+          <ul>${picks.map((p) => { const link = productLink(p); return `<li><span class="tile">${iconSvg(p.icon)}</span><span><a href="${esc(link.href)}" target="_blank" rel="noopener noreferrer sponsored" data-umami-event="affiliate-click" data-umami-event-product="${p.id}" data-umami-event-place="${place}" data-umami-event-retailer="${link.retailer}">${esc(p.name)}<span class="sr-only"> (${link.retailer}, opens in a new tab)</span></a><p>${esc(p.why)}</p></span></li>`; }).join("")}</ul>
+          <p class="muted">${DISCLOSURE}</p>
+        </section>`;
+}
 
 const tool = (id) => PAGES.find((p) => p.id === id) ?? PAGES[0];
 const TOOL_CTA = {
@@ -228,6 +245,7 @@ for (const p of posts) {
         <div class="prose">
 ${p.html}
         </div>
+        ${worthBox(p.products, "blog")}
         <aside class="cta" aria-label="Try the tool">
           <p class="cta-title">${esc(TOOL_CTA[p.tool] ?? TOOL_CTA.when)}</p>
           <p>Free, no sign-up, with live prices for your tariff.</p>
@@ -335,11 +353,7 @@ for (const a of costPages) {
           <ul>${a.tips.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
           ${alt ? `<h2>A cheaper option</h2><p>${esc(a.alt.note)} <a href="/cost-to-run/${alt.id}/">See what a ${alt.name.toLowerCase()} costs to run</a>.</p>` : ""}
         </div>
-        ${(() => { const picks = picksFor(a.id); return picks.length ? `<section class="worth" aria-labelledby="worth">
-          <h2 id="worth">Worth a look</h2>
-          <ul>${picks.map((p) => `<li><span class="tile">${iconSvg(p.icon)}</span><span><a href="${esc(productLink(p).href)}" target="_blank" rel="noopener noreferrer sponsored" data-umami-event="affiliate-click" data-umami-event-product="${p.id}" data-umami-event-place="cost-page" data-umami-event-retailer="${productLink(p).retailer}">${esc(p.name)}<span class="sr-only"> (${productLink(p).retailer}, opens in a new tab)</span></a><p>${esc(p.why)}</p></span></li>`).join("")}</ul>
-          <p class="muted">${DISCLOSURE}</p>
-        </section>` : ""; })()}
+        ${worthBox(picksFor(a.id), "cost-page")}
         <aside class="cta" aria-label="Try the tool">
           <p class="cta-title">When's the cheapest time to run it on your tariff?</p>
           <p>Free, no sign-up, with live prices for Octopus, EDF and E.ON Next, or your own rates.</p>

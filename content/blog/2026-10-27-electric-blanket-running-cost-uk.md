@@ -4,6 +4,7 @@ description: An electric blanket costs about 2.7p an hour to run at today's pric
 date: 2026-10-27
 keywords: electric blanket running cost, how much does an electric blanket cost to run, electric blanket cost per hour UK, electric blanket vs heater, is an electric blanket cheap to run
 tool: when
+products: blanket
 draft: false
 ---
 

@@ -4,6 +4,7 @@ description: Thermal curtains, window film and secondary glazing compared for UK
 date: 2026-11-08
 keywords: thermal curtains worth it, window insulation film uk, secondary glazing renters, cheap window insulation renters, how to insulate windows in a rented flat
 tool: gas
+products: thermal-curtains, window-film
 draft: false
 ---
 

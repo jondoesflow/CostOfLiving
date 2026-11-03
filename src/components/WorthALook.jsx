@@ -1,9 +1,9 @@
-import { ShoppingBag, ExternalLink, Gauge, PlugZap, Rows3, Fan, AirVent, BedDouble, Soup, CookingPot, Timer, ShowerHead, Cylinder, Coffee, BatteryCharging, BatteryFull } from "lucide-react";
+import { ShoppingBag, ExternalLink, Gauge, PlugZap, Rows3, Fan, AirVent, BedDouble, Soup, CookingPot, Timer, ShowerHead, Cylinder, Coffee, BatteryCharging, BatteryFull, Wind, DoorClosed, Mail, Thermometer, KeyRound, Layers, Blinds, AppWindow, Shield, Power } from "lucide-react";
 import { productLink, DISCLOSURE } from "../products";
 
 // Icon tiles stand in for product photos, which Amazon only allows once a
 // site has made some sales.
-const ICONS = { Gauge, PlugZap, Rows3, Fan, AirVent, BedDouble, Soup, CookingPot, Timer, ShowerHead, Cylinder, Coffee, BatteryCharging, BatteryFull };
+const ICONS = { Gauge, PlugZap, Rows3, Fan, AirVent, BedDouble, Soup, CookingPot, Timer, ShowerHead, Cylinder, Coffee, BatteryCharging, BatteryFull, Wind, DoorClosed, Mail, Thermometer, KeyRound, Layers, Blinds, AppWindow, Shield, Power };
 
 // Products that help with what the person just looked up. Clearly labelled as
 // affiliate links and kept below the result, which never depends on them.

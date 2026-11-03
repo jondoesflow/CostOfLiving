@@ -4,6 +4,7 @@ description: Agile Octopus charges a different price every half hour. Here is ho
 date: 2026-10-25
 keywords: octopus agile explained, is octopus agile worth it, agile octopus who is it for, agile octopus peak times, agile octopus vs flexible
 tool: when
+products: schedule-plug
 ---
 
 Short answer first: **Agile Octopus is worth it if you can reliably move a good chunk of your electricity out of 4pm to 7pm, and it is a bad idea if you can't.**

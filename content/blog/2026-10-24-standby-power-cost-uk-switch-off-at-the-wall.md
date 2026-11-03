@@ -4,6 +4,7 @@ description: Standby costs about £2.24 a year for every watt left running at to
 date: 2026-10-24
 keywords: standby power cost uk, is it worth switching off at the wall, how much does standby cost, appliances on standby electricity, vampire devices uk
 tool: when
+products: switched-extension, monitor-plug
 draft: false
 ---
 

@@ -106,3 +106,21 @@ test("running cost pages carry labelled affiliate picks", async ({ page }) => {
   expect(await box.getByRole("link").first().getAttribute("href")).toContain("tag=cheapwatts-21");
   await expect(box).toContainText("Affiliate links");
 });
+
+test("blog posts carry labelled affiliate picks that match the post, and only where they fit", async ({ page }) => {
+  await page.goto("/blog/draught-proofing-on-a-budget-uk/");
+  const box = page.getByRole("region", { name: "Worth a look" });
+  const links = box.getByRole("link");
+  await expect(links).toHaveCount(3);
+  await expect(links.nth(0)).toHaveText(/Self-adhesive draught strip/);
+  for (const link of await links.all()) {
+    expect(await link.getAttribute("href")).toMatch(/^https:\/\/www\.amazon\.co\.uk\/s\?k=.*&tag=cheapwatts-21$|^https:\/\/www\.awin1\.com\/cread\.php\?/);
+    expect(await link.getAttribute("rel")).toContain("sponsored");
+    expect(await link.getAttribute("data-umami-event-place")).toBe("blog");
+  }
+  await expect(box).toContainText("Affiliate links");
+  // A post with nothing to buy gets no box.
+  await page.goto("/blog/ofgem-price-cap-explained-how-it-affects-your-bill/");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.getByRole("region", { name: "Worth a look" })).toHaveCount(0);
+});

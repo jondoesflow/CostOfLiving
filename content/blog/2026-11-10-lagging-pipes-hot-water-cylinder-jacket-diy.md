@@ -4,6 +4,7 @@ description: Lagging hot water pipes saves around £6 a year, and a cylinder jac
 date: 2026-11-10
 keywords: lagging pipes, hot water cylinder jacket, how thick should a cylinder jacket be, is pipe insulation worth it, insulate hot water tank uk
 tool: gas
+products: tank-jacket, pipe-lagging
 draft: false
 ---
 

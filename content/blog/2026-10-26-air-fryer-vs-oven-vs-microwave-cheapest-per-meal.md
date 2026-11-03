@@ -4,6 +4,7 @@ description: An air fryer costs about 13p for 30 minutes and an electric oven ab
 date: 2026-10-26
 keywords: air fryer vs oven cost, cheapest way to cook uk, microwave vs oven running cost, how much does an air fryer cost to run, is an air fryer cheaper than an oven
 tool: gas
+products: airfryer, slowcooker
 draft: false
 ---
 

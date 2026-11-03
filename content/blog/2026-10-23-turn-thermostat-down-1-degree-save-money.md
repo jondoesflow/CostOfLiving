@@ -4,6 +4,7 @@ description: Yes, it saves money, but how much depends on how much heating you u
 date: 2026-10-23
 keywords: does turning thermostat down 1 degree save money, how much does turning thermostat down save uk, best thermostat temperature uk, lower thermostat save energy, 18 degrees heating
 tool: gas
+products: room-thermometer
 draft: false
 ---
 

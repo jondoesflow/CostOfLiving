@@ -46,6 +46,16 @@ The scheduled task opens one pull request per post (`blog/<date>-<slug>`).
 Merging the pull request approves it; the next scheduled run (or a Netlify
 build, if the site is linked to GitHub) publishes it. Closing it rejects it.
 
+## Product picks ("Worth a look")
+
+If a post talks about something people can buy that helps, add the matching
+picks to its front matter, for example `products: draught-strip, door-brush`.
+The ids are in `src/products.js`; add a new product there if the post needs one,
+with a short, honest `why` that matches what the post says. The build adds a
+labelled "Worth a look" box under the post, linking through Awin where Cheap
+Watts is approved and Amazon otherwise. Only add picks that are specific to the
+post's advice: posts about bills, schemes or policy get none.
+
 ## One post a day
 
 Posts go live one a day, each on its own date. A post's `date` (and the date in

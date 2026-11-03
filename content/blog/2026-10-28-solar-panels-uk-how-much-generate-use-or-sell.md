@@ -4,6 +4,7 @@ description: A 4kW solar system in Leeds makes about 3,800 kWh a year, but 3.5 t
 date: 2026-10-28
 keywords: how much electricity do solar panels generate uk, solar panels use or sell electricity, smart export guarantee worth it, solar panel output winter uk, is solar worth it uk
 tool: solar
+products: ecoflow, anker-solix
 ---
 
 Short answer first: **a typical 4kW home solar system in Yorkshire makes roughly 3,800 kWh a year, and every unit you use yourself is worth about six times more than a unit you sell on a low fixed export rate.**
