@@ -70,3 +70,16 @@ test("pence are shown the way the site shows money", () => {
   assert.equal(formatPence(111580), "£1,115.80");
   assert.equal(formatPence(123456789), "£1,234,567.89");
 });
+
+test("tenths of a watt: a 3.8W LED and a 60W bulb at 5 hours a day for a year", async () => {
+  const { costPenceDeciwatts } = await import("../../src/giftCosts.js");
+  const year = 5 * 60 * 365;
+  // 3.8W × 1825h = 6.935kWh × 26.32p = 182.53p
+  assert.equal(costPenceDeciwatts(38, year, 2632), 183);
+  // 60W × 1825h = 109.5kWh × 26.32p = 2882.04p
+  assert.equal(costPenceDeciwatts(600, year, 2632), 2882);
+  assert.equal(costPenceDeciwatts(600, year, 2632), costPence(60, year, 2632));
+  // Half a penny rounds up.
+  assert.equal(costPenceDeciwatts(5, 6000, 1000), 1); // 0.5W × 100h = 0.05kWh × 10p = 0.5p
+  assert.throws(() => costPenceDeciwatts(3.8, 60), RangeError);
+});

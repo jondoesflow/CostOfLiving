@@ -91,6 +91,11 @@ const PRODUCTS = {
     why: "Boils only what you need. Overfilling is where most kettle energy goes.",
   },
   // Picks used by blog posts (see "products:" in a post's front matter).
+  ledBulbs: {
+    icon: "Lightbulb", id: "led-bulbs", name: "LED light bulbs", query: "LED light bulbs",
+    awin: { mid: 5190, retailer: "Simply LED", url: "https://www.simplyled.co.uk/lightbulbs/" },
+    why: "An LED gives the same light as an old 60W bulb for about a tenth of the electricity. Match the fitting and the lumens.",
+  },
   draughtStrip: {
     icon: "Wind", id: "draught-strip", name: "Self-adhesive draught strip", query: "self adhesive draught excluder strip doors windows",
     why: "Foam or rubber strip for the frames of doors and windows that open. Measure first and clean the frame so it sticks.",

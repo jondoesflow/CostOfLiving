@@ -10,6 +10,7 @@ import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { AWIN_PUBLISHER_ID, ALL_PRODUCTS } from "../src/products.js";
 import { GIFT_PRODUCTS } from "../src/giftProducts.js";
+import { LED_BULBS } from "../src/lightingProducts.js";
 
 const token = process.env.AWIN_TOKEN;
 if (!token) {
@@ -28,7 +29,7 @@ const api = async (path, init = {}) => {
 
 const wanted = new Map();
 // "Worth a look" picks and the gift guide's products (src/giftProducts.js).
-for (const p of [...ALL_PRODUCTS, ...GIFT_PRODUCTS]) if (p.awin) wanted.set(p.awin.mid, [...(wanted.get(p.awin.mid) ?? []), p]);
+for (const p of [...ALL_PRODUCTS, ...GIFT_PRODUCTS, ...LED_BULBS]) if (p.awin) wanted.set(p.awin.mid, [...(wanted.get(p.awin.mid) ?? []), p]);
 
 const relationship = async (rel) => {
   const { ok, status, body } = await api(`/publishers/${AWIN_PUBLISHER_ID}/programmes?relationship=${rel}`);

@@ -15,6 +15,7 @@ import { APPLIANCES, APPLIANCE_GROUPS, REGIONS } from "../src/appliances.js";
 import { GUIDES } from "../src/applianceGuides.js";
 import { picksFor, productLink, productById, DISCLOSURE, AMAZON_NOTICE } from "../src/products.js";
 import { buildGiftPages, giftNudge, GIFTS_FOR_COST_PAGE, GIFTS_FOR_POST } from "./giftPages.mjs";
+import { buildLightingPage } from "./lightingPage.mjs";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import * as lucide from "lucide-react";
@@ -416,12 +417,17 @@ for (const a of costPages) {
   }).replace("  </head>", `    ${costScript}\n  </head>`));
 }
 
+// What a light costs to leave on, old bulbs against LED: its own page because
+// lights don't have a cheapest time to run.
+const lights = buildLightingPage({ layout, write, esc, ukDate, dist, SITE_URL, today, IMAGE, AUTHOR, postSlugs: new Set(posts.map((p) => p.slug)) });
+
 write(join(dist, "cost-to-run", "index.html"), layout({
   title: "How much does it cost to run? UK appliance running costs at today's prices · Cheap Watts",
   description: "What a washing machine, tumble dryer, dishwasher, oven, air fryer, electric heater, shower or electric car costs to run in the UK, at today's electricity prices, with the cheapest time to run each one.",
   canonical: `${SITE_URL}/cost-to-run/`,
   ld: [{ "@context": "https://schema.org", "@type": "ItemList", name: "Appliance running costs",
-    itemListElement: costPages.map((a, i) => ({ "@type": "ListItem", position: i + 1, name: a.question, url: a.url })) }],
+    itemListElement: [...costPages.map((a) => ({ name: a.question, url: a.url })), { name: lights.question, url: lights.loc }]
+      .map((x, i) => ({ "@type": "ListItem", position: i + 1, ...x })) }],
   main: `      <h1>How much does it cost to run?</h1>
       <p class="lede">Typical running costs for everyday appliances at today's UK electricity prices, with how to pay less for each one. Standard tariff figures use about ${stdRate.toFixed(0)}p a unit; pick your region on each page for today's exact price.</p>
       ${APPLIANCE_GROUPS.map((g) => {
@@ -430,7 +436,11 @@ write(join(dist, "cost-to-run", "index.html"), layout({
       <ul class="cards">
         ${items.map((a) => `<li class="card"><h2><a href="/cost-to-run/${a.id}/">${esc(a.question)}</a></h2><p>About ${pence(a.kWh * stdRate)} a run, ${esc(a.note.toLowerCase())}.</p></li>`).join("\n        ")}
       </ul>` : "";
-      }).join("\n      ")}`,
+      }).join("\n      ")}
+      <h2>Lighting</h2>
+      <ul class="cards">
+        <li class="card"><h2><a href="/cost-to-run/lights/">${esc(lights.question)}</a></h2><p>${esc(lights.oneLine)}</p></li>
+      </ul>`,
 }));
 
 // ---------- guide pages: /<slug>/ from content/pages/*.md ----------
@@ -469,6 +479,7 @@ const urls = [
   ...guides.map((g) => ({ loc: g.url, lastmod: today, priority: "0.5" })),
   { loc: `${SITE_URL}/cost-to-run/`, lastmod: today, priority: "0.8" },
   ...costPages.map((a) => ({ loc: a.url, lastmod: today, priority: "0.7" })),
+  { loc: lights.loc, lastmod: lights.lastmod, priority: lights.priority },
   ...giftUrls,
 ];
 write(join(dist, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
