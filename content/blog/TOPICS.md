@@ -51,6 +51,7 @@ on the day stays out. Confirmed measures that touch these topics:
 - [x] Solar panels in the UK: how much do they really generate, and should you use or sell the power? (big upgrades; tool: solar) (2026-10-28)
 - [x] How much does it cost to run an electric blanket? (habits; tool: when) (2026-10-27)
 - [ ] Thermal curtains, window film and secondary glazing: what's worth it for renters? (DIY; tool: gas). Skipped 2026-11-01: could not reach Energy Saving Trust, Citizens Advice or Which? to source the savings claims; retry.
+- [x] Thermal curtains, window film and secondary glazing: what's worth it for renters? (DIY; tool: gas) (2026-11-01)
 - [ ] Energy labels explained: turning A to G ratings into pounds per year (smart tech; tool: when)
 - [x] Is it cheaper to boil a kettle or use the hob? (habits; tool: gas) (2026-11-01)
 - [ ] Lagging pipes and hot water cylinders: a cheap DIY job, explained (DIY; tool: gas)
