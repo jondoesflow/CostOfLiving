@@ -138,8 +138,8 @@ export function buildLightingPage({ layout, write, esc, ukDate, dist, SITE_URL, 
           <ul>
             <li>Swap the bulbs you use most first: the kitchen, the living room and the hall. A bulb that's on for an hour a week will take years to pay back.</li>
             <li>Count the spotlights. A ceiling of halogen spotlights can use more than the rest of the house's lights put together.</li>
-            <li>Turning a light off when you leave a room always saves something, LED or not. There's no big surge when you switch an LED back on.</li>
-            <li>Match the brightness by lumens, not watts. An old 60W bulb gives about 800 lumens, so look for an LED of around that.</li>
+            <li>Turning a light off when you leave a room always saves something, LED or not.</li>
+            <li>Match the brightness by lumens, not watts. Both 60W replacements above give 806 lumens, so for a 60W swap look for an LED of around 800.</li>
           </ul>
           ${postSlugs.has(ledPost) ? `<p>More in <a href="/blog/${ledPost}/">is it worth switching to LED bulbs?</a></p>` : ""}
         </div>
