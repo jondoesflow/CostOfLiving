@@ -16,8 +16,10 @@ export const amazonUrl = (query) => `https://www.amazon.co.uk/s?k=${encodeURICom
 // application is pending.
 export const AWIN_PUBLISHER_ID = 3143222;
 
-export const awinUrl = (mid, url) =>
-  `https://www.awin1.com/cread.php?awinmid=${mid}&awinaffid=${AWIN_PUBLISHER_ID}&ued=${encodeURIComponent(url)}`;
+// `clickref` tags the click with the page it came from, so Awin's reports show
+// which pages earn. Awin wants `ued` (the landing page) last.
+export const awinUrl = (mid, url, clickref) =>
+  `https://www.awin1.com/cread.php?awinmid=${mid}&awinaffid=${AWIN_PUBLISHER_ID}${clickref ? `&clickref=${encodeURIComponent(clickref)}` : ""}&ued=${encodeURIComponent(url)}`;
 
 export function productLink(p, joined = AWIN_JOINED) {
   if (p.awin && joined.includes(p.awin.mid)) return { href: awinUrl(p.awin.mid, p.awin.url), retailer: p.awin.retailer };

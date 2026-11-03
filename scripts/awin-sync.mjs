@@ -9,6 +9,7 @@
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { AWIN_PUBLISHER_ID, ALL_PRODUCTS } from "../src/products.js";
+import { GIFT_PRODUCTS } from "../src/giftProducts.js";
 
 const token = process.env.AWIN_TOKEN;
 if (!token) {
@@ -26,7 +27,8 @@ const api = async (path, init = {}) => {
 };
 
 const wanted = new Map();
-for (const p of ALL_PRODUCTS) if (p.awin) wanted.set(p.awin.mid, [...(wanted.get(p.awin.mid) ?? []), p]);
+// "Worth a look" picks and the gift guide's products (src/giftProducts.js).
+for (const p of [...ALL_PRODUCTS, ...GIFT_PRODUCTS]) if (p.awin) wanted.set(p.awin.mid, [...(wanted.get(p.awin.mid) ?? []), p]);
 
 const relationship = async (rel) => {
   const { ok, status, body } = await api(`/publishers/${AWIN_PUBLISHER_ID}/programmes?relationship=${rel}`);
@@ -39,7 +41,7 @@ const usable = [];
 for (const [mid, picks] of wanted) {
   const name = picks[0].awin.retailer;
   if (!joined.has(mid)) {
-    console.log(`${name} (${mid}): ${pending.has(mid) ? "application pending" : "not joined"}; staying on Amazon`);
+    console.log(`${name} (${mid}): ${pending.has(mid) ? "application pending" : "not joined"}; staying on the fallback link`);
     continue;
   }
   // Ask Awin to build each landing page's link: it refuses pages outside the
@@ -65,7 +67,8 @@ usable.sort((a, b) => a - b);
 const file = fileURLToPath(new URL("../src/awinJoined.js", import.meta.url));
 writeFileSync(file, `// Awin programmes Cheap Watts has been approved for, by advertiser id. Written
 // by scripts/awin-sync.mjs from the Awin API; a pick only uses its Awin link
-// once its programme is in this list, and falls back to Amazon until then.
+// once its programme is in this list, and falls back to Amazon (or, in the gift
+// guide, the retailer's page with no tracking) until then.
 export const AWIN_JOINED = [${usable.join(", ")}];
 `);
 console.log(`Wrote src/awinJoined.js: [${usable.join(", ")}]`);
