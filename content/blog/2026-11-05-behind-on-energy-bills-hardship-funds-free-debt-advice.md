@@ -1,7 +1,7 @@
 ---
 title: Behind on your energy bills? Hardship funds, payment plans and free debt advice
 description: Behind on your gas or electric bill? What your supplier must help with, where to get free debt advice, and what the Energy Debt Circuit Breaker means.
-date: 2026-10-31
+date: 2026-11-05
 keywords: behind on energy bills, energy hardship fund, can't pay energy bill, energy debt help uk, energy debt circuit breaker, fuel direct scheme
 tool: switch
 draft: false

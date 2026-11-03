@@ -1,7 +1,7 @@
 ---
 title: Cold Weather Payments and Winter Fuel Payment: who gets them this winter?
 description: Winter Fuel Payment is £100 to £300 if you were born on or before 27 June 1960. Cold Weather Payment is £25 a week for some claimants. Who gets what.
-date: 2026-10-30
+date: 2026-11-03
 keywords: cold weather payment 2026, winter fuel payment 2026 to 2027, who gets winter fuel payment, cold weather payment eligibility, winter fuel payment amount
 tool: when
 draft: false

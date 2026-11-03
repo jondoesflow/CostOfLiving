@@ -1,7 +1,7 @@
 ---
 title: Thermal curtains, window film and secondary glazing: what's worth it for renters?
 description: Thermal curtains, window film and secondary glazing compared for UK renters: what each does, what to ask your landlord, and a worked gas saving.
-date: 2026-11-01
+date: 2026-11-08
 keywords: thermal curtains worth it, window insulation film uk, secondary glazing renters, cheap window insulation renters, how to insulate windows in a rented flat
 tool: gas
 draft: false

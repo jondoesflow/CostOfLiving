@@ -3,7 +3,9 @@
 //   - the blog: /blog/, /blog/<slug>/ from content/blog/*.md, and /blog/feed.xml
 //   - sitemap.xml, robots.txt and 404.html
 // Posts are files named YYYY-MM-DD-slug.md (README.md and TOPICS.md are not).
-// Posts with `draft: true` are left out unless BLOG_DRAFTS=1 (for previewing).
+// Posts with `draft: true`, or dated after today (UK time), are left out unless
+// BLOG_DRAFTS=1 (for previewing). Approved posts are dated one a day, so each
+// goes live on its own date at the first deploy on or after that day.
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -23,7 +25,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(root, "dist");
 const postsDir = join(root, "content", "blog");
 const showDrafts = process.env.BLOG_DRAFTS === "1";
-const today = new Date().toISOString().slice(0, 10);
+const today = new Date().toLocaleDateString("en-CA", { timeZone: "Europe/London" });
 
 const AUTHOR = { name: "Jon Russell", url: "https://www.linkedin.com/in/jondoesflow" };
 const IMAGE = `${SITE_URL}/og-image.png`;
@@ -88,7 +90,7 @@ function parsePost(file) {
 
 const posts = (existsSync(postsDir) ? readdirSync(postsDir).filter((f) => /^\d{4}-\d{2}-\d{2}-.+\.md$/.test(f)) : [])
   .map(parsePost)
-  .filter((p) => showDrafts || !p.draft)
+  .filter((p) => showDrafts || (!p.draft && p.date <= today))
   .sort((a, b) => b.date.localeCompare(a.date) || a.title.localeCompare(b.title));
 
 const tool = (id) => PAGES.find((p) => p.id === id) ?? PAGES[0];

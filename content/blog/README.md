@@ -45,3 +45,13 @@ draft: true           # hidden from the live site until approved; remove or set 
 The scheduled task opens one pull request per post (`blog/<date>-<slug>`).
 Merging the pull request approves it; the next scheduled run (or a Netlify
 build, if the site is linked to GitHub) publishes it. Closing it rejects it.
+
+## One post a day
+
+Posts go live one a day, each on its own date. A post's `date` (and the date in
+its file name) is its publishing date, not the day it was written: use the day
+after the latest dated post, whether that post is on main or waiting in an open
+`blog/` pull request, and never a date before today. The build leaves out posts
+dated after today (UK time), so an approved post appears on its date at the
+first deploy on or after that day; the daily scheduled run does that deploy.
+Prices inside a post keep the date they were checked ("on 30 October 2026").

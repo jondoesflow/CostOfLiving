@@ -1,7 +1,7 @@
 ---
 title: Is lagging your pipes and hot water cylinder worth it? A cheap DIY job explained
 description: Lagging hot water pipes saves around £6 a year, and a cylinder jacket should be 80mm thick. What the Energy Saving Trust says, the sums, and where to start.
-date: 2026-11-02
+date: 2026-11-10
 keywords: lagging pipes, hot water cylinder jacket, how thick should a cylinder jacket be, is pipe insulation worth it, insulate hot water tank uk
 tool: gas
 draft: false

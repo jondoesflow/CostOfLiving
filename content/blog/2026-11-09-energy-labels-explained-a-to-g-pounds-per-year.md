@@ -1,7 +1,7 @@
 ---
 title: What do energy labels mean? Turning A to G into pounds per year
 description: The letter on an energy label tells you little about running cost. The kWh figure does. Here is how to turn it into pounds a year, with worked examples.
-date: 2026-11-02
+date: 2026-11-09
 keywords: energy labels explained, what do energy labels mean, energy rating A to G, appliance energy label cost per year, washing machine energy label kWh per 100 cycles
 tool: when
 draft: false

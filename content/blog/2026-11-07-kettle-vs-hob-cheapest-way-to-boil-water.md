@@ -1,7 +1,7 @@
 ---
 title: Is it cheaper to boil a kettle or use the hob?
 description: Boiling a litre in an electric kettle costs about 3p at today's UK price. Here is the sum, how a gas hob compares, and the habit that saves more than either.
-date: 2026-11-01
+date: 2026-11-07
 keywords: is it cheaper to boil a kettle or use the hob, kettle vs hob cost, cost to boil a kettle uk, cheapest way to boil water, how much does it cost to boil a kettle
 tool: gas
 draft: false

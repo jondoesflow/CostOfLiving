@@ -5,7 +5,7 @@ blog built from `content/blog/*.md` by `scripts/build-site.mjs` (part of
 `npm run build`). Blog house rules are in `content/blog/README.md`; the topic
 queue is `content/blog/TOPICS.md` (first unticked topic is taken next).
 
-## Blog workflow (scheduled runs, about 9:30am and 11:30am UK time)
+## Blog workflow (one scheduled run a day, about 9:30am UK time)
 
 - Write posts with the `writing-as-jon-russell` skill and its `voice_check.py`.
   UK English, no em or en dashes, never invent facts, date every price.
@@ -14,6 +14,9 @@ queue is `content/blog/TOPICS.md` (first unticked topic is taken next).
   merge an unapproved post, never deploy anything that is not on `main`.
 - Jon approves by merging the pull request. The next run deploys approved posts
   that are missing from the live sitemap.
+- One post a day, each on its own date: date a new post the day after the latest
+  dated post on main or in an open blog PR (never before today). The build hides
+  posts dated after today, so each goes live on its date when the daily run deploys.
 
 ## Review feedback loop (Codex and other bots)
 

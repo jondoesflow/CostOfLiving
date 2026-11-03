@@ -1,7 +1,7 @@
 ---
 title: Standing charges explained: why do you pay even if you use nothing?
 description: A standing charge is a daily fee for being connected to gas or electricity. What it covers, what it costs by region, and what the planned changes mean for you.
-date: 2026-10-30
+date: 2026-11-04
 keywords: standing charges explained, why do I pay a standing charge, what is a standing charge, gas standing charge abolished, electricity standing charge uk
 tool: switch
 draft: false

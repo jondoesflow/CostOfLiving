@@ -1,7 +1,7 @@
 ---
 title: Great British Insulation Scheme and ECO4: is free insulation still available, and who qualifies?
 description: The Great British Insulation Scheme has closed. ECO4 runs to 31 December 2026 and the Warm Homes Local Grant is open. Who qualifies and how to apply.
-date: 2026-10-31
+date: 2026-11-06
 keywords: great british insulation scheme, eco4 who qualifies, free insulation grant uk, warm homes local grant, how to apply for eco4
 tool: gas
 draft: false
