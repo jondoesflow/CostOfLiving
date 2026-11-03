@@ -1,7 +1,7 @@
 // Unit tests for the gift guide's running-cost maths. Run with npm run test:unit.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { costPence, runningCost, formatPence, roundDiv, WINTER_WEEKS } from "../../src/giftCosts.js";
+import { costPence, costPenceForKwh, runningCost, formatPence, roundDiv, WINTER_WEEKS } from "../../src/giftCosts.js";
 import { PRICE_CAP } from "../../src/priceCap.js";
 
 test("the cap rate is stored as whole hundredths of a penny", () => {
@@ -27,11 +27,17 @@ test("pence round half up, once, at the end", () => {
 
 test("weekly and winter figures are not built from rounded hourly costs", () => {
   // 160W heated throw, 2 hours a day: 0.32kWh a day at 26.32p.
-  const c = runningCost({ watts: 160, minutesPerDay: 120, rate: 2632 });
+  const c = runningCost({ watts: 160, minutesPerWeek: 120 * 7, rate: 2632 });
   assert.equal(c.perHour, 4); // 4.2112p
   assert.equal(c.perWeek, 59); // 58.9568p, not 7 × 8p
   assert.equal(c.perWinter, 1533); // 1532.88p over 26 weeks
   assert.equal(WINTER_WEEKS, 26);
+});
+
+test("whole kWh at a rate", () => {
+  assert.equal(costPenceForKwh(10000, 797), 79700); // 10,000kWh of gas at 7.97p is £797
+  assert.equal(costPenceForKwh(1, 2632), 26);
+  assert.equal(costPenceForKwh(1, 2650), 27);
 });
 
 test("tiny loads round to nothing and say so", () => {

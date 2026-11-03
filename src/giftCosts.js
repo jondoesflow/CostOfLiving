@@ -25,14 +25,21 @@ export function costPence(watts, minutes, rate = PRICE_CAP.electricityHundredths
   return roundDiv(watts * minutes * rate, UNIT);
 }
 
-// Per hour, per week and per winter, for `minutesPerDay` of use every day.
-export function runningCost({ watts, minutesPerDay, rate = PRICE_CAP.electricityHundredthsPerKwh }) {
-  check("minutesPerDay", minutesPerDay);
+// Per hour, per week and per winter, for `minutesPerWeek` of use.
+export function runningCost({ watts, minutesPerWeek, rate = PRICE_CAP.electricityHundredthsPerKwh }) {
+  check("minutesPerWeek", minutesPerWeek);
   return {
     perHour: costPence(watts, 60, rate),
-    perWeek: costPence(watts, minutesPerDay * 7, rate),
-    perWinter: costPence(watts, minutesPerDay * 7 * WINTER_WEEKS, rate),
+    perWeek: costPence(watts, minutesPerWeek, rate),
+    perWinter: costPence(watts, minutesPerWeek * WINTER_WEEKS, rate),
   };
+}
+
+// Pence for a number of whole kWh, for gas or electricity.
+export function costPenceForKwh(kWh, rate) {
+  check("kWh", kWh);
+  check("rate", rate);
+  return roundDiv(kWh * rate, 100);
 }
 
 // "£1.23", "23p", or "under 1p" for anything that rounds to nothing.
