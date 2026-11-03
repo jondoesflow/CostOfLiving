@@ -175,6 +175,7 @@ export default function App() {
           </p>
           <p>Not affiliated with any energy supplier. Some "Worth a look" links go to Amazon: as an Amazon Associate, Cheap Watts earns from qualifying purchases, at no extra cost to you.</p>
           <p>Run a council, charity or housing association website? <a href="/widget-for-your-website/" className="underline">Add Cheap Watts to it for free</a>.</p>
+          <p>Looking for a present? <a href="/gifts/" className="underline">Gifts that cut energy bills, with what each costs to run</a>.</p>
       </footer>
     </div>
     </ThemeContext.Provider>
