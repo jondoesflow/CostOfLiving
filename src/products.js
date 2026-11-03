@@ -1,12 +1,28 @@
 // "Worth a look": products that genuinely help with the thing someone just
 // looked up, linked to Amazon.co.uk searches with the Cheap Watts affiliate
-// tag. Searches rather than specific products, so links don't go stale and
+// tag, or to a retailer through Awin where we're approved (see productLink). Searches rather than specific products, so links don't go stale and
 // nothing needs Amazon's product API. Each has an icon tile, since Amazon
 // only lets a site use its product photos once it has made some sales. The result itself never depends on any
 // of this; the box sits below it and is labelled as affiliate links.
+import { AWIN_JOINED } from "./awinJoined.js";
+
 export const AMAZON_TAG = "cheapwatts-21";
 
 export const amazonUrl = (query) => `https://www.amazon.co.uk/s?k=${encodeURIComponent(query)}&tag=${AMAZON_TAG}`;
+
+// Some picks can also go straight to a retailer through Awin. `awin` names the
+// advertiser id and the page to land on; the link only switches over once that
+// programme has approved us (see src/awinJoined.js), so nothing breaks while an
+// application is pending.
+export const AWIN_PUBLISHER_ID = 3143222;
+
+export const awinUrl = (mid, url) =>
+  `https://www.awin1.com/cread.php?awinmid=${mid}&awinaffid=${AWIN_PUBLISHER_ID}&ued=${encodeURIComponent(url)}`;
+
+export function productLink(p, joined = AWIN_JOINED) {
+  if (p.awin && joined.includes(p.awin.mid)) return { href: awinUrl(p.awin.mid, p.awin.url), retailer: p.awin.retailer };
+  return { href: amazonUrl(p.query), retailer: "Amazon" };
+}
 
 const PRODUCTS = {
   monitorPlug: {
@@ -19,6 +35,7 @@ const PRODUCTS = {
   },
   airer: {
     icon: "Rows3", id: "airer", name: "Heated airer with a cover", query: "heated clothes airer with cover",
+    awin: { mid: 1751, retailer: "Lakeland", url: "https://www.lakeland.co.uk/search?q=heated+airer" },
     why: "Dries a load for a fraction of what a tumble dryer costs. The cover halves the drying time.",
   },
   hpdryer: {
@@ -27,18 +44,22 @@ const PRODUCTS = {
   },
   dehumidifier: {
     icon: "AirVent", id: "dehumidifier", name: "Dehumidifier with a laundry mode", query: "dehumidifier laundry mode",
+    awin: { mid: 31711, retailer: "Meaco", url: "https://www.meaco.com/collections/dehumidifiers" },
     why: "Dries washing indoors cheaply and stops the damp that comes with it.",
   },
   blanket: {
     icon: "BedDouble", id: "blanket", name: "Electric blanket or heated throw", query: "electric heated throw",
+    awin: { mid: 130445, retailer: "Dimplex", url: "https://www.shopdimplex.com/collections/heated-blankets" },
     why: "Warms you for about a penny an hour, against a pound or more for a room heater.",
   },
   airfryer: {
     icon: "Soup", id: "airfryer", name: "Air fryer", query: "air fryer",
+    awin: { mid: 20823, retailer: "Tower", url: "https://www.towerhousewares.co.uk/air-fryers" },
     why: "Cooks one or two portions for a fraction of the oven's cost.",
   },
   slowcooker: {
     icon: "CookingPot", id: "slowcooker", name: "Slow cooker", query: "slow cooker",
+    awin: { mid: 20823, retailer: "Tower", url: "https://www.towerhousewares.co.uk/slow-cookers" },
     why: "A whole meal for about a unit of electricity.",
   },
   immersionTimer: {
@@ -55,10 +76,12 @@ const PRODUCTS = {
   },
   ecoflow: {
     icon: "BatteryCharging", id: "ecoflow", name: "EcoFlow portable power station", query: "EcoFlow portable power station",
+    awin: { mid: 51797, retailer: "EcoFlow", url: "https://uk.ecoflow.com/pages/portable-power-stations" },
     why: "Charge it in your cheap hours or from solar, then run small appliances from it later. Put its size into the battery calculator above first: on bill savings alone, small units rarely pay for themselves.",
   },
   ankerSolix: {
     icon: "BatteryFull", id: "anker-solix", name: "Anker SOLIX portable power station", query: "Anker SOLIX portable power station",
+    awin: { mid: 36326, retailer: "Anker", url: "https://www.anker.com/uk/collections/power-stations" },
     why: "The same idea from Anker. Check how many kWh it holds against what the calculator says one charge is worth.",
   },
   kettle: {
@@ -66,6 +89,8 @@ const PRODUCTS = {
     why: "Boils only what you need. Overfilling is where most kettle energy goes.",
   },
 };
+
+export const ALL_PRODUCTS = Object.values(PRODUCTS);
 
 // Picks per appliance, most useful first. Every list ends with the monitoring
 // plug, because the typical figures are only a starting point.
