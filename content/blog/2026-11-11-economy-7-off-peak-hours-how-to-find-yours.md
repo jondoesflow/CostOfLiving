@@ -1,7 +1,7 @@
 ---
 title: Economy 7: how do you find your off-peak hours and make them pay?
 description: Economy 7 gives you seven cheaper hours each night. How to find yours, the break-even point on today's prices, and which jobs to move into the cheap window.
-date: 2026-11-03
+date: 2026-11-11
 keywords: economy 7 off-peak hours, what are my economy 7 times, economy 7 worth it, economy 7 night rate, how to find economy 7 hours
 tool: when
 draft: false
