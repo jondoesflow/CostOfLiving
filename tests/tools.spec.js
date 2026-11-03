@@ -43,6 +43,23 @@ test("solar and battery advice", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Sell it" })).toBeVisible();
 });
 
+test("solar: battery card suggests EcoFlow and Anker SOLIX through the Amazon tag", async ({ page }) => {
+  await page.goto("/#/solar");
+  await setUp(page);
+  const box = page.getByRole("region", { name: "Worth a look" });
+  await expect(box).toBeVisible();
+  const links = box.getByRole("link");
+  await expect(links).toHaveCount(2);
+  await expect(links.nth(0)).toHaveText(/EcoFlow portable power station/);
+  await expect(links.nth(1)).toHaveText(/Anker SOLIX portable power station/);
+  for (const link of await links.all()) {
+    expect(await link.getAttribute("href")).toMatch(/^https:\/\/www\.amazon\.co\.uk\/s\?k=.*&tag=cheapwatts-21$/);
+    expect(await link.getAttribute("rel")).toContain("sponsored");
+  }
+  await expect(box).toContainText("rarely pay for themselves");
+  await expect(box).toContainText("Affiliate links");
+});
+
 test("should I switch: example household ranks every tariff", async ({ page }) => {
   await page.goto("/#/switch");
   await setUp(page);

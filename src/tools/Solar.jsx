@@ -7,6 +7,8 @@ import { useSaved } from "../lib/storage";
 import { Card, StepTitle, NumberField, Note, Warning, Choice, LiveSummary } from "../components/ui";
 import SlotChart from "../components/SlotChart";
 import PricesStatus from "../components/PricesStatus";
+import WorthALook from "../components/WorthALook";
+import { SOLAR_PICKS } from "../products";
 
 // Battery plan: the charge window and later discharge window (selling at the
 // export price, or running the home instead of buying) that leave you most
@@ -179,6 +181,7 @@ export default function Solar({ elec }) {
             </p>
           )}
           <Note className="mt-4">Many batteries can be scheduled from their app. Some suppliers also have their own battery tariffs that do this automatically.</Note>
+          <WorthALook picks={SOLAR_PICKS} place="solar" />
         </Card>
       )}
     </>
