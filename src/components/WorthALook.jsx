@@ -1,5 +1,5 @@
 import { ShoppingBag, ExternalLink, Gauge, PlugZap, Rows3, Fan, AirVent, BedDouble, Soup, CookingPot, Timer, ShowerHead, Cylinder, Coffee, BatteryCharging, BatteryFull } from "lucide-react";
-import { amazonUrl, DISCLOSURE } from "../products";
+import { productLink, DISCLOSURE } from "../products";
 
 // Icon tiles stand in for product photos, which Amazon only allows once a
 // site has made some sales.
@@ -17,6 +17,7 @@ export default function WorthALook({ picks, place }) {
       <ul className="mt-2 divide-y divide-gray-100">
         {picks.map((p) => {
           const Icon = ICONS[p.icon] ?? ShoppingBag;
+          const link = productLink(p);
           return (
           <li key={p.id} className="py-3 flex gap-3 items-start">
             <span className="shrink-0 w-14 h-14 rounded-xl bg-[#8b5cf6]/15 text-[#8b5cf6] flex items-center justify-center" aria-hidden="true">
@@ -24,11 +25,11 @@ export default function WorthALook({ picks, place }) {
             </span>
             <span className="min-w-0">
             <a
-              href={amazonUrl(p.query)} target="_blank" rel="noopener noreferrer sponsored"
-              data-umami-event="affiliate-click" data-umami-event-product={p.id} data-umami-event-place={place}
+              href={link.href} target="_blank" rel="noopener noreferrer sponsored"
+              data-umami-event="affiliate-click" data-umami-event-product={p.id} data-umami-event-place={place} data-umami-event-retailer={link.retailer}
               className="font-semibold text-navy underline inline-flex items-center gap-1"
             >
-              {p.name} <ExternalLink size={14} aria-hidden="true" /><span className="sr-only"> (Amazon, opens in a new tab)</span>
+              {p.name} <ExternalLink size={14} aria-hidden="true" /><span className="sr-only"> ({link.retailer}, opens in a new tab)</span>
             </a>
             <p className="text-sm text-gray-600">{p.why}</p>
             </span>
