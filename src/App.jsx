@@ -173,9 +173,17 @@ export default function App() {
           <p>
             Live prices come from the public price data published by Octopus Energy, EDF and E.ON Next, and include VAT. The standard rate shown for comparison is Octopus's standard variable tariff. Carbon figures are National Grid's regional forecast. Costs are estimates. Washing machines, washer-dryers and dishwashers are counted as using most of their power while heating; everything else as using it evenly. Your own model may use more or less.
           </p>
-          <p>Not affiliated with any energy supplier. Some "Worth a look" links go to Amazon: as an Amazon Associate, Cheap Watts earns from qualifying purchases, at no extra cost to you.</p>
+          <p>Not affiliated with any energy supplier. Some "Worth a look" links are affiliate links (Amazon, and retailers through Awin): if you buy through one, Cheap Watts may earn a commission, at no extra cost to you. As an Amazon Associate, Cheap Watts earns from qualifying purchases.</p>
           <p>Run a council, charity or housing association website? <a href="/widget-for-your-website/" className="underline">Add Cheap Watts to it for free</a>.</p>
           <p>Looking for a present? <a href="/gifts/" className="underline">Gifts that cut energy bills, with what each costs to run</a>.</p>
+          <nav aria-label="About this site">
+            <ul className="flex flex-wrap gap-x-4 gap-y-1">
+              <li><a href="/about/" className="underline">About</a></li>
+              <li><a href="/contact/" className="underline">Contact</a></li>
+              <li><a href="/privacy/" className="underline">Privacy</a></li>
+              <li><a href="/affiliate-disclosure/" className="underline">Affiliate disclosure</a></li>
+            </ul>
+          </nav>
       </footer>
     </div>
     </ThemeContext.Provider>

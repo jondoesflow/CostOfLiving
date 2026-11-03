@@ -64,8 +64,40 @@ const siteLd = [
   },
 ];
 
+// What the tool pages show before JavaScript runs, and all that a crawler or
+// an affiliate network's site checker sees if it doesn't run it: what the
+// tool does, who makes it, how it's funded, and links to every section.
+// React replaces it when the app starts.
+const TOOL_LINKS = [
+  ["/", "Cheapest time to run your appliances", "Live half-hourly prices for Agile Octopus, Octopus Go, Economy 7 and more, with the cheapest and greenest time to run each appliance."],
+  ["/plan-my-evening/", "Plan my evening", "Fit the washing, the dishwasher and the car into the cheapest hours."],
+  ["/gas-or-electric/", "Gas or electric?", "Kettle or hob, heater or central heating, at today's prices."],
+  ["/solar-and-batteries/", "Solar and batteries", "When to use, sell or store your solar power."],
+  ["/should-i-switch/", "Should I switch tariff?", "Upload your smart meter usage and see what you'd pay on each tariff."],
+];
+const staticRoot = (page) => `<div class="max-w-[680px] mx-auto px-4 py-8 space-y-4" data-static-fallback>
+      <p class="font-heading text-2xl font-bold text-navy"><a href="/">Cheap Watts</a></p>
+      <h1 class="font-heading text-3xl font-bold text-navy">${esc(page.title.split(" · ")[0])}</h1>
+      <p>${esc(page.description)}</p>
+      <p class="text-sm text-gray-600">The calculator on this page needs JavaScript. Everything below works without it.</p>
+      <h2 class="font-heading text-xl font-bold text-navy">Free tools</h2>
+      <ul class="list-disc pl-6 space-y-1">${TOOL_LINKS.map(([href, name, what]) => `<li><a class="underline" href="${href}">${esc(name)}</a>: ${esc(what)}</li>`).join("")}</ul>
+      <h2 class="font-heading text-xl font-bold text-navy">Guides</h2>
+      <ul class="list-disc pl-6 space-y-1">
+        <li><a class="underline" href="/cost-to-run/">How much does it cost to run?</a> Running costs for everyday appliances at today's prices.</li>
+        <li><a class="underline" href="/gifts/">Gifts that cut energy bills</a>, with what each one costs to run.</li>
+        <li><a class="underline" href="/blog/">The Cheap Watts blog</a>: plain-English ways to pay less for electricity.</li>
+      </ul>
+      <h2 class="font-heading text-xl font-bold text-navy">About Cheap Watts</h2>
+      <p>Cheap Watts is free, with no account and no sign-up. It's made in the UK by ${AUTHOR.name}, and uses the public price data published by Octopus Energy, EDF and E.ON Next and National Grid's carbon forecast. It is not affiliated with any energy supplier. Some pages carry clearly labelled affiliate links, which pay for the site at no extra cost to you.</p>
+      <p><a class="underline" href="/about/">About</a> · <a class="underline" href="/contact/">Contact</a> · <a class="underline" href="/privacy/">Privacy</a> · <a class="underline" href="/affiliate-disclosure/">Affiliate disclosure</a></p>
+    </div>`;
+if (!shell.includes('<div id="root"></div>')) throw new Error("index.html no longer has an empty #root for the static fallback");
+
 for (const page of PAGES) {
-  const html = withMeta(shell, page).replace("</head>", `    ${jsonLd(page.path === "/" ? siteLd : siteLd[1])}\n  </head>`);
+  const html = withMeta(shell, page)
+    .replace('<div id="root"></div>', `<div id="root">${staticRoot(page)}</div>`)
+    .replace("</head>", `    ${jsonLd(page.path === "/" ? siteLd : siteLd[1])}\n  </head>`);
   write(join(dist, page.path, "index.html"), html);
 }
 
@@ -204,6 +236,14 @@ ${main}
       <p>Cheap Watts is free and not affiliated with any energy supplier. Prices change; always check your own tariff. ${AMAZON_NOTICE}</p>
       <p>Run a council, charity or housing association website? <a href="/widget-for-your-website/">Add Cheap Watts to it for free</a>.</p>
       <p>Looking for a present? <a href="/gifts/">Gifts that cut energy bills, with what each costs to run</a>.</p>
+      <nav aria-label="About this site">
+        <ul>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/contact/">Contact</a></li>
+          <li><a href="/privacy/">Privacy</a></li>
+          <li><a href="/affiliate-disclosure/">Affiliate disclosure</a></li>
+        </ul>
+      </nav>
     </footer>
   </body>
 </html>
