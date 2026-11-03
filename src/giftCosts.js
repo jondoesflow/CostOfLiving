@@ -25,6 +25,14 @@ export function costPence(watts, minutes, rate = PRICE_CAP.electricityHundredths
   return roundDiv(watts * minutes * rate, UNIT);
 }
 
+// The same for power given in tenths of a watt (38 is 3.8W), for LED bulbs.
+export function costPenceDeciwatts(deciwatts, minutes, rate = PRICE_CAP.electricityHundredthsPerKwh) {
+  check("deciwatts", deciwatts);
+  check("minutes", minutes);
+  check("rate", rate);
+  return roundDiv(deciwatts * minutes * rate, UNIT * 10);
+}
+
 // Per hour, per week and per winter, for `minutesPerWeek` of use.
 export function runningCost({ watts, minutesPerWeek, rate = PRICE_CAP.electricityHundredthsPerKwh }) {
   check("minutesPerWeek", minutesPerWeek);
