@@ -145,3 +145,26 @@ article header { margin-bottom: 24px; }
 }
 .stack td > span { text-align: right; }
 .table-scroll td .muted { white-space: normal; }
+
+/* Desktop layout: the same 1120px width as the tools, so the header, footer
+   and content line up across the site. Text keeps a readable line length;
+   on wide screens the "more" cards move into a sidebar and index pages show
+   their cards in columns. (main.wrap, not main: .wrap's padding would
+   otherwise wipe out the space under the header.) */
+.wrap { max-width: 1120px; }
+main.wrap { padding-top: 28px; padding-bottom: 48px; }
+main.wrap > article, main.wrap > h1, main.wrap > .lede { max-width: 780px; }
+@media (min-width: 720px) {
+  .cards { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .wrap { padding: 0 32px; }
+  main.wrap { padding-top: 36px; display: grid; grid-template-columns: minmax(0, 1fr) 300px; column-gap: 56px; align-items: start; }
+  main.wrap > * { grid-column: 1 / -1; }
+  main.wrap > article { grid-column: 1; }
+  main.wrap:not(:has(> .related)) > article { grid-column: 1 / -1; max-width: 860px; }
+  main.wrap > .related { grid-column: 2; margin-top: 0; }
+  main.wrap > .related > h2 { font-size: 22px; }
+  main.wrap > .related .card h2 { font-size: 19px; }
+  main.wrap > .related .cards { grid-template-columns: 1fr; }
+}
