@@ -4,14 +4,14 @@ description: How the Cheap Watts iPhone app and website handle your data. No acc
 slug: privacy
 ---
 
-_Last updated: 26 October 2026_
+_Last updated: 3 November 2026_
 
 Cheap Watts helps you find the cheapest and greenest time to run your appliances. It is made by Jon Russell (JonDoesFlow). This policy covers the Cheap Watts iPhone app and the website at cheapwatts.co.uk.
 
 ## The short version
 
 - No account, no sign-up, no email address.
-- No banner adverts or pop-ups. The website shows a few clearly labelled affiliate links to Amazon; if you buy through one, Cheap Watts earns a small commission. Amazon sets its own cookies once you are on its site, under its own privacy policy. The app has no affiliate links.
+- No banner adverts or pop-ups. The website shows clearly labelled affiliate links, to Amazon and to retailers through the Awin affiliate network; if you buy through one, Cheap Watts may earn a commission. Cheap Watts sets no cookies of its own for this. When you click an affiliate link, Amazon or Awin and the retailer may set their own cookies to record the referral, under their own privacy policies. See the [affiliate disclosure](/affiliate-disclosure/). The app has no affiliate links.
 - The app has no analytics or tracking. The website counts visits with a cookie-less, self-hosted tool (see below).
 - Your settings stay on your own device.
 - The only things that leave your device are your tariff and region, sent to the public price and carbon APIs so we can show you prices, and your postcode when you ask us to find your region.
