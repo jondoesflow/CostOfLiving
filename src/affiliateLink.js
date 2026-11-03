@@ -30,7 +30,7 @@ export function giftLink(p, page, joined = AWIN_JOINED) {
 }
 
 // The link itself, as HTML. `text` is plain text and is escaped here.
-export function affiliateAnchor(p, { page, place, text, joined = AWIN_JOINED }) {
+export function affiliateAnchor(p, { page, place, text, className, joined = AWIN_JOINED }) {
   const link = giftLink(p, page, joined);
-  return `<a href="${esc(link.href)}" target="_blank" rel="${REL}" data-umami-event="affiliate-click" data-umami-event-product="${esc(p.id)}" data-umami-event-place="${esc(place)}" data-umami-event-retailer="${esc(link.retailer)}">${esc(text)}<span class="sr-only"> (${esc(link.retailer)}, opens in a new tab)</span></a>`;
+  return `<a${className ? ` class="${esc(className)}"` : ""} href="${esc(link.href)}" target="_blank" rel="${REL}" data-umami-event="affiliate-click" data-umami-event-product="${esc(p.id)}" data-umami-event-place="${esc(place)}" data-umami-event-retailer="${esc(link.retailer)}">${esc(text)}<span class="sr-only"> (${esc(link.retailer)}, opens in a new tab)</span></a>`;
 }
