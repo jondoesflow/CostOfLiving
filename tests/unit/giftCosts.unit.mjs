@@ -66,5 +66,7 @@ test("pence are shown the way the site shows money", () => {
   assert.equal(formatPence(99), "99p");
   assert.equal(formatPence(100), "£1.00");
   assert.equal(formatPence(1533), "£15.33");
-  assert.equal(formatPence(344897), "£3448.97");
+  assert.equal(formatPence(344897), "£3,448.97");
+  assert.equal(formatPence(111580), "£1,115.80");
+  assert.equal(formatPence(123456789), "£1,234,567.89");
 });

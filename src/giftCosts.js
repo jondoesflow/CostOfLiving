@@ -42,10 +42,12 @@ export function costPenceForKwh(kWh, rate) {
   return roundDiv(kWh * rate, 100);
 }
 
-// "£1.23", "23p", or "under 1p" for anything that rounds to nothing.
+// "£1,234.56", "23p", or "under 1p" for anything that rounds to nothing.
 export function formatPence(p) {
   check("pence", p);
   if (p === 0) return "under 1p";
   if (p < 100) return `${p}p`;
-  return `£${Math.floor(p / 100)}.${String(p % 100).padStart(2, "0")}`;
+  const pounds = String(Math.floor(p / 100)).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return `£${pounds}.${String(p % 100).padStart(2, "0")}`;
 }
+
