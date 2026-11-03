@@ -26,9 +26,56 @@ sites block automated checks, so landing pages need checking by hand first.
 Meross (107077) sells from a US store in dollars, so it doesn't suit UK
 readers.
 
-## After an approval email
+## Approved programmes
 
-Run the sync with the API token from Awin (Account > API Credentials):
+| Programme | Awin id | Approved | Terms | Where it appears |
+|---|---|---|---|---|
+| Simply LED | 5190 | 3 Nov 2026 | [5190-simply-led.md](awin-terms/5190-simply-led.md) | `/cost-to-run/lights/`, the LED bulbs pick (`led-bulbs`), the LED blog post |
+
+## When an advertiser approves Cheap Watts (do this every time)
+
+1. **Spot it.** Awin emails jon@jondoesflow.com from no-reply@awin.com when a
+   programme approves or rejects us. A rejection gives the reason; log it below
+   and fix the site if the reason is about the site.
+2. **Read the terms before linking.** The terms PDF is at
+   `https://ui.awin.com/awin/affiliate/3143222/merchant-profile-terms/<id>/download-terms-pdf?locale=en_US`
+   and needs Jon's Awin login, so Jon's Cowork downloads it into OneDrive
+   (`Cheap Watts/Awin terms/`). Summarise it in `marketing/awin-terms/<id>-<name>.md`:
+   whether editorial content and direct linking are allowed, the commission
+   basis, paid search and discount code rules, brand guidelines. Stop and ask
+   Jon if content sites or direct links aren't allowed.
+3. **Pick products that fit a page we have.** Two to six products from the
+   retailer's own site that match an existing page (running costs, gift guide,
+   a blog post). Record every figure from the product page with its source URL
+   and `lastChecked` date: power, price in whole pence, pack size. Anything the
+   page doesn't state is null and listed as a TODO, never guessed.
+4. **Wire it in.** Add the id to `src/awinJoined.js`, give the products their
+   `awin` entry (`{ mid, retailer, url }`) in the right data file
+   (`src/products.js`, `src/giftProducts.js`, `src/lightingProducts.js`), and
+   add a "Worth a look" pick where a post or page should carry it. Links go
+   through `src/affiliateLink.js`, which adds the clickref, `rel="sponsored nofollow"`
+   and the new tab.
+5. **Give it a page if none fits.** A running-cost page or gift page section
+   when the product has a running cost to show; otherwise a blog topic at the
+   top of `content/blog/TOPICS.md`, or a post written now under the blog
+   workflow in CLAUDE.md.
+6. **Check and raise a PR.** `npm run lint`, `npm run test:unit`,
+   `npm run build`, `npx playwright test`. One PR titled
+   "Awin approval: <programme>", subscribed, merged only with Jon's approval
+   (blog posts follow the blog workflow). Add a row to the table above.
+
+## Rejections
+
+| Programme | Awin id | Date | Reason given | What we did |
+|---|---|---|---|---|
+| Wickes | 1563 | 3 Nov 2026 | "Our systems are blocking content on your site" | Static content for crawlers, About, Contact and Affiliate disclosure pages (PR #46); reapply |
+| The Range | 5238 | 3 Nov 2026 | "Dead URL, page not found" | As above; check the website address on the Awin profile; reapply |
+| Currys | 1599 | 3 Nov 2026 | Not found in email | Reapply in a few weeks |
+
+## Syncing with the Awin API (optional)
+
+With an API token from Awin (Account > API Credentials), the sync script
+checks every programme at once:
 
     AWIN_TOKEN=... node scripts/awin-sync.mjs
 
