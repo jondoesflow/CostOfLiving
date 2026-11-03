@@ -76,7 +76,9 @@ The saving per kWh moved is 19.12p. The appliance figures below are the typical 
 
 Do not add the column together and promise yourself £400. Some of those jobs may already happen at night, and a household that moves everything will often find it needs to rethink when the immersion switches on. The immersion line is also the least realistic, because it assumes a full hour of heating every day, which depends on how much hot water you use.
 
-Most dishwashers and washing machines have a delay start. Tumble dryers, ovens and immersion heaters vary, and I would check your own manual before leaving anything running while you sleep. Plug-in timers help for the rest.
+A safety point before you set anything running. Fire services advise against leaving washing machines, tumble dryers and dishwashers running overnight or while you are out, because if something goes wrong you have far less time to react. [Devon and Somerset Fire and Rescue](https://www.dsfire.gov.uk/news/safety/why-you-shouldnt-use-washing-machines-and-tumble-dryers-night) has said so publicly, and I cover it in [the cheapest time to use electricity](/blog/cheapest-time-to-use-electricity-uk/).
+
+So use the cheap hours while you are awake and at home where you can. Many off-peak windows run late in the evening or into the early morning, which helps. Items built to run unattended, such as storage heaters and a hot water cylinder on a timer, are the natural fit for the overnight rate. Check your own manual before using a delay start or plug-in timer on anything else.
 
 ## What to do next
 
