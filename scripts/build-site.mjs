@@ -14,6 +14,7 @@ import { PAGES, SITE_URL } from "../src/pages.js";
 import { APPLIANCES, APPLIANCE_GROUPS, REGIONS } from "../src/appliances.js";
 import { GUIDES } from "../src/applianceGuides.js";
 import { picksFor, productLink, productById, DISCLOSURE, AMAZON_NOTICE } from "../src/products.js";
+import { buildGiftPages, giftNudge, GIFTS_FOR_COST_PAGE, GIFTS_FOR_POST } from "./giftPages.mjs";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import * as lucide from "lucide-react";
@@ -184,6 +185,7 @@ function layout({ title, description, canonical, type = "website", ld = [], main
             <li><a href="/">Tools</a></li>
             <li><a href="/cost-to-run/" ${canonical.startsWith(`${SITE_URL}/cost-to-run/`) ? 'aria-current="page"' : ""}>Running costs</a></li>
             <li><a href="/blog/" ${canonical.startsWith(`${SITE_URL}/blog/`) ? 'aria-current="page"' : ""}>Blog</a></li>
+            <li><a href="/gifts/" ${canonical.startsWith(`${SITE_URL}/gifts/`) ? 'aria-current="page"' : ""}>Gifts</a></li>
           </ul>
         </nav>
       </div>
@@ -201,6 +203,7 @@ ${main}
       </nav>
       <p>Cheap Watts is free and not affiliated with any energy supplier. Prices change; always check your own tariff. ${AMAZON_NOTICE}</p>
       <p>Run a council, charity or housing association website? <a href="/widget-for-your-website/">Add Cheap Watts to it for free</a>.</p>
+      <p>Looking for a present? <a href="/gifts/">Gifts that cut energy bills, with what each costs to run</a>.</p>
     </footer>
   </body>
 </html>
@@ -246,6 +249,7 @@ for (const p of posts) {
 ${p.html}
         </div>
         ${worthBox(p.products, "blog")}
+        ${GIFTS_FOR_POST[p.slug] ? giftNudge(GIFTS_FOR_POST[p.slug], esc) : ""}
         <aside class="cta" aria-label="Try the tool">
           <p class="cta-title">${esc(TOOL_CTA[p.tool] ?? TOOL_CTA.when)}</p>
           <p>Free, no sign-up, with live prices for your tariff.</p>
@@ -354,6 +358,7 @@ for (const a of costPages) {
           ${alt ? `<h2>A cheaper option</h2><p>${esc(a.alt.note)} <a href="/cost-to-run/${alt.id}/">See what a ${alt.name.toLowerCase()} costs to run</a>.</p>` : ""}
         </div>
         ${worthBox(picksFor(a.id), "cost-page")}
+        ${GIFTS_FOR_COST_PAGE[a.id] ? giftNudge(GIFTS_FOR_COST_PAGE[a.id], esc) : ""}
         <aside class="cta" aria-label="Try the tool">
           <p class="cta-title">When's the cheapest time to run it on your tariff?</p>
           <p>Free, no sign-up, with live prices for Octopus, EDF and E.ON Next, or your own rates.</p>
@@ -413,6 +418,9 @@ ${g.html}
   }));
 }
 
+// ---------- gift guide: /gifts/ and its category pages ----------
+const giftUrls = buildGiftPages({ layout, write, esc, jsonLd, iconSvg, ukDate, dist, root, SITE_URL, today, IMAGE, postSlugs: new Set(posts.map((p) => p.slug)) });
+
 // ---------- sitemap, robots, 404 ----------
 const urls = [
   ...PAGES.map((p) => ({ loc: `${SITE_URL}${p.path}`, lastmod: today, priority: p.path === "/" ? "1.0" : "0.8" })),
@@ -421,6 +429,7 @@ const urls = [
   ...guides.map((g) => ({ loc: g.url, lastmod: today, priority: "0.5" })),
   { loc: `${SITE_URL}/cost-to-run/`, lastmod: today, priority: "0.8" },
   ...costPages.map((a) => ({ loc: a.url, lastmod: today, priority: "0.7" })),
+  ...giftUrls,
 ];
 write(join(dist, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -440,4 +449,4 @@ write(join(dist, "404.html"), layout({
       <p class="lede">It may have moved. Try <a href="/">the Cheap Watts tools</a> or <a href="/blog/">the blog</a>.</p>`,
 }).replace('<meta name="description"', '<meta name="robots" content="noindex" />\n    <meta name="description"'));
 
-console.log(`Built ${PAGES.length} tool pages, ${costPages.length} running-cost pages, ${guides.length} guide(s), ${posts.length} blog post(s)${showDrafts ? " (including drafts)" : ""}, sitemap with ${urls.length} URLs.`);
+console.log(`Built ${PAGES.length} tool pages, ${costPages.length} running-cost pages, ${guides.length} guide(s), ${giftUrls.length} gift page(s), ${posts.length} blog post(s)${showDrafts ? " (including drafts)" : ""}, sitemap with ${urls.length} URLs.`);

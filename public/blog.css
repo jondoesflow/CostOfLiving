@@ -90,3 +90,58 @@ article header { margin-bottom: 24px; }
 .worth li a { font-weight: 600; }
 .worth li p { font-size: 16px; color: var(--muted); }
 .worth .muted { font-size: 14px; color: var(--muted); margin-top: 8px; }
+
+/* Gift guide */
+.disclosure { background: var(--tint); border-left: 4px solid var(--brand); border-radius: 8px; padding: 12px 16px; margin: 0 0 20px; font-size: 16px; }
+.cap-note { font-size: 16px; color: var(--muted); margin-bottom: 20px; }
+.gifts { list-style: none; display: grid; gap: 16px; margin: 12px 0 8px; }
+.gift { background: var(--surface); border-radius: 16px; padding: 18px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); scroll-margin-top: 16px; }
+.gift-head { display: flex; gap: 12px; align-items: center; margin-bottom: 8px; }
+.gift-head h3 { font-size: 21px; line-height: 1.25; }
+.gift-head .muted, .gift .muted { color: var(--muted); font-size: 15px; }
+.tile { flex: none; width: 56px; height: 56px; border-radius: 12px; background: rgba(139, 92, 246, 0.15); color: #6d28d9; display: flex; align-items: center; justify-content: center; }
+.gift dl { margin: 10px 0 6px; }
+.gift dl div { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-top: 1px solid var(--line); }
+.gift dt { font-weight: 600; flex: none; }
+.gift dd { text-align: right; }
+.gift .buy { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.gift .buy .button { margin-top: 8px; }
+.tag { font-size: 14px; font-weight: 600; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; margin-top: 8px; }
+.gift-cats .card { display: flex; gap: 14px; align-items: flex-start; }
+.compare, .calc { margin-top: 32px; }
+.compare > h2, .calc > h2, .related-links > h2 { font-size: 26px; margin-bottom: 8px; }
+.compare h3 { font-size: 19px; margin: 14px 0 6px; }
+.compare ul, .related-links ul { padding-left: 22px; }
+.compare li, .related-links li { margin-bottom: 6px; }
+.table-scroll { overflow-x: auto; margin: 10px 0; }
+.table-scroll table { width: 100%; border-collapse: collapse; font-size: 16px; }
+.table-scroll th, .table-scroll td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.table-scroll thead th { color: var(--ink); white-space: nowrap; }
+.table-scroll td { white-space: nowrap; }
+.calc { background: var(--surface); border: 2px solid var(--relief); border-radius: 16px; padding: 20px; }
+.calc label { display: block; font-size: 16px; color: var(--muted); margin-bottom: 12px; }
+.calc select, .calc input { display: block; width: 100%; margin-top: 4px; font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+.calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.calc .muted { color: var(--muted); font-size: 15px; margin-top: 8px; }
+.related-links { margin-top: 32px; }
+.gift-nudge { margin-top: 20px; border: 1px dashed var(--line); border-radius: 12px; padding: 12px 16px; font-size: 17px; }
+
+/* Phones: tables in the gift guide become labelled rows, and the header nav
+   drops under the name rather than squeezing it. */
+@media (max-width: 560px) {
+  .stack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+  .stack table, .stack tbody, .stack tr, .stack th, .stack td { display: block; width: 100%; }
+  .stack tr { padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .stack th, .stack td { border: 0; padding: 2px 0; white-space: normal; }
+  .stack td { display: flex; justify-content: space-between; gap: 12px; }
+  .stack td::before { content: attr(data-label); color: var(--muted); }
+}
+.brand { white-space: nowrap; }
+.bar nav a { white-space: nowrap; }
+@media (max-width: 480px) {
+  .bar { flex-wrap: wrap; gap: 6px 16px; padding-top: 12px; padding-bottom: 12px; }
+  .bar nav a { padding: 6px 8px; }
+  .bar ul { gap: 2px; flex-wrap: wrap; }
+}
+.stack td > span { text-align: right; }
+.table-scroll td .muted { white-space: normal; }
