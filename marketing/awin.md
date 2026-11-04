@@ -70,7 +70,8 @@ readers.
 |---|---|---|---|---|
 | Wickes | 1563 | 3 Nov 2026 | "Our systems are blocking content on your site" | Static content for crawlers, About, Contact and Affiliate disclosure pages (PR #46); reapply |
 | The Range | 5238 | 3 Nov 2026 | "Dead URL, page not found" | As above; check the website address on the Awin profile; reapply |
-| Currys | 1599 | 3 Nov 2026 | Not found in email | Reapply in a few weeks |
+| Currys | 1599 | 3 Nov 2026 | Not found in email | Reapply on or after 4 Dec 2026 |
+| Cosori UK | 119831 | 4 Nov 2026 | "Site does not complement advertiser brand" | A brand-fit judgement, not a fault on the site; nothing to fix. Air fryer links stay with Tower (20823). Reapply later only with a reason, such as Cosori products on the air fryer page |
 
 ## Syncing with the Awin API (optional)
 
