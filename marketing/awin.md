@@ -13,7 +13,7 @@ below). Each advertiser approves applications themselves.
 
 | Pick on the site | Programme | Awin id | Profile |
 |---|---|---|---|
-| EcoFlow portable power station | EcoFlow UK (applied, pending) | 51797 | https://ui.awin.com/merchant-profile/51797 |
+| EcoFlow portable power station | EcoFlow UK (rejected 5 Nov 2026, see Rejections) | 51797 | https://ui.awin.com/merchant-profile/51797 |
 | Anker SOLIX portable power station | Anker UK | 36326 | https://ui.awin.com/merchant-profile/36326 |
 | Dehumidifier with a laundry mode | Meaco UK | 31711 | https://ui.awin.com/merchant-profile/31711 |
 | Heated airer with a cover | Lakeland | 1751 | https://ui.awin.com/merchant-profile/1751 |
