@@ -88,7 +88,7 @@ export const GIFT_PRODUCTS = [
     use: { minutesPerWeek: 30 * 4, label: "four 30-minute sessions a week" },
     features: "A small, manual air fryer: enough for one or two.",
     awin: { mid: 20823, retailer: "Tower", url: "https://www.towerhousewares.co.uk/air-fryers/vortx-compact-2-litre-manual-air-fryer" },
-    image: null, lastChecked: "2026-11-03", source: "https://www.towerhousewares.co.uk/air-fryers/vortx-compact-2-litre-manual-air-fryer",
+    image: null, lastChecked: "2026-11-05", source: "https://www.towerhousewares.co.uk/air-fryers/vortx-compact-2-litre-manual-air-fryer",
     published: true, todo: [],
   },
   {
@@ -98,7 +98,7 @@ export const GIFT_PRODUCTS = [
     use: { minutesPerWeek: 30 * 4, label: "four 30-minute sessions a week" },
     features: "A 4 litre basket with a viewing window.",
     awin: { mid: 20823, retailer: "Tower", url: "https://www.towerhousewares.co.uk/air-fryers/vizion-4-litre-eco-saver-air-fryer" },
-    image: null, lastChecked: "2026-11-03", source: "https://www.towerhousewares.co.uk/air-fryers/vizion-4-litre-eco-saver-air-fryer",
+    image: null, lastChecked: "2026-11-05", source: "https://www.towerhousewares.co.uk/air-fryers/vizion-4-litre-eco-saver-air-fryer",
     published: true, todo: [],
   },
   {
@@ -108,7 +108,7 @@ export const GIFT_PRODUCTS = [
     use: { minutesPerWeek: 30 * 4, label: "four 30-minute sessions a week" },
     features: "A 4.2 litre basket with digital controls.",
     awin: { mid: 20823, retailer: "Tower", url: "https://www.towerhousewares.co.uk/air-fryers/4-2-litre-vortx-digital-air-fryer" },
-    image: null, lastChecked: "2026-11-03", source: "https://www.towerhousewares.co.uk/air-fryers/4-2-litre-vortx-digital-air-fryer",
+    image: null, lastChecked: "2026-11-05", source: "https://www.towerhousewares.co.uk/air-fryers/4-2-litre-vortx-digital-air-fryer",
     published: true, todo: [],
   },
   {
@@ -118,7 +118,7 @@ export const GIFT_PRODUCTS = [
     use: { minutesPerWeek: 8 * 60 * 2, label: "two 8-hour cooks a week" },
     features: "A small slow cooker with a keep-warm setting: right for one or two.",
     awin: { mid: 20823, retailer: "Tower", url: "https://www.towerhousewares.co.uk/slow-cookers/infinity-15-litre-stainless-steel-slow-cooker" },
-    image: null, lastChecked: "2026-11-03", source: "https://www.towerhousewares.co.uk/slow-cookers/infinity-15-litre-stainless-steel-slow-cooker",
+    image: null, lastChecked: "2026-11-05", source: "https://www.towerhousewares.co.uk/slow-cookers/infinity-15-litre-stainless-steel-slow-cooker",
     published: true, todo: [],
   },
   {
@@ -128,7 +128,7 @@ export const GIFT_PRODUCTS = [
     use: { minutesPerWeek: 8 * 60 * 2, label: "two 8-hour cooks a week" },
     features: "A family-size slow cooker for batch cooking.",
     awin: { mid: 20823, retailer: "Tower", url: "https://www.towerhousewares.co.uk/slow-cookers/65-litre-stainless-steel-slow-cooker" },
-    image: null, lastChecked: "2026-11-03", source: "https://www.towerhousewares.co.uk/slow-cookers/65-litre-stainless-steel-slow-cooker",
+    image: null, lastChecked: "2026-11-05", source: "https://www.towerhousewares.co.uk/slow-cookers/65-litre-stainless-steel-slow-cooker",
     published: true, todo: [],
   },
 
