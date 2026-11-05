@@ -8,23 +8,23 @@ Every address was checked on the organisation's own website before sending.
 
 | Sent | Organisation | Address | Type | Box region | Reply | Linked? |
 |---|---|---|---|---|---|---|
-| 29 Oct 2026 | Surrey County Council | energy@surreycc.gov.uk | Council | J | | |
-| 29 Oct 2026 | Staffordshire County Council | contactus@staffordshire.gov.uk | Council | E | | |
-| 29 Oct 2026 | Devon County Council | customer@devon.gov.uk | Council | L | | |
-| 29 Oct 2026 | National Energy Action | anna.cook@nea.org.uk | Fuel poverty charity | | | |
+| 29 Oct 2026 | Surrey County Council | energy@surreycc.gov.uk | Council | J | 5 Nov: no reply, followed up in the original thread | |
+| 29 Oct 2026 | Staffordshire County Council | contactus@staffordshire.gov.uk | Council | E | 5 Nov: no reply, followed up in the original thread | |
+| 29 Oct 2026 | Devon County Council | customer@devon.gov.uk | Council | L | 5 Nov: no reply, followed up in the original thread | |
+| 29 Oct 2026 | National Energy Action | anna.cook@nea.org.uk | Fuel poverty charity | | 5 Nov: no reply, followed up in the original thread | |
 | 29 Oct 2026 | Centre for Sustainable Energy | info@cse.org.uk | Energy charity | | 30 Oct: passed to their Household Energy Services team. Jon replied 30 Oct | Not yet (2 Nov) |
-| 29 Oct 2026 | National Housing Federation | info@housing.org.uk | Housing body | | | |
-| 29 Oct 2026 | Act On Energy | partnering@actonenergy.org.uk | Energy charity | E | | |
-| 29 Oct 2026 | Severn Wye Energy Agency | marketing@severnwye.org.uk | Energy charity | | | |
-| 29 Oct 2026 | Warm Wales | information@warmwales.org.uk | Energy charity | | | |
-| 29 Oct 2026 | Energy Action Scotland | info@eas.org.uk | Fuel poverty charity | | | |
-| 29 Oct 2026 | Plymouth Energy Community | energyteam@plymouthenergycommunity.com | Energy charity | L | | |
-| 29 Oct 2026 | Warm Welcome Campaign | info@warmwelcome.uk | Community network | | | |
+| 29 Oct 2026 | National Housing Federation | info@housing.org.uk | Housing body | | 5 Nov: no reply, followed up in the original thread | |
+| 29 Oct 2026 | Act On Energy | partnering@actonenergy.org.uk | Energy charity | E | 5 Nov: no reply, followed up in the original thread | |
+| 29 Oct 2026 | Severn Wye Energy Agency | marketing@severnwye.org.uk | Energy charity | | 5 Nov: no reply, followed up in the original thread | |
+| 29 Oct 2026 | Warm Wales | information@warmwales.org.uk | Energy charity | | 5 Nov: no reply, followed up in the original thread | |
+| 29 Oct 2026 | Energy Action Scotland | info@eas.org.uk | Fuel poverty charity | | 5 Nov: no reply, followed up in the original thread | |
+| 29 Oct 2026 | Plymouth Energy Community | energyteam@plymouthenergycommunity.com | Energy charity | L | 5 Nov: no reply, followed up in the original thread | |
+| 29 Oct 2026 | Warm Welcome Campaign | info@warmwelcome.uk | Community network | | 5 Nov: no reply, followed up in the original thread | |
 | 29 Oct 2026 | Independent Food Aid Network | admin@foodaidnetwork.org.uk | Community network | | 31 Oct: Sabine Goodwin will share it with members. Jon replied 31 Oct | Not yet (2 Nov) |
-| 29 Oct 2026 | Trussell | enquiries@trussell.org.uk | Food bank network | | | |
-| 29 Oct 2026 | Christians Against Poverty | info@capuk.org | Debt advice | | | |
-| 29 Oct 2026 | Incommunities (Bradford) | enquiry@incommunities.co.uk | Housing association | M | 29 Oct: auto-reply, answer within 3 working days | Not yet (2 Nov) |
-| 29 Oct 2026 | Livin (County Durham) | contactus@livin.co.uk | Housing association | F | | |
+| 29 Oct 2026 | Trussell | enquiries@trussell.org.uk | Food bank network | | 5 Nov: no reply, followed up in the original thread | |
+| 29 Oct 2026 | Christians Against Poverty | info@capuk.org | Debt advice | | 5 Nov: no reply, followed up in the original thread | |
+| 29 Oct 2026 | Incommunities (Bradford) | enquiry@incommunities.co.uk | Housing association | M | 29 Oct: auto-reply, answer within 3 working days. 5 Nov: no reply, followed up in the original thread | Not yet (2 Nov) |
+| 29 Oct 2026 | Livin (County Durham) | contactus@livin.co.uk | Housing association | F | 5 Nov: no reply, followed up in the original thread | |
 | 29 Oct 2026 | Citizens Advice Cheshire West | energy-advice@citizensadvicecw.org.uk | Citizens Advice | | | |
 | 29 Oct 2026 | Citizens Advice Northumberland | energy@citizensadvicenorthumberland.org.uk | Citizens Advice | F | | |
 | 29 Oct 2026 | Citizens Advice East Dorset and Purbeck | energy@edpcitizensadvice.org.uk | Citizens Advice | H | | |
@@ -44,6 +44,16 @@ printable flyer at /cheap-watts-flyer.pdf.
 - 2 Nov 2026: 3 replies (above), no bounces. None of the 27 pages links to
   cheapwatts.co.uk yet. Umami referrers not checked (no dashboard access from
   the check).
+
+- 5 Nov 2026: no new replies or bounces since 2 Nov. One follow-up sent to each
+  of the 15 organisations from the first two batches with no real reply
+  (Incommunities had only sent an auto-reply), as a reply in the original
+  thread, with the "no banner adverts or pop-ups" and affiliate-link wording.
+  Centre for Sustainable Energy and Independent Food Aid Network had replied,
+  so they got none. The ten in batch 3 (also emailed 29 Oct) are not followed
+  up yet. No replies from batch 3 either. None of the 27 homepages mentions
+  cheapwatts.co.uk (homepages only: the energy pages themselves need checking by
+  hand or with a fuller crawl).
 
 ## Possible next batch
 
