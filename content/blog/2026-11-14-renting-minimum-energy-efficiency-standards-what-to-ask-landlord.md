@@ -15,7 +15,7 @@ I'm not a lawyer, so this is what the government guidance says, with the source 
 
 The government's [landlord guidance on the minimum energy efficiency standard](https://www.gov.uk/guidance/domestic-private-rented-property-minimum-energy-efficiency-standard-landlord-guidance) (checked on 5 November 2026) says that since 1 April 2020, landlords can't let or continue to let covered properties rated below E unless they hold a valid exemption. It applies to most private tenancies that legally need an EPC.
 
-So for a tenant, the headline is simple: E, D, C, B or A is allowed. F or G is not, unless there is an exemption on the register.
+So for a covered tenancy, E, D, C, B or A is allowed. F or G is not, unless there is an exemption on the register. The rules only cover homes let on an assured, regulated or domestic agricultural tenancy that legally needs an EPC. The guidance says a property outside that may be let at F or G, so if you are a lodger or your tenancy is unusual, check with Citizens Advice or your council.
 
 ## Check your EPC first
 
@@ -38,7 +38,7 @@ Exemptions do exist. According to the same guidance they include:
 | Property devaluation | A RICS-registered surveyor says the work would cut the value by more than 5% |
 | Recently became a landlord | Lasts six months from the date they took over |
 
-Most last five years. The cost cap means landlords aren't currently required to spend more than £3,500 including VAT on improvements. You can search the public Exemptions Register to see whether a property is listed and whether penalties have been issued, via the guidance page above.
+Most last five years. The cost cap means landlords aren't currently required to spend more than £3,500 including VAT on improvements. The guidance says the cap does not apply if third-party funding covers the whole cost of reaching band E, in which case the landlord should use that funding. So it is fair to ask whether a grant could pay for the work. You can search the public Exemptions Register to see whether a property is listed and whether penalties have been issued, via the guidance page above.
 
 If a landlord says they have an exemption, it is reasonable to ask which one.
 
