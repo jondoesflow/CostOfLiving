@@ -13,7 +13,7 @@ below). Each advertiser approves applications themselves.
 
 | Pick on the site | Programme | Awin id | Profile |
 |---|---|---|---|
-| EcoFlow portable power station | EcoFlow UK (applied, pending) | 51797 | https://ui.awin.com/merchant-profile/51797 |
+| EcoFlow portable power station | EcoFlow UK (rejected 5 Nov 2026, see Rejections) | 51797 | https://ui.awin.com/merchant-profile/51797 |
 | Anker SOLIX portable power station | Anker UK | 36326 | https://ui.awin.com/merchant-profile/36326 |
 | Dehumidifier with a laundry mode | Meaco UK | 31711 | https://ui.awin.com/merchant-profile/31711 |
 | Heated airer with a cover | Lakeland | 1751 | https://ui.awin.com/merchant-profile/1751 |
@@ -70,7 +70,9 @@ readers.
 |---|---|---|---|---|
 | Wickes | 1563 | 3 Nov 2026 | "Our systems are blocking content on your site" | Static content for crawlers, About, Contact and Affiliate disclosure pages (PR #46); reapply |
 | The Range | 5238 | 3 Nov 2026 | "Dead URL, page not found" | As above; check the website address on the Awin profile; reapply |
-| Currys | 1599 | 3 Nov 2026 | Not found in email | Reapply in a few weeks |
+| Currys | 1599 | 3 Nov 2026 | Not found in email | Reapply on or after 4 Dec 2026 |
+| Cosori UK | 119831 | 4 Nov 2026 | "Site does not complement advertiser brand" | A brand-fit judgement, not a fault on the site; nothing to fix. Air fryer links stay with Tower (20823). Reapply later only with a reason, such as Cosori products on the air fryer page |
+| EcoFlow UK | 51797 | 5 Nov 2026 | "The monthly pageviews are insufficient to meet our needs" | Traffic, not a fault on the site; nothing to fix. The EcoFlow pick on the solar tool keeps its Amazon fallback. Reapply once monthly page views have grown |
 
 ## Syncing with the Awin API (optional)
 
