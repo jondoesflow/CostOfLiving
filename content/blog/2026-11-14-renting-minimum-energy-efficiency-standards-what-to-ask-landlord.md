@@ -33,10 +33,10 @@ Exemptions do exist. According to the same guidance they include:
 | --- | --- |
 | All relevant improvements made | The home still falls short after every suitable measure has been done |
 | High cost | The cheapest recommended measure costs more than the £3,500 cap (including VAT), backed by three quotes |
-| Wall insulation | A relevant expert says the work would damage the building |
+| Wall insulation | Wall insulation is the only relevant improvement left, and written expert advice says it would harm the building |
 | Third-party consent | Consent was refused or came with conditions that can't reasonably be met |
 | Property devaluation | A RICS-registered surveyor says the work would cut the value by more than 5% |
-| Recently became a landlord | Lasts six months from the date they took over |
+| Recently became a landlord | Only in certain circumstances set out in the full guidance. Lasts six months from the date they became the landlord |
 
 Most last five years. The cost cap means landlords aren't currently required to spend more than £3,500 including VAT on improvements. The guidance says the cap does not apply if third-party funding covers the whole cost of reaching band E, in which case the landlord should use that funding. So it is fair to ask whether a grant could pay for the work. You can search the public Exemptions Register to see whether a property is listed and whether penalties have been issued, via the guidance page above.
 
