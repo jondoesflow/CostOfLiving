@@ -31,6 +31,7 @@ readers.
 | Programme | Awin id | Approved | Terms | Where it appears |
 |---|---|---|---|---|
 | Simply LED | 5190 | 3 Nov 2026 | [5190-simply-led.md](awin-terms/5190-simply-led.md) | `/cost-to-run/lights/`, the LED bulbs pick (`led-bulbs`), the LED blog post |
+| Tower Housewares | 20823 | 5 Nov 2026 | Terms PDF still to read (approval email: up to 6% commission, 30-day cookie) | Air fryer and slow cooker gift page (5 products), the `airfryer` and `slowcooker` picks on the oven, air fryer and slow cooker running-cost pages and blog posts |
 
 ## When an advertiser approves Cheap Watts (do this every time)
 
@@ -72,6 +73,8 @@ readers.
 | The Range | 5238 | 3 Nov 2026 | "Dead URL, page not found" | As above; check the website address on the Awin profile; reapply |
 | Currys | 1599 | 3 Nov 2026 | Not found in email | Reapply on or after 4 Dec 2026 |
 | Cosori UK | 119831 | 4 Nov 2026 | "Site does not complement advertiser brand" | A brand-fit judgement, not a fault on the site; nothing to fix. Air fryer links stay with Tower (20823). Reapply later only with a reason, such as Cosori products on the air fryer page |
+| SharkNinja UK | 8059 | 5 Nov 2026 | "Site does not complement advertiser brand" | Brand fit, nothing to fix on the site |
+| AO.com | 19526 | 5 Nov 2026 | Not recorded: the email was no longer in the mailbox when checked | Reapply later |
 | EcoFlow UK | 51797 | 5 Nov 2026 | "The monthly pageviews are insufficient to meet our needs" | Traffic, not a fault on the site; nothing to fix. The EcoFlow pick on the solar tool keeps its Amazon fallback. Reapply once monthly page views have grown |
 
 ## Syncing with the Awin API (optional)
