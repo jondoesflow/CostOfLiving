@@ -76,7 +76,8 @@ Electrical Safety First's key points for portable heaters:
 - Use a UK 3-pin plug, and avoid buying second-hand.
 - Buy from a reputable retailer, not a third-party online seller.
 - Keep it at least one metre from combustible things like furniture and curtains, on a level surface where it cannot be knocked over.
-- Never dry clothes on it, and do not use one overnight.
+- Plug it straight into a wall socket: avoid extension leads, which can easily be overloaded.
+- Never dry clothes on it, and do not use one overnight or leave it unattended while in use.
 - Keep smoke alarms or heat detectors nearby.
 
 Their [portable heaters guidance](https://www.electricalsafetyfirst.org.uk/safety-advice/products-and-appliances/heating-cooling/portable-heaters/) has the full list.
