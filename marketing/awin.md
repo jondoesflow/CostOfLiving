@@ -33,6 +33,7 @@ readers.
 | Simply LED | 5190 | 3 Nov 2026 | [5190-simply-led.md](awin-terms/5190-simply-led.md) | `/cost-to-run/lights/`, the LED bulbs pick (`led-bulbs`), the LED blog post |
 | Tower Housewares | 20823 | 5 Nov 2026 | Terms PDF still to read (approval email: up to 6% commission, 30-day cookie) | Air fryer and slow cooker gift page (5 products), the `airfryer` and `slowcooker` picks on the oven, air fryer and slow cooker running-cost pages and blog posts |
 | Swan Products | 16860 | 6 Nov 2026 | Terms PDF still to read (approval email: 10% commission on all products) | Three Swan products on the air fryer and slow cooker gift page (Nordic Duo air fryer, 1.5 and 6.5 litre slow cookers) |
+| Meaco | 31711 | 6 Nov 2026 | Terms PDF still to read | The `dehumidifier` pick (Meaco's dehumidifiers page): heated airer and dehumidifier running-cost pages, the heated airer v tumble dryer post, and the tool's results for those appliances |
 
 ## When an advertiser approves Cheap Watts (do this every time)
 
