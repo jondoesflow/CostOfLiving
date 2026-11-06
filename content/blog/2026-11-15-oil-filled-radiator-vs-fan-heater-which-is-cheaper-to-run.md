@@ -30,7 +30,7 @@ An electric heater turns its electricity into heat. A 2kW heater uses 2 kWh in a
 - 2 kWh x 26.6p = **about 53p an hour at full power**
 - Three hours of that is about £1.60
 
-The wattage is printed on the heater. A 1kW model costs half as much per hour and puts out half the heat, so it does not save you anything per unit of warmth. That is the trap with "low energy" heaters: a lower number on the label means less heat, not cheaper heat.
+The wattage is printed on the heater, often in watts: divide by 1,000 to get kilowatts, so 2,000W is 2kW. A 1kW model costs half as much per hour and puts out half the heat, so it does not save you anything per unit of warmth. That is the trap with "low energy" heaters: a lower number on the label means less heat, not cheaper heat.
 
 ## Where an oil-filled radiator and a fan heater do differ
 
@@ -83,4 +83,4 @@ Their [portable heaters guidance](https://www.electricalsafetyfirst.org.uk/safet
 
 ## What to do next
 
-Look at the wattage on your heater and multiply it by 26.6p (or your own rate) to get the cost of an hour at full power. If it is over 50p, ask whether a blanket, a door brush or a closed curtain would do the job instead. A smart plug with energy monitoring will show you what yours really uses over a week.
+Look at the wattage on your heater, divide it by 1,000 to get kilowatts (2,000W is 2kW), then multiply by 26.6p (or your own rate) to get the cost of an hour at full power. If it is over 50p, ask whether a blanket, a door brush or a closed curtain would do the job instead. A smart plug with energy monitoring will show you what yours really uses over a week.
