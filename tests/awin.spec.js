@@ -1,6 +1,8 @@
 import { test, expect } from "@playwright/test";
 import { productLink, awinUrl, ALL_PRODUCTS, AWIN_PUBLISHER_ID } from "../src/products.js";
 import { AWIN_JOINED } from "../src/awinJoined.js";
+import { GIFT_PRODUCTS } from "../src/giftProducts.js";
+import { LED_BULBS } from "../src/lightingProducts.js";
 
 const byId = (id) => ALL_PRODUCTS.find((p) => p.id === id);
 
@@ -19,7 +21,8 @@ test("a pick stays on Amazon until its Awin programme has approved us", () => {
 
 test("Awin landing pages are https retailer pages, and the joined list only names programmes we use", () => {
   const mids = new Set();
-  for (const p of ALL_PRODUCTS.filter((x) => x.awin)) {
+  // Every place a product can link through Awin: picks, the gift guide and the lighting page.
+  for (const p of [...ALL_PRODUCTS, ...GIFT_PRODUCTS, ...LED_BULBS].filter((x) => x.awin)) {
     expect(p.awin.url).toMatch(/^https:\/\//);
     expect(Number.isInteger(p.awin.mid)).toBe(true);
     expect(p.awin.retailer).toBeTruthy();

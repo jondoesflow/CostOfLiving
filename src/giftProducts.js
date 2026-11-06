@@ -132,6 +132,38 @@ export const GIFT_PRODUCTS = [
     published: true, todo: [],
   },
 
+  // ---- Air fryers and slow cookers (Swan, Awin 16860) ----
+  {
+    id: "swan-nordic-duo-air-fryer", category: "air-fryers-slow-cookers",
+    name: "Swan Nordic Duo 13-in-1 Dual Basket Air Fryer", brand: "Swan",
+    watts: 1700, wattsNote: "1500 to 1700W", pricePence: 7999,
+    use: { minutesPerWeek: 30 * 4, label: "four 30-minute sessions a week" },
+    features: "Two baskets, each for up to 2kg of food, with 13 cooking functions.",
+    awin: { mid: 16860, retailer: "Swan", url: "https://shop.swan-brand.co.uk/air-fryers/swan-nordic-duo-13-in-1-air-fryer" },
+    image: null, lastChecked: "2026-11-06", source: "https://shop.swan-brand.co.uk/air-fryers/swan-nordic-duo-13-in-1-air-fryer",
+    published: true, todo: [],
+  },
+  {
+    id: "swan-1-5l-slow-cooker", category: "air-fryers-slow-cookers",
+    name: "Swan 1.5 Litre Stainless Steel Slow Cooker", brand: "Swan",
+    watts: 120, wattsNote: "120W", pricePence: 1999,
+    use: { minutesPerWeek: 8 * 60 * 2, label: "two 8-hour cooks a week" },
+    features: "A small slow cooker with a ceramic pot, 3 temperature settings and a glass lid.",
+    awin: { mid: 16860, retailer: "Swan", url: "https://shop.swan-brand.co.uk/slow-cookers/15-litre-slow-cooker" },
+    image: null, lastChecked: "2026-11-06", source: "https://shop.swan-brand.co.uk/slow-cookers/15-litre-slow-cooker",
+    published: true, todo: [],
+  },
+  {
+    id: "swan-6-5l-slow-cooker", category: "air-fryers-slow-cookers",
+    name: "Swan 6.5 Litre Stainless Steel Slow Cooker", brand: "Swan",
+    watts: 320, wattsNote: "320W", pricePence: 3499,
+    use: { minutesPerWeek: 8 * 60 * 2, label: "two 8-hour cooks a week" },
+    features: "A large slow cooker with low and high settings and a keep-warm function.",
+    awin: { mid: 16860, retailer: "Swan", url: "https://shop.swan-brand.co.uk/slow-cookers/65l-slow-cooker" },
+    image: null, lastChecked: "2026-11-06", source: "https://shop.swan-brand.co.uk/slow-cookers/65l-slow-cooker",
+    published: true, todo: [],
+  },
+
   // ---- Smart plugs and thermostats ----
   {
     id: "tp-link-tapo-p110", category: "smart-plugs-thermostats",
