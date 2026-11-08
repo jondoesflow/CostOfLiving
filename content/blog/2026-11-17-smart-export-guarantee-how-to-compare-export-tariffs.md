@@ -24,6 +24,16 @@ The part people miss is on Ofgem's [page for generators](https://www.ofgem.gov.u
 
 Ofgem also says generators should shop around, and licensees must offer a tariff to all eligible generators. Nobody is forced to take whatever their supplier offers.
 
+## What you need before you can apply
+
+Ofgem's [guidance for generators](https://www.ofgem.gov.uk/sites/default/files/docs/2020/02/seg_generator_guidance_-_final_for_publication.pdf) says an application must show three things:
+
+- **Certification.** Your installation and installer must be suitably certified. An MCS certificate is one way, and Ofgem says other equivalent schemes can count. If you have no certificate, speak to the licensee.
+- **An export meter.** It must be able to take half-hourly readings. Your existing meter may already do this, so ask the licensee.
+- **An export MPAN.** This is different from the import MPAN on your bill, and your licensee can give you one.
+
+You also cannot be receiving export payments under the old Feed-in Tariff and claim the SEG at the same time.
+
 ## What some tariffs pay
 
 These are rates from the suppliers' public APIs, checked on 8 November 2026, except E.ON Next Export Premium v3, which comes from [E.ON Next's SEG page](https://www.eonnext.com/electricity-and-gas/smart-export-guarantee) read the same day. They are flat rates, the same in every region.
