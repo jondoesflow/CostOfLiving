@@ -32,7 +32,7 @@ Ofgem's [guidance for generators](https://www.ofgem.gov.uk/sites/default/files/d
 - **An export meter.** It must be able to take half-hourly readings. Your existing meter may already do this, so ask the licensee.
 - **An export MPAN.** This is different from the import MPAN on your bill, and your licensee can give you one.
 
-You also cannot be receiving export payments under the old Feed-in Tariff and claim the SEG at the same time.
+An installation also cannot claim the SEG while it receives export payments under the old Feed-in Tariff. Ofgem says an installation that gets Feed-in Tariff generation payments only, having opted out of FIT export payments, can still receive a SEG tariff.
 
 ## What some tariffs pay
 
@@ -42,7 +42,7 @@ These are rates from the suppliers' public APIs, checked on 8 November 2026, exc
 |---|---|---|
 | Octopus Outgoing Smart Export Guarantee | 4.1p per kWh | Fixed for 12 months, £100 exit fee |
 | E.ON Next Flex Export v1 | 6.0p per kWh | Variable |
-| Outgoing Octopus | 12.0p per kWh | Flat rate |
+| Outgoing Octopus | 12.0p per kWh | Variable tariff, flat unit rate |
 | E.ON Next Export Exclusive v3 | 13.0p per kWh | Fixed for 12 months |
 | E.ON Next Export Premium v3 | 17.5p per kWh | Fixed for 12 months, one tariff per property |
 
