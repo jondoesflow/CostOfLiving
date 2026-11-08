@@ -163,7 +163,7 @@ const BY_APPLIANCE = {
   shower: [PRODUCTS.showerTimer],
   heater: [PRODUCTS.blanket, PRODUCTS.monitorPlug],
   blanket: [PRODUCTS.monitorPlug],
-  dehumidifier: [PRODUCTS.monitorPlug],
+  dehumidifier: [PRODUCTS.dehumidifier, PRODUCTS.monitorPlug],
   ebike: [PRODUCTS.monitorPlug],
   mobility: [PRODUCTS.monitorPlug],
   ev: [],
