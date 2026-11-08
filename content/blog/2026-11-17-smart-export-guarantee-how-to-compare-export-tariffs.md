@@ -28,7 +28,7 @@ Ofgem also says generators should shop around, and licensees must offer a tariff
 
 Ofgem's [guidance for generators](https://www.ofgem.gov.uk/sites/default/files/docs/2020/02/seg_generator_guidance_-_final_for_publication.pdf) says an application must show three things:
 
-- **Certification.** Your installation and installer must be suitably certified. An MCS certificate is one way, and Ofgem says other equivalent schemes can count. If you have no certificate, speak to the licensee.
+- **Certification.** Your installation must be suitably certified. For solar PV, wind and micro-CHP of 50kW or less, your installer must be certified too. An MCS certificate is one way to show this, and Ofgem says other equivalent schemes can count. If you have no certificate, speak to the licensee.
 - **An export meter.** It must be able to take half-hourly readings. Your existing meter may already do this, so ask the licensee.
 - **An export MPAN.** This is different from the import MPAN on your bill, and your licensee can give you one.
 
