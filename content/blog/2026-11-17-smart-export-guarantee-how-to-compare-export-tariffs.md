@@ -1,15 +1,15 @@
 ---
 title: Smart Export Guarantee: how export tariffs work and how to compare them
-description: Export rates on public tariffs run from 4.1p to 21p per kWh. On 1,500 kWh a year that is £61.50 against £315. Here is how to compare SEG tariffs properly.
+description: Export rates on public tariffs run from 4.1p to 17.5p per kWh. On 1,500 kWh a year that is £61.50 against £262.50. Here is how to compare SEG tariffs properly.
 date: 2026-11-17
 keywords: smart export guarantee, seg tariff comparison, best export tariff uk, how much do you get paid for solar export, solar panel export rate
 tool: solar
 draft: false
 ---
 
-The Smart Export Guarantee (SEG) is the scheme that pays you for the spare electricity your solar panels send back to the grid. You can choose the company that pays you, and the rates vary a lot. On the public tariffs I checked on 8 November 2026, the rate for each unit exported runs from 4.1p to 21p per kWh.
+The Smart Export Guarantee (SEG) is the scheme that pays you for the spare electricity your solar panels send back to the grid. You can choose the company that pays you, and the rates vary a lot. On the public tariffs I checked on 8 November 2026, the rate for each unit exported runs from 4.1p to 17.5p per kWh.
 
-On 1,500 kWh exported in a year, that is £61.50 at the bottom and £315 at the top. Same panels, same sunshine, a £253.50 gap, just from the tariff you pick.
+On 1,500 kWh exported in a year, that is £61.50 at the bottom and £262.50 at the top. Same panels, same sunshine, a £201 gap, just from the tariff you pick.
 
 ## How the SEG works
 
@@ -26,7 +26,7 @@ Ofgem also says generators should shop around, and licensees must offer a tariff
 
 ## What some tariffs pay
 
-These are rates from the suppliers' public APIs, checked on 8 November 2026. They are flat rates, the same in every region.
+These are rates from the suppliers' public APIs, checked on 8 November 2026, except E.ON Next Export Premium v3, which comes from [E.ON Next's SEG page](https://www.eonnext.com/electricity-and-gas/smart-export-guarantee) read the same day. They are flat rates, the same in every region.
 
 | Tariff | Export rate | Type |
 |---|---|---|
@@ -34,9 +34,11 @@ These are rates from the suppliers' public APIs, checked on 8 November 2026. The
 | E.ON Next Flex Export v1 | 6.0p per kWh | Variable |
 | Outgoing Octopus | 12.0p per kWh | Flat rate |
 | E.ON Next Export Exclusive v3 | 13.0p per kWh | Fixed for 12 months |
-| E.ON Next Export Premium v2 | 21.0p per kWh | Fixed for 24 months |
+| E.ON Next Export Premium v3 | 17.5p per kWh | Fixed for 12 months, one tariff per property |
 
-This is not a full market list. Many suppliers offer SEG tariffs and I have only looked at the ones on these APIs. The E.ON Next tariffs are described as "exclusive" and the API does not say what the conditions are, and the Outgoing Octopus page does not either. Read the supplier's own terms before assuming you qualify. A high headline rate can come with strings, such as needing to be a customer for import too, or to have a certain battery or smart tariff.
+This is not a full market list. Many suppliers offer SEG tariffs and I have only looked at the ones on these APIs.
+
+E.ON Next says its tariffs need a smart export meter and consent to half-hourly data collection. Export Premium v3 is also limited to people with a solar or battery system installed by E.ON Installation Services from 10 November 2025. E.ON's page says it replaced Premium v2 on that date, so I have left the old 21p rate out. The APIs do not spell out conditions for the other tariffs, so read the supplier's own terms before assuming you qualify. A high headline rate can come with strings, such as needing to be a customer for import too, or to have a certain battery or smart tariff.
 
 ## What the gap is worth
 
@@ -48,7 +50,7 @@ I have assumed you export 1,500 kWh a year. That is my round number, not a measu
 | 6.0p | £90.00 |
 | 12.0p | £180.00 |
 | 13.0p | £195.00 |
-| 21.0p | £315.00 |
+| 17.5p | £262.50 |
 
 Prices change and these sums assume the rate stays put for the year, which only fixed tariffs promise.
 
@@ -64,7 +66,7 @@ The highest number is not always the best deal. Check these:
 
 ## Using your own power is still worth more
 
-Even the best export rate here is below what you pay to buy electricity. The Ofgem price cap for 1 October to 31 December 2026 is 26.32p per kWh for the Great Britain average on Direct Debit ([Ofgem](https://www.ofgem.gov.uk/news/changes-energy-price-cap-between-1-october-and-31-december-2026)). Every unit you use yourself saves about 26p. Every unit you export earns somewhere between 4p and 21p on these tariffs.
+Even the best export rate here is below what you pay to buy electricity. The Ofgem price cap for 1 October to 31 December 2026 is 26.32p per kWh for the Great Britain average on Direct Debit ([Ofgem](https://www.ofgem.gov.uk/news/changes-energy-price-cap-between-1-october-and-31-december-2026)). Every unit you use yourself saves about 26p. Every unit you export earns somewhere between 4p and 17.5p on these tariffs.
 
 So the order of play is: use as much of your solar as you sensibly can, then pick a good export tariff for the rest.
 
