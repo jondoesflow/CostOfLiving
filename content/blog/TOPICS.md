@@ -56,7 +56,7 @@ on the day stays out. Confirmed measures that touch these topics:
 - [x] Lagging pipes and hot water cylinders: a cheap DIY job, explained (DIY; tool: gas) (2026-11-02)
 - [x] Economy 7: how to find your off-peak hours and make them pay (tariffs; tool: when) (2026-11-03)
 - [x] Is it worth switching to LED bulbs? What each swap saves at the price cap (lighting; tool: when) (2026-11-03)
-- [ ] Heat pumps explained: running costs, efficiency (COP) and the Boiler Upgrade Scheme (big upgrades; tool: gas)
+- [x] Heat pumps explained: running costs, efficiency (COP) and the Boiler Upgrade Scheme (big upgrades; tool: gas) (2026-11-04)
 - [x] Renting? Minimum energy efficiency standards and what you can ask your landlord (rights; tool: gas) (2026-11-05)
 - [ ] Hot water: shower heads, combi boilers and immersion timers that save money (habits; tool: when)
 - [ ] Smart Export Guarantee: how export tariffs work and how to compare them (big upgrades; tool: solar)
