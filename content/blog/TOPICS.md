@@ -59,7 +59,7 @@ on the day stays out. Confirmed measures that touch these topics:
 - [ ] Heat pumps explained: running costs, efficiency (COP) and the Boiler Upgrade Scheme (big upgrades; tool: gas)
 - [ ] Renting? Minimum energy efficiency standards and what you can ask your landlord (rights; tool: gas)
 - [ ] Hot water: shower heads, combi boilers and immersion timers that save money (habits; tool: when)
-- [ ] Smart Export Guarantee: how export tariffs work and how to compare them (big upgrades; tool: solar)
+- [x] Smart Export Guarantee: how export tariffs work and how to compare them (big upgrades; tool: solar) (2026-11-08)
 - [ ] How much does an electric shower cost per shower? (habits; tool: when)
 - [ ] Loft hatches, floorboards and letterboxes: plugging the heat leaks you can't see (DIY; tool: gas)
 - [ ] Is a time-of-use tariff worth it if you don't have an electric car? (tariffs; tool: switch)
