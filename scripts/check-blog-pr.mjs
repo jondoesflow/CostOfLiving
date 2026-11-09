@@ -18,9 +18,16 @@ const today = new Date().toLocaleDateString("en-CA", { timeZone: "Europe/London"
 const posts = changed.filter((f) => /^content\/blog\/\d{4}-.*\.md$/.test(f) && existsSync(f));
 if (changed.some((f) => /^content\/blog\/\d{4}-.*\.md$/.test(f) && !existsSync(f))) problems.push("a post is deleted: that needs Jon's approval");
 
+// The slug the site builds a post at: front matter `slug` if set, otherwise
+// the file name without its date (as in build-site.mjs).
+const slugOf = (file, text) => {
+  const fm = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  const own = fm && fm[1].match(/^slug:\s*["']?([^"'\r\n]+)["']?\s*$/m);
+  return own ? own[1].trim() : file.replace(/^.*\//, "").replace(/^\d{4}-\d{2}-\d{2}-/, "").replace(/\.md$/, "");
+};
 const existingSlugs = new Map();
 for (const f of readdirSync("content/blog").filter((x) => /^\d{4}-\d{2}-\d{2}-.+\.md$/.test(x))) {
-  const slug = f.replace(/^\d{4}-\d{2}-\d{2}-/, "").replace(/\.md$/, "");
+  const slug = slugOf(f, readFileSync(`content/blog/${f}`, "utf8"));
   existingSlugs.set(slug, [...(existingSlugs.get(slug) ?? []), f]);
 }
 
@@ -39,7 +46,7 @@ for (const f of posts) {
   const words = m[2].split(/\s+/).filter(Boolean).length;
   if (words < 600 || words > 2000) problems.push(`${f}: ${words} words (house rule is 800 to 1,500)`);
   if (meta.description && (meta.description.length < 100 || meta.description.length > 180)) problems.push(`${f}: description is ${meta.description.length} characters (aim for 140 to 160)`);
-  const slug = f.replace(/^content\/blog\/\d{4}-\d{2}-\d{2}-/, "").replace(/\.md$/, "");
+  const slug = slugOf(f, text);
   if ((existingSlugs.get(slug) ?? []).length > 1) problems.push(`${f}: slug "${slug}" is already used`);
 }
 

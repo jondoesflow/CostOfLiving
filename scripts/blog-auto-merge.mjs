@@ -8,6 +8,8 @@
 //   - it was opened at least 2 hours ago and its last commit is at least
 //     1 hour old, so Codex has reviewed it and the session has answered
 //   - every check on its latest commit passed, including "blog-checks"
+//   - Codex's review has completed on that latest commit (its summary comment
+//     says so), so a post never merges unreviewed
 //   - no review thread is waiting on an answer: an unresolved thread whose
 //     last comment is from a bot (an unanswered Codex finding) blocks it
 //   - GitHub says it merges cleanly
@@ -33,6 +35,21 @@ export function fileProblems(files) {
     .map((f) => `${f.filename} (${f.status})`);
 }
 
+// Codex keeps one summary comment per PR with a JSON state for its latest
+// review; GitHub sometimes stores its braces as HTML entities.
+export function codexReviewedAt(comments) {
+  for (const c of [...comments].reverse()) {
+    const body = (c.body ?? "").replace(/&#123;/g, "{").replace(/&#125;/g, "}");
+    const m = body.match(/codex-review-state:v1 (\{.*?\}) -->/s);
+    if (!m) continue;
+    try {
+      const state = JSON.parse(m[1]).code_review;
+      return state?.status === "completed" ? state.commit_sha : null;
+    } catch { return null; }
+  }
+  return null;
+}
+
 // Why a pull request can't merge yet; an empty list means it can.
 export function reasonsToWait(pr, now = Date.now(), files = null) {
   const why = [];
@@ -51,6 +68,7 @@ export function reasonsToWait(pr, now = Date.now(), files = null) {
   if (rollup?.state !== "SUCCESS") why.push(`checks are ${rollup?.state ?? "missing"}`);
   const checks = rollup?.contexts.nodes ?? [];
   if (!checks.some((c) => c.name === REQUIRED_CHECK && c.conclusion === "SUCCESS")) why.push(`"${REQUIRED_CHECK}" hasn't passed`);
+  if (codexReviewedAt(pr.comments?.nodes ?? []) !== commit?.oid) why.push("Codex hasn't finished reviewing the latest commit");
   const waiting = pr.reviewThreads.nodes.filter((t) => !t.isResolved && t.comments.nodes[0]?.author?.__typename === "Bot");
   if (waiting.length) why.push(`${waiting.length} review comment(s) not answered`);
   if (pr.mergeable !== "MERGEABLE") why.push(`mergeable state is ${pr.mergeable}`);
@@ -85,6 +103,7 @@ const query = `query($owner: String!, $repo: String!) {
             ... on StatusContext { context state }
           } } }
         } } }
+        comments(last: 50) { nodes { body } }
         reviewThreads(first: 100) { nodes { isResolved comments(last: 1) { nodes { author { __typename login } } } } }
       }
     }

@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { reasonsToWait, fileProblems } from "../../scripts/blog-auto-merge.mjs";
+import { reasonsToWait, fileProblems, codexReviewedAt } from "../../scripts/blog-auto-merge.mjs";
 
 const now = Date.parse("2026-11-10T12:00:00Z");
 const postFiles = [{ filename: "content/blog/2026-11-19-test.md", status: "added" }, { filename: "content/blog/TOPICS.md", status: "modified" }];
@@ -9,6 +9,7 @@ const ready = () => ({
   createdAt: "2026-11-10T09:00:00Z", mergeable: "MERGEABLE", labels: { nodes: [] },
   commits: { nodes: [{ commit: { oid: "abc", committedDate: "2026-11-10T10:00:00Z", statusCheckRollup: { state: "SUCCESS", contexts: { nodes: [{ __typename: "CheckRun", name: "blog-checks", conclusion: "SUCCESS" }] } } } }] },
   reviewThreads: { nodes: [] },
+  comments: { nodes: [{ body: '<!-- codex-review-state:v1 &#123;"code_review":&#123;"commit_sha":"abc","has_any_findings":false,"status":"completed"&#125;&#125; -->' }] },
 });
 
 test("a green, reviewed blog PR that has waited long enough can merge", () => {
@@ -64,4 +65,14 @@ test("deleting or renaming away a post needs Jon, and the file list must have be
   assert.equal(fileProblems([{ filename: "content/blog/2026-11-02-y.md", status: "renamed", previous_filename: "content/blog/2026-11-02-x.md" }]).length, 1);
   assert.match(reasonsToWait(ready(), now).join(), /not checked/);
   assert.match(reasonsToWait(ready(), now, []).join(), /0 files/);
+});
+
+test("it waits until Codex has finished reviewing the latest commit", () => {
+  const none = ready(); none.comments.nodes = [];
+  assert.match(reasonsToWait(none, now, postFiles).join(), /Codex/);
+  const older = ready(); older.comments.nodes = [{ body: '<!-- codex-review-state:v1 {"code_review":{"commit_sha":"old","status":"completed"}} -->' }];
+  assert.match(reasonsToWait(older, now, postFiles).join(), /Codex/);
+  const running = ready(); running.comments.nodes = [{ body: '<!-- codex-review-state:v1 {"code_review":{"commit_sha":"abc","status":"running"}} -->' }];
+  assert.match(reasonsToWait(running, now, postFiles).join(), /Codex/);
+  assert.equal(codexReviewedAt([{ body: "no marker" }]), null);
 });
