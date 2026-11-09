@@ -40,7 +40,7 @@ The 9.5kW row matches the typical electric shower figure Cheap Watts uses: 1.27 
 
 Two things to know about these figures:
 
-- **The rating is the maximum.** Many showers draw less on a cooler setting, so your real cost may be a little lower. The label is the safe number to plan with.
+- **The rating is the maximum.** If your shower has a separate lower power or eco setting, it will draw less on that setting, so check the manual for the figure. The label is the safe number to plan with.
 - **A bigger number does not mean a worse deal.** More kilowatts heats more water per minute to the same temperature. It is the minutes that cost you money.
 
 ## Every minute costs the same
