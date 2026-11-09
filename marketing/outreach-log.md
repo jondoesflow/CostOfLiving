@@ -11,14 +11,14 @@ Every address was checked on the organisation's own website before sending.
 | 29 Oct 2026 | Surrey County Council | energy@surreycc.gov.uk | Council | J | 5 Nov: no reply, followed up in the original thread | |
 | 29 Oct 2026 | Staffordshire County Council | contactus@staffordshire.gov.uk | Council | E | 5 Nov: no reply, followed up in the original thread | |
 | 29 Oct 2026 | Devon County Council | customer@devon.gov.uk | Council | L | 5 Nov: no reply, followed up in the original thread | |
-| 29 Oct 2026 | National Energy Action | anna.cook@nea.org.uk | Fuel poverty charity | | 5 Nov: no reply, followed up in the original thread | |
+| 29 Oct 2026 | National Energy Action | anna.cook@nea.org.uk | Fuel poverty charity | | 5 Nov: followed up. 5 Nov: Anna Cook replied that they don't usually add external links, and will bear us in mind if that changes. Thank-you reply drafted 9 Nov (in Drafts) | No (policy) |
 | 29 Oct 2026 | Centre for Sustainable Energy | info@cse.org.uk | Energy charity | | 30 Oct: passed to their Household Energy Services team. Jon replied 30 Oct | Not yet (2 Nov) |
 | 29 Oct 2026 | National Housing Federation | info@housing.org.uk | Housing body | | 5 Nov: no reply, followed up in the original thread | |
 | 29 Oct 2026 | Act On Energy | partnering@actonenergy.org.uk | Energy charity | E | 5 Nov: no reply, followed up in the original thread | |
 | 29 Oct 2026 | Severn Wye Energy Agency | marketing@severnwye.org.uk | Energy charity | | 5 Nov: no reply, followed up in the original thread | |
 | 29 Oct 2026 | Warm Wales | information@warmwales.org.uk | Energy charity | | 5 Nov: no reply, followed up in the original thread | |
 | 29 Oct 2026 | Energy Action Scotland | info@eas.org.uk | Fuel poverty charity | | 5 Nov: no reply, followed up in the original thread | |
-| 29 Oct 2026 | Plymouth Energy Community | energyteam@plymouthenergycommunity.com | Energy charity | L | 5 Nov: no reply, followed up in the original thread | |
+| 29 Oct 2026 | Plymouth Energy Community | energyteam@plymouthenergycommunity.com | Energy charity | L | 5 Nov: followed up. 5 Nov: Liam Crayford replied that the tool looks promising and he has passed it to colleagues to test; they'll get back to us. Jon replied 5 Nov | Not yet (9 Nov) |
 | 29 Oct 2026 | Warm Welcome Campaign | info@warmwelcome.uk | Community network | | 5 Nov: no reply, followed up in the original thread | |
 | 29 Oct 2026 | Independent Food Aid Network | admin@foodaidnetwork.org.uk | Community network | | 31 Oct: Sabine Goodwin will share it with members. Jon replied 31 Oct | Not yet (2 Nov) |
 | 29 Oct 2026 | Trussell | enquiries@trussell.org.uk | Food bank network | | 5 Nov: no reply, followed up in the original thread | |
@@ -54,6 +54,14 @@ printable flyer at /cheap-watts-flyer.pdf.
   up yet. No replies from batch 3 either. None of the 27 homepages mentions
   cheapwatts.co.uk (homepages only: the energy pages themselves need checking by
   hand or with a fuller crawl).
+
+- 9 Nov 2026: two replies came in on 5 Nov after the follow-ups: National
+  Energy Action (no external links, a polite no) and Plymouth Energy Community
+  (passed to colleagues to test). Jon had already thanked Plymouth; a reply to
+  NEA is in Drafts. No other replies, and no bounces from the outreach
+  addresses. None of the 27 homepages mentions cheapwatts.co.uk. Umami
+  referrers not checked (no dashboard access from the check). The ten in
+  batch 3 still haven't had a follow-up.
 
 ## Possible next batch
 
