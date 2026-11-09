@@ -60,6 +60,7 @@ on the day stays out. Confirmed measures that touch these topics:
 - [x] Renting? Minimum energy efficiency standards and what you can ask your landlord (rights; tool: gas) (2026-11-05)
 - [x] Hot water: shower heads, combi boilers and immersion timers that save money (habits; tool: when) (2026-11-07)
 - [x] Smart Export Guarantee: how export tariffs work and how to compare them (big upgrades; tool: solar) (2026-11-08)
+- [ ] Loft insulation: is topping it up worth it, and what does it save? (big upgrades; tool: gas). Use the Energy Saving Trust's published savings, checked on the day. Say who may get it free through ECO4 or the Warm Homes Local Grant (link the grants post), and whether a top-up is a safe DIY job.
 - [ ] How much does an electric shower cost per shower? (habits; tool: when)
 - [ ] Loft hatches, floorboards and letterboxes: plugging the heat leaks you can't see (DIY; tool: gas)
 - [ ] Is a time-of-use tariff worth it if you don't have an electric car? (tariffs; tool: switch)
