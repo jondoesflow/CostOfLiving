@@ -57,7 +57,7 @@ That last figure is just four times the single-person sum. It assumes everyone h
 
 This is my own working, using the textbook fact that it takes about 4.19 kJ to heat a litre of water by 1°C. It is an illustration, not a measurement of your shower.
 
-Suppose the water arrives at 10°C and you want it at 38°C, a 28°C rise. A 9.5kW shower can heat about 4.9 litres a minute to that temperature (9.5 divided by 4.19 x 28 / 60). In a cold winter the incoming water is colder, so the same shower delivers less flow at the same temperature. That is why electric showers can feel weaker in January than in July.
+Suppose the water arrives at 10°C and you want it at 38°C, a 28°C rise. A 9.5kW shower can heat about 4.9 litres a minute to that temperature (heating one litre by 28°C takes 4.19 x 28 = 117 kJ, which is 1.95 kW for a litre a minute, and 9.5 divided by 1.95 is about 4.9). In a cold winter the incoming water is colder, so the same shower delivers less flow at the same temperature. That is why electric showers can feel weaker in January than in July.
 
 ## Electric vs gas: the same hot water costs far less from a boiler
 
