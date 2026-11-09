@@ -44,7 +44,7 @@ for (const f of posts) {
   if (meta.draft === "true") problems.push(`${f}: still marked draft`);
   if (/[–—]/.test(text)) problems.push(`${f}: contains an em or en dash`);
   const words = m[2].split(/\s+/).filter(Boolean).length;
-  if (words < 600 || words > 2000) problems.push(`${f}: ${words} words (house rule is 800 to 1,500)`);
+  if (words < 800 || words > 1500) problems.push(`${f}: ${words} words (house rule is 800 to 1,500; outside that, Jon decides)`);
   if (meta.description && (meta.description.length < 100 || meta.description.length > 180)) problems.push(`${f}: description is ${meta.description.length} characters (aim for 140 to 160)`);
   const slug = slugOf(f, text);
   if ((existingSlugs.get(slug) ?? []).length > 1) problems.push(`${f}: slug "${slug}" is already used`);
