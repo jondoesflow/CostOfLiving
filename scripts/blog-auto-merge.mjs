@@ -37,8 +37,13 @@ export function fileProblems(files) {
 
 // Codex keeps one summary comment per PR with a JSON state for its latest
 // review; GitHub sometimes stores its braces as HTML entities.
+// Only Codex's own bot account is trusted: anyone who can comment could
+// otherwise paste the marker in.
+const CODEX = (author) => author?.__typename === "Bot" && /^chatgpt-codex-connector(\[bot\])?$/.test(author.login ?? "");
+
 export function codexReviewedAt(comments) {
   for (const c of [...comments].reverse()) {
+    if (!CODEX(c.author)) continue;
     const body = (c.body ?? "").replace(/&#123;/g, "{").replace(/&#125;/g, "}");
     const m = body.match(/codex-review-state:v1 (\{.*?\}) -->/s);
     if (!m) continue;
@@ -112,7 +117,7 @@ const query = `query($owner: String!, $repo: String!) {
             ... on StatusContext { context state }
           } } }
         } } }
-        comments(last: 50) { nodes { body } }
+        comments(last: 50) { nodes { body author { __typename login } } }
         reviewThreads(first: 100) { nodes { isResolved comments(last: 1) { nodes { body author { __typename login } } } } }
       }
     }
