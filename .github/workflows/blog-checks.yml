@@ -20,8 +20,12 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Run the checker as it is on main, not the PR's copy, so a PR can't loosen
+      # its own checks. blog-auto-merge.mjs also checks the file list itself.
       - name: House rules (only posts and TOPICS.md changed, front matter, dates, no dashes)
-        run: node scripts/check-blog-pr.mjs origin/${{ github.base_ref }}
+        run: |
+          git show origin/${{ github.base_ref }}:scripts/check-blog-pr.mjs > "$RUNNER_TEMP/check-blog-pr.mjs"
+          node "$RUNNER_TEMP/check-blog-pr.mjs" origin/${{ github.base_ref }}
       - run: npm run lint
       - run: npm run test:unit
       - run: npm run build

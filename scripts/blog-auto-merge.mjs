@@ -11,6 +11,9 @@
 //   - no review thread is waiting on an answer: an unresolved thread whose
 //     last comment is from a bot (an unanswered Codex finding) blocks it
 //   - GitHub says it merges cleanly
+//   - it only adds or changes blog posts and content/blog/TOPICS.md, checked
+//     here from GitHub's own file list, so a PR can't get code through by
+//     editing the checks it runs
 //
 //   GITHUB_TOKEN=... GITHUB_REPOSITORY=owner/repo node scripts/blog-auto-merge.mjs [--dry-run]
 import { fileURLToPath } from "node:url";
@@ -19,9 +22,22 @@ export const OPEN_FOR_MS = 2 * 3600e3;
 export const QUIET_FOR_MS = 1 * 3600e3;
 export const REQUIRED_CHECK = "blog-checks";
 
+const ALLOWED = (name) => /^content\/blog\/\d{4}-\d{2}-\d{2}-[a-z0-9-]+\.md$/.test(name) || name === "content/blog/TOPICS.md";
+
+// Files a blog PR may not change on its own: anything outside the posts and
+// the topic list, and any deleted or renamed post.
+export function fileProblems(files) {
+  return files
+    .filter((f) => !ALLOWED(f.filename) || f.status === "removed" || (f.status === "renamed" && !ALLOWED(f.previous_filename ?? "")))
+    .map((f) => `${f.filename} (${f.status})`);
+}
+
 // Why a pull request can't merge yet; an empty list means it can.
-export function reasonsToWait(pr, now = Date.now()) {
+export function reasonsToWait(pr, now = Date.now(), files = null) {
   const why = [];
+  if (files === null) why.push("changed files not checked");
+  else if (files.length === 0 || files.length >= 100) why.push(`${files.length} files changed`);
+  else { const bad = fileProblems(files); if (bad.length) why.push(`changes files only Jon can approve: ${bad.join(", ")}`); }
   const commit = pr.commits.nodes[0]?.commit;
   const lastPush = Date.parse(commit?.committedDate || 0);
   if (!pr.headRefName.startsWith("blog/")) why.push("not a blog branch");
@@ -80,7 +96,8 @@ let merged = 0;
 
 for (const pr of data.repository.pullRequests.nodes) {
   if (!pr.headRefName.startsWith("blog/")) continue;
-  const why = reasonsToWait(pr, now);
+  const files = await gh(`/repos/${owner}/${repo}/pulls/${pr.number}/files?per_page=100`);
+  const why = reasonsToWait(pr, now, files);
   const commit = pr.commits.nodes[0]?.commit;
   if (why.length) { console.log(`#${pr.number} ${pr.title}: waiting (${why.join("; ")})`); continue; }
   if (dryRun) { console.log(`#${pr.number} ${pr.title}: would merge`); continue; }
