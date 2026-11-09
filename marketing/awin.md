@@ -91,6 +91,34 @@ each landing page, and rewrites `src/awinJoined.js`. Commit that file and the
 site switches those picks over. The token must never be committed or put in the
 site's code; the links themselves only carry the publisher id.
 
+In the cloud sessions the token is saved as a network secret for api.awin.com
+on the "Cost of living" environment (added 9 November 2026), so no variable is
+needed there: run the script with `AWIN_TOKEN=proxy-injected` and the proxy
+puts the real token in. Don't paste the token into chat or a file.
+
+## Offers and discount codes
+
+Offers from joined programmes come from Awin's offers API:
+
+    POST https://api.awin.com/publisher/3143222/promotions
+    {"filters":{"membership":"joined","status":"active","type":"all"},"pagination":{"page":1,"pageSize":200}}
+
+Only offers that fit what the site covers go in `src/offers.js` (energy-saving
+kit and products we already list; not vacuums, slushie makers and the like).
+Each keeps Awin's start and end time. The build leaves out ended offers and an
+inline script hides any that end, or haven't started, between deploys, so an
+expired offer never shows. They appear on `/offers/` and on the pages named in
+each offer's `places`.
+
+Rules: only codes Awin lists for us (never codes found elsewhere), keep within
+each programme's terms (Simply LED: codes over 12% need their agreement), and
+reword the title plainly without adding claims. The thrice-daily Awin check
+refreshes the list and opens a PR when it changes.
+
+First run, 9 November 2026: 25 offers live (Swan, Tower, Simply LED; none from
+Meaco). Four picked: Tower AIRFRYER (to 15 Nov), Swan Nordic Duo £50 off (to
+30 Nov), Swan SWAN12 (to 31 Dec), Simply LED BULBS10 (to 2030).
+
 ## Disclosure
 
 Every pick is labelled as an affiliate link wherever it appears, and the

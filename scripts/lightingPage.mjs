@@ -7,6 +7,7 @@ import { PRICE_CAP } from "../src/priceCap.js";
 import { costPenceDeciwatts, formatPence } from "../src/giftCosts.js";
 import { LED_BULBS } from "../src/lightingProducts.js";
 import { giftLink, affiliateAnchor, clickref } from "../src/affiliateLink.js";
+import { offersBox } from "./offersBox.mjs";
 
 const ELEC = PRICE_CAP.electricityHundredthsPerKwh;
 const rateText = (h) => `${Math.floor(h / 100)}.${String(h % 100).padStart(2, "0")}p`;
@@ -133,6 +134,7 @@ export function buildLightingPage({ layout, write, esc, ukDate, dist, SITE_URL, 
         <ul class="gifts">
         ${bulbs.map(bulbCard).join("\n        ")}
         </ul>
+        ${offersBox("lights", esc)}
         <div class="prose">
           <h2>How to spend less on lighting</h2>
           <ul>
