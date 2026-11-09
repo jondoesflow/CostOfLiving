@@ -12,7 +12,8 @@ read on 3 November 2026.
   search, so nothing to do.
 - **Discount codes:** only codes Simply LED issues for affiliates or in its
   standard newsletters; codes over 12% need their agreement first. Cheap Watts
-  shows no discount codes.
+  shows BULBS10 (10% off, listed for affiliates in Awin's offers) from
+  9 November 2026; see `src/offers.js`.
 - **Branding:** no brand guidelines at present.
 - **Contact for questions:** in the terms PDF (Awin profile > Terms).
 - **From the advertiser directory export:** 5% commission listed, 7-day cookie.

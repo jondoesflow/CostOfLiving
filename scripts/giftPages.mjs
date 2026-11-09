@@ -2,6 +2,7 @@
 // build-site.mjs with its page helpers. Every running cost comes from
 // src/giftCosts.js at the price cap in src/priceCap.js, so the figures on the
 // page, the calculator and the unit tests all agree.
+import { offersBox } from "./offersBox.mjs";
 import { copyFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { PRICE_CAP } from "../src/priceCap.js";
@@ -295,6 +296,7 @@ export function buildGiftPages({ layout, write, esc, jsonLd, iconSvg, ukDate, di
         ${products.map((p) => productCard(p, page)).join("\n        ")}
         </ul>
         ${thermostatNote}
+        ${offersBox(`gifts:${c.id}`, esc)}
         ${c.id === "draught-proofing" ? draughtBlock() : compareBlock(c.id)}
         ${electric.length ? calcBlock(electric) : ""}
         ${readMore(c.id)}
