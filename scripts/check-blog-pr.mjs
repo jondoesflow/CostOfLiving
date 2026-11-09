@@ -49,6 +49,9 @@ for (const f of posts) {
   const words = m[2].split(/\s+/).filter(Boolean).length;
   if (words < 800 || words > 1500) problems.push(`${f}: ${words} words (house rule is 800 to 1,500; outside that, Jon decides)`);
   if (meta.description && (meta.description.length < 100 || meta.description.length > 180)) problems.push(`${f}: description is ${meta.description.length} characters (aim for 140 to 160)`);
+  // No post sets its own slug, and build-site.mjs reads front matter its own
+  // way, so any slug override waits for Jon rather than being second-guessed.
+  if (/^slug\s*:/m.test(m[1])) problems.push(`${f}: sets its own slug; the file name is the slug, anything else needs Jon`);
   const slug = slugOf(f, text);
   if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) problems.push(`${f}: slug "${slug}" must be lowercase letters, numbers and hyphens only`);
   // Posts are Markdown only. Read them with the same parser the site uses
