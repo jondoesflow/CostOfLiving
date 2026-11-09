@@ -50,6 +50,15 @@ export function codexReviewedAt(comments) {
   return null;
 }
 
+// A thread waits on an answer when a bot had the last word. Codex's own replies
+// that aren't findings (such as its note when someone writes "@codex" in a
+// thread) don't count.
+export function awaitsAnswer(last) {
+  if (last?.author?.__typename !== "Bot") return false;
+  if (/^chatgpt-codex-connector/.test(last.author.login ?? "") && !(last.body ?? "").includes("codex-code-review-finding")) return false;
+  return true;
+}
+
 // Why a pull request can't merge yet; an empty list means it can.
 export function reasonsToWait(pr, now = Date.now(), files = null) {
   const why = [];
@@ -69,7 +78,7 @@ export function reasonsToWait(pr, now = Date.now(), files = null) {
   const checks = rollup?.contexts.nodes ?? [];
   if (!checks.some((c) => c.name === REQUIRED_CHECK && c.conclusion === "SUCCESS")) why.push(`"${REQUIRED_CHECK}" hasn't passed`);
   if (codexReviewedAt(pr.comments?.nodes ?? []) !== commit?.oid) why.push("Codex hasn't finished reviewing the latest commit");
-  const waiting = pr.reviewThreads.nodes.filter((t) => !t.isResolved && t.comments.nodes[0]?.author?.__typename === "Bot");
+  const waiting = pr.reviewThreads.nodes.filter((t) => !t.isResolved && awaitsAnswer(t.comments.nodes[0]));
   if (waiting.length) why.push(`${waiting.length} review comment(s) not answered`);
   if (pr.mergeable !== "MERGEABLE") why.push(`mergeable state is ${pr.mergeable}`);
   return why;
@@ -104,7 +113,7 @@ const query = `query($owner: String!, $repo: String!) {
           } } }
         } } }
         comments(last: 50) { nodes { body } }
-        reviewThreads(first: 100) { nodes { isResolved comments(last: 1) { nodes { author { __typename login } } } } }
+        reviewThreads(first: 100) { nodes { isResolved comments(last: 1) { nodes { body author { __typename login } } } } }
       }
     }
   }

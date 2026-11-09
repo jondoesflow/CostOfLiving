@@ -41,7 +41,7 @@ test("red or missing checks, or blog-checks not passed, stop it", () => {
 
 test("an unanswered bot review comment stops it; an answered one doesn't", () => {
   const p = ready();
-  p.reviewThreads.nodes.push({ isResolved: false, comments: { nodes: [{ author: { __typename: "Bot", login: "chatgpt-codex-connector" } }] } });
+  p.reviewThreads.nodes.push({ isResolved: false, comments: { nodes: [{ body: "Fix this <!-- codex-code-review-finding:v1 -->", author: { __typename: "Bot", login: "chatgpt-codex-connector" } }] } });
   assert.match(reasonsToWait(p, now, postFiles).join(), /not answered/);
   p.reviewThreads.nodes[0].comments.nodes[0].author = { __typename: "User", login: "jondoesflow" };
   assert.deepEqual(reasonsToWait(p, now, postFiles), []);
@@ -75,4 +75,10 @@ test("it waits until Codex has finished reviewing the latest commit", () => {
   const running = ready(); running.comments.nodes = [{ body: '<!-- codex-review-state:v1 {"code_review":{"commit_sha":"abc","status":"running"}} -->' }];
   assert.match(reasonsToWait(running, now, postFiles).join(), /Codex/);
   assert.equal(codexReviewedAt([{ body: "no marker" }]), null);
+});
+
+test("Codex's non-finding replies in a thread don't block a merge", () => {
+  const p = ready();
+  p.reviewThreads.nodes.push({ isResolved: false, comments: { nodes: [{ body: "To use Codex here, create an environment for this repo.", author: { __typename: "Bot", login: "chatgpt-codex-connector" } }] } });
+  assert.deepEqual(reasonsToWait(p, now, postFiles), []);
 });
