@@ -6,6 +6,7 @@
 //   node scripts/check-blog-pr.mjs [base-ref]    (default origin/main)
 import { execSync } from "node:child_process";
 import { readFileSync, existsSync, readdirSync } from "node:fs";
+import { marked } from "marked";
 
 const base = process.argv[2] || "origin/main";
 const changed = execSync(`git diff --name-only ${base}...HEAD`, { encoding: "utf8" }).split("\n").filter(Boolean);
@@ -39,6 +40,8 @@ for (const f of posts) {
   const fileDate = f.match(/(\d{4}-\d{2}-\d{2})/)[1];
   for (const key of ["title", "description", "date", "keywords", "tool"]) if (!meta[key]) problems.push(`${f}: missing ${key}`);
   if (meta.date && meta.date !== fileDate) problems.push(`${f}: date ${meta.date} doesn't match the file name`);
+  const real = (d) => { const x = new Date(`${d}T00:00:00Z`); return !Number.isNaN(x.getTime()) && x.toISOString().slice(0, 10) === d; };
+  if (!real(fileDate)) problems.push(`${f}: ${fileDate} isn't a real date`);
   const isNew = execSync(`git cat-file -e ${base}:${f} 2>/dev/null && echo old || echo new`, { encoding: "utf8", shell: "/bin/bash" }).trim() === "new";
   if (isNew && meta.date && meta.date < today) problems.push(`${f}: a new post can't be dated before today (${today})`);
   if (meta.draft === "true") problems.push(`${f}: still marked draft`);
@@ -48,12 +51,16 @@ for (const f of posts) {
   if (meta.description && (meta.description.length < 100 || meta.description.length > 180)) problems.push(`${f}: description is ${meta.description.length} characters (aim for 140 to 160)`);
   const slug = slugOf(f, text);
   if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) problems.push(`${f}: slug "${slug}" must be lowercase letters, numbers and hyphens only`);
-  // Posts are Markdown only: raw HTML (a script, an iframe, an onclick) would go
-  // straight into the page, so any tag outside a code sample waits for Jon.
-  const prose = m[2].replace(/```[\s\S]*?```/g, "").replace(/`[^`\n]*`/g, "");
-  const tag = prose.match(/<[a-zA-Z!/?][^>]*>?/);
-  if (tag) problems.push(`${f}: contains raw HTML (${tag[0].slice(0, 40)}); posts must be plain Markdown`);
-  if (/\]\(\s*(javascript|data|vbscript):/i.test(prose)) problems.push(`${f}: contains a script link`);
+  // Posts are Markdown only. Read them with the same parser the site uses
+  // (marked, in build-site.mjs), so every link and any raw HTML is judged as it
+  // will actually render: HTML would go straight into the page, and a link must
+  // be https, http, mailto, a site path or an anchor.
+  const unsafe = [];
+  marked.walkTokens(marked.lexer(m[2]), (t) => {
+    if (t.type === "html") unsafe.push(`raw HTML (${t.raw.trim().slice(0, 40)})`);
+    if ((t.type === "link" || t.type === "image") && !/^(https?:\/\/|mailto:|\/(?!\/)|#)/i.test((t.href ?? "").trim())) unsafe.push(`a link to "${(t.href ?? "").slice(0, 40)}"`);
+  });
+  for (const u of unsafe) problems.push(`${f}: contains ${u}; posts must be plain Markdown with ordinary links`);
   if ((existingSlugs.get(slug) ?? []).length > 1) problems.push(`${f}: slug "${slug}" is already used`);
 }
 
