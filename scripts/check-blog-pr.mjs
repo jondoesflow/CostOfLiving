@@ -47,6 +47,13 @@ for (const f of posts) {
   if (words < 800 || words > 1500) problems.push(`${f}: ${words} words (house rule is 800 to 1,500; outside that, Jon decides)`);
   if (meta.description && (meta.description.length < 100 || meta.description.length > 180)) problems.push(`${f}: description is ${meta.description.length} characters (aim for 140 to 160)`);
   const slug = slugOf(f, text);
+  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) problems.push(`${f}: slug "${slug}" must be lowercase letters, numbers and hyphens only`);
+  // Posts are Markdown only: raw HTML (a script, an iframe, an onclick) would go
+  // straight into the page, so any tag outside a code sample waits for Jon.
+  const prose = m[2].replace(/```[\s\S]*?```/g, "").replace(/`[^`\n]*`/g, "");
+  const tag = prose.match(/<[a-zA-Z!/?][^>]*>?/);
+  if (tag) problems.push(`${f}: contains raw HTML (${tag[0].slice(0, 40)}); posts must be plain Markdown`);
+  if (/\]\(\s*(javascript|data|vbscript):/i.test(prose)) problems.push(`${f}: contains a script link`);
   if ((existingSlugs.get(slug) ?? []).length > 1) problems.push(`${f}: slug "${slug}" is already used`);
 }
 
