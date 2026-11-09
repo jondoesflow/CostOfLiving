@@ -25,10 +25,11 @@ export const REQUIRED_CHECK = "blog-checks";
 const ALLOWED = (name) => /^content\/blog\/\d{4}-\d{2}-\d{2}-[a-z0-9-]+\.md$/.test(name) || name === "content/blog/TOPICS.md";
 
 // Files a blog PR may not change on its own: anything outside the posts and
-// the topic list, and any deleted or renamed post.
+// the topic list, and any deleted or renamed file (a renamed post moves its
+// URL and breaks links to it).
 export function fileProblems(files) {
   return files
-    .filter((f) => !ALLOWED(f.filename) || f.status === "removed" || (f.status === "renamed" && !ALLOWED(f.previous_filename ?? "")))
+    .filter((f) => !ALLOWED(f.filename) || f.status === "removed" || f.status === "renamed")
     .map((f) => `${f.filename} (${f.status})`);
 }
 

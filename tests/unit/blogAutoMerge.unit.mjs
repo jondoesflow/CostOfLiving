@@ -61,6 +61,7 @@ test("a blog PR that changes code, workflows or the checker never merges on its 
 test("deleting or renaming away a post needs Jon, and the file list must have been checked", () => {
   assert.deepEqual(fileProblems([{ filename: "content/blog/2026-11-01-x.md", status: "removed" }]), ["content/blog/2026-11-01-x.md (removed)"]);
   assert.equal(fileProblems([{ filename: "content/blog/2026-11-02-x.md", status: "renamed", previous_filename: "scripts/evil.mjs" }]).length, 1);
+  assert.equal(fileProblems([{ filename: "content/blog/2026-11-02-y.md", status: "renamed", previous_filename: "content/blog/2026-11-02-x.md" }]).length, 1);
   assert.match(reasonsToWait(ready(), now).join(), /not checked/);
   assert.match(reasonsToWait(ready(), now, []).join(), /0 files/);
 });
