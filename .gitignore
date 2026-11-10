@@ -29,3 +29,4 @@ dist-ssr
 # Playwright output
 test-results
 playwright-report
+.ci-check-blog-pr.mjs
