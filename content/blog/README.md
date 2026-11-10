@@ -43,8 +43,13 @@ draft: true           # hidden from the live site until approved; remove or set 
 ## Approval
 
 The scheduled task opens one pull request per post (`blog/<date>-<slug>`).
-Merging the pull request approves it; the next scheduled run (or a Netlify
-build, if the site is linked to GitHub) publishes it. Closing it rejects it.
+Posts don't wait for Jon: `.github/workflows/blog-checks.yml` checks each one
+(`scripts/check-blog-pr.mjs`: only posts and TOPICS.md changed, front matter,
+date, no dashes, length; then lint, unit tests, build and `tests/blog.spec.js`),
+and `.github/workflows/blog-auto-merge.yml` merges it within the hour once it has
+been open 2 hours, its last commit is an hour old, every check is green and no
+bot review comment is unanswered. Netlify deploys on merge and the post appears
+on its date. To stop a post, add the `hold` label or close the PR.
 
 ## Product picks ("Worth a look")
 

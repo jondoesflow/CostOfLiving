@@ -1,0 +1,38 @@
+# Merges blog post pull requests that have passed every check and had time to
+# be reviewed, so posts go live without Jon approving each one. Add the label
+# "hold" to a PR to stop it. Rules are in scripts/blog-auto-merge.mjs.
+name: blog-auto-merge
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Only report what would merge"
+        type: boolean
+        default: false
+permissions:
+  contents: write
+  pull-requests: write
+  checks: read
+concurrency:
+  group: blog-auto-merge
+  cancel-in-progress: false
+jobs:
+  merge:
+    # Only ever run main's code with this write token, even if someone starts
+    # the workflow by hand on another branch.
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Merge ready blog posts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/blog-auto-merge.mjs ${{ inputs.dry_run && '--dry-run' || '' }}
