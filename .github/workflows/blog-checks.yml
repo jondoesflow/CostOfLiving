@@ -1,0 +1,34 @@
+# Checks every blog post pull request. The "blog-checks" job must pass before
+# blog-auto-merge.yml will merge a post without Jon.
+name: blog-checks
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  blog-checks:
+    if: startsWith(github.head_ref, 'blog/')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Run the checker as it is on main, not the PR's copy, so a PR can't loosen
+      # its own checks. blog-auto-merge.mjs also checks the file list itself.
+      - name: House rules (only posts and TOPICS.md changed, front matter, dates, no dashes)
+        run: |
+          git show origin/${{ github.base_ref }}:scripts/check-blog-pr.mjs > "$RUNNER_TEMP/check-blog-pr.mjs"
+          node "$RUNNER_TEMP/check-blog-pr.mjs" origin/${{ github.base_ref }}
+      - run: npm run lint
+      - run: npm run test:unit
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - name: Blog tests
+        run: npx playwright test tests/blog.spec.js --trace off
