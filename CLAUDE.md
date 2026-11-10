@@ -11,9 +11,14 @@ queue is `content/blog/TOPICS.md` (first unticked topic is taken next).
   UK English, no em or en dashes, never invent facts, date every price.
 - One post per run, on a branch `blog/YYYY-MM-DD-<slug>`, in a pull request into
   `main` titled "Blog post for approval: <title>". Never push to `main`, never
-  merge an unapproved post, never deploy anything that is not on `main`.
-- Jon approves by merging the pull request. The next run deploys approved posts
-  that are missing from the live sitemap.
+  merge a blog PR yourself, never deploy anything that is not on `main`.
+- Blog PRs merge automatically (Jon's decision, 9 November 2026): the hourly
+  `blog-auto-merge` GitHub Actions workflow merges a `blog/` PR once it has been
+  open 2 hours, its last commit is an hour old, every check (including
+  `blog-checks`) is green and no bot review comment is left unanswered. A PR
+  that changes anything besides posts and `TOPICS.md` (a new product pick, say)
+  fails `blog-checks` and waits for Jon. Add the label `hold` to stop a post.
+  Netlify deploys main on merge, and each post appears on its date.
 - One post a day, each on its own date: date a new post the day after the latest
   dated post on main or in an open blog PR (never before today). The build hides
   posts dated after today, so each goes live on its date when the daily run deploys.
@@ -28,11 +33,13 @@ a session that is subscribed to the PR (`subscribe_pr_activity`) receives it.
    so after pushing any fix, comment `@codex review` on the PR to re-run it.
 3. Treat each finding as a claim to check, not an order. Reproduce it or trace a
    real path to the failure. Fix it when it is real and the fix is in proportion;
-   otherwise reply on the thread with why not. Anything that changes the meaning
-   of a post (claims, numbers, advice) goes to Jon first.
+   otherwise reply on the thread with why not. If a finding would change the
+   meaning of a post (claims, numbers, advice) and you can't settle it from a
+   source, add the `hold` label and ask Jon, so it doesn't merge on its own.
 4. After a fix: run the voice check, `npm run build`, and `tests/blog.spec.js`,
    then push to the same branch and reply once on the thread.
-5. Finished review with no findings needs no reply. Never merge or deploy.
+5. Finished review with no findings needs no reply. Never merge or deploy
+   yourself: the workflow merges once every thread is answered.
 6. Edits to an already published post go through a new pull request, not a push
    to `main`.
 

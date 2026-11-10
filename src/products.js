@@ -132,6 +132,10 @@ const PRODUCTS = {
     icon: "AppWindow", id: "window-film", name: "Window insulation film kit", query: "window insulation film kit",
     why: "For windows you won't open over winter. If you rent, check with your landlord first, as the tape can lift paint.",
   },
+  loftRoll: {
+    icon: "Layers", id: "loft-roll", name: "Mineral wool loft insulation roll", query: "mineral wool loft insulation roll",
+    why: "For topping up to the recommended 270mm. Wear gloves, goggles and a dust mask, and keep the eaves and downlights clear.",
+  },
   pipeLagging: {
     icon: "Shield", id: "pipe-lagging", name: "Foam pipe lagging", query: "foam pipe lagging",
     why: "Slips over hot water pipes where they run through cold spaces. Turn the hot water off and let the pipes cool before fitting.",

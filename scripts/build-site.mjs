@@ -16,6 +16,7 @@ import { GUIDES } from "../src/applianceGuides.js";
 import { picksFor, productLink, productById, DISCLOSURE, AMAZON_NOTICE } from "../src/products.js";
 import { buildGiftPages, giftNudge, GIFTS_FOR_COST_PAGE, GIFTS_FOR_POST } from "./giftPages.mjs";
 import { buildLightingPage } from "./lightingPage.mjs";
+import { offersBox, buildOffersPage } from "./offersBox.mjs";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import * as lucide from "lucide-react";
@@ -236,7 +237,7 @@ ${main}
       </nav>
       <p>Cheap Watts is free and not affiliated with any energy supplier. Prices change; always check your own tariff. ${AMAZON_NOTICE}</p>
       <p>Run a council, charity or housing association website? <a href="/widget-for-your-website/">Add Cheap Watts to it for free</a>.</p>
-      <p>Looking for a present? <a href="/gifts/">Gifts that cut energy bills, with what each costs to run</a>.</p>
+      <p>Looking for a present? <a href="/gifts/">Gifts that cut energy bills, with what each costs to run</a>, and <a href="/offers/">current offers from our partner retailers</a>.</p>
       <nav aria-label="About this site">
         <ul>
           <li><a href="/about/">About</a></li>
@@ -290,6 +291,7 @@ for (const p of posts) {
 ${p.html}
         </div>
         ${worthBox(p.products, "blog")}
+        ${offersBox(`blog:${p.slug}`, esc)}
         ${GIFTS_FOR_POST[p.slug] ? giftNudge(GIFTS_FOR_POST[p.slug], esc) : ""}
         <aside class="cta" aria-label="Try the tool">
           <p class="cta-title">${esc(TOOL_CTA[p.tool] ?? TOOL_CTA.when)}</p>
@@ -399,6 +401,7 @@ for (const a of costPages) {
           ${alt ? `<h2>A cheaper option</h2><p>${esc(a.alt.note)} <a href="/cost-to-run/${alt.id}/">See what a ${alt.name.toLowerCase()} costs to run</a>.</p>` : ""}
         </div>
         ${worthBox(picksFor(a.id), "cost-page")}
+        ${offersBox(`cost:${a.id}`, esc)}
         ${GIFTS_FOR_COST_PAGE[a.id] ? giftNudge(GIFTS_FOR_COST_PAGE[a.id], esc) : ""}
         <aside class="cta" aria-label="Try the tool">
           <p class="cta-title">When's the cheapest time to run it on your tariff?</p>
@@ -469,6 +472,7 @@ ${g.html}
 }
 
 // ---------- gift guide: /gifts/ and its category pages ----------
+const offersUrl = buildOffersPage({ layout, write, esc, dist, SITE_URL, today });
 const giftUrls = buildGiftPages({ layout, write, esc, jsonLd, iconSvg, ukDate, dist, root, SITE_URL, today, IMAGE, postSlugs: new Set(posts.map((p) => p.slug)) });
 
 // ---------- sitemap, robots, 404 ----------
@@ -481,6 +485,7 @@ const urls = [
   ...costPages.map((a) => ({ loc: a.url, lastmod: today, priority: "0.7" })),
   { loc: lights.loc, lastmod: lights.lastmod, priority: lights.priority },
   ...giftUrls,
+  offersUrl,
 ];
 write(join(dist, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

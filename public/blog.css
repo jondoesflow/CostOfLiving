@@ -168,3 +168,12 @@ main.wrap > article, main.wrap > h1, main.wrap > .lede { max-width: 780px; }
   main.wrap > .related .card h2 { font-size: 19px; }
   main.wrap > .related .cards { grid-template-columns: 1fr; }
 }
+.offers { margin-top: 28px; border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; }
+.offers h2 { font-size: 22px; margin-bottom: 8px; }
+.offers ul { list-style: none; }
+.offers li { padding: 10px 0; border-top: 1px solid var(--line); }
+.offers li:first-child { border-top: 0; }
+.offers .offer-title { font-weight: 600; }
+.offers li p:not(.offer-title) { font-size: 16px; color: var(--muted); }
+.offers .offer-code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 700; padding: 1px 6px; border: 1px dashed var(--line); border-radius: 6px; color: var(--text); }
+.offers .muted { font-size: 14px; color: var(--muted); margin-top: 8px; }
