@@ -50,7 +50,7 @@ Now the sum that matters. Against the flat rate:
 - the rest of the day is close to a draw (0.35p cheaper)
 - the lower standing charge is worth about **£22 a year**
 
-So you need roughly 2.3 kWh in the night window to pay for each kWh you use at teatime. That ratio is the whole decision.
+So you need roughly 2.3 kWh in the night window to pay for each kWh you use at teatime. That ratio is a quick first check. The standing charge matters too: £22 a year covers the extra cost of about 2 kWh a week at teatime before you move anything at all, so a household that uses very little at the peak can come out ahead without touching the night window.
 
 ## A worked example with ordinary appliances
 
@@ -117,8 +117,8 @@ It is probably not for you if:
 ## How to test it on your own usage
 
 1. **Get your half-hourly data.** Your supplier's app or account will show it if you have a smart meter.
-2. **Find your teatime share.** Add up what you use between 4pm and 7pm, and what you use overnight. Hold it against the 2.3 to 1 ratio above.
-3. **Price it properly.** The [Should I switch?](/should-i-switch/) tool takes your own half-hourly usage and prices it on time-of-use tariffs and a flat one, standing charges included.
+2. **Find your teatime share.** Add up what you use between 4pm and 7pm, and what you use overnight. Hold it against the 2.3 to 1 ratio above as a first check.
+3. **Price it properly.** This is the test that decides it. The [Should I switch?](/should-i-switch/) tool takes your own half-hourly usage and prices it on time-of-use tariffs and a flat one, standing charges included.
 4. **Read the exit terms.** A 24-month fix with a £100 exit fee is a bigger commitment than a variable tariff you can walk away from.
 
-Start with step 2. If your 4pm to 7pm number is bigger than your overnight one, stay on a flat tariff and stop worrying about it.
+Start with step 2. If your 4pm to 7pm number is well above your overnight one, a flat tariff is likely the better deal. If it is small or close, let step 3 settle it.
