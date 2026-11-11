@@ -85,6 +85,7 @@ readers.
 | SharkNinja UK | 8059 | 5 Nov 2026 | "Site does not complement advertiser brand" | Brand fit, nothing to fix on the site |
 | AO.com | 19526 | 5 Nov 2026 | Not recorded: the email was no longer in the mailbox when checked | Reapply later |
 | EcoFlow UK | 51797 | 5 Nov 2026 | "The monthly pageviews are insufficient to meet our needs" | Traffic, not a fault on the site; nothing to fix. The EcoFlow pick on the solar tool keeps its Amazon fallback. Reapply once monthly page views have grown |
+| Morphy Richards UK | 115194 | 11 Nov 2026 | "Site does not complement advertiser brand" | Brand fit, nothing to fix on the site. Kettle and slow cooker picks stay on Amazon and Tower |
 
 ## Syncing with the Awin API (optional)
 
