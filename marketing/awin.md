@@ -23,8 +23,8 @@ below). Each advertiser approves applications themselves.
 Worth considering later, not wired in yet: AO.com (19526) and Currys (1599)
 for heat pump tumble dryers, and tado (24881) for smart thermostats. Their
 sites block automated checks, so landing pages need checking by hand first.
-Meross (107077) sells from a US store in dollars, so it doesn't suit UK
-readers.
+Meross (107077) sells from one shop in US dollars, including to the UK. It was
+approved on 11 Nov 2026 and is used for a UK plug only (see below).
 
 ## Approved programmes
 
@@ -34,7 +34,7 @@ readers.
 | Tower Housewares | 20823 | 5 Nov 2026 | Terms PDF still to read (approval email: up to 6% commission, 30-day cookie) | Air fryer and slow cooker gift page (5 products), the `airfryer` and `slowcooker` picks on the oven, air fryer and slow cooker running-cost pages and blog posts |
 | Swan Products | 16860 | 6 Nov 2026 | Terms PDF still to read (approval email: 10% commission on all products) | Three Swan products on the air fryer and slow cooker gift page (Nordic Duo air fryer, 1.5 and 6.5 litre slow cookers) |
 | Meaco | 31711 | 6 Nov 2026 | Terms PDF still to read | The `dehumidifier` pick (Meaco's dehumidifiers page): heated airer and dehumidifier running-cost pages, the heated airer v tumble dryer post, and the tool's results for those appliances |
-| Meross Smarthome | 107077 | 11 Nov 2026 | Terms PDF still to read | The `monitor-plug` pick, linking to Meross's smart plug collection (which includes the MSS315MA UK plug with energy monitor), shown on about 17 running-cost pages, the planner and blog posts. Product pages redirect to the homepage outside the UK (checked 11 Nov 2026 from a non-UK connection), so the pick uses the collection page, which loads for everyone. The shop shows prices in US dollars from here, so no price is recorded; the gift guide still uses the TP-Link Tapo P110 |
+| Meross Smarthome | 107077 | 11 Nov 2026 | Terms PDF still to read | The `monitor-plug` pick, linking to the MSS315MA UK plug with energy monitor (2-pack, UK Version) with `?country=GB`, shown on about 17 running-cost pages, the planner and blog posts. Meross's shop shows each visitor the catalogue for their country: outside the UK the smart plug collection lists only US plugs and the UK product page redirects to the homepage, so `?country=GB` puts every visitor on the UK listing (checked 11 Nov 2026). The shop prices UK orders in US dollars ($30.99 for the 2-pack on 11 Nov 2026), so no price is quoted on the site; the gift guide still uses the TP-Link Tapo P110 |
 
 ## When an advertiser approves Cheap Watts (do this every time)
 
