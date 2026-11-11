@@ -34,6 +34,7 @@ readers.
 | Tower Housewares | 20823 | 5 Nov 2026 | Terms PDF still to read (approval email: up to 6% commission, 30-day cookie) | Air fryer and slow cooker gift page (5 products), the `airfryer` and `slowcooker` picks on the oven, air fryer and slow cooker running-cost pages and blog posts |
 | Swan Products | 16860 | 6 Nov 2026 | Terms PDF still to read (approval email: 10% commission on all products) | Three Swan products on the air fryer and slow cooker gift page (Nordic Duo air fryer, 1.5 and 6.5 litre slow cookers) |
 | Meaco | 31711 | 6 Nov 2026 | Terms PDF still to read | The `dehumidifier` pick (Meaco's dehumidifiers page): heated airer and dehumidifier running-cost pages, the heated airer v tumble dryer post, and the tool's results for those appliances |
+| Meross Smarthome | 107077 | 11 Nov 2026 | Terms PDF still to read | The `monitor-plug` pick (Meross MSS315MA UK smart plug with energy monitor, 2-pack), shown on about 17 running-cost pages, the planner and blog posts. Its shop lists prices in US dollars, so no price is recorded; the gift guide still uses the TP-Link Tapo P110 |
 
 ## When an advertiser approves Cheap Watts (do this every time)
 
@@ -93,7 +94,7 @@ site's code; the links themselves only carry the publisher id.
 
 In the cloud sessions the token is saved as a network secret for api.awin.com
 on the "Cost of living" environment (added 9 November 2026), so no variable is
-needed there: run the script with `AWIN_TOKEN=proxy-injected` and the proxy
+needed there: run the script with `NODE_USE_ENV_PROXY=1 AWIN_TOKEN=proxy-injected` (Node's fetch only goes through the proxy with that flag) and the proxy
 puts the real token in. Don't paste the token into chat or a file.
 
 ## Offers and discount codes
