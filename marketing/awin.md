@@ -68,6 +68,12 @@ readers.
    "Awin approval: <programme>", subscribed, merged only with Jon's approval
    (blog posts follow the blog workflow). Add a row to the table above.
 
+## Approved but not used
+
+| Programme | Awin id | Approved | Why not used |
+| --- | --- | --- | --- |
+| brkox | 129093 | 9 Nov 2026 | LED light kits for LEGO sets, sold to US collectors in US dollars. Jon decided on 11 November 2026: US-only, so don't use it. |
+
 ## Rejections
 
 | Programme | Awin id | Date | Reason given | What we did |
