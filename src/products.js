@@ -30,7 +30,7 @@ const PRODUCTS = {
   monitorPlug: {
     icon: "Gauge", id: "monitor-plug", name: "Smart plug with energy monitoring", query: "smart plug energy monitor uk",
     why: "Measure what your own appliance really uses per run, instead of the typical figure.",
-    awin: { mid: 107077, retailer: "Meross", url: "https://shop.meross.com/products/meross-matter-plug-with-energy-monitor-mss315-uk" },
+    awin: { mid: 107077, retailer: "Meross", url: "https://shop.meross.com/collections/smart-plug-and-switch" },
   },
   schedulePlug: {
     icon: "PlugZap", id: "schedule-plug", name: "Smart plug with a timer", query: "smart plug timer schedule uk",
