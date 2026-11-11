@@ -63,7 +63,7 @@ on the day stays out. Confirmed measures that touch these topics:
 - [x] Smart Export Guarantee: how export tariffs work and how to compare them (big upgrades; tool: solar) (2026-11-08)
 - [x] How much does an electric shower cost per shower? (habits; tool: when) (2026-11-09)
 - [x] Loft hatches, floorboards and letterboxes: plugging the heat leaks you can't see (DIY; tool: gas) (2026-11-10)
-- [ ] Is a time-of-use tariff worth it if you don't have an electric car? (tariffs; tool: switch)
+- [x] Is a time-of-use tariff worth it if you don't have an electric car? (tariffs; tool: switch) (2026-11-11)
 - [ ] Home batteries: can charging from the grid at night pay off? (big upgrades; tool: solar)
 - [ ] Estimated bills and direct debits: how to check and challenge them (billing; tool: switch)
 - [ ] Electric heater vs central heating: which costs less to warm one room? (habits; tool: gas)
