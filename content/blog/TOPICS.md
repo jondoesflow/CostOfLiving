@@ -64,7 +64,7 @@ on the day stays out. Confirmed measures that touch these topics:
 - [x] How much does an electric shower cost per shower? (habits; tool: when) (2026-11-09)
 - [x] Loft hatches, floorboards and letterboxes: plugging the heat leaks you can't see (DIY; tool: gas) (2026-11-10)
 - [x] Is a time-of-use tariff worth it if you don't have an electric car? (tariffs; tool: switch) (2026-11-11)
-- [ ] Home batteries: can charging from the grid at night pay off? (big upgrades; tool: solar)
+- [x] Home batteries: can charging from the grid at night pay off? (big upgrades; tool: solar) (2026-11-12)
 - [ ] Estimated bills and direct debits: how to check and challenge them (billing; tool: switch)
 - [ ] Electric heater vs central heating: which costs less to warm one room? (habits; tool: gas)
 - [ ] Cavity wall vs solid wall insulation: costs, benefits and condensation risks (big upgrades; tool: gas)
