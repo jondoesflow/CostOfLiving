@@ -63,6 +63,12 @@ printable flyer at /cheap-watts-flyer.pdf.
   referrers not checked (no dashboard access from the check). The ten in
   batch 3 still haven't had a follow-up.
 
+- 12 Nov 2026: no new replies from any of the 27 since 9 Nov, and none at all
+  yet from batch 3 (searched by each organisation's domain). No bounces. None
+  of the homepages mentions cheapwatts.co.uk; Age UK Wolverhampton's and Angus
+  Housing Association's homepages didn't load from the check. Umami referrers
+  not checked (no dashboard access). Batch 3 still hasn't had a follow-up.
+
 ## Possible next batch
 
 Spares with checked addresses: Kingdom Housing Association (Fife),
