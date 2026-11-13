@@ -73,6 +73,7 @@ approved on 11 Nov 2026 and is used for a UK plug only (see below).
 | Programme | Awin id | Approved | Why not used |
 | --- | --- | --- | --- |
 | brkox | 129093 | 9 Nov 2026 | LED light kits for LEGO sets, sold to US collectors in US dollars. Jon decided on 11 November 2026: US-only, so don't use it. |
+| Shelly UK | 121796 | 12 Nov 2026 (welcome email at 23:35) | Not yet: waiting for the terms PDF in OneDrive ("Cheap Watts/Awin terms/121796*.pdf"). Sells in GBP, deep linking allowed, 4% commission (Awin API, 13 Nov 2026). Candidate for the `monitor-plug` pick once the terms are read. |
 
 ## Rejections
 
@@ -86,6 +87,10 @@ approved on 11 Nov 2026 and is used for a UK plug only (see below).
 | AO.com | 19526 | 5 Nov 2026 | Not recorded: the email was no longer in the mailbox when checked | Reapply later |
 | EcoFlow UK | 51797 | 5 Nov 2026 | "The monthly pageviews are insufficient to meet our needs" | Traffic, not a fault on the site; nothing to fix. The EcoFlow pick on the solar tool keeps its Amazon fallback. Reapply once monthly page views have grown |
 | Morphy Richards UK | 115194 | 11 Nov 2026 | "Site does not complement advertiser brand" | Brand fit, nothing to fix on the site. Kettle and slow cooker picks stay on Amazon and Tower |
+| Robert Dyas | 1528 | By 13 Nov 2026 | Not found in email: shown as rejected in Awin's API on 13 Nov 2026 | Reapply later |
+| Lakeland | 1751 | By 13 Nov 2026 | Not found in email: shown as rejected in Awin's API on 13 Nov 2026 | The heated airer pick (`airer`) keeps its Amazon fallback, so nothing on the site changes. Reapply later |
+| tado UK | 24881 | By 13 Nov 2026 | Not found in email: shown as rejected in Awin's API on 13 Nov 2026 | Not wired in; nothing to change. Reapply later |
+| Heat Holders | 25357 | By 13 Nov 2026 | Not found in email: shown as rejected in Awin's API on 13 Nov 2026 | Not wired in; nothing to change. Reapply later |
 
 ## Syncing with the Awin API (optional)
 
