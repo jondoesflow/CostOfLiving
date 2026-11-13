@@ -20,11 +20,12 @@ below). Each advertiser approves applications themselves.
 | Electric blanket or heated throw | Dimplex UK | 130445 | https://ui.awin.com/merchant-profile/130445 |
 | Air fryer, slow cooker | Tower Housewares | 20823 | https://ui.awin.com/merchant-profile/20823 |
 
-Worth considering later, not wired in yet: AO.com (19526) and Currys (1599)
-for heat pump tumble dryers, and tado (24881) for smart thermostats. Their
-sites block automated checks, so landing pages need checking by hand first.
-Meross (107077) sells from a US store in dollars, so it doesn't suit UK
-readers.
+Once considered for heat pump tumble dryers and smart thermostats: AO.com
+(19526), Currys (1599) and tado (24881). All three have since rejected us (see
+Rejections), and their sites block automated checks, so landing pages need
+checking by hand before any reapplication goes live.
+Meross (107077) approved us on 11 Nov 2026 but sells from one shop in US dollars,
+including to the UK, so Jon decided on 13 Nov 2026 not to use it (see below).
 
 ## Approved programmes
 
@@ -34,6 +35,7 @@ readers.
 | Tower Housewares | 20823 | 5 Nov 2026 | Terms PDF still to read (approval email: up to 6% commission, 30-day cookie) | Air fryer and slow cooker gift page (5 products), the `airfryer` and `slowcooker` picks on the oven, air fryer and slow cooker running-cost pages and blog posts |
 | Swan Products | 16860 | 6 Nov 2026 | Terms PDF still to read (approval email: 10% commission on all products) | Three Swan products on the air fryer and slow cooker gift page (Nordic Duo air fryer, 1.5 and 6.5 litre slow cookers) |
 | Meaco | 31711 | 6 Nov 2026 | Terms PDF still to read | The `dehumidifier` pick (Meaco's dehumidifiers page): heated airer and dehumidifier running-cost pages, the heated airer v tumble dryer post, and the tool's results for those appliances |
+| Shelly UK | 121796 | 12 Nov 2026 | Terms PDF still to read ("Cheap Watts/Awin terms/121796*.pdf"); Awin's API shows deep linking allowed, GBP, 4% commission | The `monitor-plug` pick ("Smart plug with energy monitoring"), linking to the Shelly Plus Plug UK (UK 13A plug with power and energy metering, £22.90 on 13 Nov 2026, in stock), shown on about 17 running-cost pages, the planner and blog posts. Jon chose Shelly over Meross on 13 Nov 2026. The gift guide still uses the TP-Link Tapo P110 |
 
 ## When an advertiser approves Cheap Watts (do this every time)
 
@@ -67,6 +69,13 @@ readers.
    "Awin approval: <programme>", subscribed, merged only with Jon's approval
    (blog posts follow the blog workflow). Add a row to the table above.
 
+## Approved but not used
+
+| Programme | Awin id | Approved | Why not used |
+| --- | --- | --- | --- |
+| brkox | 129093 | 9 Nov 2026 | LED light kits for LEGO sets, sold to US collectors in US dollars. Jon decided on 11 November 2026: US-only, so don't use it. |
+| Meross Smarthome | 107077 | 11 Nov 2026 | Sells to UK buyers in US dollars ($30.99 for the UK MSS315MA 2-pack on 11 Nov 2026). Jon decided on 13 Nov 2026 to drop it and use Shelly for the smart plug pick. |
+
 ## Rejections
 
 | Programme | Awin id | Date | Reason given | What we did |
@@ -78,6 +87,11 @@ readers.
 | SharkNinja UK | 8059 | 5 Nov 2026 | "Site does not complement advertiser brand" | Brand fit, nothing to fix on the site |
 | AO.com | 19526 | 5 Nov 2026 | Not recorded: the email was no longer in the mailbox when checked | Reapply later |
 | EcoFlow UK | 51797 | 5 Nov 2026 | "The monthly pageviews are insufficient to meet our needs" | Traffic, not a fault on the site; nothing to fix. The EcoFlow pick on the solar tool keeps its Amazon fallback. Reapply once monthly page views have grown |
+| Morphy Richards UK | 115194 | 11 Nov 2026 | "Site does not complement advertiser brand" | Brand fit, nothing to fix on the site. Kettle and slow cooker picks stay on Amazon and Tower |
+| Robert Dyas | 1528 | By 13 Nov 2026 | Not found in email: shown as rejected in Awin's API on 13 Nov 2026 | Reapply later |
+| Lakeland | 1751 | By 13 Nov 2026 | Not found in email: shown as rejected in Awin's API on 13 Nov 2026 | The heated airer pick (`airer`) keeps its Amazon fallback, so nothing on the site changes. Reapply later |
+| tado UK | 24881 | By 13 Nov 2026 | Not found in email: shown as rejected in Awin's API on 13 Nov 2026 | Not wired in; nothing to change. Reapply later |
+| Heat Holders | 25357 | By 13 Nov 2026 | Not found in email: shown as rejected in Awin's API on 13 Nov 2026 | Not wired in; nothing to change. Reapply later |
 
 ## Syncing with the Awin API (optional)
 
@@ -93,7 +107,7 @@ site's code; the links themselves only carry the publisher id.
 
 In the cloud sessions the token is saved as a network secret for api.awin.com
 on the "Cost of living" environment (added 9 November 2026), so no variable is
-needed there: run the script with `AWIN_TOKEN=proxy-injected` and the proxy
+needed there: run the script with `NODE_USE_ENV_PROXY=1 AWIN_TOKEN=proxy-injected` (Node's fetch only goes through the proxy with that flag) and the proxy
 puts the real token in. Don't paste the token into chat or a file.
 
 ## Offers and discount codes
