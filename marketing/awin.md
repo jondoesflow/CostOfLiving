@@ -20,11 +20,12 @@ below). Each advertiser approves applications themselves.
 | Electric blanket or heated throw | Dimplex UK | 130445 | https://ui.awin.com/merchant-profile/130445 |
 | Air fryer, slow cooker | Tower Housewares | 20823 | https://ui.awin.com/merchant-profile/20823 |
 
-Worth considering later, not wired in yet: AO.com (19526) and Currys (1599)
-for heat pump tumble dryers, and tado (24881) for smart thermostats. Their
-sites block automated checks, so landing pages need checking by hand first.
-Meross (107077) sells from one shop in US dollars, including to the UK. It was
-approved on 11 Nov 2026 and is used for a UK plug only (see below).
+Once considered for heat pump tumble dryers and smart thermostats: AO.com
+(19526), Currys (1599) and tado (24881). All three have since rejected us (see
+Rejections), and their sites block automated checks, so landing pages need
+checking by hand before any reapplication goes live.
+Meross (107077) approved us on 11 Nov 2026 but sells from one shop in US dollars,
+including to the UK, so Jon decided on 13 Nov 2026 not to use it (see below).
 
 ## Approved programmes
 
@@ -34,7 +35,7 @@ approved on 11 Nov 2026 and is used for a UK plug only (see below).
 | Tower Housewares | 20823 | 5 Nov 2026 | Terms PDF still to read (approval email: up to 6% commission, 30-day cookie) | Air fryer and slow cooker gift page (5 products), the `airfryer` and `slowcooker` picks on the oven, air fryer and slow cooker running-cost pages and blog posts |
 | Swan Products | 16860 | 6 Nov 2026 | Terms PDF still to read (approval email: 10% commission on all products) | Three Swan products on the air fryer and slow cooker gift page (Nordic Duo air fryer, 1.5 and 6.5 litre slow cookers) |
 | Meaco | 31711 | 6 Nov 2026 | Terms PDF still to read | The `dehumidifier` pick (Meaco's dehumidifiers page): heated airer and dehumidifier running-cost pages, the heated airer v tumble dryer post, and the tool's results for those appliances |
-| Meross Smarthome | 107077 | 11 Nov 2026 | Terms PDF still to read | The `monitor-plug` pick, linking to the MSS315MA UK plug with energy monitor (2-pack, UK Version) with `?country=GB`, shown on about 17 running-cost pages, the planner and blog posts. Meross's shop shows each visitor the catalogue for their country: outside the UK the smart plug collection lists only US plugs and the UK product page redirects to the homepage, so `?country=GB` puts every visitor on the UK listing (checked 11 Nov 2026). The shop prices UK orders in US dollars ($30.99 for the 2-pack on 11 Nov 2026), so no price is quoted on the site; the gift guide still uses the TP-Link Tapo P110 |
+| Shelly UK | 121796 | 12 Nov 2026 | Terms PDF still to read ("Cheap Watts/Awin terms/121796*.pdf"); Awin's API shows deep linking allowed, GBP, 4% commission | The `monitor-plug` pick ("Smart plug with energy monitoring"), linking to the Shelly Plus Plug UK (UK 13A plug with power and energy metering, £22.90 on 13 Nov 2026, in stock), shown on about 17 running-cost pages, the planner and blog posts. Jon chose Shelly over Meross on 13 Nov 2026. The gift guide still uses the TP-Link Tapo P110 |
 
 ## When an advertiser approves Cheap Watts (do this every time)
 
@@ -73,7 +74,7 @@ approved on 11 Nov 2026 and is used for a UK plug only (see below).
 | Programme | Awin id | Approved | Why not used |
 | --- | --- | --- | --- |
 | brkox | 129093 | 9 Nov 2026 | LED light kits for LEGO sets, sold to US collectors in US dollars. Jon decided on 11 November 2026: US-only, so don't use it. |
-| Shelly UK | 121796 | 12 Nov 2026 (welcome email at 23:35) | Not yet: waiting for the terms PDF in OneDrive ("Cheap Watts/Awin terms/121796*.pdf"). Sells in GBP, deep linking allowed, 4% commission (Awin API, 13 Nov 2026). Candidate for the `monitor-plug` pick once the terms are read. |
+| Meross Smarthome | 107077 | 11 Nov 2026 | Sells to UK buyers in US dollars ($30.99 for the UK MSS315MA 2-pack on 11 Nov 2026). Jon decided on 13 Nov 2026 to drop it and use Shelly for the smart plug pick. |
 
 ## Rejections
 
