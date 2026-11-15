@@ -67,7 +67,7 @@ on the day stays out. Confirmed measures that touch these topics:
 - [x] Home batteries: can charging from the grid at night pay off? (big upgrades; tool: solar) (2026-11-12)
 - [ ] Estimated bills and direct debits: how to check and challenge them (billing; tool: switch)
 - [ ] Electric heater vs central heating: which costs less to warm one room? (habits; tool: gas)
-- [ ] Cavity wall vs solid wall insulation: costs, benefits and condensation risks (big upgrades; tool: gas)
+- [x] Cavity wall vs solid wall insulation: costs, benefits and condensation risks (big upgrades; tool: gas) (2026-11-15)
 - [ ] How much does it cost to charge an electric car at home? (tariffs; tool: when)
 - [ ] What uses the most electricity in a UK home? (habits; tool: when)
 - [ ] Double vs triple glazing: is the upgrade worth it in the UK? (big upgrades; tool: gas)
