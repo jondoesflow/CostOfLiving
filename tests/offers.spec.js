@@ -23,9 +23,19 @@ test("an offer past its end date is hidden, and the empty message shows when non
 });
 
 test("an offer that hasn't started yet stays hidden until its start", async ({ page }) => {
-  await page.clock.install({ time: new Date("2026-11-04T12:00:00Z") });
+  await page.clock.install({ time: new Date("2026-11-20T12:00:00Z") });
   await page.goto("/offers/");
-  await expect(page.locator('[data-offer-ends="2026-11-30T23:59:00Z"]')).toBeHidden();
+  const blackFriday = page.locator('[data-offer-starts="2026-11-23T00:01:00Z"]');
+  await expect(blackFriday).toHaveCount(2);
+  for (const li of await blackFriday.all()) await expect(li).toBeHidden();
+});
+
+test("an offer shows once its start time has passed", async ({ page }) => {
+  await page.clock.install({ time: new Date("2026-11-24T12:00:00Z") });
+  await page.goto("/offers/");
+  const blackFriday = page.locator('[data-offer-starts="2026-11-23T00:01:00Z"]');
+  for (const li of await blackFriday.all()) await expect(li).toBeVisible();
+  await expect(page.locator(".offers")).toContainText("BLACKFRIDAY");
 });
 
 test("offers appear on the pages they're for", async ({ page }) => {
