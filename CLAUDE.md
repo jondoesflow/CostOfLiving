@@ -15,7 +15,8 @@ queue is `content/blog/TOPICS.md` (first unticked topic is taken next).
 - Blog PRs merge automatically (Jon's decision, 9 November 2026): the hourly
   `blog-auto-merge` GitHub Actions workflow merges a `blog/` PR once it has been
   open 2 hours, its last commit is an hour old, every check (including
-  `blog-checks`) is green and no bot review comment is left unanswered. A PR
+  `blog-checks`) is green, Claude's own review of the latest commit has
+  passed (see below) and no bot review comment is left unanswered. A PR
   that changes anything besides posts and `TOPICS.md` (a new product pick, say)
   fails `blog-checks` and waits for Jon. Add the label `hold` to stop a post.
   Netlify deploys main on merge, and each post appears on its date.
@@ -23,23 +24,32 @@ queue is `content/blog/TOPICS.md` (first unticked topic is taken next).
   dated post on main or in an open blog PR (never before today). The build hides
   posts dated after today, so each goes live on its date when the daily run deploys.
 
-## Review feedback loop (Codex and other bots)
+## Reviews (Claude reviews its own PRs)
 
-Do not rely on email. Review feedback arrives as comments on the pull request, and
-a session that is subscribed to the PR (`subscribe_pr_activity`) receives it.
+Jon turned Codex reviews off on 16 November 2026: Claude reviews every pull
+request itself. Don't comment `@codex review`.
 
 1. Subscribe to every pull request you open.
-2. Codex reviews when a PR is opened. It does not necessarily review later pushes,
-   so after pushing any fix, comment `@codex review` on the PR to re-run it.
-3. Treat each finding as a claim to check, not an order. Reproduce it or trace a
-   real path to the failure. Fix it when it is real and the fix is in proportion;
-   otherwise reply on the thread with why not. If a finding would change the
-   meaning of a post (claims, numbers, advice) and you can't settle it from a
-   source, add the `hold` label and ask Jon, so it doesn't merge on its own.
-4. After a fix: run the voice check, `npm run build`, and `tests/blog.spec.js`,
-   then push to the same branch and reply once on the thread.
-5. Finished review with no findings needs no reply. Never merge or deploy
-   yourself: the workflow merges once every thread is answered.
+2. Once the PR is open and its checks are green, review the diff with fresh
+   eyes: use the `code-review` skill, or a subagent given only the PR, not your
+   reasoning. For a post, check every number, price and date against its
+   source, that each source link says what the post claims, the dates and
+   front matter, the product picks, the house rules in `content/blog/README.md`
+   and the voice check.
+3. Fix what is real and in proportion, then push, run the checks again and
+   review the new commit. If a finding would change the meaning of a post
+   (claims, numbers, advice) and you can't settle it from a source, add the
+   `hold` label and ask Jon.
+4. Post the review as one PR comment from this account: what was checked, what
+   was fixed and anything left for Jon, ending with this on a line of its own:
+   `<!-- claude-review:v1 sha=<full 40-character head commit sha> result=pass -->`,
+   or `result=changes` if something still needs doing. The newest comment or
+   review from this account that mentions `claude-review:v1` decides, so a
+   later `changes` (or a malformed marker) cancels an earlier pass. `blog-auto-merge` only
+   merges a blog PR whose latest commit has a passing review, so a push after
+   the review needs a new one.
+5. Other bots' comments are claims to check: fix them or reply on the thread.
+   Never merge or deploy blog PRs yourself: the workflow does it.
 6. Edits to an already published post go through a new pull request, not a push
    to `main`.
 
