@@ -13,16 +13,6 @@ import { awinUrl } from "./products.js";
 
 export const OFFERS = [
   {
-    id: 4158927, mid: 20823, retailer: "Tower",
-    title: "Extra 20% off all Tower air fryers",
-    detail: "Tower's Air Fryer Week: 20% off all air fryers with the code, excluding clearance.",
-    code: "AIRFRYER",
-    url: "https://www.towerhousewares.co.uk/products/black-friday-air-fryer-week",
-    starts: "2026-11-09T00:01:00Z", ends: "2026-11-15T23:59:00Z",
-    places: ["offers", "gifts:air-fryers-slow-cookers", "cost:airfryer"],
-    checked: "2026-11-09",
-  },
-  {
     id: 4162961, mid: 16860, retailer: "Swan",
     title: "£50 off the Swan Nordic Duo dual basket air fryer",
     detail: "Sale price on Swan's website, no code needed.",
