@@ -60,28 +60,28 @@ That cavity figure is longer than you may have heard. Which? quotes the Energy S
 
 For solid walls the honest answer is that it rarely pays back on bill savings alone if you pay full price. People do it because the house is cold, because a grant covers it, or because they are already re-rendering or replastering and the extra cost is smaller.
 
-For context, the Flexible Octopus gas rate was between 7.82p and 8.17p per kWh including VAT across the regions on 15 November 2026 (from the [Octopus Energy API](https://api.octopus.energy/v1/products/VAR-22-11-01/)). The savings above are based on July 2026 prices, so they are a guide, not a promise.
+The savings use the Energy Saving Trust's 2026 energy prices, so they are a guide, not a promise.
 
 ## The condensation and damp risks
 
 This is the bit that matters more than the payback.
 
-**Cavity walls.** The insulation is injected through small holes in the outer wall, and CIGA says it normally takes around two hours. The installer should assess the house first to confirm it is suitable.
+**Cavity walls.** The insulation is injected through small holes in the outer wall, and CIGA says it normally takes around two hours. The installer should assess the house first to confirm it is suitable. Which? says the cavity should be at least 50mm wide and the walls need to be in good condition.
 
 Ask for the guarantee. [CIGA provides independent 25 year guarantees](https://ciga.co.uk/) for cavity wall insulation fitted by its registered installers, covering defects in materials or workmanship. It also publishes a [guide to condensation](https://ciga.co.uk/information-guidance/). If someone knocks on your door offering free insulation, check them against CIGA's registered installers first.
 
 **Internal solid wall insulation.** This is where the risk is highest. A government study, the [Thin Internal Wall Insulation summary report](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/975982/tiwi-summary-report.pdf) (BEIS Research Paper 2021/016), found that:
 
 - Conventional internal insulation substantially increased the risk of condensation forming behind the insulation boards, inside the wall, in laboratory tests.
-- Modelling predicted conventional internal insulation could increase the risk of timber rot at joist ends by around 11%. Thinner and breathable systems lowered that risk.
+- Modelling predicted conventional internal insulation could increase the risk of timber rot at joist ends by around 11%. Thinner and breathable systems raised it by less.
 - Where awkward spots such as window reveals were left uninsulated, the cold bridges became worse, with a substantial risk of surface condensation there.
 - On the plus side, internal insulation reduced the risk of surface condensation in the rooms overall.
 
-In plain terms: done properly, internal insulation makes rooms warmer and drier on the surface. Done in a hurry, with gaps around windows and floors, it can push damp into the wall and into cold corners where you won't see it until mould appears.
+In plain terms: done properly, internal insulation makes rooms warmer and drier on the surface, but the wall behind stays colder and wetter, hence the joist risk. Done in a hurry, with gaps around windows and floors, it also leaves cold corners where mould appears.
 
 Which? adds two practical points. Existing damp or structural problems must be fixed before any solid wall insulation goes on, and breathable materials such as wood fibre and cork boards are often recommended for older buildings. They are less efficient, so they need to be thicker.
 
-**External solid wall insulation** keeps the wall itself on the warm side, which is why it carries less of this risk. It is still a big job: Which? says it usually needs scaffolding and takes around 7 to 10 days for a semi.
+**External solid wall insulation** keeps the wall itself on the warm side, which is why it carries less of this risk. It is still a big job: Which? says it usually needs scaffolding and takes around 7 to 10 days for a semi. Fitted badly, it causes damp too. [GOV.UK says](https://www.gov.uk/guidance/what-to-do-if-you-have-poor-quality-wall-insulation) some solid wall insulation fitted through ECO4 and the Great British Insulation Scheme was poorly installed, which can lead to damp or mould.
 
 ## The other trade-offs
 
@@ -92,7 +92,7 @@ Which? adds two practical points. Existing damp or structural problems must be f
 
 ## Can you get it for free?
 
-Possibly. In England, the [Warm Homes: Local Grant](https://www.gov.uk/apply-warm-homes-local-grant) can pay for wall insulation for privately owned homes with an EPC rating of D to G. GOV.UK says household income must usually be £36,000 a year or less, with exceptions for some postcodes and benefits, and your council needs to have funding. ECO4 also runs until 31 December 2026 according to Ofgem.
+Possibly. In England, the [Warm Homes: Local Grant](https://www.gov.uk/apply-warm-homes-local-grant) can pay for wall insulation for privately owned homes with an EPC rating of D to G. GOV.UK says household income must usually be £36,000 a year or less, with exceptions for some postcodes and benefits, and your council needs to have funding. ECO4 also runs until 31 December 2026, according to [Ofgem](https://www.ofgem.gov.uk/environmental-and-social-schemes/energy-company-obligation-eco).
 
 I went through who qualifies for each scheme in my post on [free insulation and ECO4](/blog/great-british-insulation-scheme-eco4-who-qualifies-how-to-apply/). If you might qualify, check that first, because a grant changes the solid wall maths completely.
 
@@ -105,7 +105,7 @@ Wall insulation shows up on your gas bill, or your electricity bill if you heat 
 - Check your walls first: brick pattern, wall thickness and the age of the house.
 - Cavity wall insulation: about £2,700 and £200 a year saved for a gas-heated semi, on Energy Saving Trust 2026 figures. Use a CIGA registered installer and get the 25 year guarantee.
 - Solid wall insulation: about £280 a year saved, but £12,000 internal or £15,000 external. Hard to justify on payback alone at full price.
-- Internal solid wall insulation can trap moisture in the wall if it is badly detailed. Fix damp first and use an installer who will deal with window reveals, floors and joist ends.
+- Internal solid wall insulation can trap moisture in the wall, and more so if it is badly detailed. Fix damp first and use an installer who will deal with window reveals, floors and joist ends.
 - Check the Warm Homes: Local Grant and ECO4 before paying for anything.
 
 This week, go outside and look at your brickwork. If every brick looks the same length, you probably have cavity walls, and it's worth finding out whether they are already filled.
