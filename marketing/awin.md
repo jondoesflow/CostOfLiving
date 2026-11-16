@@ -133,6 +133,11 @@ First run, 9 November 2026: 25 offers live (Swan, Tower, Simply LED; none from
 Meaco). Four picked: Tower AIRFRYER (to 15 Nov), Swan Nordic Duo £50 off (to
 30 Nov), Swan SWAN12 (to 31 Dec), Simply LED BULBS10 (to 2030).
 
+16 November 2026: Tower AIRFRYER ended on 15 Nov and came out. Two new offers
+not added: Tower BUNDLES (20% off kettle and toaster sets, pan sets and bread
+bins, 16 to 22 Nov) and Swan FLOOR (20% off floorcare, 16 to 22 Nov), as
+neither is energy-saving kit.
+
 ## Disclosure
 
 Every pick is labelled as an affiliate link wherever it appears, and the
