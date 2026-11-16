@@ -86,7 +86,7 @@ That break-even is cautious. Your fridge, freezer and anything on standby also r
 
 Plenty of people start with the cable that came with the car, plugged into an ordinary socket. It works, but there are two things to know.
 
-**It is slower.** A 13 amp socket can supply about 3kW at most, so even in a full five-hour Octopus Go window you would fit in only around 15 kWh. Anything more spills into the daytime rate.
+**It is slower.** The [RAC says](https://www.rac.co.uk/drive/electric-cars/charging/electric-car-charging-how-it-works-and-how-much-it-costs/) most car makers limit the current drawn from a three-pin socket to 10A or less, a maximum of 2.3kW. At that rate, a full five-hour Octopus Go window fits in only about 11.5 kWh, so most of a 30 kWh charge spills into the daytime rate.
 
 **Safety matters more than the saving.** [Electrical Safety First](https://www.electricalsafetyfirst.org.uk/media-centre/press-releases/2019/05/driven-to-danger-electric-vehicle-drivers-charging-dangerously-due-to-lack-of-public-infrastructure/) advises never using a domestic multi-socket extension lead to charge an electric car, only ever using an extension lead suitable for outdoor use such as a reel cable if you must use one, and never plugging one extension lead into another. It says the safest way to charge at home is a dedicated wallbox charge point, installed by a qualified, registered electrician. If you use a cable reel, its general advice is to unwind it fully so it doesn't overheat.
 
