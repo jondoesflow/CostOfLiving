@@ -23,9 +23,9 @@ test("an offer past its end date is hidden, and the empty message shows when non
 });
 
 test("an offer that hasn't started yet stays hidden until its start", async ({ page }) => {
-  await page.clock.install({ time: new Date("2026-11-08T12:00:00Z") });
+  await page.clock.install({ time: new Date("2026-11-04T12:00:00Z") });
   await page.goto("/offers/");
-  await expect(page.locator('[data-offer-ends="2026-11-15T23:59:00Z"]')).toBeHidden();
+  await expect(page.locator('[data-offer-ends="2026-11-30T23:59:00Z"]')).toBeHidden();
 });
 
 test("offers appear on the pages they're for", async ({ page }) => {
@@ -33,7 +33,7 @@ test("offers appear on the pages they're for", async ({ page }) => {
   await page.goto("/cost-to-run/lights/");
   await expect(page.locator(".offers")).toContainText("BULBS10");
   await page.goto("/gifts/air-fryers-slow-cookers/");
-  await expect(page.locator(".offers")).toContainText("AIRFRYER");
+  await expect(page.locator(".offers")).toContainText("Swan Nordic Duo");
   await page.goto("/cost-to-run/washer/");
   await expect(page.locator(".offers")).toHaveCount(0);
   await expect(page.locator('footer a[href="/offers/"]')).toHaveCount(1);

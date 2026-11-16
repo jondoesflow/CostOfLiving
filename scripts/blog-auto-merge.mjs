@@ -6,12 +6,14 @@
 //   - its branch starts with blog/, it's from this repository and not a draft
 //   - it has no "hold" label (add one to stop a post)
 //   - it was opened at least 2 hours ago and its last commit is at least
-//     1 hour old, so Codex has reviewed it and the session has answered
+//     1 hour old
 //   - every check on its latest commit passed, including "blog-checks"
-//   - Codex's review has completed on that latest commit (its summary comment
-//     says so), so a post never merges unreviewed
+//   - Claude's own review of that latest commit passed: a comment from the
+//     repository owner's account (the account Claude's sessions post as)
+//     carrying <!-- claude-review:v1 sha=<commit> result=pass -->. Jon turned
+//     Codex reviews off on 16 November 2026 and asked Claude to review instead
 //   - no review thread is waiting on an answer: an unresolved thread whose
-//     last comment is from a bot (an unanswered Codex finding) blocks it
+//     last comment is from a bot blocks it
 //   - GitHub says it merges cleanly
 //   - it only adds or changes blog posts and content/blog/TOPICS.md, checked
 //     here from GitHub's own file list, so a PR can't get code through by
@@ -35,37 +37,31 @@ export function fileProblems(files) {
     .map((f) => `${f.filename} (${f.status})`);
 }
 
-// Codex keeps one summary comment per PR with a JSON state for its latest
-// review; GitHub sometimes stores its braces as HTML entities.
-// Only Codex's own bot account is trusted: anyone who can comment could
-// otherwise paste the marker in.
-const CODEX = (author) => author?.__typename === "Bot" && /^chatgpt-codex-connector(\[bot\])?$/.test(author.login ?? "");
+// Claude posts its review as a comment (or a GitHub review) from the owner's
+// account, with a line of its own reading exactly
+// <!-- claude-review:v1 sha=<full 40-character commit sha> result=pass|changes -->.
+// Only that account is trusted, so nobody else can paste a passing marker in.
+// The newest owner comment or review that mentions claude-review:v1 decides:
+// if its marker is malformed, or says changes, nothing counts as passed.
+const MARKER = /^<!-- claude-review:v1 sha=([0-9a-f]{40}) result=(pass|changes) -->\s*$/m;
 
-export function codexReviewedAt(comments) {
-  for (const c of [...comments].reverse()) {
-    if (!CODEX(c.author)) continue;
-    const body = (c.body ?? "").replace(/&#123;/g, "{").replace(/&#125;/g, "}");
-    const m = body.match(/codex-review-state:v1 (\{.*?\}) -->/s);
-    if (!m) continue;
-    try {
-      const state = JSON.parse(m[1]).code_review;
-      return state?.status === "completed" ? state.commit_sha : null;
-    } catch { return null; }
-  }
-  return null;
+export function claudeReviewedAt(items, owner) {
+  const mine = items
+    .filter((c) => c.author?.__typename === "User" && (c.author.login ?? "").toLowerCase() === owner.toLowerCase())
+    .filter((c) => (c.body ?? "").includes("claude-review:v1"))
+    .sort((a, b) => Date.parse(b.createdAt ?? 0) - Date.parse(a.createdAt ?? 0));
+  if (!mine.length) return null;
+  const m = mine[0].body.match(MARKER);
+  return m && m[2] === "pass" ? m[1] : null;
 }
 
-// A thread waits on an answer when a bot had the last word. Codex's own replies
-// that aren't findings (such as its note when someone writes "@codex" in a
-// thread) don't count.
+// A thread waits on an answer when a bot had the last word.
 export function awaitsAnswer(last) {
-  if (last?.author?.__typename !== "Bot") return false;
-  if (/^chatgpt-codex-connector/.test(last.author.login ?? "") && !(last.body ?? "").includes("codex-code-review-finding")) return false;
-  return true;
+  return last?.author?.__typename === "Bot";
 }
 
 // Why a pull request can't merge yet; an empty list means it can.
-export function reasonsToWait(pr, now = Date.now(), files = null) {
+export function reasonsToWait(pr, now = Date.now(), files = null, owner = "jondoesflow") {
   const why = [];
   if (files === null) why.push("changed files not checked");
   else if (files.length === 0 || files.length >= 100) why.push(`${files.length} files changed`);
@@ -82,7 +78,12 @@ export function reasonsToWait(pr, now = Date.now(), files = null) {
   if (rollup?.state !== "SUCCESS") why.push(`checks are ${rollup?.state ?? "missing"}`);
   const checks = rollup?.contexts.nodes ?? [];
   if (!checks.some((c) => c.name === REQUIRED_CHECK && c.conclusion === "SUCCESS")) why.push(`"${REQUIRED_CHECK}" hasn't passed`);
-  if (codexReviewedAt(pr.comments?.nodes ?? []) !== commit?.oid) why.push("Codex hasn't finished reviewing the latest commit");
+  const items = [
+    ...(pr.comments?.nodes ?? []),
+    ...(pr.reviews?.nodes ?? []).map((r) => ({ ...r, createdAt: r.submittedAt ?? r.createdAt })),
+  ];
+  const reviewed = claudeReviewedAt(items, owner);
+  if (!reviewed || reviewed !== commit?.oid) why.push("Claude's review of the latest commit hasn't passed");
   const waiting = pr.reviewThreads.nodes.filter((t) => !t.isResolved && awaitsAnswer(t.comments.nodes[0]));
   if (waiting.length) why.push(`${waiting.length} review comment(s) not answered`);
   if (pr.mergeable !== "MERGEABLE") why.push(`mergeable state is ${pr.mergeable}`);
@@ -117,7 +118,8 @@ const query = `query($owner: String!, $repo: String!) {
             ... on StatusContext { context state }
           } } }
         } } }
-        comments(last: 50) { nodes { body author { __typename login } } }
+        comments(last: 50) { nodes { body createdAt author { __typename login } } }
+        reviews(last: 50) { nodes { body submittedAt author { __typename login } } }
         reviewThreads(first: 100) { nodes { isResolved comments(last: 1) { nodes { body author { __typename login } } } } }
       }
     }
@@ -131,7 +133,7 @@ let merged = 0;
 for (const pr of data.repository.pullRequests.nodes) {
   if (!pr.headRefName.startsWith("blog/")) continue;
   const files = await gh(`/repos/${owner}/${repo}/pulls/${pr.number}/files?per_page=100`);
-  const why = reasonsToWait(pr, now, files);
+  const why = reasonsToWait(pr, now, files, owner);
   const commit = pr.commits.nodes[0]?.commit;
   if (why.length) { console.log(`#${pr.number} ${pr.title}: waiting (${why.join("; ")})`); continue; }
   if (dryRun) { console.log(`#${pr.number} ${pr.title}: would merge`); continue; }

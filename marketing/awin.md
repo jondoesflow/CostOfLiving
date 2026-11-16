@@ -66,8 +66,13 @@ including to the UK, so Jon decided on 13 Nov 2026 not to use it (see below).
    workflow in CLAUDE.md.
 6. **Check and raise a PR.** `npm run lint`, `npm run test:unit`,
    `npm run build`, `npx playwright test`. One PR titled
-   "Awin approval: <programme>", subscribed, merged only with Jon's approval
-   (blog posts follow the blog workflow). Add a row to the table above.
+   "Awin approval: <programme>", subscribed, reviewed by Claude (see
+   CLAUDE.md, "Reviews"), then merged by the Awin check itself: on
+   16 November 2026 Jon approved merging approval and offer PRs without
+   waiting for him, as long as checks are green, the review has passed and
+   the PR only touches offers, picks and these notes. Jon gets a summary
+   afterwards. Blog posts follow the blog workflow. Add a row to the table
+   above.
 
 ## Approved but not used
 
@@ -132,6 +137,11 @@ refreshes the list and opens a PR when it changes.
 First run, 9 November 2026: 25 offers live (Swan, Tower, Simply LED; none from
 Meaco). Four picked: Tower AIRFRYER (to 15 Nov), Swan Nordic Duo £50 off (to
 30 Nov), Swan SWAN12 (to 31 Dec), Simply LED BULBS10 (to 2030).
+
+16 November 2026: Tower AIRFRYER ended on 15 Nov and came out. Two new offers
+not added: Tower BUNDLES (20% off kettle and toaster sets, pan sets and bread
+bins, 16 to 22 Nov) and Swan FLOOR (20% off floorcare, 16 to 22 Nov), as
+neither is energy-saving kit.
 
 ## Disclosure
 

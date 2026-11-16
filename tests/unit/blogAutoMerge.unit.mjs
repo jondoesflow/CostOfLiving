@@ -1,16 +1,20 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { reasonsToWait, fileProblems, codexReviewedAt } from "../../scripts/blog-auto-merge.mjs";
+import { reasonsToWait, fileProblems, claudeReviewedAt } from "../../scripts/blog-auto-merge.mjs";
 
 const now = Date.parse("2026-11-10T12:00:00Z");
-const codexBot = { __typename: "Bot", login: "chatgpt-codex-connector" };
+const owner = { __typename: "User", login: "jondoesflow" };
+const SHA = "abc1234def5678abc1234def5678abc1234def56";
+const OLD = "0000000def5678abc1234def5678abc1234def56";
+let t = 0;
+const review = (sha, result = "pass", author = owner) => ({ author, createdAt: new Date(Date.parse("2026-11-10T10:30:00Z") + 60e3 * t++).toISOString(), body: `Review: all checks passed.\n<!-- claude-review:v1 sha=${sha} result=${result} -->` });
 const postFiles = [{ filename: "content/blog/2026-11-19-test.md", status: "added" }, { filename: "content/blog/TOPICS.md", status: "modified" }];
 const ready = () => ({
   number: 1, title: "Blog post for approval: test", headRefName: "blog/2026-11-19-test", isDraft: false, isCrossRepository: false,
   createdAt: "2026-11-10T09:00:00Z", mergeable: "MERGEABLE", labels: { nodes: [] },
-  commits: { nodes: [{ commit: { oid: "abc", committedDate: "2026-11-10T10:00:00Z", statusCheckRollup: { state: "SUCCESS", contexts: { nodes: [{ __typename: "CheckRun", name: "blog-checks", conclusion: "SUCCESS" }] } } } }] },
+  commits: { nodes: [{ commit: { oid: SHA, committedDate: "2026-11-10T10:00:00Z", statusCheckRollup: { state: "SUCCESS", contexts: { nodes: [{ __typename: "CheckRun", name: "blog-checks", conclusion: "SUCCESS" }] } } } }] },
   reviewThreads: { nodes: [] },
-  comments: { nodes: [{ author: codexBot, body: '<!-- codex-review-state:v1 &#123;"code_review":&#123;"commit_sha":"abc","has_any_findings":false,"status":"completed"&#125;&#125; -->' }] },
+  comments: { nodes: [review(SHA)] },
 });
 
 test("a green, reviewed blog PR that has waited long enough can merge", () => {
@@ -42,7 +46,7 @@ test("red or missing checks, or blog-checks not passed, stop it", () => {
 
 test("an unanswered bot review comment stops it; an answered one doesn't", () => {
   const p = ready();
-  p.reviewThreads.nodes.push({ isResolved: false, comments: { nodes: [{ body: "Fix this <!-- codex-code-review-finding:v1 -->", author: { __typename: "Bot", login: "chatgpt-codex-connector" } }] } });
+  p.reviewThreads.nodes.push({ isResolved: false, comments: { nodes: [{ body: "Fix this", author: { __typename: "Bot", login: "some-review-bot" } }] } });
   assert.match(reasonsToWait(p, now, postFiles).join(), /not answered/);
   p.reviewThreads.nodes[0].comments.nodes[0].author = { __typename: "User", login: "jondoesflow" };
   assert.deepEqual(reasonsToWait(p, now, postFiles), []);
@@ -68,26 +72,43 @@ test("deleting or renaming away a post needs Jon, and the file list must have be
   assert.match(reasonsToWait(ready(), now, []).join(), /0 files/);
 });
 
-test("it waits until Codex has finished reviewing the latest commit", () => {
+test("it waits until Claude's review of the latest commit has passed", () => {
   const none = ready(); none.comments.nodes = [];
-  assert.match(reasonsToWait(none, now, postFiles).join(), /Codex/);
-  const older = ready(); older.comments.nodes = [{ author: codexBot, body: '<!-- codex-review-state:v1 {"code_review":{"commit_sha":"old","status":"completed"}} -->' }];
-  assert.match(reasonsToWait(older, now, postFiles).join(), /Codex/);
-  const running = ready(); running.comments.nodes = [{ author: codexBot, body: '<!-- codex-review-state:v1 {"code_review":{"commit_sha":"abc","status":"running"}} -->' }];
-  assert.match(reasonsToWait(running, now, postFiles).join(), /Codex/);
-  assert.equal(codexReviewedAt([{ body: "no marker" }]), null);
+  assert.match(reasonsToWait(none, now, postFiles).join(), /Claude's review/);
+  const older = ready(); older.comments.nodes = [review(OLD)];
+  assert.match(reasonsToWait(older, now, postFiles).join(), /Claude's review/);
+  const changes = ready(); changes.comments.nodes = [review(SHA, "changes")];
+  assert.match(reasonsToWait(changes, now, postFiles).join(), /Claude's review/);
+  assert.equal(claudeReviewedAt([{ author: owner, body: "no marker" }], "jondoesflow"), null);
 });
 
-test("Codex's non-finding replies in a thread don't block a merge", () => {
-  const p = ready();
-  p.reviewThreads.nodes.push({ isResolved: false, comments: { nodes: [{ body: "To use Codex here, create an environment for this repo.", author: { __typename: "Bot", login: "chatgpt-codex-connector" } }] } });
-  assert.deepEqual(reasonsToWait(p, now, postFiles), []);
+test("a later review that asks for changes cancels an earlier pass", () => {
+  const p = ready(); p.comments.nodes = [review(SHA), review(SHA, "changes")];
+  assert.match(reasonsToWait(p, now, postFiles).join(), /Claude's review/);
 });
 
-test("a review marker pasted in by anyone but the Codex bot is ignored", () => {
+test("a review marker posted by any other account is ignored", () => {
   const p = ready();
-  p.comments.nodes = [{ author: { __typename: "User", login: "someone" }, body: '<!-- codex-review-state:v1 {"code_review":{"commit_sha":"abc","status":"completed"}} -->' }];
-  assert.match(reasonsToWait(p, now, postFiles).join(), /Codex/);
-  p.comments.nodes[0].author = { __typename: "Bot", login: "other-bot" };
-  assert.match(reasonsToWait(p, now, postFiles).join(), /Codex/);
+  p.comments.nodes = [review(SHA, "pass", { __typename: "User", login: "someone" })];
+  assert.match(reasonsToWait(p, now, postFiles).join(), /Claude's review/);
+  p.comments.nodes = [review(SHA, "pass", { __typename: "Bot", login: "jondoesflow" })];
+  assert.match(reasonsToWait(p, now, postFiles).join(), /Claude's review/);
+});
+
+test("a short sha, a malformed newer marker or a quoted marker doesn't count", () => {
+  const short = ready(); short.comments.nodes = [review(SHA.slice(0, 7))];
+  assert.match(reasonsToWait(short, now, postFiles).join(), /Claude's review/);
+  const malformed = ready(); malformed.comments.nodes = [review(SHA), review(SHA, "fail")];
+  assert.match(reasonsToWait(malformed, now, postFiles).join(), /Claude's review/);
+  const quoted = ready(); quoted.comments.nodes = [{ ...review(SHA), body: `> <!-- claude-review:v1 sha=${SHA} result=pass -->` }];
+  assert.match(reasonsToWait(quoted, now, postFiles).join(), /Claude's review/);
+});
+
+test("a review posted as a GitHub review counts, and a newer one there can cancel a pass", () => {
+  const asReview = ready(); asReview.comments.nodes = [];
+  const r = review(SHA); asReview.reviews = { nodes: [{ author: r.author, body: r.body, submittedAt: r.createdAt }] };
+  assert.deepEqual(reasonsToWait(asReview, now, postFiles), []);
+  const cancelled = ready();
+  const c = review(SHA, "changes"); cancelled.reviews = { nodes: [{ author: c.author, body: c.body, submittedAt: c.createdAt }] };
+  assert.match(reasonsToWait(cancelled, now, postFiles).join(), /Claude's review/);
 });
