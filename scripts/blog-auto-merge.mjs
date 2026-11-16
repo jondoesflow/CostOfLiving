@@ -37,18 +37,22 @@ export function fileProblems(files) {
     .map((f) => `${f.filename} (${f.status})`);
 }
 
-// Claude posts its review as a comment from the owner's account, ending with
-// <!-- claude-review:v1 sha=<commit> result=pass|changes -->. Only that account
-// is trusted, so nobody else can paste a passing marker in. The newest marker
-// wins, so a later "changes" review cancels an earlier pass.
-export function claudeReviewedAt(comments, owner) {
-  for (const c of [...comments].reverse()) {
-    if (c.author?.__typename !== "User" || (c.author.login ?? "").toLowerCase() !== owner.toLowerCase()) continue;
-    const m = (c.body ?? "").match(/<!-- claude-review:v1 sha=([0-9a-f]{7,40}) result=(pass|changes) -->/);
-    if (!m) continue;
-    return m[2] === "pass" ? m[1] : null;
-  }
-  return null;
+// Claude posts its review as a comment (or a GitHub review) from the owner's
+// account, with a line of its own reading exactly
+// <!-- claude-review:v1 sha=<full 40-character commit sha> result=pass|changes -->.
+// Only that account is trusted, so nobody else can paste a passing marker in.
+// The newest owner comment or review that mentions claude-review:v1 decides:
+// if its marker is malformed, or says changes, nothing counts as passed.
+const MARKER = /^<!-- claude-review:v1 sha=([0-9a-f]{40}) result=(pass|changes) -->\s*$/m;
+
+export function claudeReviewedAt(items, owner) {
+  const mine = items
+    .filter((c) => c.author?.__typename === "User" && (c.author.login ?? "").toLowerCase() === owner.toLowerCase())
+    .filter((c) => (c.body ?? "").includes("claude-review:v1"))
+    .sort((a, b) => Date.parse(b.createdAt ?? 0) - Date.parse(a.createdAt ?? 0));
+  if (!mine.length) return null;
+  const m = mine[0].body.match(MARKER);
+  return m && m[2] === "pass" ? m[1] : null;
 }
 
 // A thread waits on an answer when a bot had the last word.
@@ -74,8 +78,12 @@ export function reasonsToWait(pr, now = Date.now(), files = null, owner = "jondo
   if (rollup?.state !== "SUCCESS") why.push(`checks are ${rollup?.state ?? "missing"}`);
   const checks = rollup?.contexts.nodes ?? [];
   if (!checks.some((c) => c.name === REQUIRED_CHECK && c.conclusion === "SUCCESS")) why.push(`"${REQUIRED_CHECK}" hasn't passed`);
-  const reviewed = claudeReviewedAt(pr.comments?.nodes ?? [], owner);
-  if (!reviewed || !commit?.oid?.startsWith(reviewed)) why.push("Claude's review of the latest commit hasn't passed");
+  const items = [
+    ...(pr.comments?.nodes ?? []),
+    ...(pr.reviews?.nodes ?? []).map((r) => ({ ...r, createdAt: r.submittedAt ?? r.createdAt })),
+  ];
+  const reviewed = claudeReviewedAt(items, owner);
+  if (!reviewed || reviewed !== commit?.oid) why.push("Claude's review of the latest commit hasn't passed");
   const waiting = pr.reviewThreads.nodes.filter((t) => !t.isResolved && awaitsAnswer(t.comments.nodes[0]));
   if (waiting.length) why.push(`${waiting.length} review comment(s) not answered`);
   if (pr.mergeable !== "MERGEABLE") why.push(`mergeable state is ${pr.mergeable}`);
@@ -110,7 +118,8 @@ const query = `query($owner: String!, $repo: String!) {
             ... on StatusContext { context state }
           } } }
         } } }
-        comments(last: 50) { nodes { body author { __typename login } } }
+        comments(last: 50) { nodes { body createdAt author { __typename login } } }
+        reviews(last: 50) { nodes { body submittedAt author { __typename login } } }
         reviewThreads(first: 100) { nodes { isResolved comments(last: 1) { nodes { body author { __typename login } } } } }
       }
     }

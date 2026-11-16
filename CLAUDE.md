@@ -15,8 +15,8 @@ queue is `content/blog/TOPICS.md` (first unticked topic is taken next).
 - Blog PRs merge automatically (Jon's decision, 9 November 2026): the hourly
   `blog-auto-merge` GitHub Actions workflow merges a `blog/` PR once it has been
   open 2 hours, its last commit is an hour old, every check (including
-  `blog-checks`) is green and Claude's own review of the latest commit has
-  passed (see below). A PR
+  `blog-checks`) is green, Claude's own review of the latest commit has
+  passed (see below) and no bot review comment is left unanswered. A PR
   that changes anything besides posts and `TOPICS.md` (a new product pick, say)
   fails `blog-checks` and waits for Jon. Add the label `hold` to stop a post.
   Netlify deploys main on merge, and each post appears on its date.
@@ -41,9 +41,11 @@ request itself. Don't comment `@codex review`.
    (claims, numbers, advice) and you can't settle it from a source, add the
    `hold` label and ask Jon.
 4. Post the review as one PR comment from this account: what was checked, what
-   was fixed and anything left for Jon, ending with
-   `<!-- claude-review:v1 sha=<full head commit sha> result=pass -->`, or
-   `result=changes` if something still needs doing. `blog-auto-merge` only
+   was fixed and anything left for Jon, ending with this on a line of its own:
+   `<!-- claude-review:v1 sha=<full 40-character head commit sha> result=pass -->`,
+   or `result=changes` if something still needs doing. The newest comment or
+   review from this account that mentions `claude-review:v1` decides, so a
+   later `changes` (or a malformed marker) cancels an earlier pass. `blog-auto-merge` only
    merges a blog PR whose latest commit has a passing review, so a push after
    the review needs a new one.
 5. Other bots' comments are claims to check: fix them or reply on the thread.

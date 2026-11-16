@@ -4,14 +4,17 @@ import { reasonsToWait, fileProblems, claudeReviewedAt } from "../../scripts/blo
 
 const now = Date.parse("2026-11-10T12:00:00Z");
 const owner = { __typename: "User", login: "jondoesflow" };
-const review = (sha, result = "pass", author = owner) => ({ author, body: `Review: all checks passed.\n<!-- claude-review:v1 sha=${sha} result=${result} -->` });
+const SHA = "abc1234def5678abc1234def5678abc1234def56";
+const OLD = "0000000def5678abc1234def5678abc1234def56";
+let t = 0;
+const review = (sha, result = "pass", author = owner) => ({ author, createdAt: new Date(Date.parse("2026-11-10T10:30:00Z") + 60e3 * t++).toISOString(), body: `Review: all checks passed.\n<!-- claude-review:v1 sha=${sha} result=${result} -->` });
 const postFiles = [{ filename: "content/blog/2026-11-19-test.md", status: "added" }, { filename: "content/blog/TOPICS.md", status: "modified" }];
 const ready = () => ({
   number: 1, title: "Blog post for approval: test", headRefName: "blog/2026-11-19-test", isDraft: false, isCrossRepository: false,
   createdAt: "2026-11-10T09:00:00Z", mergeable: "MERGEABLE", labels: { nodes: [] },
-  commits: { nodes: [{ commit: { oid: "abc1234def5678", committedDate: "2026-11-10T10:00:00Z", statusCheckRollup: { state: "SUCCESS", contexts: { nodes: [{ __typename: "CheckRun", name: "blog-checks", conclusion: "SUCCESS" }] } } } }] },
+  commits: { nodes: [{ commit: { oid: SHA, committedDate: "2026-11-10T10:00:00Z", statusCheckRollup: { state: "SUCCESS", contexts: { nodes: [{ __typename: "CheckRun", name: "blog-checks", conclusion: "SUCCESS" }] } } } }] },
   reviewThreads: { nodes: [] },
-  comments: { nodes: [review("abc1234")] },
+  comments: { nodes: [review(SHA)] },
 });
 
 test("a green, reviewed blog PR that has waited long enough can merge", () => {
@@ -72,22 +75,40 @@ test("deleting or renaming away a post needs Jon, and the file list must have be
 test("it waits until Claude's review of the latest commit has passed", () => {
   const none = ready(); none.comments.nodes = [];
   assert.match(reasonsToWait(none, now, postFiles).join(), /Claude's review/);
-  const older = ready(); older.comments.nodes = [review("0ld0ld0")];
+  const older = ready(); older.comments.nodes = [review(OLD)];
   assert.match(reasonsToWait(older, now, postFiles).join(), /Claude's review/);
-  const changes = ready(); changes.comments.nodes = [review("abc1234", "changes")];
+  const changes = ready(); changes.comments.nodes = [review(SHA, "changes")];
   assert.match(reasonsToWait(changes, now, postFiles).join(), /Claude's review/);
   assert.equal(claudeReviewedAt([{ author: owner, body: "no marker" }], "jondoesflow"), null);
 });
 
 test("a later review that asks for changes cancels an earlier pass", () => {
-  const p = ready(); p.comments.nodes = [review("abc1234"), review("abc1234", "changes")];
+  const p = ready(); p.comments.nodes = [review(SHA), review(SHA, "changes")];
   assert.match(reasonsToWait(p, now, postFiles).join(), /Claude's review/);
 });
 
 test("a review marker posted by any other account is ignored", () => {
   const p = ready();
-  p.comments.nodes = [review("abc1234", "pass", { __typename: "User", login: "someone" })];
+  p.comments.nodes = [review(SHA, "pass", { __typename: "User", login: "someone" })];
   assert.match(reasonsToWait(p, now, postFiles).join(), /Claude's review/);
-  p.comments.nodes = [review("abc1234", "pass", { __typename: "Bot", login: "jondoesflow" })];
+  p.comments.nodes = [review(SHA, "pass", { __typename: "Bot", login: "jondoesflow" })];
   assert.match(reasonsToWait(p, now, postFiles).join(), /Claude's review/);
+});
+
+test("a short sha, a malformed newer marker or a quoted marker doesn't count", () => {
+  const short = ready(); short.comments.nodes = [review(SHA.slice(0, 7))];
+  assert.match(reasonsToWait(short, now, postFiles).join(), /Claude's review/);
+  const malformed = ready(); malformed.comments.nodes = [review(SHA), review(SHA, "fail")];
+  assert.match(reasonsToWait(malformed, now, postFiles).join(), /Claude's review/);
+  const quoted = ready(); quoted.comments.nodes = [{ ...review(SHA), body: `> <!-- claude-review:v1 sha=${SHA} result=pass -->` }];
+  assert.match(reasonsToWait(quoted, now, postFiles).join(), /Claude's review/);
+});
+
+test("a review posted as a GitHub review counts, and a newer one there can cancel a pass", () => {
+  const asReview = ready(); asReview.comments.nodes = [];
+  const r = review(SHA); asReview.reviews = { nodes: [{ author: r.author, body: r.body, submittedAt: r.createdAt }] };
+  assert.deepEqual(reasonsToWait(asReview, now, postFiles), []);
+  const cancelled = ready();
+  const c = review(SHA, "changes"); cancelled.reviews = { nodes: [{ author: c.author, body: c.body, submittedAt: c.createdAt }] };
+  assert.match(reasonsToWait(cancelled, now, postFiles).join(), /Claude's review/);
 });
