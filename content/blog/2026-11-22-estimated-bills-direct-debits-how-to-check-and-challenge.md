@@ -7,7 +7,7 @@ tool: switch
 draft: false
 ---
 
-Short answer first: **check whether the bill says it is estimated, read your meter, and send the reading in. If your direct debit still looks wrong, ask your supplier to show how they worked it out, including the meter readings they used. If they won't put it right, make a formal complaint, and after 8 weeks you can go to the Energy Ombudsman.**
+Short answer first: **check whether the bill says it is estimated, read your meter, and send the reading in. If your direct debit still looks wrong, ask your supplier to show how they worked it out, including the meter readings they used. If they won't put it right, make a formal complaint. Once you have a deadlock letter, or 8 weeks have passed without a decision, you can go to the Energy Ombudsman.**
 
 Most wrong bills come from a guess that was never corrected, and a reading is how you correct it. Everything below comes from Citizens Advice's energy pages for England and the Octopus Energy public API, read on 13 November 2026.
 
@@ -21,9 +21,9 @@ A smart meter doesn't make you immune. If it has stopped sending readings, which
 
 ## Check the bill in four steps
 
-1. **Read the meter.** On a standard digital electricity meter, write down the first five numbers from left to right and ignore any in red. Citizens Advice has [a guide to every meter type](https://www.citizensadvice.org.uk/consumer/energy/energy-supply/your-energy-meter/how-to-read-your-energy-meter/), dials included.
+1. **Read the meter.** On a standard digital electricity meter, write down the first five numbers from left to right and ignore any in red. Citizens Advice has [a guide to the common meter types](https://www.citizensadvice.org.uk/consumer/energy/energy-supply/your-energy-meter/how-to-read-your-energy-meter/), dials included.
 2. **Compare it with the reading on the bill.** A small gap is normal, because you have used energy since the bill date. A big gap, or a bill reading higher than the number on your meter today, is your evidence.
-3. **Check it is your meter.** Citizens Advice says to [compare the meter number on the bill](https://www.citizensadvice.org.uk/consumer/energy/energy-supply/problems-with-your-energy-bill/energy-bill-too-high/) (the MPAN for electricity, the MPRN for gas) with the one registered to your address. Being billed for a neighbour's meter is rare, but it happens.
+3. **Check it is your meter.** Citizens Advice says to [compare the meter number on the bill](https://www.citizensadvice.org.uk/consumer/energy/energy-supply/problems-with-your-energy-bill/energy-bill-too-high/) (the MPAN for electricity, the MPRN for gas) with the one registered to your address. It takes a minute and rules out a mix-up.
 4. **Check the prices.** Compare the unit rate and standing charge with your last bill. A price rise is a real reason for a higher bill, and it doesn't mean the bill is wrong.
 
 If the estimate is too high, send the reading and ask for a corrected bill. Take a photo of the meter while you're there. It costs nothing and it settles arguments.
@@ -49,7 +49,7 @@ Here is a worked example. The usage is my assumption for illustration, not your 
 | Gas | 10,000 kWh | 8.15p per kWh | 29.24p a day | £921.35 |
 | **Total** | | | | **£1,790.49** |
 
-Divide by 12 and you get about £149 a month. If that household were paying £150, fine. If it were paying £210 with no debt on the account, I'd want to know why.
+The year's costs use the unrounded rates, so redoing the sum from the table gives a few pence more. Divide by 12 and you get about £149 a month. If that household were paying £150, fine. If it were paying £210 with no debt on the account, I'd want to know why.
 
 Your rates will differ by region and tariff, so use the ones printed on your own bill.
 
@@ -59,7 +59,7 @@ Citizens Advice lists the usual reasons a supplier [increases a direct debit](ht
 
 If you don't agree with the new amount:
 
-- **Ask for the working.** Your supplier should explain how they reached the figure and give you the meter readings they used.
+- **Ask for the working.** Your supplier must explain clearly how they reached the figure and give you the meter readings they used.
 - **Check those readings** against your bills and your meter. Remember usage is higher in winter, so a rise in November isn't proof of a mistake.
 - **Ask them to lower it** to match what you really use, with your own readings to back that up.
 - **Ask about variable direct debit.** Some suppliers will take what you used each month instead of a fixed amount. Bills are lower in summer and higher in winter, so it only suits you if a big January payment won't cause trouble.
@@ -76,7 +76,7 @@ So think about the time of year before you ask. A large credit in March, after t
 
 Suppliers can bill you for energy you used in the past, which is called back billing. But Citizens Advice says a supplier [usually can't charge you for energy used more than 12 months ago](https://www.citizensadvice.org.uk/consumer/energy/energy-supply/problems-with-your-energy-bill/you-havent-received-a-gas-or-electricity-bill-in-a-while/) if you haven't had an accurate bill for it, and your direct debit shouldn't be raised to recover it.
 
-There are limits. The protection doesn't cover a bill that was sent in time and not paid, and it may not apply if you behaved unreasonably, such as refusing access to read the meter. If you think you're covered, write to your supplier and say so. Citizens Advice has a template letter on that page.
+There are limits. The protection doesn't cover a bill that was sent in time and not paid, and it may not apply if you behaved unreasonably, such as refusing access to read the meter without a good reason. If you think you're covered, write to your supplier and say so. Citizens Advice has a template letter on that page.
 
 ## If your supplier won't fix it
 
@@ -93,4 +93,4 @@ The supplier should send a decision letter or a letter of deadlock within 8 week
 
 Read your meter, photograph it and send the reading in. Then do the four-line sum above with the rates on your bill and compare it with your direct debit.
 
-If the sum shows you're paying roughly the right amount but it's still more than you'd like, the tariff is the thing to look at. The [should I switch tool](/should-i-switch/) compares tariffs using your own half-hourly data, and my guide to [downloading your smart meter usage](/blog/read-smart-meter-download-half-hourly-usage/) shows how to get it.
+If the sum shows you're paying roughly the right amount but it's still more than you'd like, the tariff is the thing to look at. The [should I switch tool](/should-i-switch/) compares electricity tariffs using your own half-hourly data, and my guide to [downloading your smart meter usage](/blog/read-smart-meter-download-half-hourly-usage/) shows how to get it.
