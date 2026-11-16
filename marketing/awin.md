@@ -66,8 +66,13 @@ including to the UK, so Jon decided on 13 Nov 2026 not to use it (see below).
    workflow in CLAUDE.md.
 6. **Check and raise a PR.** `npm run lint`, `npm run test:unit`,
    `npm run build`, `npx playwright test`. One PR titled
-   "Awin approval: <programme>", subscribed, merged only with Jon's approval
-   (blog posts follow the blog workflow). Add a row to the table above.
+   "Awin approval: <programme>", subscribed, reviewed by Claude (see
+   CLAUDE.md, "Reviews"), then merged by the Awin check itself: on
+   16 November 2026 Jon approved merging approval and offer PRs without
+   waiting for him, as long as checks are green, the review has passed and
+   the PR only touches offers, picks and these notes. Jon gets a summary
+   afterwards. Blog posts follow the blog workflow. Add a row to the table
+   above.
 
 ## Approved but not used
 
