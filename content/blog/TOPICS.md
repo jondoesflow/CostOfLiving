@@ -68,7 +68,7 @@ on the day stays out. Confirmed measures that touch these topics:
 - [ ] Estimated bills and direct debits: how to check and challenge them (billing; tool: switch)
 - [ ] Electric heater vs central heating: which costs less to warm one room? (habits; tool: gas)
 - [ ] Cavity wall vs solid wall insulation: costs, benefits and condensation risks (big upgrades; tool: gas)
-- [ ] How much does it cost to charge an electric car at home? (tariffs; tool: when)
+- [x] How much does it cost to charge an electric car at home? (tariffs; tool: when) (2026-11-16)
 - [ ] What uses the most electricity in a UK home? (habits; tool: when)
 - [ ] Double vs triple glazing: is the upgrade worth it in the UK? (big upgrades; tool: gas)
 - [ ] EV tariffs compared: Octopus Go, EDF GoElectric and E.ON Next Drive (tariffs; tool: when)
