@@ -2,18 +2,18 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { OFFERS, offersFor, offerActive, offerLink } from "../../src/offers.js";
 
-const tower = OFFERS.find((o) => o.code === "AIRFRYER");
+const duo = OFFERS.find((o) => o.id === 4162961); // Swan Nordic Duo, 5 to 30 Nov 2026
 
 test("an offer is only active between its start and end", () => {
-  assert.equal(offerActive(tower, new Date("2026-11-08T23:00:00Z")), false);
-  assert.equal(offerActive(tower, new Date("2026-11-10T12:00:00Z")), true);
-  assert.equal(offerActive(tower, new Date("2026-11-16T00:00:00Z")), false);
+  assert.equal(offerActive(duo, new Date("2026-11-04T12:00:00Z")), false);
+  assert.equal(offerActive(duo, new Date("2026-11-10T12:00:00Z")), true);
+  assert.equal(offerActive(duo, new Date("2026-12-01T00:00:00Z")), false);
 });
 
 test("ended offers are left out, offers still to start are kept for the page script", () => {
   const all = OFFERS.map((o) => o.mid);
-  assert.ok(offersFor("gifts:air-fryers-slow-cookers", new Date("2026-11-08T12:00:00Z"), all).includes(tower));
-  assert.ok(!offersFor("gifts:air-fryers-slow-cookers", new Date("2026-11-16T00:00:00Z"), all).includes(tower));
+  assert.ok(offersFor("gifts:air-fryers-slow-cookers", new Date("2026-11-04T12:00:00Z"), all).includes(duo));
+  assert.ok(!offersFor("gifts:air-fryers-slow-cookers", new Date("2026-12-01T00:00:00Z"), all).includes(duo));
 });
 
 test("offers only show for programmes we've joined", () => {
@@ -30,6 +30,6 @@ test("every offer has a valid window, a place and an https retailer page", () =>
 });
 
 test("offer links go through Awin with the landing page last", () => {
-  const href = offerLink(tower, "offer-test");
-  assert.match(href, /awinmid=20823&awinaffid=3143222&clickref=offer-test&ued=/);
+  const href = offerLink(duo, "offer-test");
+  assert.match(href, /awinmid=16860&awinaffid=3143222&clickref=offer-test&ued=/);
 });
