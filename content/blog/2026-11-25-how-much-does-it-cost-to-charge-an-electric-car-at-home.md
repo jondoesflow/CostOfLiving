@@ -21,7 +21,7 @@ Use the kWh you pay for, which is what the charger's app or your smart meter rec
 
 Throughout this post I use the same typical figure as the rest of Cheap Watts: **30 kWh on a 7kW home charger, twice a week**. On a 7kW charger that takes about four and a half hours.
 
-How far 30 kWh takes you depends on the car, the weather and how you drive, so I won't guess at a cost per mile. Your car's miles per kWh figure, multiplied by the prices below, gets you there.
+How far 30 kWh takes you depends on the car, the weather and how you drive, so I won't guess at a cost per mile. Divide a price per kWh below by your car's miles per kWh figure and you have your cost per mile.
 
 ## What a charge costs on each tariff
 
@@ -98,8 +98,8 @@ Its [appliance ratings guide](https://www.electricalsafetyfirst.org.uk/safety-ad
 2. **Use the car's timer, or the charger's.** On any tariff with a cheap window, the saving only happens if the car charges inside it. Set the schedule in the car or charger app so it starts after the window opens.
 3. **If you're on a flat tariff, look at the timing anyway.** On a flat rate the price is the same all day, so timing won't change your bill. It can still help the grid: I covered when electricity is cleanest and cheapest in [What's the cheapest time to use electricity in the UK?](/blog/cheapest-time-to-use-electricity-uk/)
 4. **Price an EV tariff on your own usage.** The break-even table above is a first check. Add up what your home uses outside the hours you'd charge, using your supplier app or smart meter data, and compare it with the figure for the tariff you're looking at.
-5. **Read the terms.** Exit fees, fixed terms and car or app requirements differ, as the list above shows.
+5. **Read the terms.** Exit fees, fixed terms and car or app rules differ.
 
 To see what charging costs at different times of day on today's prices, the [Cheap Watts home page](/) lets you pick the electric car from the list of appliances and shows the cheapest slot to run it.
 
-Next step: multiply your weekly kWh by the gap between your rate and an EV tariff's night rate. That tells you in a minute whether switching is worth it.
+Next step: multiply your yearly charging kWh by the gap between your rate and an EV tariff's night rate. Take off the extra the rest of your daytime use would cost at the higher day rate. What's left is your real saving.
