@@ -14,7 +14,7 @@ That does happen. If you live alone in a three-bed house and only ever sit in on
 
 ## The prices I used
 
-These are the Flexible Octopus standard rates for London (region C), including VAT, from the [Octopus API](https://api.octopus.energy/v1/products/VAR-22-11-01/) on 14 November 2026:
+These are the Flexible Octopus Direct Debit rates for London (region C), including VAT, from the [Octopus API](https://api.octopus.energy/v1/products/VAR-22-11-01/) on 14 November 2026:
 
 | Fuel | Unit rate | Standing charge |
 |---|---|---|
@@ -79,7 +79,7 @@ There are times when the heater is the right call:
 - **You live alone in a bigger home** and only use one room in the evening.
 - **You want ten minutes of warmth**, say in a cold bathroom or a home office first thing, and don't want to fire up the whole system.
 - **You don't have gas central heating** at all. Then the comparison is with your storage heaters or other electric heating, which is a different sum.
-- **Your electricity is very cheap at that time.** On a time-of-use tariff, a heater running when your rate is below about 9.6p a kWh matches gas on cost per unit of heat. The [Cheap Watts tool](/) shows when your cheapest hours are.
+- **Your electricity is very cheap at that time.** On a time-of-use tariff, a heater running when your rate is about 9.6p a kWh or less matches or beats gas on cost per unit of heat. The [Cheap Watts tool](/) shows when your cheapest hours are.
 
 One thing that doesn't change the sum: the standing charges. If you have gas, you pay the gas standing charge every day whether the boiler runs or not, so it isn't saved by using an electric heater instead.
 
