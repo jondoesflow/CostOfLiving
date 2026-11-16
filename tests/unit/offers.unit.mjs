@@ -33,3 +33,15 @@ test("offer links go through Awin with the landing page last", () => {
   const href = offerLink(duo, "offer-test");
   assert.match(href, /awinmid=16860&awinaffid=3143222&clickref=offer-test&ued=/);
 });
+
+test("Black Friday codes are hidden before 23 November and gone after they end", () => {
+  const all = OFFERS.map((o) => o.mid);
+  const tower = OFFERS.find((o) => o.id === 4162879);
+  const swan = OFFERS.find((o) => o.id === 4162940);
+  assert.equal(offerActive(tower, new Date("2026-11-22T23:59:00Z")), false);
+  assert.equal(offerActive(tower, new Date("2026-11-23T12:00:00Z")), true);
+  assert.ok(offersFor("cost:airfryer", new Date("2026-11-16T12:00:00Z"), all).includes(tower));
+  assert.ok(!offersFor("cost:airfryer", new Date("2026-11-30T00:00:00Z"), all).includes(tower));
+  assert.equal(offerActive(swan, new Date("2026-11-30T23:00:00Z")), true);
+  assert.equal(offerActive(swan, new Date("2026-12-01T00:00:00Z")), false);
+});
