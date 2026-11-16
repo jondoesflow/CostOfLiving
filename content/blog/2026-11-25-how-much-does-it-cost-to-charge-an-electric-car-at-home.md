@@ -40,7 +40,7 @@ A few details from the same data that matter before you pick one:
 - **Octopus Go** is a variable tariff with no exit fee.
 - **EDF Go Electric** is fixed for 12 months, and EDF's own description lists a £75 exit fee.
 - **E.ON Next Drive Fixed** is fixed for 12 months, with no exit fee. You need to own or lease an electric or hybrid car.
-- **E.ON Next Drive Smart** is also fixed for 12 months, but you need a compatible car and must let E.ON smart charge it through its app.
+- **E.ON Next Drive Smart** is also fixed for 12 months, but you need a compatible car and must let E.ON smart charge it through its app. [E.ON says](https://www.eonnext.com/tariffs/next-drive/smart) that if it charges your car during the day, your whole home gets the 6.50p rate while it does.
 
 All of them need a smart meter. Prices vary by region, so your numbers will differ a little from these. The cheap windows above are in UK time as they stood in November; check the supplier's own page for how the window works when the clocks change.
 
@@ -67,9 +67,9 @@ Every one of these tariffs charges more than the flat rate outside its cheap win
 - Octopus Go: 7.45p more per kWh
 - EDF Go Electric: 7.92p more per kWh
 - E.ON Next Drive Fixed: 8.85p more per kWh
-- E.ON Next Drive Smart: 8.00p more per kWh
+- E.ON Next Drive Smart: 8.00p more per kWh, except while E.ON is smart charging your car in the day, when the whole home pays 6.50p
 
-So the question is whether the car saves more than the rest of the house costs extra. Here is where each tariff breaks even against the flat rate, assuming none of your home's own use falls in the cheap window:
+So the question is whether the car saves more than the rest of the house costs extra. Here is where each tariff breaks even against the flat rate, assuming none of your home's own use falls in the cheap window. For Drive Smart that is a worst case, because any daytime smart charging also makes the rest of the house cheaper while it runs:
 
 | Tariff | Charging twice a week: break-even daytime use | Charging once a week: break-even daytime use |
 |---|---|---|
