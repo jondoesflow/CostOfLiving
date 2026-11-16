@@ -7,7 +7,7 @@ tool: when
 draft: false
 ---
 
-Short answer: **on 16 November 2026, a typical 30 kWh home charge cost £7.68 on a standard flat tariff in Yorkshire, and between £1.95 and £2.82 on the overnight rate of an electric car tariff. Do that twice a week and the gap is worth about £500 a year.**
+Short answer: **on 16 November 2026, a typical 30 kWh home charge cost £7.68 on a standard flat tariff in Yorkshire, and between £1.95 and £2.82 on the overnight rate of an electric car tariff. Twice a week, that gap is worth £500 to £600 a year.**
 
 That is the headline. The catch is that EV tariffs charge more for everything else you use in the day, so the real answer depends on how much of your electricity the car accounts for. Here is the sum, with the numbers to do it for your own home.
 
