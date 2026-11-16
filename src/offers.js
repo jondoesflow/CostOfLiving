@@ -14,7 +14,7 @@ import { awinUrl } from "./products.js";
 export const OFFERS = [
   {
     id: 4162879, mid: 20823, retailer: "Tower",
-    title: "25% off most of Tower's range, air fryers included",
+    title: "25% off most of Tower's range",
     detail: "Tower's Black Friday code: 25% off almost everything on its website.",
     code: "BLACKFRIDAY",
     url: "https://www.towerhousewares.co.uk/",

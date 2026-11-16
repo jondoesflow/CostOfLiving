@@ -34,8 +34,9 @@ test("an offer shows once its start time has passed", async ({ page }) => {
   await page.clock.install({ time: new Date("2026-11-24T12:00:00Z") });
   await page.goto("/offers/");
   const blackFriday = page.locator('[data-offer-starts="2026-11-23T00:01:00Z"]');
+  await expect(blackFriday).toHaveCount(2);
   for (const li of await blackFriday.all()) await expect(li).toBeVisible();
-  await expect(page.locator(".offers")).toContainText("BLACKFRIDAY");
+  await expect(page.locator(".offers li:not([hidden])", { hasText: "BLACKFRIDAY" })).toHaveCount(2);
 });
 
 test("offers appear on the pages they're for", async ({ page }) => {

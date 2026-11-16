@@ -144,8 +144,8 @@ bins, 16 to 22 Nov) and Swan FLOOR (20% off floorcare, 16 to 22 Nov), as
 neither is energy-saving kit.
 
 16 November 2026 (evening): added two upcoming codes that Awin lists with exact
-times, both 25% off and both covering the air fryers and slow cookers the site
-already promotes: Tower BLACKFRIDAY (23 Nov 00:01 to 29 Nov 23:59 UTC) and Swan
+times, both 25% off most of the site, from the retailers whose air fryers and
+slow cookers the site already promotes (Swan's excludes sale items): Tower BLACKFRIDAY (23 Nov 00:01 to 29 Nov 23:59 UTC) and Swan
 BLACKFRIDAY (23 Nov 00:01 to 30 Nov 23:59 UTC). They stay hidden until they
 start. Not added: Tower's Slush 'n' Whip £100 off (25 to 30 Nov), not
 energy-saving kit.
