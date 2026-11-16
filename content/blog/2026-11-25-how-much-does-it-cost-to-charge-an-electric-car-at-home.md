@@ -88,11 +88,13 @@ Plenty of people start with the cable that came with the car, plugged into an or
 
 **It is slower.** The [RAC says](https://www.rac.co.uk/drive/electric-cars/charging/electric-car-charging-how-it-works-and-how-much-it-costs/) most car makers limit the current drawn from a three-pin socket to 10A or less, a maximum of 2.3kW. At that rate, a full five-hour Octopus Go window fits in only about 11.5 kWh, so most of a 30 kWh charge spills into the daytime rate.
 
-**Safety matters more than the saving.** [Electrical Safety First](https://www.electricalsafetyfirst.org.uk/media-centre/press-releases/2019/05/driven-to-danger-electric-vehicle-drivers-charging-dangerously-due-to-lack-of-public-infrastructure/) advises never using a domestic multi-socket extension lead to charge an electric car, only ever using an extension lead suitable for outdoor use such as a reel cable if you must use one, and never plugging one extension lead into another. It says the safest way to charge at home is a dedicated wallbox charge point, installed by a qualified, registered electrician. If you use a cable reel, its general advice is to unwind it fully so it doesn't overheat.
+**Safety matters more than the saving.** Electrical Safety First's [electric vehicle guidance](https://www.electricalsafetyfirst.org.uk/safety-advice/products-and-appliances/transport/electric-vehicles/) says the safest way to charge at home is a dedicated charge point, installed by a registered and competent electrician. It warns that the long, heavy load of charging a car is likely to be more than a standard socket is built for. Sockets used for charging should be EV-rated ones, marked BS1363/EV, on their own circuit.
+
+Its [appliance ratings guide](https://www.electricalsafetyfirst.org.uk/safety-advice/home-and-people/house-maintenance/ratings-of-electrical-appliances/) is just as clear: slow charging needs a dedicated circuit and must not be done with an extension lead. Use the cable that came with the car, or one from a reputable retailer, and if you're charging from an ordinary socket today, get an electrician to look at it.
 
 ## How to get the cheapest charge
 
-1. **Check your current rate.** Your bill or supplier app shows your price per kWh. Multiply it by the kWh you put in each week and you have today's cost.
+1. **Check your current rate.** Your bill or supplier app shows your price per kWh.
 2. **Use the car's timer, or the charger's.** On any tariff with a cheap window, the saving only happens if the car charges inside it. Set the schedule in the car or charger app so it starts after the window opens.
 3. **If you're on a flat tariff, look at the timing anyway.** On a flat rate the price is the same all day, so timing won't change your bill. It can still help the grid: I covered when electricity is cleanest and cheapest in [What's the cheapest time to use electricity in the UK?](/blog/cheapest-time-to-use-electricity-uk/)
 4. **Price an EV tariff on your own usage.** The break-even table above is a first check. Add up what your home uses outside the hours you'd charge, using your supplier app or smart meter data, and compare it with the figure for the tariff you're looking at.
@@ -100,4 +102,4 @@ Plenty of people start with the cable that came with the car, plugged into an or
 
 To see what charging costs at different times of day on today's prices, the [Cheap Watts home page](/) lets you pick the electric car from the list of appliances and shows the cheapest slot to run it.
 
-If you charge twice a week on a standard tariff, the next step is simple: take your own weekly kWh, multiply by the gap between your rate and an EV tariff's night rate, and you will know within a minute whether switching is worth the effort.
+Next step: multiply your weekly kWh by the gap between your rate and an EV tariff's night rate. That tells you in a minute whether switching is worth it.
