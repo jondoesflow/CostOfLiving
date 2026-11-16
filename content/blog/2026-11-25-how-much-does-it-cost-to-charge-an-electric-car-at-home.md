@@ -17,7 +17,7 @@ The cost of a charge is just two numbers multiplied together:
 
 **kWh you put in × the price per kWh = the cost of the charge**
 
-The kWh figure comes from the car (its app or dashboard will usually tell you how much went in), not the size of the battery. Most people top up rather than charge from empty.
+Use the kWh you pay for, which is what the charger's app or your smart meter records, not the size of the battery. A car's own app may show what reached the battery instead, and some energy is lost along the way, so that figure can make a charge look cheaper than it is. Most people top up rather than charge from empty.
 
 Throughout this post I use the same typical figure as the rest of Cheap Watts: **30 kWh on a 7kW home charger, twice a week**. On a 7kW charger that takes about four and a half hours.
 
