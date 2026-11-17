@@ -8,13 +8,13 @@ draft: false
 products: monitor-plug, hpdryer, immersion-timer
 ---
 
-What uses the most electricity in a UK home? **Anything that makes heat.** On the typical figures Cheap Watts uses, the biggest users are an electric car, an immersion heater, plug-in electric heaters, a tumble dryer and an electric shower. At 25.60p per kWh on 17 November 2026, each of those can cost well over £100 a year. A washing machine, an air fryer or a phone charger barely registers next to them.
+What uses the most electricity in a UK home? **Anything that makes heat.** On the typical figures Cheap Watts uses, the biggest users are an electric car, an immersion heater, plug-in electric heaters, a tumble dryer and an electric shower. At 25.60p per kWh on 17 November 2026, each of those can cost over £100 a year. A washing machine, an air fryer or an iron barely registers next to them.
 
 The rule of thumb is simple. Motors and screens are cheap. Heating water, air or clothes is expensive. So if you want to know where your money goes, start with the things that get hot.
 
 ## The league table
 
-These are the typical figures the site uses for each appliance, with the number of uses a week I've assumed. The price is Flexible Octopus for Yorkshire, paid by direct debit, from [Octopus's public price data](https://api.octopus.energy/v1/products/VAR-22-11-01/) on 17 November 2026. That rate was 25.60p per kWh.
+These are the typical figures the site uses for each appliance, with the number of uses a week I've assumed. The price is Flexible Octopus for Yorkshire, paid by direct debit, from [Octopus's public price data](https://api.octopus.energy/v1/products/VAR-22-11-01/) on 17 November 2026. That rate was 25.60p per kWh (25.6028p before rounding, which is what the costs below use).
 
 | Appliance | Typical use | Uses a week | kWh a year | Cost a year | Cost per use |
 |---|---|---|---|---|---|
@@ -41,7 +41,7 @@ Don't add the column up and treat it as a typical bill. Hardly anyone has every 
 
 ## Why heat costs so much
 
-It comes down to watts. A kettle, a shower or a heater pulls thousands of watts while it's on. A laptop charger pulls tens.
+It comes down to watts. An electric shower (9.5kW) or a heater (2kW) pulls thousands of watts while it's on. An electric blanket pulls about 100.
 
 An electric shower at 9.5kW uses more power in eight minutes than an electric blanket does in nearly 13 hours. A 2kW heater uses 2 kWh every hour it runs, so a cold evening of four hours is 8 kWh, or about £2.05 at 25.60p.
 
