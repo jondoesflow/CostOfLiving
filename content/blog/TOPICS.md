@@ -70,7 +70,7 @@ on the day stays out. Confirmed measures that touch these topics:
 - [x] Cavity wall vs solid wall insulation: costs, benefits and condensation risks (big upgrades; tool: gas) (2026-11-15)
 - [x] How much does it cost to charge an electric car at home? (tariffs; tool: when) (2026-11-16)
 - [x] What uses the most electricity in a UK home? (habits; tool: when) (2026-11-17)
-- [ ] Double vs triple glazing: is the upgrade worth it in the UK? (big upgrades; tool: gas)
+- [x] Double vs triple glazing: is the upgrade worth it in the UK? (big upgrades; tool: gas) (2026-11-18)
 - [ ] EV tariffs compared: Octopus Go, EDF GoElectric and E.ON Next Drive (tariffs; tool: when)
 - [ ] How much does a dishwasher cost to run, and when should you run it? (habits; tool: plan)
 - [ ] Switching energy supplier: the rules, exit fees and how long it takes (billing; tool: switch)
