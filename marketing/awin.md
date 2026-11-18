@@ -80,6 +80,7 @@ including to the UK, so Jon decided on 13 Nov 2026 not to use it (see below).
 | --- | --- | --- | --- |
 | brkox | 129093 | 9 Nov 2026 | LED light kits for LEGO sets, sold to US collectors in US dollars. Jon decided on 11 November 2026: US-only, so don't use it. |
 | Meross Smarthome | 107077 | 11 Nov 2026 | Sells to UK buyers in US dollars ($30.99 for the UK MSS315MA 2-pack on 11 Nov 2026). Jon decided on 13 Nov 2026 to drop it and use Shelly for the smart plug pick. |
+| BLUETTI UK | 32273 | 18 Nov 2026 | Waiting for terms: "Cheap Watts/Awin terms/32273*.pdf" is not in OneDrive yet. Awin's API shows a UK programme in GBP with deep linking allowed and 5% commission, and the shop (bluettipower.co.uk) prices in GBP. Its two vouchers (APEXAFF6 and EL400AFF6, an extra 6% off two power station ranges, until 7 Dec 2026) wait until the terms are read. |
 
 ## Rejections
 
