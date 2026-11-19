@@ -28,7 +28,7 @@ Your own machine will differ. The energy label shows the eco programme's use in 
 
 ## What a run costs on different tariffs
 
-These are the Direct Debit unit rates for Yorkshire from the Octopus price data on 19 November 2026, using the 1.0 kWh eco run.
+These are the Direct Debit unit rates for Yorkshire from the [Octopus price data](https://api.octopus.energy/v1/products/) on 19 November 2026, using the 1.0 kWh eco run.
 
 | Tariff and time | Price per kWh | One run | Five a week for a year |
 |---|---|---|---|
@@ -58,7 +58,7 @@ On a flat tariff, none of this applies. Run it whenever suits you.
 
 ## The safety point: don't run it while you sleep
 
-The cheapest hours on most tariffs are the middle of the night. That's a problem, because fire services advise against running appliances while you're asleep or out.
+The cheapest hours on most tariffs are the middle of the night. That's a problem, because fire services such as Devon and Somerset advise against running appliances while you're asleep or out.
 
 [Devon and Somerset Fire and Rescue](https://www.dsfire.gov.uk/news/safety/why-you-shouldnt-use-washing-machines-and-tumble-dryers-night) puts it plainly: "The safest time to use electricals is when you are awake, and definitely in the house." It includes the dishwasher in that advice and says "You should never leave appliances on when you're out." If a fire starts at night, it can develop for longer before anyone notices.
 
@@ -67,7 +67,7 @@ It also suggests closing the door to the room where the appliance is running and
 So the cheapest slot isn't always the right one. Here's how that plays out on each tariff:
 
 - **Flat tariff.** Timing doesn't change the price, so run it while you're up and about.
-- **Octopus Go.** The cheap window ends at 5.30am. If you're up early, start it before 5.30am so the first part of the cycle, where the water is heated, gets the cheap rate, and you're awake for the rest.
+- **Octopus Go.** The cheap window ends at 5.30am. If you're up early, start it before 5.30am so the first part of the cycle, where much of the water heating happens, gets the cheap rate, and you're awake for the rest.
 - **Cosy Octopus.** The 1pm to 4pm cheap window is in the daytime, so if someone is home in the afternoon you get the cheap rate and stay safe.
 - **Agile.** Look at the day's prices and pick the cheapest slot when you're awake. Late evening is often cheaper than teatime.
 
