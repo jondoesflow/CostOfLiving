@@ -29,7 +29,7 @@ When a fixed tariff ends and you do nothing, you'll usually be moved onto your s
 
 ## What exit fees look like right now
 
-Exit fees are set per fuel, so a dual fuel customer leaving early pays one for electricity and one for gas. This is what three suppliers' current fixed tariffs charge, from their public APIs on 20 November 2026:
+Exit fees are set per fuel, so a dual fuel customer leaving early pays one for electricity and one for gas. This is what three suppliers' current fixed tariffs charge, with Octopus's variable tariff for comparison, from their public APIs on 20 November 2026:
 
 | Tariff | Exit fee per fuel |
 | --- | --- |
@@ -45,7 +45,7 @@ So leaving a 12 month fix early with both fuels would cost £100 at any of those
 
 Citizens Advice makes a point I agree with: you might still save more by switching, even after the fee. It's simple arithmetic.
 
-Take your yearly kWh from your bill, multiply by the difference in unit rates, and add the difference in standing charges over the days you'd be on the new deal. Compare that with the exit fee.
+Take the kWh you'd use in the time left on your fix, multiply by the difference in unit rates, and add the difference in standing charges over those days. Compare that with the exit fee.
 
 Here's a worked example using my own assumptions, not your figures. A home uses 2,700 kWh of electricity a year and finds a tariff 2p per kWh cheaper with the same standing charge. That saves 2,700 × 2p = £54 a year. Against a £50 electricity exit fee, that's £4 better off over a full year, and worse off if you only had a few months left on the fix. On those numbers I'd sit tight and switch once I was inside the 49 days.
 
@@ -57,9 +57,9 @@ Don't assume a fix is the cheaper option either. On 20 November 2026, Octopus's 
 
 1. **Compare tariffs.** Your current supplier's other tariffs are worth a look too: Ofgem says the best option may be with your current supplier. If you use a comparison site, try more than one, as Citizens Advice notes they don't all show the same tariffs.
 2. **Check your meter will work.** If you have a smart meter, ask whether it will keep working in smart mode after the switch. If you have a prepayment meter, you'll need a prepayment tariff, and not every supplier offers one. If you have an Economy 7 or other time-of-use meter, ask the new supplier whether their tariff works with it.
-3. **Have your bill handy.** Ofgem lists what the new supplier will need: your postcode, your current supplier and tariff, your unit rate in kWh and your yearly usage.
+3. **Have your bill handy.** Ofgem lists what the new supplier will need: your postcode, your current supplier and tariff, what you pay per kWh (your unit rate) and your yearly usage.
 4. **Sign up with the new supplier.** Online or by phone. You don't need to tell your old supplier you're leaving, because the new one does that.
-5. **Take a meter reading on switch day** and give it to the new supplier, so you aren't charged twice for the same units. A photo of the meter is the best receipt you'll ever get.
+5. **Take a meter reading on switch day** and give it to the new supplier, so the new supplier doesn't charge you for energy you used before the switch. A photo of the meter is the best receipt you'll ever get.
 
 ## How long does it take?
 
