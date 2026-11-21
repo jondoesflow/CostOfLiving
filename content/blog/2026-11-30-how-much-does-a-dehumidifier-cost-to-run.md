@@ -24,9 +24,9 @@ To work out your own:
 
 At the Flexible Octopus Direct Debit rate for Yorkshire on 21 November 2026, 25.60p per kWh:
 
-- One hour at 250W is 0.25 kWh, so about **6.4p**.
-- An eight hour session is 2 kWh, so about **51.2p**.
-- Four sessions a week is 416 kWh a year, so about **£106.51**.
+- One hour at 250W is 0.25 kWh, so about 6.4p.
+- An eight hour session is 2 kWh, so about 51.2p.
+- Four sessions a week is 416 kWh a year, so about £106.51.
 
 Your own machine might use more or less. The wattage is on the label on the back or in the manual. Many models also have a humidity setting, and if yours does, check the manual for how it behaves once the room reaches that level, because it may not draw full power all the time. The only way to know for sure is to measure it, which I'll come to.
 
@@ -58,7 +58,7 @@ On a time-of-use tariff, it can matter a lot. Here are the Yorkshire rates for t
 
 On Cosy that day, the cheap hours were 4am to 7am, 1pm to 4pm and 10pm to midnight, and 4pm to 7pm was the dearest. Octopus describes Go as "the smart EV tariff" and Cosy as "a heat pump tariff", so check whether you qualify before planning around either. I covered whether these tariffs make sense for everyone else in [Is a time-of-use tariff worth it if you don't have an electric car?](/blog/time-of-use-tariff-worth-it-without-electric-car/)
 
-The catch with the cheapest hours is that they tend to be the middle of the night. [Devon and Somerset Fire and Rescue](https://www.dsfire.gov.uk/news/safety/why-you-shouldnt-use-washing-machines-and-tumble-dryers-night) says: "The safest time to use electricals is when you are awake, and definitely in the house." So on Cosy, the 1pm to 4pm window is the one worth using if someone's home in the afternoon. On Go, the cheap hours finish at 5.30am, which only really helps early risers.
+The catch with the cheapest hours is that they tend to be the middle of the night. [Devon and Somerset Fire and Rescue](https://www.dsfire.gov.uk/news/safety/why-you-shouldnt-use-washing-machines-and-tumble-dryers-night) says: "The safest time to use electricals is when you are awake, and definitely in the house." So on Cosy, the 1pm to 4pm window is the one worth using if someone's home in the afternoon. On Go, the cheap hours are 12.30am to 5.30am, when most people are asleep, so it's the harder of the two to use safely.
 
 ## How it compares with other ways to dry washing
 
@@ -85,7 +85,7 @@ If you rent and the damp is coming from the building rather than your washing, t
 
 ## How to cut the cost
 
-1. **Close the door.** A dehumidifier in a small, closed room with the washing does its job much faster than one trying to dry the whole house.
+1. **Close the door.** A dehumidifier in a small, closed room with the washing has far less air to work on than one trying to dry the whole house.
 2. **Use the humidity setting if it has one.** Running flat out all day when the room is already dry is paying for nothing.
 3. **Don't run it for longer than you need.** Eight hours is the site's typical figure, not a rule. If the washing's dry in five, that's 19p saved in Yorkshire at 21 November prices.
 4. **Use the free fixes first.** Open a window for a bit, use the extractor fan, put a lid on the pan. Less moisture in the air means less work for the dehumidifier.
