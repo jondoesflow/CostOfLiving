@@ -75,7 +75,7 @@ on the day stays out. Confirmed measures that touch these topics:
 - [x] How much does a dishwasher cost to run, and when should you run it? (habits; tool: plan) (2026-11-19)
 - [x] Switching energy supplier: the rules, exit fees and how long it takes (billing; tool: switch) (2026-11-20)
 - [x] How much does a dehumidifier cost to run? (habits; tool: when) (2026-11-21)
-- [ ] Washing machine running costs: does a 30 degree wash really save money? (habits; tool: plan)
+- [x] Washing machine running costs: does a 30 degree wash really save money? (habits; tool: plan) (2026-11-22)
 - [ ] Heat pump dryer: is it worth replacing your tumble dryer? (big upgrades; tool: when)
 - [ ] The greenest time to use electricity, and why it's often the cheapest (tariffs; tool: when)
 - [ ] Fire safety and cheap overnight electricity: what's safe to leave running (habits; tool: when)
