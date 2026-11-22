@@ -28,7 +28,7 @@ Your own machine will differ. The energy label shows energy use in kWh per 100 c
 
 ## Why temperature matters so much
 
-Most of the electricity a washing machine uses goes on heating the water at the start of the cycle, and that's how Cheap Watts counts it. Turning the drum and pumping water out use far less.
+Cheap Watts counts most of a wash's electricity as going on heating the water at the start of the cycle, with turning the drum and pumping the water out using far less.
 
 So the temperature dial is really a dial for how much water you pay to heat. Going from 40°C to 30°C means heating the same water 10 degrees less, and the energy use drops a lot further than you might expect.
 
@@ -46,8 +46,8 @@ Here's a worked example. It takes the site's typical 0.8 kWh at 40°C, applies t
 | Wash temperature | Energy per wash | Cost per wash | Cost a year |
 |---|---|---|---|
 | 40°C | 0.80 kWh | 20.5p | £42.60 |
-| 30°C (38% less) | 0.50 kWh | 12.7p | £26.41 |
-| 20°C (62% less) | 0.30 kWh | 7.8p | £16.19 |
+| 30°C (38% less) | 0.496 kWh | 12.7p | £26.41 |
+| 20°C (62% less) | 0.304 kWh | 7.8p | £16.19 |
 
 So moving every wash from 40°C to 30°C saves about 63 kWh a year, which is **about £16.19**. Going all the way to 20°C saves about 103 kWh, or **about £26.41**.
 
@@ -79,7 +79,7 @@ On Octopus Go, if you're up early, starting a wash before 5.30am means the heati
 
 ## When a hotter wash is still worth it
 
-Which? says modern machines still do a good job at lower temperatures most of the time. It flags two exceptions:
+Which? says modern machines still do a good job at lower temperatures most of the time, unless clothes are really soiled. It flags two exceptions:
 
 - tough protein stains, such as blood, won't come out as well at 30°C
 - synthetic fibres need more heat for a thorough clean
@@ -89,7 +89,7 @@ So 30°C as your everyday setting, with a hotter wash when the load needs it, is
 ## Other ways to cut the cost
 
 1. **Fill the drum.** Fewer, fuller loads mean fewer litres of water to heat. Going from four washes a week to three saves 52 washes a year, about £10.65 at 40°C on the flat rate above.
-2. **Use the eco 40-60 programme where it suits.** It's the programme the energy label is measured on, so its figure is the one you can compare. It often runs for hours: that's normal, as it heats less and makes up for it with time.
+2. **Use the eco 40-60 programme where it suits.** It's the programme the energy label is measured on, so its figure is the one you can compare. It often runs for hours, and that's normal.
 3. **Think about the drying.** Washing is cheap next to tumble drying. Cheap Watts uses 4.0 kWh for a tumble dryer load, five times the 0.8 kWh of the wash itself. I compared the options in [Heated airer vs tumble dryer](/blog/heated-airer-vs-tumble-dryer-running-cost/).
 4. **Measure your own machine.** An energy monitoring plug shows what a wash really uses at each temperature, so you can swap your own numbers into the sum above.
 
