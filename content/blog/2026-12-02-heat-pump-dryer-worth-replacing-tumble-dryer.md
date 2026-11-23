@@ -1,10 +1,10 @@
 ---
 title: "Heat pump dryer: is it worth replacing your tumble dryer?"
-description: A heat pump dryer saved about 64p a load against a standard tumble dryer on 23 November 2026. Here's how long it takes to pay back, and when it isn't worth it.
+description: A heat pump dryer saved about 64p a load against a standard tumble dryer in Yorkshire on 23 November 2026. Here's the payback, and when it isn't worth it.
 date: 2026-12-02
 keywords: is a heat pump dryer worth it, heat pump tumble dryer running cost, heat pump dryer vs condenser dryer, heat pump dryer payback, should I replace my tumble dryer
 tool: when
-products: hpdryer
+products: hpdryer, airer
 draft: false
 ---
 
@@ -44,7 +44,7 @@ So somewhere around £100 to £110 a year, depending on the region. How often yo
 
 ## How long does it take to pay back?
 
-This is the bit that decides it. A heat pump dryer costs more to buy. Which? says they're "often a couple of hundred pounds more expensive than vented or condenser dryers", and in the same guide gives average prices of £661 for a heat pump dryer and £307 for a condenser. That's a gap of £354 between the averages. Shop around and you may well pay less, but I'll use those averages because they're the figures I can point to.
+This is the bit that decides it. A heat pump dryer costs more to buy. Which? says they're "often a couple of hundred pounds more expensive than vented or condenser dryers", and in the same guide gives average prices of £661 for a heat pump dryer and £307 for a condenser. That's a gap of £354 between the averages. Which? puts the average vented dryer at £261, so if that's what you'd otherwise buy, the gap is £400 and payback takes a little longer. Shop around and you may well pay less, but I'll use those averages because they're the figures I can point to.
 
 There are two very different situations here.
 
@@ -70,9 +70,9 @@ Everyone in between needs to look at their own numbers. Count how many loads you
 
 ## What you give up
 
-A heat pump dryer isn't a straight swap. Which? is clear that "Heat pumps work at lower temperatures, so drying takes longer but is less damaging to fabrics", and that "They can often take longer to dry clothes than other dryer types."
+A heat pump dryer isn't a straight swap. Which? is clear that "Heat pump dryers work at lower temperatures, so drying takes longer but is less damaging to fabrics", and that "They can often take longer to dry clothes than other dryer types."
 
-The site's typical figures reflect that: two hours for a conventional dryer load and two and a half for a heat pump dryer. Your machine might differ. If you're used to throwing a school uniform in at 7am and having it dry by 8am, that's worth knowing before you buy.
+The site's typical figures reflect that: two hours for a conventional dryer load and two and a half for a heat pump dryer. Your machine might differ. If you rely on getting a load dry in a hurry before school or work, that extra half hour is worth knowing about before you buy.
 
 The upside of the lower temperature is gentler drying. If you've ever shrunk a jumper in a tumble dryer, that counts for something.
 
