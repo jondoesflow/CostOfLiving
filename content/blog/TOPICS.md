@@ -76,7 +76,7 @@ on the day stays out. Confirmed measures that touch these topics:
 - [x] Switching energy supplier: the rules, exit fees and how long it takes (billing; tool: switch) (2026-11-20)
 - [x] How much does a dehumidifier cost to run? (habits; tool: when) (2026-11-21)
 - [x] Washing machine running costs: does a 30 degree wash really save money? (habits; tool: plan) (2026-11-22)
-- [ ] Heat pump dryer: is it worth replacing your tumble dryer? (big upgrades; tool: when)
+- [x] Heat pump dryer: is it worth replacing your tumble dryer? (big upgrades; tool: when) (2026-11-23)
 - [ ] The greenest time to use electricity, and why it's often the cheapest (tariffs; tool: when)
 - [ ] Fire safety and cheap overnight electricity: what's safe to leave running (habits; tool: when)
 - [ ] How much does it cost to run a slow cooker? (habits; tool: plan)
