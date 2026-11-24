@@ -98,6 +98,7 @@ including to the UK, so Jon decided on 13 Nov 2026 not to use it (see below).
 | Lakeland | 1751 | By 13 Nov 2026 | Not found in email: shown as rejected in Awin's API on 13 Nov 2026 | The heated airer pick (`airer`) keeps its Amazon fallback, so nothing on the site changes. Reapply later |
 | tado UK | 24881 | By 13 Nov 2026 | Not found in email: shown as rejected in Awin's API on 13 Nov 2026 | Not wired in; nothing to change. Reapply later |
 | Heat Holders | 25357 | By 13 Nov 2026 | Not found in email: shown as rejected in Awin's API on 13 Nov 2026 | Not wired in; nothing to change. Reapply later |
+| SMEG | 74372 | 24 Nov 2026 | "Not looking to partner right now" | Not about the site; nothing to fix. Not wired in, so nothing on the site changes. Reapply later |
 
 ## Syncing with the Awin API (optional)
 
