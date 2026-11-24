@@ -18,7 +18,7 @@ Here's what the numbers showed.
 
 Every unit of electricity you use comes from a mix of power stations: wind, solar, nuclear, biomass, gas and power brought in from abroad. The more gas in the mix, the more carbon dioxide behind each unit. That's measured as grams of CO2 per kWh, called the carbon intensity.
 
-The figures here come from the [Carbon Intensity API](https://carbonintensity.org.uk/), run by the National Energy System Operator (NESO) with partners including the University of Oxford and WWF. It forecasts the carbon intensity for Great Britain, and for 14 regions, every half hour, two days ahead. It's the same forecast Cheap Watts uses.
+The figures here come from the [Carbon Intensity API](https://carbonintensity.org.uk/), run by the National Energy System Operator (NESO) with partners including the University of Oxford and WWF. It forecasts the carbon intensity for Great Britain, and for 14 regions, every half hour, up to four days ahead. It's the same forecast Cheap Watts uses.
 
 NESO's own explanation is the useful bit: carbon intensity "varies by hour, day, and season due to changes in electricity demand, low carbon generation (wind, solar, hydro, nuclear, biomass) and conventional generation."
 
@@ -46,9 +46,9 @@ Averages hide how much this swings. Over those same two weeks:
 
 - The cleanest half hour was 1:30am on 16 November, at **60g per kWh**.
 - The dirtiest was 7am on 10 November, at **267g per kWh**. More than four times as much.
-- The greenest whole day was 17 November, averaging 113g. The dirtiest was 10 November, averaging 245g.
+- The greenest whole day was 14 November, averaging 113g. The dirtiest was 10 November, averaging 245g.
 
-Wind is the big swing factor. When I checked at 9am on 24 November 2026, wind was producing 44.2% of Great Britain's electricity and gas 35.9%. Yorkshire's forecast for the rest of that day stayed between 27g and 66g per kWh, even through the evening peak, which is cleaner than the overnight average in the table above.
+Wind is the big swing factor. When I checked the API's live generation mix at 9am on 24 November 2026, wind was producing 44.2% of Great Britain's electricity and gas 35.9%. Yorkshire's forecast for the rest of that day stayed between 27g and 66g per kWh, even through the evening peak, which is cleaner than the national overnight average in the table above.
 
 So "run it at 3am" is a decent rule of thumb, but on a windy day you may not need to wait at all. Checking the forecast beats guessing.
 
@@ -65,7 +65,7 @@ They don't line up perfectly. On 24 November 2026 the greenest forecast slot in 
 
 ## What it means on your tariff
 
-**On a standard flat tariff**, which most households are on, you pay the same price all day. Flexible Octopus in Yorkshire was 25.60p a unit on 24 November 2026, so a washing machine cycle costs about 20.5p whenever you start it. The time makes no difference to your bill, which makes it a free choice: you can run things at the greenest time and it costs you nothing.
+**On a standard flat tariff**, which many households are on, you pay the same price all day. Flexible Octopus in Yorkshire was 25.60p a unit on 24 November 2026, so a washing machine cycle costs about 20.5p whenever you start it. The time makes no difference to your bill, which makes it a free choice: you can run things at the greenest time and it costs you nothing.
 
 **On Agile**, greener and cheaper mostly travel together, so chasing one usually gets you some of the other.
 
