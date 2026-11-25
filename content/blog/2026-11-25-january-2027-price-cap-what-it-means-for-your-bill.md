@@ -55,7 +55,7 @@ In my [price cap explainer](/blog/ofgem-price-cap-explained-how-it-affects-your-
 
 Those are yearly figures, as if the January rates held for twelve months. They won't, because Ofgem sets the cap every three months. But they show the shape: the higher user's bill goes up by nearly twice as much, because the rise is in the unit rates, not the standing charges.
 
-For a single appliance it's simpler. Anything that uses 1 kWh now costs 32.69p instead of 26.32p. Our [running cost pages](/cost-to-run/) show what each appliance uses, so you can see where your electricity actually goes.
+For a single appliance it's simpler. Anything that uses 1 kWh will cost 32.69p instead of 26.32p.
 
 ## If you're on a fixed deal
 
@@ -78,9 +78,9 @@ The new cap applies from 1 January 2027 to 31 March 2027. Ofgem [sets it every t
 
 ## Three things to do this week
 
-1. **Check whether you're on a fixed deal, and when it ends.** It's on your supplier's app or your latest bill. If you're on a default tariff, it's worth comparing a fixed deal against these new rates before January, using your own usage rather than the national average. Our [Should I switch? tool](/should-i-switch/) works it out from your smart meter data, including time-of-use tariffs.
+1. **Check whether you're on a fixed deal, and when it ends.** It's on your supplier's app or your latest bill. If you're on a default tariff, it's worth comparing a fixed deal against these new rates before January, using your own usage rather than the national average. Our [Should I switch? tool](/should-i-switch/) compares tariffs on your own smart meter data, including time-of-use ones. Its standard variable figure uses today's capped rate, so until 1 January it's still the October one: bear in mind the January cap is higher.
 2. **Read your meter just before 1 January.** Take a photo and send the reading to your supplier. That way the energy you used in December is billed at December's rates, not estimated across the change.
-3. **See what your appliances cost at the new rate.** Use Cheap Watts to look up the washing machine, tumble dryer, oven or electric shower. If you're on a time-of-use tariff, it'll also show the cheapest time to run them.
+3. **Work out what your appliances will cost.** Our [running cost pages](/cost-to-run/) show how many kWh the washing machine, tumble dryer, oven or electric shower uses, and what a run costs at today's rate. Until 1 January that's the October rate, so for January multiply the kWh by 32.69p, or by your own new rate. If you're on a time-of-use tariff, Cheap Watts also shows the cheapest time to run them.
 
 ## The short version
 
