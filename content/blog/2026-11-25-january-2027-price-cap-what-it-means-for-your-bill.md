@@ -27,13 +27,13 @@ That's 6.37p more for every kWh of electricity (up about 24%) and 2.99p more for
 
 Two notes from Ofgem. Gas includes 5% VAT. Electricity has no VAT from 1 October 2026 to 30 June 2027, so it's shown without any.
 
-Your own rates depend on your region and how you pay. Ofgem's page has a table for every region, and for prepayment and standard credit too. On its typical figures, the yearly cap is £2,108 for prepayment, £2,328 for standard credit and £1,265 for Economy 7 on Direct Debit.
+Your own rates depend on your region and how you pay. Ofgem's page has a table for every region, and for prepayment and standard credit too. Its summary letter gives the yearly cap as £2,108 for prepayment and £2,328 for standard credit, on the same typical usage, and £1,265 for Economy 7 on Direct Debit (based on 3,400 kWh of electricity a year).
 
 ## Why it's gone up
 
 Ofgem's summary letter puts it down to wholesale costs. The wholesale part of the cap is up 50% and now makes up 56% of it. Ofgem points to the conflict and instability in the Middle East, and to historically low European gas storage going into winter.
 
-Gas is the bigger driver. Ofgem says the gas wholesale allowance is up 59% and the electricity one is up 39%, and that electricity follows gas because gas still sets the price of power much of the time.
+Gas is the bigger driver. Ofgem says the gas wholesale allowance is up 59% and the electricity one is up 39%, and that electricity follows because of the role gas still plays in setting power prices.
 
 ## What it means for your own bill
 
@@ -59,22 +59,22 @@ For a single appliance it's simpler. Anything that uses 1 kWh now costs 32.69p i
 
 ## If you're on a fixed deal
 
-Nothing changes until your deal ends. Ofgem is clear that the cap doesn't protect you if you've agreed a fixed tariff, and that cuts both ways: your unit rates stay as agreed.
+Nothing changes until your deal ends. Ofgem's [price cap explainer](https://www.ofgem.gov.uk/your-energy-supply/your-energy-bill/energy-price-cap-and-standing-charges-explained) is clear that the cap doesn't protect you if you've agreed a fixed tariff, and that cuts both ways: your unit rates stay as agreed.
 
-Check the end date, though. If your fix finishes in January or February, you'll roll onto your supplier's default tariff, which means these new capped rates.
+Check the end date, though. If your fix ends before 31 March, you'll usually move onto your supplier's default tariff, and that's capped at these new rates.
 
-## Two things from the Budget that also land in January
+## What the Budget adds
 
 I covered these in my [Autumn Budget post](/blog/autumn-budget-2026-energy-bills-what-to-expect/). Both are confirmed in the [Budget 2026 document](https://www.gov.uk/government/publications/budget-2026-document/budget-2026-html):
 
-- **A £100 Household Energy Payment from January 2027,** for households in England in council tax bands A to D, delivered through the council tax system. You shouldn't need to apply. Ignore anyone who texts or calls asking for bank details to "claim" it.
+- **A £100 Household Energy Payment from January 2027,** for households in England in council tax bands A to D. The Budget says it will be paid through the council tax system, but how each council will pay it hasn't been set out yet, so watch your council's own website. Don't give bank details to anyone who texts or calls about "claiming" it.
 - **No VAT on household electricity until July 2027.** That's already in the rates above. The Budget expects the extension to take around £50 off the annual cap in April 2027.
 
 To put the £100 in context: on Ofgem's typical figures the cap is £443 a year higher from January. The payment helps, but it doesn't cover the rise.
 
 ## When does it start, and what's next?
 
-The new cap applies from 1 January 2027 to 31 March 2027. Ofgem sets it every three months, so the next change is from 1 April 2027.
+The new cap applies from 1 January 2027 to 31 March 2027. Ofgem [sets it every three months](https://www.ofgem.gov.uk/your-energy-supply/your-energy-bill/energy-price-cap-and-standing-charges-explained), so the next change is from 1 April 2027.
 
 ## Three things to do this week
 

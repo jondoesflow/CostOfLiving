@@ -17,6 +17,7 @@ Add, remove or reorder freely; keep each one a specific question people search.
 - [x] Boiler flow temperature: the free setting that can cut your gas bill (habits; tool: gas) (2026-10-25)
 - [x] Air fryer vs oven vs microwave: which is cheapest per meal? (habits; tool: gas) (2026-10-26)
 - [x] Autumn Budget 2026: what it means for your energy bills (topical; tool: switch) (2026-10-28, updated after the Budget)
+- [x] The January 2027 price cap: what it means for your bill (topical; tool: switch) (2026-11-25, price cap announcement day)
 - [x] After the Budget: what changed for your energy bill, and what didn't (covered by the updated Budget post above; don't write a second one)
 - [x] How to read your smart meter and download your half-hourly usage (smart tech; tool: switch) (2026-10-28)
 
