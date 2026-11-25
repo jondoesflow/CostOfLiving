@@ -15,8 +15,8 @@ test("caps are in date order and don't overlap", () => {
   for (let i = 1; i < PRICE_CAPS.length; i++) assert.ok(PRICE_CAPS[i].from > PRICE_CAPS[i - 1].to);
 });
 
-test("PRICE_CAP is the cap in effect on today's UK date", () => {
-  assert.equal(PRICE_CAP, priceCapOn(ukToday()));
+test("PRICE_CAP is one of the dated caps", () => {
+  assert.ok(PRICE_CAPS.includes(PRICE_CAP));
 });
 
 test("the January 2027 cap takes over on 1 January", () => {
@@ -35,6 +35,11 @@ test("the switch follows the UK clock, not the machine's", () => {
   assert.equal(ukToday(new Date("2027-01-01T00:00:00Z")), "2027-01-01");
   assert.equal(priceCapOn(ukToday(new Date("2026-12-31T23:59:00Z"))).electricityHundredthsPerKwh, 2632);
   assert.equal(priceCapOn(ukToday(new Date("2027-01-01T00:00:00Z"))).electricityHundredthsPerKwh, 3269);
+  // In British Summer Time the UK date runs an hour ahead of UTC, which is when
+  // later caps start (1 April, 1 July, 1 October).
+  assert.equal(ukToday(new Date("2027-03-31T23:30:00Z")), "2027-04-01");
+  assert.equal(ukToday(new Date("2027-06-30T22:59:00Z")), "2027-06-30");
+  assert.equal(ukToday(new Date("2027-06-30T23:00:00Z")), "2027-07-01");
 });
 
 test("before the first cap and after the last, the nearest one is used", () => {

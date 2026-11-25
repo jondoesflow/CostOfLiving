@@ -26,14 +26,17 @@ export const PRICE_CAPS = [
     label: "1 January to 31 March 2027",
     electricityHundredthsPerKwh: 3269,
     gasHundredthsPerKwh: 1096,
-    // Announced 25 November 2026.
-    source: "https://www.ofgem.gov.uk/your-energy-supply/your-energy-bill/energy-price-cap-unit-rates-and-standing-charges",
+    source: "https://www.ofgem.gov.uk/news/changes-energy-price-cap-between-1-january-and-31-march-2027",
   },
 ];
 
-// Today's date in the UK as YYYY-MM-DD, whatever the machine's own time zone.
+// Today's date in the UK as YYYY-MM-DD, whatever the machine's own time zone
+// (GMT in winter, BST in summer). Built from parts so it doesn't depend on how
+// a browser formats dates for a locale.
 export function ukToday(now = new Date()) {
-  return now.toLocaleDateString("en-CA", { timeZone: "Europe/London" });
+  const parts = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/London", year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(now);
+  const get = (type) => parts.find((p) => p.type === type).value;
+  return `${get("year")}-${get("month")}-${get("day")}`;
 }
 
 // The cap in effect on a date (YYYY-MM-DD): the latest one that has started.
