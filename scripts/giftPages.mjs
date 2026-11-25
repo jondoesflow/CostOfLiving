@@ -5,13 +5,15 @@
 import { offersBox } from "./offersBox.mjs";
 import { copyFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
-import { PRICE_CAP } from "../src/priceCap.js";
+import { PRICE_CAP, PRICE_CAPS } from "../src/priceCap.js";
 import { costPence, costPenceForKwh, runningCost, formatPence, WINTER_WEEKS } from "../src/giftCosts.js";
 import { GIFT_CATEGORIES, publishedGifts } from "../src/giftProducts.js";
 import { giftLink, affiliateAnchor, clickref } from "../src/affiliateLink.js";
 
 const ELEC = PRICE_CAP.electricityHundredthsPerKwh;
 const GAS = PRICE_CAP.gasHundredthsPerKwh;
+// The next cap, if Ofgem has already announced it.
+const NEXT_CAP = PRICE_CAPS.find((c) => c.from > PRICE_CAP.to);
 const rateText = (h) => `${Math.floor(h / 100)}.${String(h % 100).padStart(2, "0")}p`;
 const kwhText = (watts, minutes) => `${+(watts * minutes / 60000).toFixed(2)}kWh`;
 const MINUTES_A_YEAR = 365 * 24 * 60;
@@ -346,9 +348,9 @@ export function buildGiftPages({ layout, write, esc, jsonLd, iconSvg, ukDate, di
         ${calcBlock(electricAll, electricAll[0])}
         <section class="prose" aria-labelledby="how-title">
           <h2 id="how-title">How we work it out</h2>
-          <p>Running cost is power × time × unit rate. A 160W heated throw on for an hour uses 0.16kWh, and at ${rateText(ELEC)} per kWh that's 4p. We use the highest power the maker lists, so the real cost is usually lower: most of these have lower settings or a thermostat that switches the heating off and on.</p>
+          <p>Running cost is power × time × unit rate. A 160W heated throw on for an hour uses 0.16kWh, and at ${rateText(ELEC)} per kWh that's ${formatPence(costPence(160, 60))}. We use the highest power the maker lists, so the real cost is usually lower: most of these have lower settings or a thermostat that switches the heating off and on.</p>
           <p>A winter here means ${WINTER_WEEKS} weeks, October to March. Each figure is worked out in whole numbers and rounded to the nearest penny once, at the end, so a weekly figure is never built from rounded hourly ones.</p>
-          <p>The price cap changes every three months. The rate above is for ${PRICE_CAP.label}, and we'll update these pages when Ofgem announces the next one.</p>
+          <p>The price cap changes every three months. ${NEXT_CAP ? `The rate above is for ${PRICE_CAP.label}. Ofgem has already announced the next one, for ${NEXT_CAP.label}: ${rateText(NEXT_CAP.electricityHundredthsPerKwh)} per kWh for electricity and ${rateText(NEXT_CAP.gasHundredthsPerKwh)} for gas (<a href="${NEXT_CAP.source}">Ofgem</a>). These pages move to it when it starts.` : `The rate above is for ${PRICE_CAP.label}, and we'll update these pages when Ofgem announces the next one.`}</p>
           <p>Want to know what something you already own costs? <a href="/cost-to-run/">See running costs for everyday appliances</a>, or <a href="/">find the cheapest time to run them</a> on your tariff.</p>
         </section>
       </article>`;
