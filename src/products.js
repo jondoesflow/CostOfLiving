@@ -145,6 +145,10 @@ const PRODUCTS = {
     icon: "Power", id: "switched-extension", name: "Extension lead with individual switches", query: "extension lead individually switched",
     why: "Switch a whole cluster of gadgets off at once, such as the TV corner or the desk.",
   },
+  smokeAlarm: {
+    icon: "AlarmSmoke", id: "smoke-alarm", name: "Smoke alarm", query: "smoke alarm 10 year battery",
+    why: "Fit at least one on every level of your home and test it monthly, as GOV.UK advises. Use a heat alarm in the kitchen instead.",
+  },
 };
 
 export const ALL_PRODUCTS = Object.values(PRODUCTS);
