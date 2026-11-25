@@ -22,7 +22,7 @@ The government's [Fire safety in the home](https://www.gov.uk/government/publica
 - "Unplug appliances when you're not using them or when you go to bed."
 - "When charging electrical goods, follow the manufacturer's instructions."
 
-[Devon and Somerset Fire and Rescue](https://www.dsfire.gov.uk/news/safety/why-you-shouldnt-use-washing-machines-and-tumble-dryers-night) explains why. If an appliance starts a fire at night, "the fire may have more time to develop before you're aware of it." Its advice is simple: "The safest time to use electricals is when you are awake, and definitely in the house." It also says it attends "around 115 fires each year caused by domestic appliances", and that's one fire service area.
+[Devon and Somerset Fire and Rescue](https://www.dsfire.gov.uk/news/safety/why-you-shouldnt-use-washing-machines-and-tumble-dryers-night) explains why. If an appliance starts a fire at night, "the fire may have more time to develop before you're aware of it." Its advice is simple: "The safest time to use electricals is when you are awake, and definitely in the house." When it published that advice in 2022, it said it attends "around 115 fires each year caused by domestic appliances", and that's one fire service area.
 
 For e-bikes and e-scooters, [London Fire Brigade](https://www.london-fire.gov.uk/safety/e-bikes-and-e-scooters/how-to-charge-e-bikes-and-e-scooters-safely/) is even more direct: "Never leave a battery charging unattended or while you're asleep."
 
@@ -43,7 +43,7 @@ I haven't covered home electric car chargers here. That's a separate subject, so
 
 Here's the honest bit. Running things while you're awake does cost more on a tariff like Go. These are the site's typical figures, with Yorkshire rates on 25 November 2026.
 
-| Appliance (typical use) | Go, cheap hours (9.40p) | Go, daytime (33.06p) | Flexible Octopus (25.60p) | Cosy Octopus, 1pm to 4pm (13.59p) |
+| Appliance (typical use) | Go, cheap hours (9.40p) | Go, daytime (33.06p) | Flexible Octopus, Direct Debit (25.60p) | Cosy Octopus, 1pm to 4pm (13.59p) |
 |---|---|---|---|---|
 | Washing machine, 40°C (0.8 kWh) | 7.5p | 26.4p | 20.5p | 10.9p |
 | Dishwasher, eco (1.0 kWh) | 9.4p | 33.1p | 25.6p | 13.6p |
@@ -71,13 +71,13 @@ The tumble dryer is where most of the money is. If you can only fit one applianc
 
 ### 4. Keep the machines themselves safe
 
-The same fire service says: "Make sure you keep the lint filters on tumble dryers super clean." It's also worth checking whether your appliance has been recalled. [Electrical Safety First](https://www.electricalsafetyfirst.org.uk/product-recalls/) and [Register My Appliance](https://www.registermyappliance.org.uk/) both list recalls, and registering your appliance means the maker can contact you if there's a safety repair.
+The same fire service says: "Make sure you keep the lint filters on tumble dryers super clean." It's also worth checking whether your appliance has been recalled. [Electrical Safety First](https://www.electricalsafetyfirst.org.uk/product-recalls/) and [Register My Appliance](https://www.registermyappliance.org.uk/) both list recalls, and registering your appliance is a way to hear about safety repairs or recalls.
 
 ## If you do run something overnight anyway
 
 I'd rather you didn't. But if you're going to, Devon and Somerset Fire and Rescue gives two steps for when night use can't be avoided:
 
-- "Make sure all your smoke alarms are working."
+- Make sure all your smoke alarms are working, and if possible consider one near the appliance.
 - "Close all doors that lead to the room with the appliance you're using in."
 
 It also points out that kitchens shouldn't have smoke alarms; use a heat alarm there instead.
