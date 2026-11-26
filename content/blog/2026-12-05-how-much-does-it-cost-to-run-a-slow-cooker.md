@@ -26,7 +26,7 @@ The cost of a cook is:
 
 At the Flexible Octopus Direct Debit rate for Yorkshire on 26 November 2026, 25.60p per kWh, that's **about 33p a cook**. Twice a week is 104 cooks a year, or 135.2 kWh, which comes to **£34.61 a year**.
 
-If yours is at the top of that 150 to 300 watt range, eight hours would use 2.4 kWh, or about 61p at the same rate. Still not much for a meal for the whole family, but worth knowing if your slow cooker is an older or bigger one.
+If yours is at the top of that 150 to 300 watt range, eight hours would use 2.4 kWh, or about 61p at the same rate. Still not much for a meal for the whole family, but worth measuring yours to find out where it sits.
 
 ## Slow cooker vs oven
 
@@ -62,9 +62,9 @@ To keep the sums simple, I've spread the 1.3 kWh evenly across the eight hours. 
 
 A few things stand out:
 
-- **On Cosy, the start time matters a little.** Timing it to finish by 4pm keeps it out of the peak and catches three cheap hours. That's about 4p a cook, or roughly £4 a year at two a week. Nice, but not life changing.
-- **On Octopus Go, the daytime rate is dearer than a flat tariff.** A slow cooker run during the day costs more on Go than on Flexible Octopus. Go is built around cheap night hours, and Octopus describes it as "the smart EV tariff", so check whether it suits your whole household before planning meals around it.
-- **The cheapest slot is overnight.** That raises a safety question.
+- On Cosy, the start time matters a little. Timing it to finish by 4pm keeps it out of the peak and catches three cheap hours. That's about 5p a cook, or roughly £5 a year at two a week. Nice, but not life changing.
+- On Octopus Go, the daytime rate is dearer than a flat tariff. A slow cooker run during the day costs more on Go than on Flexible Octopus. Go is built around cheap night hours, and Octopus describes it as "the smart EV tariff", so check whether it suits your whole household before planning meals around it.
+- The cheapest slot is overnight. That raises a safety question.
 
 ## Leaving it on: what the safety advice says
 
@@ -79,7 +79,7 @@ It also says to:
 - unplug it when you're not using it
 - register it with the manufacturer, so you hear about any safety recall
 
-Running it overnight while you sleep is a different question, and that page doesn't cover it. Fire services generally prefer appliances to run while someone's awake. [Devon and Somerset Fire and Rescue](https://www.dsfire.gov.uk/news/safety/why-you-shouldnt-use-washing-machines-and-tumble-dryers-night) says "The safest time to use electricals is when you are awake, and definitely in the house." The overnight saving on Go is about 19p a cook against the daytime rate. Weigh that against your own circumstances, and make sure your smoke alarms work.
+Running it overnight while you sleep is a different question, and that page doesn't cover it. [Devon and Somerset Fire and Rescue](https://www.dsfire.gov.uk/news/safety/why-you-shouldnt-use-washing-machines-and-tumble-dryers-night), writing about washing machines and tumble dryers, says "The safest time to use electricals is when you are awake, and definitely in the house." The overnight saving on Go is about 19p a cook against the daytime rate. Weigh that against your own circumstances, and make sure your smoke alarms work.
 
 ## Low or high?
 
