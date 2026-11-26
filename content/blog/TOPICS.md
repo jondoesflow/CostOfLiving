@@ -80,7 +80,7 @@ on the day stays out. Confirmed measures that touch these topics:
 - [x] The greenest time to use electricity, and why it's often the cheapest (tariffs; tool: when) (2026-11-24)
 - [x] The January 2027 price cap: what it means for your bill (topical; tool: switch) (2026-11-25, price cap announcement day)
 - [ ] Fire safety and cheap overnight electricity: what's safe to leave running (habits; tool: when)
-- [ ] How much does it cost to run a slow cooker? (habits; tool: plan)
+- [x] How much does it cost to run a slow cooker? (habits; tool: plan) (2026-11-26)
 - [ ] How much does it cost to charge a mobility scooter or e-bike? (habits; tool: when)
 - [ ] Is it worth switching energy tariff this winter? How to check with your own data (tariffs; tool: switch)
 - [x] Oil-filled radiator or fan heater: which is cheaper to run? (heating; tool: gas) (2026-11-06)
