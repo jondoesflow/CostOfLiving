@@ -1,13 +1,19 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { LED_BULBS } from "../src/lightingProducts.js";
+import { PRICE_CAP } from "../src/priceCap.js";
+import { costPenceDeciwatts, formatPence } from "../src/giftCosts.js";
+
+// Worked out at whichever cap is in effect today, as the page is.
+const YEAR = 5 * 60 * 365;
+const rateText = (h) => `${Math.floor(h / 100)}.${String(h % 100).padStart(2, "0")}p`;
 
 test("the lights page answers the question with worked figures and labelled links", async ({ page }) => {
   await page.goto("/cost-to-run/lights/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("How much does it cost to leave a light on?");
-  await expect(page.locator(".lede")).toContainText("£28.82 a year");
-  await expect(page.locator(".lede")).toContainText("£3.36 a year");
-  await expect(page.locator(".cap-note")).toContainText("26.32p per kWh");
+  await expect(page.locator(".lede")).toContainText(`${formatPence(costPenceDeciwatts(600, YEAR))} a year`);
+  await expect(page.locator(".lede")).toContainText(`${formatPence(costPenceDeciwatts(70, YEAR))} a year`);
+  await expect(page.locator(".cap-note")).toContainText(`${rateText(PRICE_CAP.electricityHundredthsPerKwh)} per kWh`);
   await expect(page.locator(".gift")).toHaveCount(LED_BULBS.length);
   const disclosure = await page.evaluate(() => {
     const d = document.querySelector(".disclosure");

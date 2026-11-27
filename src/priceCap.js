@@ -1,16 +1,51 @@
 // The Ofgem price cap figures the gift guide uses for its running costs. One
-// place to change them when the cap changes (every three months; the next
-// announcement is due 25 November 2026, for 1 January to 31 March 2027).
+// place to change them when the cap changes (every three months).
 //
 // Rates are stored in hundredths of a penny per kWh, so they stay whole numbers:
 // 2632 means 26.32p per kWh. Great Britain average, paying by Direct Debit.
-// Electricity has no VAT from 1 October 2026 to 31 March 2027 (the Budget
-// extended that to July 2027); gas includes 5% VAT.
-export const PRICE_CAP = {
-  from: "2026-10-01",
-  to: "2026-12-31",
-  label: "1 October to 31 December 2026",
-  electricityHundredthsPerKwh: 2632,
-  gasHundredthsPerKwh: 797,
-  source: "https://www.ofgem.gov.uk/news/changes-energy-price-cap-between-1-october-and-31-december-2026",
-};
+// Ofgem: electricity has no VAT from 1 October 2026 to 30 June 2027; gas
+// includes 5% VAT.
+//
+// Each cap is kept as a dated entry, oldest first, and PRICE_CAP is the one in
+// effect on today's date in the UK. This module runs in the build and in the
+// browser (it's copied to dist/gifts/), so a cap announced in advance can be
+// added straight away: pages keep showing the current cap until its end date.
+// Add the next cap to the end of the list when Ofgem announces it.
+export const PRICE_CAPS = [
+  {
+    from: "2026-10-01",
+    to: "2026-12-31",
+    label: "1 October to 31 December 2026",
+    electricityHundredthsPerKwh: 2632,
+    gasHundredthsPerKwh: 797,
+    source: "https://www.ofgem.gov.uk/news/changes-energy-price-cap-between-1-october-and-31-december-2026",
+  },
+  {
+    from: "2027-01-01",
+    to: "2027-03-31",
+    label: "1 January to 31 March 2027",
+    electricityHundredthsPerKwh: 3269,
+    gasHundredthsPerKwh: 1096,
+    source: "https://www.ofgem.gov.uk/news/changes-energy-price-cap-between-1-january-and-31-march-2027",
+  },
+];
+
+// Today's date in the UK as YYYY-MM-DD, whatever the machine's own time zone
+// (GMT in winter, BST in summer). Built from parts so it doesn't depend on how
+// a browser formats dates for a locale.
+export function ukToday(now = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/London", year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(now);
+  const get = (type) => parts.find((p) => p.type === type).value;
+  return `${get("year")}-${get("month")}-${get("day")}`;
+}
+
+// The cap in effect on a date (YYYY-MM-DD): the latest one that has started.
+// Before the first cap it gives the first; after the last one ends it keeps
+// the last, whose label still says which period it is for.
+export function priceCapOn(date = ukToday()) {
+  let cap = PRICE_CAPS[0];
+  for (const c of PRICE_CAPS) if (c.from <= date) cap = c;
+  return cap;
+}
+
+export const PRICE_CAP = priceCapOn();

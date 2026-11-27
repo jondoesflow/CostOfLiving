@@ -2,12 +2,49 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { costPence, costPenceForKwh, runningCost, formatPence, roundDiv, WINTER_WEEKS } from "../../src/giftCosts.js";
-import { PRICE_CAP } from "../../src/priceCap.js";
+import { PRICE_CAP, PRICE_CAPS, priceCapOn, ukToday } from "../../src/priceCap.js";
 
-test("the cap rate is stored as whole hundredths of a penny", () => {
-  assert.ok(Number.isInteger(PRICE_CAP.electricityHundredthsPerKwh));
-  assert.ok(Number.isInteger(PRICE_CAP.gasHundredthsPerKwh));
-  assert.equal(PRICE_CAP.electricityHundredthsPerKwh, 2632);
+test("every cap rate is stored as whole hundredths of a penny", () => {
+  for (const c of PRICE_CAPS) {
+    assert.ok(Number.isInteger(c.electricityHundredthsPerKwh));
+    assert.ok(Number.isInteger(c.gasHundredthsPerKwh));
+  }
+});
+
+test("caps are in date order and don't overlap", () => {
+  for (let i = 1; i < PRICE_CAPS.length; i++) assert.ok(PRICE_CAPS[i].from > PRICE_CAPS[i - 1].to);
+});
+
+test("PRICE_CAP is one of the dated caps", () => {
+  assert.ok(PRICE_CAPS.includes(PRICE_CAP));
+});
+
+test("the January 2027 cap takes over on 1 January", () => {
+  assert.equal(priceCapOn("2026-10-01").electricityHundredthsPerKwh, 2632);
+  assert.equal(priceCapOn("2026-12-31").electricityHundredthsPerKwh, 2632);
+  assert.equal(priceCapOn("2026-12-31").gasHundredthsPerKwh, 797);
+  assert.equal(priceCapOn("2026-12-31").label, "1 October to 31 December 2026");
+  assert.equal(priceCapOn("2027-01-01").electricityHundredthsPerKwh, 3269);
+  assert.equal(priceCapOn("2027-01-01").gasHundredthsPerKwh, 1096);
+  assert.equal(priceCapOn("2027-01-01").label, "1 January to 31 March 2027");
+  assert.equal(priceCapOn("2027-03-31").electricityHundredthsPerKwh, 3269);
+});
+
+test("the switch follows the UK clock, not the machine's", () => {
+  assert.equal(ukToday(new Date("2026-12-31T23:59:00Z")), "2026-12-31"); // GMT in winter
+  assert.equal(ukToday(new Date("2027-01-01T00:00:00Z")), "2027-01-01");
+  assert.equal(priceCapOn(ukToday(new Date("2026-12-31T23:59:00Z"))).electricityHundredthsPerKwh, 2632);
+  assert.equal(priceCapOn(ukToday(new Date("2027-01-01T00:00:00Z"))).electricityHundredthsPerKwh, 3269);
+  // In British Summer Time the UK date runs an hour ahead of UTC, which is when
+  // later caps start (1 April, 1 July, 1 October).
+  assert.equal(ukToday(new Date("2027-03-31T23:30:00Z")), "2027-04-01");
+  assert.equal(ukToday(new Date("2027-06-30T22:59:00Z")), "2027-06-30");
+  assert.equal(ukToday(new Date("2027-06-30T23:00:00Z")), "2027-07-01");
+});
+
+test("before the first cap and after the last, the nearest one is used", () => {
+  assert.equal(priceCapOn("2026-09-30"), PRICE_CAPS[0]);
+  assert.equal(priceCapOn("2099-01-01"), PRICE_CAPS[PRICE_CAPS.length - 1]);
 });
 
 test("1kW for an hour costs one unit", () => {

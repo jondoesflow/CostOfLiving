@@ -1,6 +1,12 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { GIFT_CATEGORIES, publishedGifts } from "../src/giftProducts.js";
+import { PRICE_CAP } from "../src/priceCap.js";
+import { costPence, runningCost, formatPence, WINTER_WEEKS } from "../src/giftCosts.js";
+
+// The pages are built at whichever cap is in effect today, so the expected
+// figures are worked out at that cap too rather than written in.
+const rateText = (h) => `${Math.floor(h / 100)}.${String(h % 100).padStart(2, "0")}p`;
 
 const PAGES = ["/gifts/", ...GIFT_CATEGORIES.map((c) => `/gifts/${c.id}/`)];
 
@@ -58,7 +64,8 @@ test("category pages list their products with running costs and ItemList markup"
       await expect(card).toContainText("Per hour");
       await expect(card).toContainText("Per winter");
     }
-    await expect(page.locator(".cap-note")).toContainText("26.32p per kWh");
+    await expect(page.locator(".cap-note")).toContainText(`${rateText(PRICE_CAP.electricityHundredthsPerKwh)} per kWh`);
+    await expect(page.locator(".cap-note")).toContainText(PRICE_CAP.label);
     await expect(page.locator(".cap-note a")).toHaveAttribute("href", /ofgem\.gov\.uk/);
     await expect(page.locator(".compare h3", { hasText: "Assumptions" })).toBeVisible();
     const ld = await ldOf(page);
@@ -77,29 +84,30 @@ test("the heated throw page shows the worked figures", async ({ page }) => {
   await page.goto("/gifts/heated-throws-electric-blankets/");
   const card = page.locator("#dimplex-cosy-heated-throw-grey");
   await expect(card).toContainText("£49.99 at Dimplex, checked 3 November 2026");
-  await expect(card.locator("dd").nth(2)).toHaveText("4p");
-  await expect(card).toContainText("59p for 2 hours an evening");
-  await expect(card).toContainText("£15.33 over 26 weeks");
+  const throwCost = runningCost({ watts: 160, minutesPerWeek: 120 * 7 });
+  await expect(card.locator("dd").nth(2)).toHaveText(formatPence(throwCost.perHour));
+  await expect(card).toContainText(`${formatPence(throwCost.perWeek)} for 2 hours an evening`);
+  await expect(card).toContainText(`${formatPence(throwCost.perWinter)} over 26 weeks`);
   const throwRow = page.locator(".compare tbody tr").first();
-  await expect(throwRow).toContainText("8p");
-  await expect(throwRow).toContainText("£15.33");
+  await expect(throwRow).toContainText(formatPence(costPence(160, 120)));
+  await expect(throwRow).toContainText(formatPence(throwCost.perWinter));
 });
 
 test("the calculator works out per hour, week and winter as you type", async ({ page }) => {
   await page.goto("/gifts/");
   const out = page.locator("[data-out]");
-  await expect(out).toContainText("4p"); // the 160W throw, before any typing
+  await expect(out).toContainText(formatPence(costPence(160, 60))); // the 160W throw, before any typing
   await page.getByLabel("Watts").fill("2000");
   await page.getByLabel("Hours a day").fill("1");
-  await expect(out.locator(".live-row").nth(0)).toContainText("53p");
-  await expect(out.locator(".live-row").nth(1)).toContainText("£3.68");
-  await expect(out.locator(".live-row").nth(2)).toContainText("£95.80");
+  await expect(out.locator(".live-row").nth(0)).toContainText(formatPence(costPence(2000, 60)));
+  await expect(out.locator(".live-row").nth(1)).toContainText(formatPence(costPence(2000, 60 * 7)));
+  await expect(out.locator(".live-row").nth(2)).toContainText(formatPence(costPence(2000, 60 * 7 * WINTER_WEEKS)));
   await expect(page.getByLabel("Start from")).toHaveValue("");
   await page.getByLabel("Watts").fill("");
   await expect(out).toContainText("Enter a power");
   await page.getByLabel("Start from").selectOption({ label: "Dimplex Heated Electric Under Blanket, King (95W)" });
   await expect(page.getByLabel("Watts")).toHaveValue("95");
-  await expect(out.locator(".live-row").nth(2)).toContainText("£2.28");
+  await expect(out.locator(".live-row").nth(2)).toContainText(formatPence(costPence(95, 30 * 7 * WINTER_WEEKS)));
 });
 
 test("the hub lists every published gift and links to each category", async ({ page }) => {
