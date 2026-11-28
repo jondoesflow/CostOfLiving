@@ -82,5 +82,5 @@ on the day stays out. Confirmed measures that touch these topics:
 - [ ] Fire safety and cheap overnight electricity: what's safe to leave running (habits; tool: when)
 - [x] How much does it cost to run a slow cooker? (habits; tool: plan) (2026-11-26)
 - [x] How much does it cost to charge a mobility scooter or e-bike? (habits; tool: when) (2026-11-27)
-- [ ] Is it worth switching energy tariff this winter? How to check with your own data (tariffs; tool: switch)
+- [x] Is it worth switching energy tariff this winter? How to check with your own data (tariffs; tool: switch) (2026-11-28)
 - [x] Oil-filled radiator or fan heater: which is cheaper to run? (heating; tool: gas) (2026-11-06)
